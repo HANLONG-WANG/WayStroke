@@ -1,0 +1,40 @@
+import { invoke } from '@tauri-apps/api/core';
+import { getCurrentWindow } from '@tauri-apps/api/window';
+import { listen } from '@tauri-apps/api/event';
+import { toConfig, fromConfig, setCatalog, type EditorDocument } from './adapter';
+import definitions from '../../../crates/model/action-catalog.json';
+import type { Snapshot, Reply, Status } from './generated/protocol';
+import { PROTOCOL_VERSION } from './generated/protocol';
+export class Backend {
+ revision=0;connected=false;lastError='';pendingWrites=0;
+ onError=(message:string)=>console.error(message);
+ onConnection=(_connected:boolean)=>{};
+ onConfig=(_document:EditorDocument)=>false;
+ private writing=false;
+ private tail:Promise<unknown>=Promise.resolve();
+ async call<T>(method:string,payload:unknown=''):Promise<T> {
+  const raw=await invoke<string>('core_call',{method,payload:typeof payload==='string'?payload:JSON.stringify(payload)});
+  const reply=JSON.parse(raw) as Reply<T>;
+  if(reply.status==='error')throw new Error(reply.error.message+'\n'+reply.error.details.map(d=>d.path+'：'+d.message).join('\n'));
+  return reply.value;
+ }
+ async snapshot():Promise<Snapshot>{const status=await this.getStatus();if(status.protocolVersion!==PROTOCOL_VERSION)throw new Error('后台协议版本不兼容，请使用配套版本');return this.call<Snapshot>('get_config');}
+ async initialize():Promise<EditorDocument> {
+  setCatalog(definitions);
+  await listen<boolean>('core-connected',event=>{if(event.payload)this.reconnect().catch(error=>{this.connected=false;this.lastError=String(error);this.onConnection(false)});else{this.connected=false;this.lastError='后台连接已中断，请重新连接后保存。';this.onConnection(false)}});
+  await listen<string>('config-changed',event=>{if(!this.connected)return;const snapshot=JSON.parse(event.payload) as Snapshot;if(!this.writing&&snapshot.revision!==this.revision&&this.onConfig(fromConfig(snapshot.config)))this.revision=snapshot.revision;});
+  try{const snapshot=await this.snapshot();this.revision=snapshot.revision;this.connected=true;return fromConfig(snapshot.config);}
+  catch(error){this.lastError=String(error);this.connected=false;const fallback=JSON.parse(await invoke<string>('default_config')) as Snapshot;return fromConfig(fallback.config);}
+ }
+
+ save(document:EditorDocument):Promise<EditorDocument> {
+  this.pendingWrites++;const task=this.tail.catch(()=>{}).then(async()=>{
+   try{if(!this.connected)throw new Error(this.lastError||'后台未连接，请重新连接后保存。');this.writing=true;const snapshot=await this.call<Snapshot>('commit_config',{requestId:crypto.randomUUID(),expectedRevision:this.revision,config:toConfig(document)});this.revision=snapshot.revision;return fromConfig(snapshot.config);}
+   catch(error){this.onError(String(error));throw error;}finally{this.writing=false;this.pendingWrites--;}
+  });this.tail=task;return task;
+ }
+ async getStatus(){return this.call<Status>('get_status');}
+ async reconnect(){const snapshot=await this.snapshot();if(snapshot.revision!==this.revision&&this.onConfig(fromConfig(snapshot.config)))this.revision=snapshot.revision;this.connected=true;this.lastError='';this.onConnection(true);}
+ async flush(){if(this.pendingWrites>0)await this.tail;}
+ async windowAction(action:string){const window=getCurrentWindow();if(action==='minimize')await window.minimize();else if(action==='close')await window.destroy();else if(action==='quit'){await this.call('quit');await window.destroy();}}
+}

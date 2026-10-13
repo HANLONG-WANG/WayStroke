@@ -1,6 +1,6 @@
 # WayStroke 完整开发与验收计划
 
-状态：2026-10-13，计划已落地，正式工程尚未开始。本计划覆盖全部已确认功能；阶段完成不等于产品完成。所有任务初始状态为待实现，验证探针不计作正式功能交付。
+状态：2026-10-13，计划已落地，正式工程阶段 A 已完成。本计划覆盖全部已确认功能；阶段完成不等于产品完成。任务状态以文末实施记录为准；验证探针不计作正式功能交付。
 
 用户硬性要求：**正式 UI 与最终 HTML 设计稿一比一复刻，且不得交付空壳。** 每个可操作控件必须连接真实配置、真实后台或真实桌面能力；不能以占位成功、固定结果或只有界面代替实现。原型中的窗口外评审工具不属于产品，窗口内示例值在正式应用中绑定真实数据。
 
@@ -207,7 +207,7 @@ A01 固定当前 `design/` 的文件校验值与代表性截图，防止开发�
 
 ## 分阶段可执行任务
 
-下列任务均为**待实现**。依赖用任务编号表示；“通过条件”是停止扩大验证和进入后续任务的依据，不再为通过的阶段反复补低收益检查。
+下列任务的完成状态见文末实施记录。依赖用任务编号表示；“通过条件”是停止扩大验证和进入后续任务的依据，不再为通过的阶段反复补低收益检查。
 
 ### A：工程、真实配置与桌面窗口
 
@@ -294,21 +294,24 @@ Zsh ZLE 保留为已验证的可选适配基础，不作为本次通用终端功
 
 ## 必要验证与开发入口
 
-A01 建立并维护统一命令，下面是目标入口，**当前尚未创建**，不可当作现成安装命令：
+阶段 A 已提供以下实际开发入口（普通用户运行，无需 sudo）：
 
 ```sh
 npm ci --prefix apps/desktop
-cargo build --workspace
+./scripts/build.sh
+./target/debug/waystroke
 npm run dev --prefix apps/desktop
-cargo test -p waystroke-model -p waystroke-core -p waystroke-inputd
-npm run check --prefix apps/desktop
-npm run build --prefix apps/desktop
-./scripts/check-ui.sh
-./scripts/check-gnome.sh
-./packaging/build-rpm.sh
+cargo test -p waystroke-model -p waystroke-core
+npm run test:adapter --prefix apps/desktop
+python3 scripts/check-core.py
+python3 scripts/check-ui.py
 ```
 
-前端 check 包含类型/构建；Rust检查覆盖配置引用/导入原子性、规则优先级/方向/歧义、编排类型/作用域/取消、输入释放。接入与69项执行器使用实际fixture应用/文件/本机服务的代表性验证，不写镜像实现的形式化测试。UI比对用测试数据、等尺寸截图与人工交互确认；仅测试入口允许夹具，不编入产品启动逻辑。
+`build.sh` 依次生成 Rust→TypeScript 模型/协议、检查前端、构建 Vite 并构建带本地资源的桌面程序与后台。`npm run dev` 自动构建同目录后台。release 入口为 `npm run build --prefix apps/desktop`；release/RPM 验收属于 F03，阶段 A 使用已实测的 debug 原生构建。
+
+`check-core.py` 使用私有 D-Bus 与临时 XDG；`check-ui.py` 使用独立 GNOME 50.5、原生 WebKitGTK、WebKitWebDriver 与 tauri-driver，输出真实窗口/配置检查结果和截图。所需辅助工具及路径配置见仓库 README。视觉基线保存在 `fixtures/ui-baseline/`。后续阶段继续扩展这些入口；inputd 测试、正式 GNOME 接入检查和 `packaging/build-rpm.sh` 随 B/F 落地，当前不提供空脚本冒充完成。
+
+检查覆盖配置原子性、引用/类型/递归、真实 UI CRUD、关闭/重开/断连/退出与原生窗口。识别、编排执行、输入释放和 69 项执行器的实测按 B–F 增加；不以阶段 A 的参数往返检查替代执行器验收。
 
 本机开发依赖已经由用户安装并核对：Rust/Cargo 1.98.1、Node22.23.1/npm10.9.8；pkg-config报告WebKitGTK4.1 2.54.1、GTK3 3.24.52、librsvg2 2.62.4。不重复要求安装。Tauri2使用实际稳定发行版本并生成Cargo/npm锁文件；不启用tray-icon/linux-libxdo。只有实际构建缺库时才按错误补充依赖。
 
@@ -439,6 +442,23 @@ npm run build --prefix apps/desktop
 
 优先细查的特殊语义：显示桌面恢复仅恢复本程序保存的窗口状态；截图覆盖选区/窗口/全屏与文件/剪贴板输出；音量包含默认输入/输出；亮度受实际设备能力限制；MPRIS按播放器能力报告；命令不等待与等待有不同结果结构；文件覆盖/重命名/回收站使用真实策略；所有窗口操作枚举不能只实现最大化；HTTP全部方法及D-Bus读取/设置/调用均需接入。交互询问、请求输入在设置未打开时仍可完成或明确取消。
 
-## 实施起点
+## 当前实施进度
 
-下一步执行 A01 → A02 → A03 → A04，取得真实原生窗口、正式配置读写和后台生命周期，再进入 B 的鼠标闭环。没有开发完成记录前，本文件所有任务和动作均保持待实现。设计稿保留完整对照；不得通过修改原型来遮掩正式界面或功能的缺失。
+A01–A04 已完成并取得下述证据，下一阶段为 B01 的正式输入服务。B–F 及 69 项执行器保持待实现；不得以配置编辑能力替代全局手势、动作执行或文本替换。原设计稿保持不变。
+
+## 阶段 A 实施记录（2026-10-13，已完成）
+
+| 任务 | 正式实现 | 验收证据 |
+| --- | --- | --- |
+| A01 | Cargo/Tauri 2/Vite/TypeScript 工程及锁文件；`scripts/build.sh`；原型客户区 DOM/CSS；原生窗口控制 | 最终统一构建通过；独立 GNOME Shell 报告 clientType=0；八页、编排与九类弹窗截图归档；缩放、最大化/还原、拖动、最小化/恢复、连续滚动/固定保存栏均通过 |
+| A02 | `crates/model` 配置/步骤 AST/类型化绑定/起点与执行结果模型；69 项参数目录；Rust→TypeScript；语义校验 | model 测试定位未知动作、不可见引用、类型错误及间接递归；adapter 检查覆盖全部 69 项参数、主样本/轨迹、结构化 D-Bus/布尔值、接口默认与返回值、稳定引用改名；原生动作复制后局部输出和返回字段引用正确重映射 |
+| A03 | `crates/core` 唯一写者、revision/保存时间、XDG 路径和原子保存；前端配置、草稿、计数与筛选来自真实快照 | 原生 UI 实际创建规则/模板/动作/文本；设置保存、复制删除与重开恢复通过；私有 D-Bus 检查四类文档后台重启恢复；冲突、校验及实际 I/O 失败不改变旧文件/活动版本；断线失败保存保留草稿，取消恢复活动配置 |
+| A04 | 会话 D-Bus/UID 核对/配置事件；Tauri 受限桥接、协议版本检查、单窗口、独立后台、重连快照与真实退出 | 重复 core 立即失败；重复 UI 恢复已有窗口；关闭设置后 core 存活；重开读取真实配置；断线可编辑但禁止假保存；重连重新读取快照；运行状态页退出使 core 与窗口均停止 |
+
+最终验证命令：`./scripts/build.sh`、`cargo test -p waystroke-model -p waystroke-core`、`npm run test:adapter --prefix apps/desktop`、`python3 scripts/check-core.py`、`python3 scripts/check-ui.py`。Rust 4 个必要测试、前端 6 组数据往返检查及真实 D-Bus/原生窗口检查通过。`fixtures/ui-baseline/native/results.json` 保留最终逐项结果；截图和原型哈希见同目录 README。初次配置为空，不安装示例自动化；正式代码不依赖 localStorage 或 probes 运行服务。
+
+视觉核对保持侧栏/标题栏/主区尺寸和间距。GTK 选择框多出的 8 像素已校正为 Chromium 的 43 像素，设置行恢复为 80 像素；轨迹/颜色滑块及品牌图标已对照。字体抗锯齿存在引擎差异；设备、选窗和执行详情内容显示当前实际未接入能力，不保留模拟成功。
+
+本机 NVIDIA 的 WebKitGTK Wayland Error71 经独立实测由 `__NV_DISABLE_EXPLICIT_SYNC=1` 解决；正式启动仅在检测到 NVIDIA 模块且用户没有指定该变量时应用，不关闭 DMABUF/硬件合成。依据：[Tauri 图形问题说明](https://v2.tauri.app/develop/debug/linux-graphics/)。GNOME Wayland 最小化后重复启动通过重新映射同一个原生窗口恢复，保留 WebView 和草稿；仅调用 GTK deiconify 的原生测试曾失败，修复后通过。原生验证依据：[Tauri WebDriver](https://v2.tauri.app/develop/tests/webdriver/)。
+
+阶段 A 是可运行的配置编辑工程。桌面扩展、输入接管、69 项执行器、全局文本替换、配置迁移/备份和发行包按 B–F 继续实现，当前界面明确报告这些能力不可用。

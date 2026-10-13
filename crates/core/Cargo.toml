@@ -1,0 +1,13 @@
+[package]
+name = "waystroke-core"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+tokio.workspace = true
+zbus.workspace = true
+waystroke-model.workspace = true
+waystroke-protocol.workspace = true
+chrono = "0.4"

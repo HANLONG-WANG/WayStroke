@@ -1,0 +1,25 @@
+{
+  "name": "waystroke-desktop",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tauri dev",
+    "web:dev": "vite --host 127.0.0.1 --port 1420 --strictPort",
+    "web:build": "vite build",
+    "build": "tauri build --no-bundle",
+    "check": "tsc --noEmit",
+    "generate": "cd ../.. && ./scripts/generate-types.sh",
+    "predev": "npm run generate && cargo build -p waystroke-core",
+    "prebuild": "npm run generate && cargo build -p waystroke-core --release",
+    "test:adapter": "node --experimental-strip-types tests/adapter.mjs"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^2"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2",
+    "typescript": "^5",
+    "vite": "^7"
+  }
+}

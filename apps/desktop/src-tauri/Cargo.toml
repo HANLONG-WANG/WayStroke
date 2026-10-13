@@ -1,0 +1,23 @@
+[package]
+name = "waystroke-desktop"
+version.workspace = true
+edition.workspace = true
+
+[[bin]]
+name = "waystroke"
+path = "src/main.rs"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-single-instance = "2"
+tokio.workspace = true
+zbus.workspace = true
+serde_json.workspace = true
+waystroke-protocol.workspace = true
+futures-util = "0.3"
+
+[features]
+custom-protocol = ["tauri/custom-protocol"]

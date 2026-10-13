@@ -1,0 +1,14 @@
+{
+  "design/README.md": "ae21d10fbc18edc3c39ce1d5c238d611e39836f4a75f31b069e08221d8ecda86",
+  "design/actions.js": "d44bf046ed7ac991771db40a104aaa531e69e142643b168f19e07d2281c4c4bd",
+  "design/app.js": "b22794c9292430495251f5b2b2ac3cc614fc67d9d2abb4fa87ff6046a546ae57",
+  "design/composer.js": "cc040a178118c63f4546c6e69066d4efc4b962be59da3750f44a5f6b0c283e50",
+  "design/configuration.js": "7d03c2568544f98884ad634deb7c4814a9755cacc6ffb0b69482ff75bc41d009",
+  "design/form-details.js": "f670892b742c6755186a7965ed94441c3a4992df82f4679dee92c07c7d8cdbae",
+  "design/gestures.js": "f05ce96942818843e72b4ed9e0c8b9884490d080185348c6f4c9a3e8871ad1f0",
+  "design/index.html": "2d30bb029524637422bef9a7df30a3a1c7ac0a7e29b619cad83c272683f1dac8",
+  "design/review.js": "6b296f0eda28a531811d7c6bfd7806c2bc0fb004f72ca5f316766cba51dd1fd7",
+  "design/runtime.js": "0379581d122977b37f61aec38704cf1da002e982ecd277dbb571b44eec035cbd",
+  "design/style.css": "8d7f849508c0dd08faac62b5f56e8a7dedf823208b5c7e3cec895429fb34335f",
+  "design/window.js": "91df46637657b60c12f2f61cf5c1246bd96e72d10ef394a7ecf18e3899476f7c"
+}
