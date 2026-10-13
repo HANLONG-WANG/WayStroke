@@ -1,0 +1,70 @@
+{
+  "startBound": {
+    "x": 200,
+    "y": 300,
+    "stableId": 1,
+    "title": "Probe A",
+    "alive": true,
+    "focus": "Probe B",
+    "endTitle": "Probe A"
+  },
+  "afterCrossing": {
+    "x": 200,
+    "y": 300,
+    "stableId": 1,
+    "title": "Probe A",
+    "alive": true,
+    "focus": "Probe B",
+    "endTitle": "Probe B"
+  },
+  "afterTargetClosed": {
+    "x": 200,
+    "y": 300,
+    "stableId": 1,
+    "title": "Probe A",
+    "alive": false,
+    "focus": "Probe B",
+    "endTitle": "Probe B"
+  },
+  "zlePreedit": {
+    "source": "rime",
+    "engine": "rime",
+    "hasFocus": true,
+    "preedit": true,
+    "purpose": 10,
+    "hints": 0,
+    "surrounding": [
+      null,
+      0,
+      0
+    ]
+  },
+  "zleCommitted": {
+    "source": "rime",
+    "engine": "rime",
+    "hasFocus": true,
+    "preedit": false,
+    "purpose": 10,
+    "hints": 0,
+    "surrounding": [
+      null,
+      0,
+      0
+    ]
+  },
+  "terminalZle": {
+    "space": "2003 ",
+    "enter": "2003",
+    "secretLength": 3,
+    "expansions": 2,
+    "ime": "你哈哦",
+    "externalPassword": {
+      "length": 3,
+      "echoEnabled": true
+    },
+    "externalPrompt": {
+      "ready": true,
+      "echoEnabled": false
+    }
+  }
+}

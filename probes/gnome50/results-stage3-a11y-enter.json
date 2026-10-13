@@ -1,0 +1,902 @@
+{
+  "startBound": {
+    "x": 200,
+    "y": 300,
+    "stableId": 1,
+    "title": "Probe A",
+    "alive": true,
+    "focus": "Probe B",
+    "endTitle": "Probe A"
+  },
+  "afterCrossing": {
+    "x": 200,
+    "y": 300,
+    "stableId": 1,
+    "title": "Probe A",
+    "alive": true,
+    "focus": "Probe B",
+    "endTitle": "Probe B"
+  },
+  "afterTargetClosed": {
+    "x": 200,
+    "y": 300,
+    "stableId": 1,
+    "title": "Probe A",
+    "alive": false,
+    "focus": "Probe B",
+    "endTitle": "Probe B"
+  },
+  "confirmGrab": {
+    "action": 129
+  },
+  "confirmEventsBefore": {
+    "events": [
+      {
+        "time": 63954545,
+        "focus": "XProbe B"
+      }
+    ]
+  },
+  "clientBeforeConfirm": {
+    "XProbe A": {
+      "text": "",
+      "password": "",
+      "rightPress": 0,
+      "rightRelease": 0,
+      "activate": 0,
+      "activatedText": "",
+      "passwordActivate": 0,
+      "passwordActivatedLength": 0
+    },
+    "XProbe B": {
+      "text": "abc",
+      "password": "",
+      "rightPress": 0,
+      "rightRelease": 0,
+      "activate": 0,
+      "activatedText": "",
+      "passwordActivate": 0,
+      "passwordActivatedLength": 0
+    }
+  },
+  "accessibilityBefore": {
+    "title": "XProbe B",
+    "frames": 2,
+    "nodes": [
+      {
+        "role": "frame",
+        "name": "XProbe B",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "panel",
+        "name": "",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "text",
+        "name": "",
+        "focused": true,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component",
+          "EditableText",
+          "Text"
+        ],
+        "attributes": {
+          "toolkit": "GTK",
+          "placeholder-text": "Normal text"
+        },
+        "text": "abc",
+        "cursor": 3
+      },
+      {
+        "role": "password text",
+        "name": "",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component",
+          "EditableText",
+          "Text"
+        ],
+        "attributes": {
+          "toolkit": "GTK",
+          "placeholder-text": "Password purpose"
+        }
+      },
+      {
+        "role": "panel",
+        "name": "",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "frame",
+        "name": "XProbe B",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "panel",
+        "name": "",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "panel",
+        "name": "",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "grouping",
+        "name": "",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "panel",
+        "name": "",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "panel",
+        "name": "",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "panel",
+        "name": "",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "label",
+        "name": "XProbe B",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component",
+          "Hypertext",
+          "Text"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "panel",
+        "name": "",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "grouping",
+        "name": "",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "button",
+        "name": "Minimize",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "button",
+        "name": "Maximize",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "button",
+        "name": "Close",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      }
+    ]
+  },
+  "clientAfterConfirm": {
+    "XProbe A": {
+      "text": "",
+      "password": "",
+      "rightPress": 0,
+      "rightRelease": 0,
+      "activate": 0,
+      "activatedText": "",
+      "passwordActivate": 0,
+      "passwordActivatedLength": 0
+    },
+    "XProbe B": {
+      "text": "2003",
+      "password": "",
+      "rightPress": 0,
+      "rightRelease": 0,
+      "activate": 1,
+      "activatedText": "2003",
+      "passwordActivate": 0,
+      "passwordActivatedLength": 0
+    }
+  },
+  "confirmEventsAfter": {
+    "events": [
+      {
+        "time": 63954545,
+        "focus": "XProbe B"
+      }
+    ]
+  },
+  "passwordBeforeReplay": {
+    "title": "XProbe B",
+    "frames": 2,
+    "nodes": [
+      {
+        "role": "frame",
+        "name": "XProbe B",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "panel",
+        "name": "",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "text",
+        "name": "",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component",
+          "EditableText",
+          "Text"
+        ],
+        "attributes": {
+          "toolkit": "GTK",
+          "placeholder-text": "Normal text"
+        }
+      },
+      {
+        "role": "password text",
+        "name": "",
+        "focused": true,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component",
+          "EditableText",
+          "Text"
+        ],
+        "attributes": {
+          "toolkit": "GTK",
+          "placeholder-text": "Password purpose"
+        },
+        "replacementError": "Password role; no text read or edit"
+      },
+      {
+        "role": "panel",
+        "name": "",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "frame",
+        "name": "XProbe B",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "panel",
+        "name": "",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "panel",
+        "name": "",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "grouping",
+        "name": "",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "panel",
+        "name": "",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "panel",
+        "name": "",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "panel",
+        "name": "",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "label",
+        "name": "XProbe B",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component",
+          "Hypertext",
+          "Text"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "panel",
+        "name": "",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "grouping",
+        "name": "",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "button",
+        "name": "Minimize",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "button",
+        "name": "Maximize",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "button",
+        "name": "Close",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      }
+    ]
+  },
+  "passwordAfterReplay": {
+    "XProbe A": {
+      "text": "",
+      "password": "",
+      "rightPress": 0,
+      "rightRelease": 0,
+      "activate": 0,
+      "activatedText": "",
+      "passwordActivate": 0,
+      "passwordActivatedLength": 0
+    },
+    "XProbe B": {
+      "text": "2003",
+      "password": "abc",
+      "rightPress": 0,
+      "rightRelease": 0,
+      "activate": 1,
+      "activatedText": "2003",
+      "passwordActivate": 1,
+      "passwordActivatedLength": 3
+    }
+  },
+  "ordinaryAfterReplay": {
+    "XProbe A": {
+      "text": "",
+      "password": "",
+      "rightPress": 0,
+      "rightRelease": 0,
+      "activate": 0,
+      "activatedText": "",
+      "passwordActivate": 0,
+      "passwordActivatedLength": 0
+    },
+    "XProbe B": {
+      "text": "plain",
+      "password": "abc",
+      "rightPress": 0,
+      "rightRelease": 0,
+      "activate": 2,
+      "activatedText": "plain",
+      "passwordActivate": 1,
+      "passwordActivatedLength": 3
+    }
+  },
+  "confirmEventsComplete": {
+    "events": [
+      {
+        "time": 63954545,
+        "focus": "XProbe B"
+      },
+      {
+        "time": 63956776,
+        "focus": "XProbe B"
+      },
+      {
+        "time": 63958216,
+        "focus": "XProbe B"
+      }
+    ]
+  },
+  "accessibilityFinalFocus": {
+    "title": "XProbe B",
+    "frames": 2,
+    "nodes": [
+      {
+        "role": "frame",
+        "name": "XProbe B",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "panel",
+        "name": "",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "text",
+        "name": "",
+        "focused": true,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component",
+          "EditableText",
+          "Text"
+        ],
+        "attributes": {
+          "toolkit": "GTK",
+          "placeholder-text": "Normal text"
+        },
+        "text": "plain",
+        "cursor": 5,
+        "replacementError": "Expected fixture keyword missing"
+      },
+      {
+        "role": "password text",
+        "name": "",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component",
+          "EditableText",
+          "Text"
+        ],
+        "attributes": {
+          "toolkit": "GTK",
+          "placeholder-text": "Password purpose"
+        }
+      },
+      {
+        "role": "panel",
+        "name": "",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "frame",
+        "name": "XProbe B",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "panel",
+        "name": "",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "panel",
+        "name": "",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "grouping",
+        "name": "",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "panel",
+        "name": "",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "panel",
+        "name": "",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "panel",
+        "name": "",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "label",
+        "name": "XProbe B",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component",
+          "Hypertext",
+          "Text"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "panel",
+        "name": "",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "grouping",
+        "name": "",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "button",
+        "name": "Minimize",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "button",
+        "name": "Maximize",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      },
+      {
+        "role": "button",
+        "name": "Close",
+        "focused": false,
+        "interfaces": [
+          "Accessible",
+          "Action",
+          "Component"
+        ],
+        "attributes": {
+          "toolkit": "GTK"
+        }
+      }
+    ]
+  }
+}

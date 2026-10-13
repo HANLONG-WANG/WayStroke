@@ -1,0 +1,331 @@
+{
+  "startBound": {
+    "x": 200,
+    "y": 300,
+    "stableId": 1,
+    "title": "Probe A",
+    "alive": true,
+    "focus": "Probe B",
+    "endTitle": "Probe A"
+  },
+  "afterCrossing": {
+    "x": 200,
+    "y": 300,
+    "stableId": 1,
+    "title": "Probe A",
+    "alive": true,
+    "focus": "Probe B",
+    "endTitle": "Probe B"
+  },
+  "afterTargetClosed": {
+    "x": 200,
+    "y": 300,
+    "stableId": 1,
+    "title": "Probe A",
+    "alive": false,
+    "focus": "Probe B",
+    "endTitle": "Probe B"
+  },
+  "firefoxBefore": {
+    "source": "us",
+    "engine": "xkb:us::eng",
+    "hasFocus": true,
+    "preedit": false,
+    "purpose": 0,
+    "hints": 0,
+    "surrounding": [
+      "",
+      0,
+      0
+    ]
+  },
+  "firefoxTyped": {
+    "normal": "abc ",
+    "multiline": "",
+    "editable": "Editable",
+    "passwordLength": 0,
+    "active": "normal",
+    "events": [
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      }
+    ]
+  },
+  "firefoxSurrounding": {
+    "source": "us",
+    "engine": "xkb:us::eng",
+    "hasFocus": true,
+    "preedit": false,
+    "purpose": 0,
+    "hints": 0,
+    "surrounding": [
+      "abc ",
+      4,
+      4
+    ]
+  },
+  "firefoxReplaced": {
+    "normal": "2003 ",
+    "multiline": "",
+    "editable": "Editable",
+    "passwordLength": 0,
+    "active": "normal",
+    "events": [
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      }
+    ]
+  },
+  "firefoxPreedit": {
+    "source": "rime",
+    "engine": "rime",
+    "hasFocus": true,
+    "preedit": true,
+    "purpose": 0,
+    "hints": 0,
+    "surrounding": [
+      "2003 ",
+      5,
+      5
+    ]
+  },
+  "firefoxDuringPreedit": {
+    "normal": "2003 你哈哦",
+    "multiline": "",
+    "editable": "Editable",
+    "passwordLength": 0,
+    "active": "normal",
+    "events": [
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "compositionstart",
+        "field": "normal"
+      },
+      {
+        "type": "compositionupdate",
+        "field": "normal"
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "compositionupdate",
+        "field": "normal"
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "compositionupdate",
+        "field": "normal"
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "compositionupdate",
+        "field": "normal"
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      }
+    ]
+  },
+  "firefoxCommitted": {
+    "normal": "2003 你哈哦",
+    "multiline": "",
+    "editable": "Editable",
+    "passwordLength": 0,
+    "active": "normal",
+    "events": [
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "compositionstart",
+        "field": "normal"
+      },
+      {
+        "type": "compositionupdate",
+        "field": "normal"
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "compositionupdate",
+        "field": "normal"
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "compositionupdate",
+        "field": "normal"
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "compositionupdate",
+        "field": "normal"
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "compositionend",
+        "field": "normal"
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      }
+    ]
+  },
+  "firefoxAfterIme": {
+    "source": "rime",
+    "engine": "rime",
+    "hasFocus": true,
+    "preedit": false,
+    "purpose": 0,
+    "hints": 0,
+    "surrounding": [
+      "2003 你哈哦",
+      8,
+      8
+    ]
+  },
+  "firefoxPassword": {
+    "source": "us",
+    "engine": "xkb:us::eng",
+    "hasFocus": true,
+    "preedit": false,
+    "purpose": 8,
+    "hints": 6144,
+    "surrounding": [
+      "",
+      0,
+      0
+    ]
+  },
+  "terminalError": "Timed out waiting for probe condition",
+  "codeIme": {
+    "source": "us",
+    "engine": "xkb:us::eng",
+    "hasFocus": true,
+    "preedit": false,
+    "purpose": 0,
+    "hints": 0,
+    "surrounding": [
+      "abc  cba",
+      4,
+      4
+    ]
+  },
+  "codeTyped": "abc ",
+  "codeAfterReplace": "2003 ",
+  "codeAfterIme": {
+    "source": "us",
+    "engine": "xkb:us::eng",
+    "hasFocus": true,
+    "preedit": false,
+    "purpose": 0,
+    "hints": 0,
+    "surrounding": [
+      "2003 2003 ",
+      5,
+      5
+    ]
+  }
+}

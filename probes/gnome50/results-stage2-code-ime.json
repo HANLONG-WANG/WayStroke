@@ -1,0 +1,85 @@
+{
+  "startBound": {
+    "x": 200,
+    "y": 300,
+    "stableId": 1,
+    "title": "Probe A",
+    "alive": true,
+    "focus": "Probe B",
+    "endTitle": "Probe A"
+  },
+  "afterCrossing": {
+    "x": 200,
+    "y": 300,
+    "stableId": 1,
+    "title": "Probe A",
+    "alive": true,
+    "focus": "Probe B",
+    "endTitle": "Probe B"
+  },
+  "afterTargetClosed": {
+    "x": 200,
+    "y": 300,
+    "stableId": 1,
+    "title": "Probe A",
+    "alive": false,
+    "focus": "Probe B",
+    "endTitle": "Probe B"
+  },
+  "codeIme": {
+    "source": "us",
+    "engine": "xkb:us::eng",
+    "hasFocus": true,
+    "preedit": false,
+    "purpose": 0,
+    "hints": 0,
+    "surrounding": [
+      "abc  cba",
+      4,
+      4
+    ]
+  },
+  "codeTyped": "abc ",
+  "codeAfterReplace": "2003 ",
+  "codeAfterIme": {
+    "source": "us",
+    "engine": "xkb:us::eng",
+    "hasFocus": true,
+    "preedit": false,
+    "purpose": 0,
+    "hints": 0,
+    "surrounding": [
+      "2003 2003 ",
+      5,
+      5
+    ]
+  },
+  "codePreedit": {
+    "source": "rime",
+    "engine": "rime",
+    "hasFocus": true,
+    "preedit": true,
+    "purpose": 0,
+    "hints": 0,
+    "surrounding": [
+      "2003 哦好你2003 ",
+      5,
+      5
+    ]
+  },
+  "codeFileDuringPreedit": "2003 ",
+  "codeCommittedIme": {
+    "source": "rime",
+    "engine": "rime",
+    "hasFocus": true,
+    "preedit": false,
+    "purpose": 0,
+    "hints": 0,
+    "surrounding": [
+      "2003 你哈哦哦好你2003 ",
+      8,
+      8
+    ]
+  },
+  "codeFileAfterCommit": "2003 你哈哦"
+}

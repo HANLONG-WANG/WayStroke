@@ -1,0 +1,143 @@
+[
+  {
+    "result": "armed",
+    "device": "/dev/input/event7",
+    "sequence": 2
+  },
+  {
+    "event": "start",
+    "window": {
+      "x": 355,
+      "y": 315,
+      "stableId": 1,
+      "title": "Probe A",
+      "alive": true,
+      "focus": "Probe B",
+      "endTitle": "Probe A"
+    },
+    "bindingMs": 5.4
+  },
+  {
+    "event": "finish",
+    "gesture": {
+      "result": "stroke",
+      "distance": 313.9,
+      "dx": 303,
+      "dy": -15,
+      "motionFrames": 308,
+      "auxiliaryButtons": [],
+      "sequence": 4
+    },
+    "window": {
+      "x": 355,
+      "y": 315,
+      "stableId": 1,
+      "title": "Probe A",
+      "alive": true,
+      "focus": "Probe B",
+      "endTitle": "Probe B"
+    }
+  },
+  {
+    "event": "start",
+    "window": {
+      "x": 285,
+      "y": 247,
+      "stableId": 1,
+      "title": "Probe A",
+      "alive": true,
+      "focus": "Probe B",
+      "endTitle": "Probe A"
+    },
+    "bindingMs": 5.4
+  },
+  {
+    "event": "finish",
+    "gesture": {
+      "result": "stroke",
+      "distance": 333.5,
+      "dx": 331,
+      "dy": 5,
+      "motionFrames": 223,
+      "auxiliaryButtons": [],
+      "sequence": 6
+    },
+    "window": {
+      "x": 285,
+      "y": 247,
+      "stableId": 1,
+      "title": "Probe A",
+      "alive": true,
+      "focus": "Probe B",
+      "endTitle": "Probe B"
+    }
+  },
+  {
+    "event": "start",
+    "window": {
+      "x": 311,
+      "y": 235,
+      "stableId": 1,
+      "title": "Probe A",
+      "alive": true,
+      "focus": "Probe A",
+      "endTitle": "Probe A"
+    },
+    "bindingMs": 4.7
+  },
+  {
+    "event": "finish",
+    "gesture": {
+      "result": "click",
+      "distance": 1,
+      "dx": -1,
+      "dy": 0,
+      "motionFrames": 1,
+      "auxiliaryButtons": [],
+      "sequence": 8
+    },
+    "window": {
+      "x": 311,
+      "y": 235,
+      "stableId": 1,
+      "title": "Probe A",
+      "alive": true,
+      "focus": "Probe A",
+      "endTitle": "Probe A"
+    }
+  },
+  {
+    "event": "start",
+    "window": {
+      "x": 260,
+      "y": 304,
+      "stableId": 1,
+      "title": "Probe A",
+      "alive": true,
+      "focus": "Probe A",
+      "endTitle": "Probe A"
+    },
+    "bindingMs": 4.5
+  },
+  {
+    "event": "finish",
+    "gesture": {
+      "result": "click",
+      "distance": 0,
+      "dx": 0,
+      "dy": 0,
+      "motionFrames": 0,
+      "auxiliaryButtons": [],
+      "sequence": 10
+    },
+    "window": {
+      "x": 260,
+      "y": 304,
+      "stableId": 1,
+      "title": "Probe A",
+      "alive": true,
+      "focus": "Probe A",
+      "endTitle": "Probe A"
+    }
+  }
+]

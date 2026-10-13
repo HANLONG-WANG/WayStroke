@@ -1,0 +1,1873 @@
+{
+  "startBound": {
+    "x": 200,
+    "y": 300,
+    "stableId": 1,
+    "title": "Probe A",
+    "alive": true,
+    "focus": "Probe B",
+    "endTitle": "Probe A"
+  },
+  "afterCrossing": {
+    "x": 200,
+    "y": 300,
+    "stableId": 1,
+    "title": "Probe A",
+    "alive": true,
+    "focus": "Probe B",
+    "endTitle": "Probe B"
+  },
+  "afterTargetClosed": {
+    "x": 200,
+    "y": 300,
+    "stableId": 1,
+    "title": "Probe A",
+    "alive": false,
+    "focus": "Probe B",
+    "endTitle": "Probe B"
+  },
+  "firefoxExtra": {
+    "multiline": {
+      "before": {
+        "source": "us",
+        "engine": "xkb:us::eng",
+        "hasFocus": true,
+        "preedit": false,
+        "purpose": 0,
+        "hints": 0,
+        "surrounding": [
+          "abc ",
+          4,
+          4
+        ]
+      },
+      "after": {
+        "normal": "",
+        "multiline": "前文\n2003 ",
+        "editable": "Editable",
+        "passwordLength": 0,
+        "active": "multiline",
+        "events": [
+          {
+            "type": "keydown",
+            "field": "multiline",
+            "key": "Process",
+            "code": "",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "input",
+            "field": "multiline"
+          },
+          {
+            "type": "keydown",
+            "field": "multiline",
+            "key": "a",
+            "code": "KeyA",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "input",
+            "field": "multiline"
+          },
+          {
+            "type": "keydown",
+            "field": "multiline",
+            "key": "b",
+            "code": "KeyB",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "input",
+            "field": "multiline"
+          },
+          {
+            "type": "keydown",
+            "field": "multiline",
+            "key": "c",
+            "code": "KeyC",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "input",
+            "field": "multiline"
+          },
+          {
+            "type": "keydown",
+            "field": "multiline",
+            "key": " ",
+            "code": "Space",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "input",
+            "field": "multiline"
+          },
+          {
+            "type": "keydown",
+            "field": "multiline",
+            "key": "Process",
+            "code": "",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "input",
+            "field": "multiline"
+          },
+          {
+            "type": "keydown",
+            "field": "multiline",
+            "key": "Process",
+            "code": "",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "input",
+            "field": "multiline"
+          }
+        ]
+      },
+      "passed": true
+    },
+    "editable": {
+      "before": {
+        "source": "us",
+        "engine": "xkb:us::eng",
+        "hasFocus": true,
+        "preedit": false,
+        "purpose": 0,
+        "hints": 0,
+        "surrounding": [
+          "abc Editable",
+          4,
+          4
+        ]
+      },
+      "after": {
+        "normal": "",
+        "multiline": "前文\n2003 ",
+        "editable": "2003 Editable",
+        "passwordLength": 0,
+        "active": "editable",
+        "events": [
+          {
+            "type": "keydown",
+            "field": "multiline",
+            "key": "Process",
+            "code": "",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "input",
+            "field": "multiline"
+          },
+          {
+            "type": "keydown",
+            "field": "multiline",
+            "key": "a",
+            "code": "KeyA",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "input",
+            "field": "multiline"
+          },
+          {
+            "type": "keydown",
+            "field": "multiline",
+            "key": "b",
+            "code": "KeyB",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "input",
+            "field": "multiline"
+          },
+          {
+            "type": "keydown",
+            "field": "multiline",
+            "key": "c",
+            "code": "KeyC",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "input",
+            "field": "multiline"
+          },
+          {
+            "type": "keydown",
+            "field": "multiline",
+            "key": " ",
+            "code": "Space",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "input",
+            "field": "multiline"
+          },
+          {
+            "type": "keydown",
+            "field": "multiline",
+            "key": "Process",
+            "code": "",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "input",
+            "field": "multiline"
+          },
+          {
+            "type": "keydown",
+            "field": "multiline",
+            "key": "Process",
+            "code": "",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "input",
+            "field": "multiline"
+          },
+          {
+            "type": "keydown",
+            "field": "editable",
+            "key": "a",
+            "code": "KeyA",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "input",
+            "field": "editable"
+          },
+          {
+            "type": "keydown",
+            "field": "editable",
+            "key": "b",
+            "code": "KeyB",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "input",
+            "field": "editable"
+          },
+          {
+            "type": "keydown",
+            "field": "editable",
+            "key": "c",
+            "code": "KeyC",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "input",
+            "field": "editable"
+          },
+          {
+            "type": "keydown",
+            "field": "editable",
+            "key": " ",
+            "code": "Space",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "input",
+            "field": "editable"
+          },
+          {
+            "type": "keydown",
+            "field": "editable",
+            "key": "Process",
+            "code": "",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "input",
+            "field": "editable"
+          },
+          {
+            "type": "keydown",
+            "field": "editable",
+            "key": "Process",
+            "code": "",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "input",
+            "field": "editable"
+          }
+        ]
+      },
+      "passed": true
+    },
+    "rime": {
+      "preedit": {
+        "source": "rime",
+        "engine": "rime",
+        "hasFocus": true,
+        "preedit": true,
+        "purpose": 0,
+        "hints": 0,
+        "surrounding": [
+          "",
+          0,
+          0
+        ]
+      },
+      "during": {
+        "normal": "你哈哦",
+        "multiline": "前文\n2003 ",
+        "editable": "2003 Editable",
+        "passwordLength": 0,
+        "active": "normal",
+        "events": [
+          {
+            "type": "input",
+            "field": "editable"
+          },
+          {
+            "type": "keydown",
+            "field": "editable",
+            "key": " ",
+            "code": "Space",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "input",
+            "field": "editable"
+          },
+          {
+            "type": "keydown",
+            "field": "editable",
+            "key": "Process",
+            "code": "",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "input",
+            "field": "editable"
+          },
+          {
+            "type": "keydown",
+            "field": "editable",
+            "key": "Process",
+            "code": "",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "input",
+            "field": "editable"
+          },
+          {
+            "type": "keydown",
+            "field": "normal",
+            "key": "Process",
+            "code": "",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "compositionstart",
+            "field": "normal"
+          },
+          {
+            "type": "compositionupdate",
+            "field": "normal"
+          },
+          {
+            "type": "input",
+            "field": "normal"
+          },
+          {
+            "type": "keydown",
+            "field": "normal",
+            "key": "Process",
+            "code": "",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "keydown",
+            "field": "normal",
+            "key": "Process",
+            "code": "",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "keydown",
+            "field": "normal",
+            "key": "Process",
+            "code": "",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "keydown",
+            "field": "normal",
+            "key": "Process",
+            "code": "",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "keydown",
+            "field": "normal",
+            "key": "Process",
+            "code": "",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "compositionupdate",
+            "field": "normal"
+          },
+          {
+            "type": "input",
+            "field": "normal"
+          },
+          {
+            "type": "keydown",
+            "field": "normal",
+            "key": "Process",
+            "code": "",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "keydown",
+            "field": "normal",
+            "key": "Process",
+            "code": "",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "keydown",
+            "field": "normal",
+            "key": "Process",
+            "code": "",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "compositionupdate",
+            "field": "normal"
+          },
+          {
+            "type": "input",
+            "field": "normal"
+          },
+          {
+            "type": "keydown",
+            "field": "normal",
+            "key": "Process",
+            "code": "",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "keydown",
+            "field": "normal",
+            "key": "Process",
+            "code": "",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "keydown",
+            "field": "normal",
+            "key": "Process",
+            "code": "",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "compositionupdate",
+            "field": "normal"
+          },
+          {
+            "type": "input",
+            "field": "normal"
+          },
+          {
+            "type": "keydown",
+            "field": "normal",
+            "key": "Process",
+            "code": "",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "keydown",
+            "field": "normal",
+            "key": "Process",
+            "code": "",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          }
+        ]
+      },
+      "blockedReplacement": "No committed editable focus",
+      "after": {
+        "normal": "你哈哦",
+        "multiline": "前文\n2003 ",
+        "editable": "2003 Editable",
+        "passwordLength": 0,
+        "active": "normal",
+        "events": [
+          {
+            "type": "input",
+            "field": "editable"
+          },
+          {
+            "type": "keydown",
+            "field": "editable",
+            "key": "Process",
+            "code": "",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "input",
+            "field": "editable"
+          },
+          {
+            "type": "keydown",
+            "field": "normal",
+            "key": "Process",
+            "code": "",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "compositionstart",
+            "field": "normal"
+          },
+          {
+            "type": "compositionupdate",
+            "field": "normal"
+          },
+          {
+            "type": "input",
+            "field": "normal"
+          },
+          {
+            "type": "keydown",
+            "field": "normal",
+            "key": "Process",
+            "code": "",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "keydown",
+            "field": "normal",
+            "key": "Process",
+            "code": "",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "keydown",
+            "field": "normal",
+            "key": "Process",
+            "code": "",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "keydown",
+            "field": "normal",
+            "key": "Process",
+            "code": "",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "keydown",
+            "field": "normal",
+            "key": "Process",
+            "code": "",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "compositionupdate",
+            "field": "normal"
+          },
+          {
+            "type": "input",
+            "field": "normal"
+          },
+          {
+            "type": "keydown",
+            "field": "normal",
+            "key": "Process",
+            "code": "",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "keydown",
+            "field": "normal",
+            "key": "Process",
+            "code": "",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "keydown",
+            "field": "normal",
+            "key": "Process",
+            "code": "",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "compositionupdate",
+            "field": "normal"
+          },
+          {
+            "type": "input",
+            "field": "normal"
+          },
+          {
+            "type": "keydown",
+            "field": "normal",
+            "key": "Process",
+            "code": "",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "keydown",
+            "field": "normal",
+            "key": "Process",
+            "code": "",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "keydown",
+            "field": "normal",
+            "key": "Process",
+            "code": "",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "compositionupdate",
+            "field": "normal"
+          },
+          {
+            "type": "input",
+            "field": "normal"
+          },
+          {
+            "type": "keydown",
+            "field": "normal",
+            "key": "Process",
+            "code": "",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "keydown",
+            "field": "normal",
+            "key": "Process",
+            "code": "",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "keydown",
+            "field": "normal",
+            "key": "Process",
+            "code": "",
+            "ctrl": false,
+            "shift": false,
+            "alt": false
+          },
+          {
+            "type": "input",
+            "field": "normal"
+          },
+          {
+            "type": "compositionend",
+            "field": "normal"
+          },
+          {
+            "type": "input",
+            "field": "normal"
+          }
+        ]
+      },
+      "committedState": {
+        "source": "rime",
+        "engine": "rime",
+        "hasFocus": true,
+        "preedit": false,
+        "purpose": 0,
+        "hints": 0,
+        "surrounding": [
+          "你哈哦",
+          3,
+          3
+        ]
+      }
+    },
+    "password": {
+      "ime": {
+        "source": "us",
+        "engine": "xkb:us::eng",
+        "hasFocus": true,
+        "preedit": false,
+        "purpose": 8,
+        "hints": 6144,
+        "surrounding": [
+          "",
+          0,
+          0
+        ]
+      },
+      "blockedReplacement": "Sensitive input; replacement disabled",
+      "passwordLength": 0
+    }
+  },
+  "shortcutCtrlA": {
+    "text": "replacement",
+    "events": [
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "Process",
+        "code": "",
+        "ctrl": false,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "Process",
+        "code": "",
+        "ctrl": false,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "Process",
+        "code": "",
+        "ctrl": false,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "compositionend",
+        "field": "normal"
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "Control",
+        "code": "ControlLeft",
+        "ctrl": true,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "a",
+        "code": "KeyA",
+        "ctrl": true,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "r",
+        "code": "KeyR",
+        "ctrl": false,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "e",
+        "code": "KeyE",
+        "ctrl": false,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "p",
+        "code": "KeyP",
+        "ctrl": false,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "l",
+        "code": "KeyL",
+        "ctrl": false,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "a",
+        "code": "KeyA",
+        "ctrl": false,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "c",
+        "code": "KeyC",
+        "ctrl": false,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "e",
+        "code": "KeyE",
+        "ctrl": false,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "m",
+        "code": "KeyM",
+        "ctrl": false,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "e",
+        "code": "KeyE",
+        "ctrl": false,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "n",
+        "code": "KeyN",
+        "ctrl": false,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "t",
+        "code": "KeyT",
+        "ctrl": false,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      }
+    ]
+  },
+  "shortcutShift": {
+    "text": "replacementZ",
+    "events": [
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "compositionend",
+        "field": "normal"
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "Control",
+        "code": "ControlLeft",
+        "ctrl": true,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "a",
+        "code": "KeyA",
+        "ctrl": true,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "r",
+        "code": "KeyR",
+        "ctrl": false,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "e",
+        "code": "KeyE",
+        "ctrl": false,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "p",
+        "code": "KeyP",
+        "ctrl": false,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "l",
+        "code": "KeyL",
+        "ctrl": false,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "a",
+        "code": "KeyA",
+        "ctrl": false,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "c",
+        "code": "KeyC",
+        "ctrl": false,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "e",
+        "code": "KeyE",
+        "ctrl": false,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "m",
+        "code": "KeyM",
+        "ctrl": false,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "e",
+        "code": "KeyE",
+        "ctrl": false,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "n",
+        "code": "KeyN",
+        "ctrl": false,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "t",
+        "code": "KeyT",
+        "ctrl": false,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "Shift",
+        "code": "ShiftLeft",
+        "ctrl": false,
+        "shift": true,
+        "alt": false
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "Z",
+        "code": "KeyZ",
+        "ctrl": false,
+        "shift": true,
+        "alt": false
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      }
+    ]
+  },
+  "shortcutCtrlShiftLeft": {
+    "text": "end",
+    "events": [
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "p",
+        "code": "KeyP",
+        "ctrl": false,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "l",
+        "code": "KeyL",
+        "ctrl": false,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "a",
+        "code": "KeyA",
+        "ctrl": false,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "c",
+        "code": "KeyC",
+        "ctrl": false,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "e",
+        "code": "KeyE",
+        "ctrl": false,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "m",
+        "code": "KeyM",
+        "ctrl": false,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "e",
+        "code": "KeyE",
+        "ctrl": false,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "n",
+        "code": "KeyN",
+        "ctrl": false,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "t",
+        "code": "KeyT",
+        "ctrl": false,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "Shift",
+        "code": "ShiftLeft",
+        "ctrl": false,
+        "shift": true,
+        "alt": false
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "Z",
+        "code": "KeyZ",
+        "ctrl": false,
+        "shift": true,
+        "alt": false
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "Control",
+        "code": "ControlLeft",
+        "ctrl": true,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "Shift",
+        "code": "ShiftLeft",
+        "ctrl": true,
+        "shift": true,
+        "alt": false
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "ArrowLeft",
+        "code": "ArrowLeft",
+        "ctrl": true,
+        "shift": true,
+        "alt": false
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "e",
+        "code": "KeyE",
+        "ctrl": false,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "n",
+        "code": "KeyN",
+        "ctrl": false,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      },
+      {
+        "type": "keydown",
+        "field": "normal",
+        "key": "d",
+        "code": "KeyD",
+        "ctrl": false,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "input",
+        "field": "normal"
+      }
+    ]
+  },
+  "layout": {
+    "us": {
+      "ime": {
+        "source": "us",
+        "engine": "xkb:us::eng",
+        "hasFocus": true,
+        "preedit": false,
+        "purpose": 0,
+        "hints": 0,
+        "surrounding": [
+          "endq",
+          4,
+          4
+        ]
+      },
+      "text": "endq",
+      "events": [
+        {
+          "type": "keydown",
+          "field": "normal",
+          "key": "l",
+          "code": "KeyL",
+          "ctrl": false,
+          "shift": false,
+          "alt": false
+        },
+        {
+          "type": "input",
+          "field": "normal"
+        },
+        {
+          "type": "keydown",
+          "field": "normal",
+          "key": "a",
+          "code": "KeyA",
+          "ctrl": false,
+          "shift": false,
+          "alt": false
+        },
+        {
+          "type": "input",
+          "field": "normal"
+        },
+        {
+          "type": "keydown",
+          "field": "normal",
+          "key": "c",
+          "code": "KeyC",
+          "ctrl": false,
+          "shift": false,
+          "alt": false
+        },
+        {
+          "type": "input",
+          "field": "normal"
+        },
+        {
+          "type": "keydown",
+          "field": "normal",
+          "key": "e",
+          "code": "KeyE",
+          "ctrl": false,
+          "shift": false,
+          "alt": false
+        },
+        {
+          "type": "input",
+          "field": "normal"
+        },
+        {
+          "type": "keydown",
+          "field": "normal",
+          "key": "m",
+          "code": "KeyM",
+          "ctrl": false,
+          "shift": false,
+          "alt": false
+        },
+        {
+          "type": "input",
+          "field": "normal"
+        },
+        {
+          "type": "keydown",
+          "field": "normal",
+          "key": "e",
+          "code": "KeyE",
+          "ctrl": false,
+          "shift": false,
+          "alt": false
+        },
+        {
+          "type": "input",
+          "field": "normal"
+        },
+        {
+          "type": "keydown",
+          "field": "normal",
+          "key": "n",
+          "code": "KeyN",
+          "ctrl": false,
+          "shift": false,
+          "alt": false
+        },
+        {
+          "type": "input",
+          "field": "normal"
+        },
+        {
+          "type": "keydown",
+          "field": "normal",
+          "key": "t",
+          "code": "KeyT",
+          "ctrl": false,
+          "shift": false,
+          "alt": false
+        },
+        {
+          "type": "input",
+          "field": "normal"
+        },
+        {
+          "type": "keydown",
+          "field": "normal",
+          "key": "Shift",
+          "code": "ShiftLeft",
+          "ctrl": false,
+          "shift": true,
+          "alt": false
+        },
+        {
+          "type": "keydown",
+          "field": "normal",
+          "key": "Z",
+          "code": "KeyZ",
+          "ctrl": false,
+          "shift": true,
+          "alt": false
+        },
+        {
+          "type": "input",
+          "field": "normal"
+        },
+        {
+          "type": "keydown",
+          "field": "normal",
+          "key": "Control",
+          "code": "ControlLeft",
+          "ctrl": true,
+          "shift": false,
+          "alt": false
+        },
+        {
+          "type": "keydown",
+          "field": "normal",
+          "key": "Shift",
+          "code": "ShiftLeft",
+          "ctrl": true,
+          "shift": true,
+          "alt": false
+        },
+        {
+          "type": "keydown",
+          "field": "normal",
+          "key": "ArrowLeft",
+          "code": "ArrowLeft",
+          "ctrl": true,
+          "shift": true,
+          "alt": false
+        },
+        {
+          "type": "keydown",
+          "field": "normal",
+          "key": "e",
+          "code": "KeyE",
+          "ctrl": false,
+          "shift": false,
+          "alt": false
+        },
+        {
+          "type": "input",
+          "field": "normal"
+        },
+        {
+          "type": "keydown",
+          "field": "normal",
+          "key": "n",
+          "code": "KeyN",
+          "ctrl": false,
+          "shift": false,
+          "alt": false
+        },
+        {
+          "type": "input",
+          "field": "normal"
+        },
+        {
+          "type": "keydown",
+          "field": "normal",
+          "key": "d",
+          "code": "KeyD",
+          "ctrl": false,
+          "shift": false,
+          "alt": false
+        },
+        {
+          "type": "input",
+          "field": "normal"
+        },
+        {
+          "type": "keydown",
+          "field": "normal",
+          "key": "q",
+          "code": "KeyQ",
+          "ctrl": false,
+          "shift": false,
+          "alt": false
+        },
+        {
+          "type": "input",
+          "field": "normal"
+        }
+      ]
+    },
+    "fr": {
+      "ime": {
+        "source": "fr",
+        "engine": "xkb:fr::fra",
+        "hasFocus": true,
+        "preedit": false,
+        "purpose": 0,
+        "hints": 0,
+        "surrounding": [
+          "endqa",
+          5,
+          5
+        ]
+      },
+      "text": "endqa",
+      "events": [
+        {
+          "type": "keydown",
+          "field": "normal",
+          "key": "a",
+          "code": "KeyA",
+          "ctrl": false,
+          "shift": false,
+          "alt": false
+        },
+        {
+          "type": "input",
+          "field": "normal"
+        },
+        {
+          "type": "keydown",
+          "field": "normal",
+          "key": "c",
+          "code": "KeyC",
+          "ctrl": false,
+          "shift": false,
+          "alt": false
+        },
+        {
+          "type": "input",
+          "field": "normal"
+        },
+        {
+          "type": "keydown",
+          "field": "normal",
+          "key": "e",
+          "code": "KeyE",
+          "ctrl": false,
+          "shift": false,
+          "alt": false
+        },
+        {
+          "type": "input",
+          "field": "normal"
+        },
+        {
+          "type": "keydown",
+          "field": "normal",
+          "key": "m",
+          "code": "KeyM",
+          "ctrl": false,
+          "shift": false,
+          "alt": false
+        },
+        {
+          "type": "input",
+          "field": "normal"
+        },
+        {
+          "type": "keydown",
+          "field": "normal",
+          "key": "e",
+          "code": "KeyE",
+          "ctrl": false,
+          "shift": false,
+          "alt": false
+        },
+        {
+          "type": "input",
+          "field": "normal"
+        },
+        {
+          "type": "keydown",
+          "field": "normal",
+          "key": "n",
+          "code": "KeyN",
+          "ctrl": false,
+          "shift": false,
+          "alt": false
+        },
+        {
+          "type": "input",
+          "field": "normal"
+        },
+        {
+          "type": "keydown",
+          "field": "normal",
+          "key": "t",
+          "code": "KeyT",
+          "ctrl": false,
+          "shift": false,
+          "alt": false
+        },
+        {
+          "type": "input",
+          "field": "normal"
+        },
+        {
+          "type": "keydown",
+          "field": "normal",
+          "key": "Shift",
+          "code": "ShiftLeft",
+          "ctrl": false,
+          "shift": true,
+          "alt": false
+        },
+        {
+          "type": "keydown",
+          "field": "normal",
+          "key": "Z",
+          "code": "KeyZ",
+          "ctrl": false,
+          "shift": true,
+          "alt": false
+        },
+        {
+          "type": "input",
+          "field": "normal"
+        },
+        {
+          "type": "keydown",
+          "field": "normal",
+          "key": "Control",
+          "code": "ControlLeft",
+          "ctrl": true,
+          "shift": false,
+          "alt": false
+        },
+        {
+          "type": "keydown",
+          "field": "normal",
+          "key": "Shift",
+          "code": "ShiftLeft",
+          "ctrl": true,
+          "shift": true,
+          "alt": false
+        },
+        {
+          "type": "keydown",
+          "field": "normal",
+          "key": "ArrowLeft",
+          "code": "ArrowLeft",
+          "ctrl": true,
+          "shift": true,
+          "alt": false
+        },
+        {
+          "type": "keydown",
+          "field": "normal",
+          "key": "e",
+          "code": "KeyE",
+          "ctrl": false,
+          "shift": false,
+          "alt": false
+        },
+        {
+          "type": "input",
+          "field": "normal"
+        },
+        {
+          "type": "keydown",
+          "field": "normal",
+          "key": "n",
+          "code": "KeyN",
+          "ctrl": false,
+          "shift": false,
+          "alt": false
+        },
+        {
+          "type": "input",
+          "field": "normal"
+        },
+        {
+          "type": "keydown",
+          "field": "normal",
+          "key": "d",
+          "code": "KeyD",
+          "ctrl": false,
+          "shift": false,
+          "alt": false
+        },
+        {
+          "type": "input",
+          "field": "normal"
+        },
+        {
+          "type": "keydown",
+          "field": "normal",
+          "key": "q",
+          "code": "KeyQ",
+          "ctrl": false,
+          "shift": false,
+          "alt": false
+        },
+        {
+          "type": "input",
+          "field": "normal"
+        },
+        {
+          "type": "keydown",
+          "field": "normal",
+          "key": "a",
+          "code": "KeyQ",
+          "ctrl": false,
+          "shift": false,
+          "alt": false
+        },
+        {
+          "type": "input",
+          "field": "normal"
+        }
+      ]
+    }
+  }
+}

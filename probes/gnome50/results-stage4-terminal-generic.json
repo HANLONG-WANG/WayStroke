@@ -1,0 +1,136 @@
+{
+  "startBound": {
+    "x": 200,
+    "y": 300,
+    "stableId": 1,
+    "title": "Probe A",
+    "alive": true,
+    "focus": "Probe B",
+    "endTitle": "Probe A"
+  },
+  "afterCrossing": {
+    "x": 200,
+    "y": 300,
+    "stableId": 1,
+    "title": "Probe A",
+    "alive": true,
+    "focus": "Probe B",
+    "endTitle": "Probe B"
+  },
+  "afterTargetClosed": {
+    "x": 200,
+    "y": 300,
+    "stableId": 1,
+    "title": "Probe A",
+    "alive": false,
+    "focus": "Probe B",
+    "endTitle": "Probe B"
+  },
+  "terminalGeneric": {
+    "canonical": {
+      "value": "2003 "
+    },
+    "canonical-enter": {
+      "value": "2003"
+    },
+    "readline": {
+      "value": "2003 "
+    },
+    "password": {
+      "length": 5,
+      "matchesExpected": true
+    },
+    "password-enter": {
+      "length": 4,
+      "matchesExpected": true
+    },
+    "ime": {
+      "value": "你哈哦 2003 "
+    },
+    "raw": {
+      "value": "abc2003 "
+    }
+  },
+  "terminalGenericPreedit": {
+    "source": "rime",
+    "engine": "rime",
+    "hasFocus": true,
+    "preedit": true,
+    "purpose": 10,
+    "hints": 0,
+    "surrounding": [
+      null,
+      0,
+      0
+    ]
+  },
+  "terminalGenericEvents": {
+    "records": [
+      {
+        "confirm": "space",
+        "matched": true,
+        "focus": "WayStroke generic fixture"
+      },
+      {
+        "confirm": "enter",
+        "matched": false,
+        "focus": "WayStroke generic fixture"
+      },
+      {
+        "confirm": "enter",
+        "matched": true,
+        "focus": "WayStroke generic fixture"
+      },
+      {
+        "confirm": "space",
+        "matched": true,
+        "focus": "WayStroke generic fixture"
+      },
+      {
+        "confirm": "enter",
+        "matched": false,
+        "focus": "WayStroke generic fixture"
+      },
+      {
+        "confirm": "space",
+        "matched": true,
+        "focus": "WayStroke generic fixture"
+      },
+      {
+        "confirm": "enter",
+        "matched": false,
+        "focus": "WayStroke generic fixture"
+      },
+      {
+        "confirm": "enter",
+        "matched": true,
+        "focus": "WayStroke generic fixture"
+      },
+      {
+        "confirm": "space",
+        "matched": false,
+        "focus": "WayStroke generic fixture"
+      },
+      {
+        "confirm": "space",
+        "matched": true,
+        "focus": "WayStroke generic fixture"
+      },
+      {
+        "confirm": "enter",
+        "matched": false,
+        "focus": "WayStroke generic fixture"
+      },
+      {
+        "confirm": "space",
+        "matched": true,
+        "focus": "WayStroke generic fixture"
+      },
+      {
+        "confirm": "enter",
+        "matched": false,
+        "focus": "WayStroke generic fixture"
+      }
+    ]
+  }
+}

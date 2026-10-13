@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>WayStroke · 产品设计稿</title><link rel="icon" href="data:,"><link rel="stylesheet" href="style.css"></head>
+<body>
+<div class="review-tools"><strong>界面评审</strong><label>页面状态 <select id="review-state"><option value="default">默认示例</option><option value="empty">空状态</option><option value="error">错误示例</option></select></label><label>桌面状态 <select id="review-service"><option value="ready">正常连接</option><option value="missing">扩展未连接</option><option value="permission">等待鼠标授权</option><option value="locked">已锁屏</option><option value="error">连接中断</option><option value="unsupported">会话不受支持</option></select></label><button id="review-setup">初次设置</button><button id="review-execution">执行详情</button><details class="review-more"><summary>更多示例</summary><div class="review-more-panel"><label>输入场景 <select id="review-input"><option value="native">普通编辑区域</option><option value="xwayland">XWayland 编辑区域</option><option value="terminal">终端输入</option><option value="password">其他应用密码字段</option><option value="composition">输入法组合中</option><option value="unknown">编辑接口不可用</option></select></label><label>动作执行 <select id="review-execution-state"><option value="idle">空闲</option><option value="running">正在执行</option><option value="canceled">已取消</option></select></label><button id="review-reset">恢复示例数据</button><button id="preview-reopen" hidden>重新打开窗口</button></div></details><small>窗口外控件不属于最终应用 · 配置与执行结果为示例</small></div>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand"><span class="brand-icon">↳</span><div>WayStroke<small>让操作顺着手势发生</small></div></div>
+    <div class="nav-label">工作空间</div>
+    <nav aria-label="主导航">
+      <button class="nav active" data-page="rules"><span>⌁</span>手势规则<b id="rule-count"></b></button>
+      <button class="nav" data-page="gestures"><span>⌁</span>手势模板<b id="gesture-count"></b></button>
+      <button class="nav" data-page="actions"><span>≋</span>可复用动作<b id="workflow-count"></b></button>
+      <button class="nav" data-page="text"><span>Ƭ</span>文本替换<b id="text-count"></b></button>
+      <button class="nav" data-page="test"><span>◎</span>手势测试</button>
+      <button class="nav" data-page="runtime"><span>◉</span>运行状态</button>
+      <button class="nav" data-page="configuration"><span>⇅</span>配置与备份</button>
+      <button class="nav" data-page="settings"><span>⚙</span>设置</button>
+    </nav>
+    <div class="sidebar-bottom"><div class="environment"><span class="status-dot"></span><div>GNOME · Wayland<small>设计稿中的模拟环境</small></div></div><div class="prototype-label">WayStroke <span>0.1.0</span></div></div>
+  </aside>
+  <div class="workspace">
+    <header class="appbar" data-tauri-drag-region><span data-tauri-drag-region>偏好设置</span><div><span class="draft-pill">GNOME 50.5</span><button id="pause" class="subtle">Ⅱ 暂停手势</button><div class="window-controls" aria-label="窗口控制"><button id="window-minimize" class="window-button" aria-label="最小化窗口" title="最小化"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 11h10"/></svg></button><button id="window-maximize" class="window-button" aria-label="最大化窗口" title="最大化"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3.5" y="3.5" width="9" height="9"/></svg></button><button id="window-close" class="window-button window-close" aria-label="关闭设置窗口" title="关闭设置窗口 · 后台继续运行"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 4 8 8m0-8-8 8"/></svg></button></div></div></header>
+    <main id="main"></main>
+  </div>
+</div>
+<div id="toast" role="status" aria-live="polite"></div>
+<dialog id="confirm-dialog" aria-label="确认更改"></dialog>
+<dialog id="message-dialog" aria-label="消息"></dialog>
+<dialog id="setup-dialog" aria-label="初次设置"></dialog>
+<dialog id="execution-dialog" aria-label="执行预览"></dialog>
+<dialog id="snippet-dialog"></dialog>
+<dialog id="workflow-dialog" aria-label="另存可复用动作"></dialog>
+<dialog id="variable-dialog" aria-label="插入变量"></dialog>
+<dialog id="window-dialog" aria-label="模拟选取窗口"></dialog>
+<dialog id="action-dialog" aria-label="选择动作"></dialog>
+<script src="actions.js"></script>
+<script src="form-details.js"></script>
+<script src="configuration.js"></script>
+<script src="gestures.js"></script>
+<script src="runtime.js"></script>
+<script src="composer.js"></script>
+<script src="review.js"></script>
+<script src="window.js"></script>
+<script src="app.js"></script>
+</body></html>

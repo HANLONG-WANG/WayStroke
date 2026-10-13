@@ -1,0 +1,24 @@
+[
+  {
+    "case": "real-GNOME + synthetic-input-service-ordering",
+    "before": {
+      "x": 200,
+      "y": 300,
+      "stableId": 1,
+      "title": "Probe A",
+      "alive": true,
+      "focus": "Probe B",
+      "endTitle": "Probe A"
+    },
+    "after": {
+      "x": 200,
+      "y": 300,
+      "stableId": 1,
+      "title": "Probe A",
+      "alive": true,
+      "focus": "Probe B",
+      "endTitle": "Probe B"
+    },
+    "passed": true
+  }
+]

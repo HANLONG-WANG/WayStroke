@@ -1,0 +1,12 @@
+<!doctype html><meta charset="utf-8"><title>WayStroke compatibility fixture</title>
+<style>body{font:18px sans-serif;margin:40px;background:#fafafa}input,textarea{display:block;width:70%;margin:16px 0;padding:12px;font:20px sans-serif}#editable{border:1px solid #aaa;padding:15px;width:70%;min-height:40px}</style>
+<h1>WayStroke — disposable input fixture</h1>
+<input id="normal" placeholder="Normal text"><textarea id="multiline" placeholder="Multiline"></textarea>
+<div id="editable" contenteditable="true">Editable</div><input id="password" type="password" placeholder="Password">
+<script>
+const events=[];let requested='';
+for(const type of ['keydown','input','compositionstart','compositionupdate','compositionend'])document.addEventListener(type,e=>{events.push({type,field:e.target.id,key:e.key,code:e.code,ctrl:e.ctrlKey,shift:e.shiftKey,alt:e.altKey});if(events.length>30)events.shift()});
+setInterval(async()=>{const q=await(await fetch('/focus')).json();if(q.field&&q.field!==requested){requested=q.field;document.getElementById(q.field).focus()}
+fetch('/state',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({normal:normal.value,multiline:multiline.value,editable:editable.textContent,passwordLength:password.value.length,active:document.activeElement.id,events})});},100);
+normal.focus();
+</script>

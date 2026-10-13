@@ -1,0 +1,97 @@
+{
+  "startBound": {
+    "x": 200,
+    "y": 300,
+    "stableId": 1,
+    "title": "Probe A",
+    "alive": true,
+    "focus": "Probe B",
+    "endTitle": "Probe A"
+  },
+  "afterCrossing": {
+    "x": 200,
+    "y": 300,
+    "stableId": 1,
+    "title": "Probe A",
+    "alive": true,
+    "focus": "Probe B",
+    "endTitle": "Probe B"
+  },
+  "afterTargetClosed": {
+    "x": 200,
+    "y": 300,
+    "stableId": 1,
+    "title": "Probe A",
+    "alive": false,
+    "focus": "Probe B",
+    "endTitle": "Probe B"
+  },
+  "terminalBefore": {
+    "pointer": [
+      850,
+      360,
+      0
+    ],
+    "overview": false,
+    "counts": {
+      "buttons": 0,
+      "keys": 0,
+      "motions": 0
+    },
+    "focus": "WayStroke terminal fixture",
+    "ime": {
+      "source": "us",
+      "engine": "xkb:us::eng",
+      "hasFocus": true,
+      "preedit": false,
+      "purpose": 10,
+      "hints": 0,
+      "surrounding": [
+        null,
+        null,
+        null
+      ]
+    },
+    "windows": [
+      {
+        "title": "Probe B",
+        "rect": {
+          "x": 700,
+          "y": 180,
+          "width": 420,
+          "height": 260
+        },
+        "clientType": 0
+      },
+      {
+        "title": "WayStroke terminal fixture",
+        "rect": {
+          "x": 262,
+          "y": 136,
+          "width": 756,
+          "height": 561
+        },
+        "clientType": 0
+      }
+    ]
+  },
+  "terminalTyped": {
+    "ready": true
+  },
+  "terminalIme": {
+    "source": "us",
+    "engine": "xkb:us::eng",
+    "hasFocus": true,
+    "preedit": false,
+    "purpose": 10,
+    "hints": 0,
+    "surrounding": [
+      null,
+      null,
+      null
+    ]
+  },
+  "terminalLineReplacement": {
+    "line": "2003 "
+  }
+}

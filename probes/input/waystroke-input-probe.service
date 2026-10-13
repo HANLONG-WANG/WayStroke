@@ -1,0 +1,29 @@
+[Unit]
+Description=WayStroke mouse input capability probe (idle until explicitly armed)
+After=systemd-udevd.service
+
+[Service]
+Type=simple
+EnvironmentFile=/etc/waystroke-input-probe.conf
+ExecStart=/usr/bin/python3 -B /usr/local/lib/waystroke-input-probe/daemon.py --uid ${WAYSTROKE_PROBE_UID}
+RuntimeDirectory=waystroke-input-probe
+RuntimeDirectoryMode=0755
+UMask=0077
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_UNIX
+CapabilityBoundingSet=CAP_CHOWN
+DevicePolicy=closed
+DeviceAllow=/dev/uinput rw
+DeviceAllow=char-input rw
+ReadWritePaths=/run/waystroke-input-probe
+TimeoutStopSec=5
+Restart=no
+
+[Install]
+WantedBy=multi-user.target

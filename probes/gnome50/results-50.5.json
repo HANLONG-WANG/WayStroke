@@ -1,0 +1,626 @@
+{
+  "initial": {
+    "pointer": [
+      0,
+      0,
+      0
+    ],
+    "overview": false,
+    "counts": {
+      "buttons": 0,
+      "keys": 0,
+      "motions": 0
+    },
+    "focus": "Probe B",
+    "ime": {
+      "source": "us",
+      "engine": "xkb:us::eng",
+      "hasFocus": true,
+      "preedit": false,
+      "purpose": 0,
+      "hints": 0,
+      "surrounding": [
+        "",
+        0,
+        0
+      ]
+    },
+    "windows": [
+      {
+        "title": "Probe A",
+        "rect": {
+          "x": 80,
+          "y": 180,
+          "width": 420,
+          "height": 260
+        },
+        "clientType": 0
+      },
+      {
+        "title": "Probe B",
+        "rect": {
+          "x": 700,
+          "y": 180,
+          "width": 420,
+          "height": 260
+        },
+        "clientType": 0
+      }
+    ]
+  },
+  "hitNonfocused": {
+    "title": "Probe A",
+    "actorType": "unknown_MetaSurfaceActorWayland",
+    "focus": "Probe B"
+  },
+  "beforeRightHit": {
+    "title": "Probe B",
+    "actorType": "unknown_MetaSurfaceActorWayland",
+    "focus": "Probe B"
+  },
+  "pointerHit": {
+    "title": "Probe B",
+    "actorType": "unknown_MetaSurfaceActorWayland",
+    "focus": "Probe B"
+  },
+  "rightClick": {
+    "Probe A": {
+      "text": "",
+      "password": "",
+      "rightPress": 0,
+      "rightRelease": 0,
+      "preeditEvents": 0
+    },
+    "Probe B": {
+      "text": "",
+      "password": "",
+      "rightPress": 1,
+      "rightRelease": 1,
+      "preeditEvents": 0
+    }
+  },
+  "stageAfterRightClick": {
+    "pointer": [
+      850,
+      360,
+      0
+    ],
+    "overview": false,
+    "counts": {
+      "buttons": 0,
+      "keys": 0,
+      "motions": 0
+    },
+    "focus": "Probe B",
+    "ime": {
+      "source": "us",
+      "engine": "xkb:us::eng",
+      "hasFocus": true,
+      "preedit": false,
+      "purpose": 0,
+      "hints": 0,
+      "surrounding": [
+        null,
+        null,
+        null
+      ]
+    },
+    "windows": [
+      {
+        "title": "Probe A",
+        "rect": {
+          "x": 80,
+          "y": 180,
+          "width": 420,
+          "height": 260
+        },
+        "clientType": 0
+      },
+      {
+        "title": "Probe B",
+        "rect": {
+          "x": 700,
+          "y": 180,
+          "width": 420,
+          "height": 260
+        },
+        "clientType": 0
+      }
+    ]
+  },
+  "virtualKeys": {
+    "Probe A": {
+      "text": "",
+      "password": "",
+      "rightPress": 0,
+      "rightRelease": 0,
+      "preeditEvents": 0
+    },
+    "Probe B": {
+      "text": "abc ",
+      "password": "",
+      "rightPress": 1,
+      "rightRelease": 1,
+      "preeditEvents": 0
+    }
+  },
+  "imeNormal": {
+    "pointer": [
+      850,
+      360,
+      0
+    ],
+    "overview": false,
+    "counts": {
+      "buttons": 0,
+      "keys": 0,
+      "motions": 0
+    },
+    "focus": "Probe B",
+    "ime": {
+      "source": "us",
+      "engine": "xkb:us::eng",
+      "hasFocus": true,
+      "preedit": false,
+      "purpose": 0,
+      "hints": 0,
+      "surrounding": [
+        "abc ",
+        4,
+        4
+      ]
+    },
+    "windows": [
+      {
+        "title": "Probe A",
+        "rect": {
+          "x": 80,
+          "y": 180,
+          "width": 420,
+          "height": 260
+        },
+        "clientType": 0
+      },
+      {
+        "title": "Probe B",
+        "rect": {
+          "x": 700,
+          "y": 180,
+          "width": 420,
+          "height": 260
+        },
+        "clientType": 0
+      }
+    ]
+  },
+  "replace": {
+    "Probe A": {
+      "text": "",
+      "password": "",
+      "rightPress": 0,
+      "rightRelease": 0,
+      "preeditEvents": 0
+    },
+    "Probe B": {
+      "text": "2003 ",
+      "password": "",
+      "rightPress": 1,
+      "rightRelease": 1,
+      "preeditEvents": 0
+    }
+  },
+  "duringPreedit": {
+    "Probe A": {
+      "text": "",
+      "password": "",
+      "rightPress": 0,
+      "rightRelease": 0,
+      "preeditEvents": 0
+    },
+    "Probe B": {
+      "text": "2003 ",
+      "password": "",
+      "rightPress": 1,
+      "rightRelease": 1,
+      "preeditEvents": 0
+    }
+  },
+  "imePreedit": {
+    "pointer": [
+      850,
+      360,
+      0
+    ],
+    "overview": false,
+    "counts": {
+      "buttons": 0,
+      "keys": 0,
+      "motions": 0
+    },
+    "focus": "Probe B",
+    "ime": {
+      "source": "us",
+      "engine": "xkb:us::eng",
+      "hasFocus": true,
+      "preedit": false,
+      "purpose": 0,
+      "hints": 0,
+      "surrounding": [
+        "2003 ",
+        5,
+        5
+      ]
+    },
+    "windows": [
+      {
+        "title": "Probe A",
+        "rect": {
+          "x": 80,
+          "y": 180,
+          "width": 420,
+          "height": 260
+        },
+        "clientType": 0
+      },
+      {
+        "title": "Probe B",
+        "rect": {
+          "x": 700,
+          "y": 180,
+          "width": 420,
+          "height": 260
+        },
+        "clientType": 0
+      }
+    ]
+  },
+  "unicodeCommit": {
+    "Probe A": {
+      "text": "",
+      "password": "",
+      "rightPress": 0,
+      "rightRelease": 0,
+      "preeditEvents": 0
+    },
+    "Probe B": {
+      "text": "2003 中文",
+      "password": "",
+      "rightPress": 1,
+      "rightRelease": 1,
+      "preeditEvents": 0
+    }
+  },
+  "rimePreedit": {
+    "pointer": [
+      850,
+      360,
+      0
+    ],
+    "overview": false,
+    "counts": {
+      "buttons": 0,
+      "keys": 0,
+      "motions": 0
+    },
+    "focus": "Probe B",
+    "ime": {
+      "source": "rime",
+      "engine": "rime",
+      "hasFocus": true,
+      "preedit": true,
+      "purpose": 0,
+      "hints": 0,
+      "surrounding": [
+        "2003 中文",
+        7,
+        7
+      ]
+    },
+    "windows": [
+      {
+        "title": "Probe A",
+        "rect": {
+          "x": 80,
+          "y": 180,
+          "width": 420,
+          "height": 260
+        },
+        "clientType": 0
+      },
+      {
+        "title": "Probe B",
+        "rect": {
+          "x": 700,
+          "y": 180,
+          "width": 420,
+          "height": 260
+        },
+        "clientType": 0
+      }
+    ]
+  },
+  "rimeBeforeCommit": {
+    "Probe A": {
+      "text": "",
+      "password": "",
+      "rightPress": 0,
+      "rightRelease": 0,
+      "preeditEvents": 0
+    },
+    "Probe B": {
+      "text": "2003 中文",
+      "password": "",
+      "rightPress": 1,
+      "rightRelease": 1,
+      "preeditEvents": 0
+    }
+  },
+  "rimeAfterCommit": {
+    "Probe A": {
+      "text": "",
+      "password": "",
+      "rightPress": 0,
+      "rightRelease": 0,
+      "preeditEvents": 0
+    },
+    "Probe B": {
+      "text": "2003 中文你哈哦",
+      "password": "",
+      "rightPress": 1,
+      "rightRelease": 1,
+      "preeditEvents": 0
+    }
+  },
+  "rimeCommittedState": {
+    "pointer": [
+      850,
+      360,
+      0
+    ],
+    "overview": false,
+    "counts": {
+      "buttons": 0,
+      "keys": 0,
+      "motions": 0
+    },
+    "focus": "Probe B",
+    "ime": {
+      "source": "rime",
+      "engine": "rime",
+      "hasFocus": true,
+      "preedit": false,
+      "purpose": 0,
+      "hints": 0,
+      "surrounding": [
+        "2003 中文你哈哦",
+        10,
+        10
+      ]
+    },
+    "windows": [
+      {
+        "title": "Probe A",
+        "rect": {
+          "x": 80,
+          "y": 180,
+          "width": 420,
+          "height": 260
+        },
+        "clientType": 0
+      },
+      {
+        "title": "Probe B",
+        "rect": {
+          "x": 700,
+          "y": 180,
+          "width": 420,
+          "height": 260
+        },
+        "clientType": 0
+      }
+    ]
+  },
+  "imePassword": {
+    "pointer": [
+      850,
+      360,
+      0
+    ],
+    "overview": false,
+    "counts": {
+      "buttons": 0,
+      "keys": 0,
+      "motions": 0
+    },
+    "focus": "Probe B",
+    "ime": {
+      "source": "us",
+      "engine": "xkb:us::eng",
+      "hasFocus": true,
+      "preedit": false,
+      "purpose": 8,
+      "hints": 6144,
+      "surrounding": [
+        "",
+        0,
+        0
+      ]
+    },
+    "windows": [
+      {
+        "title": "Probe A",
+        "rect": {
+          "x": 80,
+          "y": 180,
+          "width": 420,
+          "height": 260
+        },
+        "clientType": 0
+      },
+      {
+        "title": "Probe B",
+        "rect": {
+          "x": 700,
+          "y": 180,
+          "width": 420,
+          "height": 260
+        },
+        "clientType": 0
+      }
+    ]
+  },
+  "grabbedRightClick": {
+    "Probe A": {
+      "text": "",
+      "password": "",
+      "rightPress": 0,
+      "rightRelease": 0,
+      "preeditEvents": 0
+    },
+    "Probe B": {
+      "text": "2003 中文你哈哦",
+      "password": "",
+      "rightPress": 1,
+      "rightRelease": 1,
+      "preeditEvents": 0
+    }
+  },
+  "stageDuringGrab": {
+    "pointer": [
+      850,
+      360,
+      0
+    ],
+    "overview": false,
+    "counts": {
+      "buttons": 2,
+      "keys": 0,
+      "motions": 0
+    },
+    "focus": "Probe B",
+    "ime": {
+      "source": "rime",
+      "engine": "dummy",
+      "hasFocus": false,
+      "preedit": false,
+      "purpose": 8,
+      "hints": 6144,
+      "surrounding": [
+        null,
+        null,
+        null
+      ]
+    },
+    "windows": [
+      {
+        "title": "Probe A",
+        "rect": {
+          "x": 80,
+          "y": 180,
+          "width": 420,
+          "height": 260
+        },
+        "clientType": 0
+      },
+      {
+        "title": "Probe B",
+        "rect": {
+          "x": 700,
+          "y": 180,
+          "width": 420,
+          "height": 260
+        },
+        "clientType": 0
+      }
+    ]
+  },
+  "replayedRightClick": {
+    "Probe A": {
+      "text": "",
+      "password": "",
+      "rightPress": 0,
+      "rightRelease": 0,
+      "preeditEvents": 0
+    },
+    "Probe B": {
+      "text": "2003 中文你哈哦",
+      "password": "",
+      "rightPress": 2,
+      "rightRelease": 2,
+      "preeditEvents": 0
+    }
+  },
+  "maximized": {
+    "pointer": [
+      850,
+      360,
+      0
+    ],
+    "overview": false,
+    "counts": {
+      "buttons": 2,
+      "keys": 0,
+      "motions": 0
+    },
+    "focus": "Probe B",
+    "ime": {
+      "source": "us",
+      "engine": "xkb:us::eng",
+      "hasFocus": true,
+      "preedit": false,
+      "purpose": 8,
+      "hints": 6144,
+      "surrounding": [
+        null,
+        null,
+        null
+      ]
+    },
+    "windows": [
+      {
+        "title": "Probe A",
+        "rect": {
+          "x": 0,
+          "y": 32,
+          "width": 1280,
+          "height": 768
+        },
+        "clientType": 0
+      },
+      {
+        "title": "Probe B",
+        "rect": {
+          "x": 700,
+          "y": 180,
+          "width": 420,
+          "height": 260
+        },
+        "clientType": 0
+      }
+    ]
+  },
+  "checks": {
+    "nonfocused_window_hit": true,
+    "normal_right_click_reaches_client": true,
+    "normal_right_click_not_observable_by_stage": true,
+    "grab_blocks_client": true,
+    "replay_reaches_client": true,
+    "virtual_keyboard": true,
+    "replace_surrounding_text": true,
+    "unicode_commit": true,
+    "rime_preedit": true,
+    "rime_commit": true,
+    "password_purpose": true,
+    "maximize": true
+  },
+  "environment": {
+    "gnomeShell": "50.5",
+    "mutter": "50.5",
+    "fedora": "44",
+    "gtk": "4.22.5",
+    "ibus": "1.5.34",
+    "session": "isolated headless Wayland",
+    "physicalMouseTested": false,
+    "xwaylandTested": false
+  }
+}
