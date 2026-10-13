@@ -1,0 +1,10 @@
+{
+  "shellVersion": "50.5",
+  "extensionFilesMatch": true,
+  "devicesReady": true,
+  "ordinal": 1,
+  "stage": "ready",
+  "markerToSnapshotMs": 73.0,
+  "physicalGrab": false,
+  "scope": "Main session prepared-device Ready marker only; Begin/Finish and physical stroke still unverified"
+}

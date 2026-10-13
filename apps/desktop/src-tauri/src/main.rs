@@ -7,14 +7,23 @@ use zbus::names::OwnedBusName;
 #[tauri::command]
 fn default_config()->String { serde_json::to_string(&waystroke_protocol::Snapshot::default()).expect("default snapshot") }
 
+static CORE_CONNECTION:tokio::sync::OnceCell<zbus::Connection>=tokio::sync::OnceCell::const_new();
 #[tauri::command]
 async fn core_call(method:String,payload:String)->Result<String,String> {
-    let connection=zbus::Connection::session().await.map_err(|e|e.to_string())?;
-    let proxy=zbus::Proxy::new(&connection,CORE_NAME,CORE_PATH,CORE_INTERFACE).await.map_err(|e|e.to_string())?;
+    let connection=CORE_CONNECTION.get_or_try_init(zbus::Connection::session).await.map_err(|e|e.to_string())?;
+    let proxy=zbus::Proxy::new(connection,CORE_NAME,CORE_PATH,CORE_INTERFACE).await.map_err(|e|e.to_string())?;
     let result:zbus::Result<String>=match method.as_str() {
         "get_config"=>proxy.call("GetConfig",&()).await,
         "validate_document"=>proxy.call("ValidateDocument",&(payload,)).await,
         "commit_config"=>proxy.call("CommitConfig",&(payload,)).await,
+        "get_runtime"=>proxy.call("GetRuntime",&()).await,
+        "list_devices"=>proxy.call("ListDevices",&()).await,
+        "list_windows"=>proxy.call("ListWindows",&()).await,
+        "get_context"=>proxy.call("GetContext",&()).await,
+        "run_rule"=>proxy.call("RunRule",&(payload,)).await,
+        "runtime_control"=>proxy.call("RuntimeControl",&(payload,)).await,
+        "compare_strokes"=>proxy.call("CompareStrokes",&(payload,)).await,
+        "recognize_stroke"=>proxy.call("RecognizeStroke",&(payload,)).await,
         "get_status"=>proxy.call("GetStatus",&()).await,
         "quit"=>proxy.call("Quit",&()).await,
         _=>return Err("不支持的本地操作".into()),
@@ -60,11 +69,16 @@ fn main() {
                     let proxy=zbus::Proxy::new(&connection,CORE_NAME,CORE_PATH,CORE_INTERFACE).await?;
                     let dbus=zbus::fdo::DBusProxy::new(&connection).await?;
                     let mut config=proxy.receive_signal("ConfigChanged").await?;
+                    let mut runtime=proxy.receive_signal("RuntimeChanged").await?;
                     let mut owners=dbus.receive_name_owner_changed().await?;
                     loop {
                         tokio::select! {
                             message=config.next()=>match message {
                                 Some(m)=>{let (snapshot,):(String,)=m.body().deserialize()?;let _=handle.emit("config-changed",snapshot);},
+                                None=>break,
+                            },
+                            message=runtime.next()=>match message {
+                                Some(m)=>{let (event,):(String,)=m.body().deserialize()?;let _=handle.emit("runtime-changed",event);},
                                 None=>break,
                             },
                             message=owners.next()=>match message {

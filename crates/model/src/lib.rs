@@ -52,9 +52,10 @@ pub struct Gesture { pub id: String, pub name: String, pub main_sample_id: Strin
 pub struct TitleCondition { pub operator: TitleOperator, pub value: String }
 #[derive(Clone, Debug, Serialize, Deserialize, TS, PartialEq)]
 pub enum TitleOperator { #[serde(rename="包含")] Contains, #[serde(rename="等于")] Equals, #[serde(rename="不包含")] NotContains }
+fn default_rule_feedback()->bool { true }
 #[derive(Clone, Debug, Serialize, Deserialize, TS, PartialEq)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
-pub struct Rule { pub id: String, pub name: String, pub enabled: bool, pub gesture_id: String, pub auxiliary_buttons: Vec<u16>, pub application_id: Option<String>, pub title_match: TitleCondition, pub steps: Vec<Step> }
+pub struct Rule { pub id: String, pub name: String, pub enabled: bool, #[serde(default="default_rule_feedback")] pub feedback: bool, pub gesture_id: String, pub auxiliary_buttons: Vec<u16>, pub application_id: Option<String>, pub title_match: TitleCondition, pub steps: Vec<Step> }
 #[derive(Clone, Debug, Serialize, Deserialize, TS, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 pub enum ValueKind { Text, Number, Boolean, List, Window, Data }
@@ -128,7 +129,7 @@ pub struct StepResult {
 #[derive(Clone, Debug, Serialize, Deserialize, TS, PartialEq)]
 #[serde(rename_all="camelCase", deny_unknown_fields)]
 pub struct Execution {
-    pub id: String, pub revision: u32, pub context: StartContext, pub state: ExecutionState,
+    pub id: String, pub name:String, pub revision: u32, pub context: StartContext, pub state: ExecutionState,
     pub started_at: Option<String>, pub finished_at: Option<String>,
     pub reason: Option<String>, pub steps: Vec<StepResult>,
 }

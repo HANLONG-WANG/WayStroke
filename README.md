@@ -12,7 +12,7 @@
 - [完整开发计划与验收清单](docs/implementation-plan.md)
 - [界面设计稿预览](design/README.md)
 
-采用 Tauri 2/TypeScript 界面、Rust 普通用户后台、GJS GNOME 扩展与独立特权鼠标服务。完整开发计划已落地，覆盖逐页真实功能、69 项动作、进程接口、任务依赖和发布验收。UI 必须按 HTML 一比一复刻；只有界面或固定样本反馈不算交付。阶段 A 的代码位于 `apps/desktop`、`crates/model`、`crates/protocol` 和 `crates/core`；接下来按阶段 B 接入真实鼠标手势。
+采用 Tauri 2/TypeScript 界面、Rust 普通用户后台、GJS GNOME 扩展与独立特权鼠标服务。完整开发计划已落地，覆盖逐页真实功能、69 项动作、进程接口、任务依赖和发布验收。UI 必须按 HTML 一比一复刻；只有界面或固定样本反馈不算交付。阶段 A 的代码位于 `apps/desktop`、`crates/model`、`crates/protocol` 和 `crates/core`；阶段 B 已完成真实鼠标手势闭环，包含正式识别、录制互斥、实时名称及基本桌面执行器；重插验证由用户明确选择跳过。证据见 [fixtures/phase-b](fixtures/phase-b/README.md)，其余产品能力继续按 C–F 实施。
 
 设计稿预览：
 
@@ -44,3 +44,14 @@ python3 scripts/check-ui.py
 ```
 
 原生 UI 检查在独立 GNOME、私有 D-Bus 和临时 XDG 目录中运行，不接管真实鼠标。需要 `python3-gobject`、GNOME Shell、`WebKitWebDriver` 和 `tauri-driver`；后者可用 `cargo install tauri-driver --version 2.1.0 --locked` 安装，也可通过 `WAYSTROKE_TAURI_DRIVER` 指定路径。检查会输出临时截图与结果目录。视觉基线和阶段 A 证据见 [fixtures/ui-baseline](fixtures/ui-baseline/README.md)。
+
+阶段 B 开发接入（GNOME 50.5，先构建）：
+
+```sh
+sudo bash scripts/install-dev-input.sh --user "$(id -un)"
+bash scripts/install-dev-extension.sh
+```
+
+鼠标服务安装后保持空闲，不设置开机启动；安装脚本会重新开启已有扩展。当前 GNOME 50.5 会缓存已导入的 JavaScript，重新开启不能刷新已修改的代码；需要新桌面会话才会加载代码更新。仅重新启用原版本无需注销。启动桌面应用，在设置中选择实际鼠标，并完成接入向导后才会接管。`bash scripts/install-dev-extension.sh --uninstall` 移除开发扩展；鼠标服务卸载使用 `sudo bash scripts/install-dev-input.sh --uninstall`。
+
+`python3 scripts/check-gnome.py` 使用隔离 GNOME、测试应用和临时配置，检查正式扩展以及 core 快捷键/启动/窗口执行器，不选择物理鼠标。不能用该结果替代 G304 的按键、屏障时序、拔插和锁屏实测。

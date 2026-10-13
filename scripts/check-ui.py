@@ -9,6 +9,8 @@ if '--inside' not in sys.argv:
     for name in ['runtime','config','data','cache']:(root/name).mkdir(mode=0o700)
     ext=root/'data/gnome-shell/extensions/waystroke-probe@local';ext.mkdir(parents=True)
     for name in ['extension.js','metadata.json','terminal-monitor.js']:shutil.copy(REPO/'probes/gnome50'/name,ext/name)
+    formal=root/'data/gnome-shell/extensions/waystroke@local';formal.mkdir()
+    for name in ['extension.js','metadata.json']:shutil.copy(REPO/'extension'/name,formal/name)
     helper=ext/'extension.js';helper.write_text(helper.read_text().replace('clientType:a.meta_window.get_client_type()', 'clientType:a.meta_window.get_client_type(),minimized:a.meta_window.minimized'))
     env=os.environ.copy();env.update(XDG_RUNTIME_DIR=str(root/'runtime'),XDG_CONFIG_HOME=str(root/'config'),XDG_DATA_HOME=str(root/'data'),XDG_CACHE_HOME=str(root/'cache'),GSETTINGS_BACKEND='keyfile',LIBGL_ALWAYS_SOFTWARE='1',GIO_USE_VFS='local',WAYSTROKE_PROBE_DIR=str(root),GDK_BACKEND='wayland',GSK_RENDERER='cairo',WAYLAND_DISPLAY='waystroke-ui-check-0')
     for name in ['DISPLAY','IBUS_ADDRESS','AT_SPI_BUS_ADDRESS']:env.pop(name,None)
@@ -38,7 +40,9 @@ port=free_port();native_port=free_port();session=None
 base=f'http://127.0.0.1:{port}'
 def http(method,path,payload=None):
     request=urllib.request.Request(base+path,data=None if payload is None else json.dumps(payload).encode(),headers={'Content-Type':'application/json'},method=method)
-    result=json.load(urllib.request.urlopen(request,timeout=30))
+    try:response=urllib.request.urlopen(request,timeout=30)
+    except urllib.error.HTTPError as error:raise RuntimeError(error.read().decode()) from error
+    result=json.load(response)
     if isinstance(result.get('value'),dict) and result['value'].get('error'):raise RuntimeError(result['value'])
     return result['value']
 def execute(script):return http('POST',f'/session/{session}/execute/sync',{'script':script,'args':[]})
@@ -51,7 +55,7 @@ def draw(selector):
     window=[w for w in shell({'action':'snapshot'})['windows'] if w['title']=='WayStroke'][0]['rect']
     shell({'action':'activate','title':'WayStroke'})
     shell({'action':'pointer','x':window['x']+x,'y':window['y']+y})
-    time.sleep(.1);shell({'action':'button','button':3,'pressed':True});time.sleep(.05)
+    wait(lambda:core('GetRuntime')['value']['recording']=='canvas');time.sleep(.05);shell({'action':'button','button':3,'pressed':True});time.sleep(.05)
     for dx,dy in [(25,10),(50,40),(75,20),(100,70)]:
         shell({'action':'pointer','x':window['x']+x+dx,'y':window['y']+y+dy});time.sleep(.08)
     shell({'action':'button','button':3,'pressed':False});time.sleep(.1)
@@ -61,9 +65,11 @@ def capture(name,dialog=None):
     time.sleep(.25) # WebKit paint follows the synchronous DOM callback.
     (root/name).write_bytes(base64.b64decode(http('GET',f'/session/{session}/screenshot')))
 
-def click(selector):execute(f'document.querySelector({json.dumps(selector)}).click();return true;')
+def click(selector):
+    wait(lambda:execute(f'return Boolean(document.querySelector({json.dumps(selector)}));'))
+    execute(f'document.querySelector({json.dumps(selector)}).click();return true;')
 try:
-    for schema,key,value in [('org.gnome.shell','enabled-extensions',"['waystroke-probe@local']"),('org.gnome.shell','disable-user-extensions','false'),('org.gnome.desktop.interface','enable-hot-corners','false')]:subprocess.run(['gsettings','set',schema,key,value],check=True)
+    for schema,key,value in [('org.gnome.shell','enabled-extensions',"['waystroke@local','waystroke-probe@local']"),('org.gnome.shell','disable-user-extensions','false'),('org.gnome.desktop.interface','enable-hot-corners','false')]:subprocess.run(['gsettings','set',schema,key,value],check=True)
     spawn('shell',['gnome-shell','--headless','--wayland','--no-x11','--wayland-display=waystroke-ui-check-0','--virtual-monitor=1440x1000'])
     wait(lambda:shell({'action':'snapshot'}))
     spawn('core',[str(REPO/'target/debug/waystroke-core')]);wait(lambda:core('GetConfig')['status']=='ok')
@@ -116,7 +122,30 @@ try:
     click('.nav[data-page="rules"]');click('#new-rule');fill('#rule-name','配置测试')
     gesture=core('GetConfig')['value']['config']['gestures'][0]['id']
     execute(f'const e=document.querySelector("#rule-gesture");e.value={json.dumps(gesture)};e.dispatchEvent(new Event("change",{{bubbles:true}}));return true;')
-    click('#save-rule');wait(lambda:len(core('GetConfig')['value']['config']['rules'])==1)
+    click('#pick-rule-window');wait(lambda:execute('return Boolean(document.querySelector("#window-dialog .window-picker button"));'));click('#window-dialog .window-picker button')
+    click('#rule-feedback');click('#save-rule');wait(lambda:len(core('GetConfig')['value']['config']['rules'])==1)
+    saved=core('GetConfig')['value']['config'];assert saved['rules'][0]['applicationId'];assert saved['applications'][0]['name']==saved['rules'][0]['applicationId']
+    assert saved['rules'][0]['feedback'] is False
+    results['ruleFeedbackSaved']=True
+    results['pickedApplicationSavesWithName']=True
+    snapshot=core('GetConfig')['value'];rule=snapshot['config']['rules'][0];rule['steps'][0].update(action='wait',params={'value':{'mode':'literal','value':{'kind':'number','value':1000}}})
+    assert core('CommitConfig',{'requestId':'ui-execution','expectedRevision':snapshot['revision'],'config':snapshot['config']})['status']=='ok'
+    wait(lambda:execute('return document.querySelector("#steps")?.textContent.includes("等待");'))
+    click('.nav[data-page="test"]');draw('#canvas')
+    wait(lambda:execute('return document.querySelector("#test-match").textContent;')=='配置测试')
+    assert execute('return document.querySelector("#test-score").textContent;')=='100.0%'
+    results['formalRecognitionPage']=True
+    assert core('GetRuntime')['value']['recording']=='canvas'
+    click('.nav[data-page="rules"]');wait(lambda:core('GetRuntime')['value']['recording'] is None)
+    results['recordingModeReleasedOnNavigation']=True
+    click('.nav[data-page="test"]');draw('#canvas');wait(lambda:execute('return Boolean(document.querySelector("#preview-matched-action"));'))
+    click('#preview-matched-action');wait(lambda:execute('return Boolean(document.querySelector("#window-dialog .window-picker button"));'));click('#window-dialog .window-picker button')
+    wait(lambda:execute('return document.querySelector("#main h1").textContent;')=='运行状态')
+    wait(lambda:len(core('GetRuntime')['value']['executions'])==1 and core('GetRuntime')['value']['executions'][0]['state']=='succeeded')
+    wait(lambda:execute('return Boolean(document.querySelector("#runtime-log [data-execution]"));'))
+    click('#runtime-log [data-execution]');assert execute('return document.querySelector("#execution-dialog").open;');capture('dialog-real-execution.png','#execution-dialog');click('#dismiss-execution')
+    results['realExecutionFromInspector']=True
+    click('.nav[data-page="rules"]')
     results['continuousRuleScroll']=execute('const e=document.querySelector("#editor"),f=e.querySelector(".editor-footer"),before=f.getBoundingClientRect().bottom;e.scrollTop=e.scrollHeight;return {scrollable:e.scrollHeight>e.clientHeight,position:getComputedStyle(f).position,before,after:f.getBoundingClientRect().bottom};')
     assert results['continuousRuleScroll']['scrollable'] and results['continuousRuleScroll']['position']=='sticky'
     assert abs(results['continuousRuleScroll']['before']-results['continuousRuleScroll']['after'])<1

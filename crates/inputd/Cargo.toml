@@ -1,0 +1,14 @@
+[package]
+name = "waystroke-inputd"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+waystroke-protocol.workspace = true
+evdev = { version = "0.13.2", features = ["tokio"] }
+tokio = { workspace = true, features = ["net", "io-util"] }
+libc = "0.2"
+uuid = { version = "1", features = ["v4"] }
+nix = { version = "0.29", features = ["ioctl"] }

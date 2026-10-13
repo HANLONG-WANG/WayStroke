@@ -1,4 +1,9 @@
 //! Configuration writes are serialized here, never in the desktop webview.
+pub mod gesture;
+pub mod input;
+pub mod desktop;
+pub mod runtime;
+pub mod execution;
 use std::{fs, io::Write, path::{Path,PathBuf}};
 use std::os::unix::fs::{OpenOptionsExt,PermissionsExt};
 use waystroke_model::validate;

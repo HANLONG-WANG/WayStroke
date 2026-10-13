@@ -1,0 +1,11 @@
+{
+  "samples": 372,
+  "frames": 180,
+  "elapsedMs": 3003.661,
+  "maxGapMs": 10.914,
+  "meanGapMs": 8.074357526881725,
+  "tiles": 9,
+  "shellCpuSeconds": 0.22,
+  "softwareRendering": true,
+  "physicalInput": false
+}

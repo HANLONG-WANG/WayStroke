@@ -1,0 +1,7 @@
+{
+  "uuid": "waystroke@local",
+  "name": "WayStroke",
+  "description": "WayStroke window contexts, input ordering and gesture feedback",
+  "shell-version": ["50"],
+  "version": 1
+}

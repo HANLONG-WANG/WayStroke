@@ -1,0 +1,24 @@
+[Unit]
+Description=WayStroke authorized mouse input service
+After=systemd-udevd.service
+
+[Service]
+Type=simple
+EnvironmentFile=/etc/waystroke/inputd.conf
+ExecStart=/usr/local/libexec/waystroke-inputd --uid ${WAYSTROKE_INPUT_UID}
+Restart=on-failure
+RuntimeDirectory=waystroke
+RuntimeDirectoryMode=0711
+UMask=0077
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+PrivateTmp=yes
+RestrictAddressFamilies=AF_UNIX
+ReadWritePaths=/run/waystroke
+
+[Install]
+WantedBy=multi-user.target

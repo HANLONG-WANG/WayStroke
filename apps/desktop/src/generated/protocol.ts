@@ -1,5 +1,5 @@
 // Generated from waystroke-protocol; do not edit.
-import type {Config,ValidationError} from './model';
+import type {Config,ValidationError,StartContext,Execution} from './model';
 export const PROTOCOL_VERSION = 1;
 export type Snapshot = { revision: number, savedAt: string | null, config: Config, };
 export type Commit = { requestId: string, expectedRevision: number, config: Config, };
@@ -7,3 +7,18 @@ export type ErrorKind = "validation" | "conflict" | "permission" | "unavailable"
 export type Error = { kind: ErrorKind, message: string, details: Array<ValidationError>, };
 export type Reply<T> = { "status": "ok", value: T, } | { "status": "error", error: Error, };
 export type Status = { protocolVersion: number, coreVersion: string, extensionConnected: boolean, inputConnected: boolean, executionAvailable: boolean, reason: string, };
+export type MouseDevice = { id: string, name: string, path: string, physicalPath: string | null, };
+export type MouseEvent = { kind: number, code: number, value: number, monotonicMs: number, };
+export type StrokeDecision = "click" | "consume";
+export type InputRequest = { "type": "hello", version: number, } | { "type": "listDevices" } | { "type": "synchronize" } | { "type": "activate" } | { "type": "acquire", deviceId: string, } | { "type": "heartbeat" } | { "type": "bound", sequence: number, } | { "type": "bypass", sequence: number, } | { "type": "decide", sequence: number, decision: StrokeDecision, } | { "type": "cancel", sequence: number, } | { "type": "release" };
+export type InputNotice = { "type": "begin", sequence: number, } | { "type": "motion", sequence: number, dx: number, dy: number, } | { "type": "auxiliary", sequence: number, button: number, } | { "type": "finish", sequence: number, auxiliaryButtons: Array<number>, } | { "type": "released", reason: string, };
+export type InputCommand = { requestId: number, leaseId: string | null, request: InputRequest, };
+export type InputResult = { "type": "hello", version: number, leaseMs: number, } | { "type": "devices", devices: Array<MouseDevice>, } | { "type": "prepared", device: MouseDevice, leaseId: string, } | { "type": "ack" };
+export type BarrierStage = "ready" | "begin" | "finish";
+export type InputPacket = { "type": "reply", requestId: number, result: Reply<InputResult>, } | { "type": "notice", leaseId: string, monotonicMs: number, notice: InputNotice, } | { "type": "barrier", leaseId: string, monotonicMs: number, ordinal: number, sequence: number, stage: BarrierStage, };
+export type RecognitionRequest = { points: Array<[number, number]>, context: StartContext, auxiliaryButtons: Array<number>, };
+export type RecognitionOutcome = "matched" | "noMatch" | "ambiguous" | "tooShort" | "excluded" | "disabled";
+export type Candidate = { ruleId: string, ruleName: string, gestureId: string, sampleId: string, score: number, priority: number, };
+export type RecognitionResult = { outcome: RecognitionOutcome, ruleId: string | null, candidates: Array<Candidate>, length: number, reason: string, };
+export type GestureTiming = { leaseId: string, sequence: number, startDeviceMs: number, boundMs: number, releaseDeviceMs: number, recognizedMs: number, enqueuedMs: number | null, startedMs: number | null, };
+export type RuntimeInfo = { status: Status, devices: Array<MouseDevice>, selectedDeviceId: string | null, inputArmed: boolean, locked: boolean, recording: string | null, executions: Array<Execution>, timings: Array<GestureTiming>, };

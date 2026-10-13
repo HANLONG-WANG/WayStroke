@@ -1,0 +1,18 @@
+{
+  "samples": 372,
+  "frames": 181,
+  "elapsedMs": 3004.452,
+  "maxGapMs": 10.563,
+  "meanGapMs": 8.076483870967744,
+  "tiles": 9,
+  "previewEvents": 54,
+  "label": "\u5b9e\u673a\u6700\u5927\u5316",
+  "labelPosition": [
+    196,
+    452
+  ],
+  "labelCleared": true,
+  "shellCpuSeconds": 0.28,
+  "softwareRendering": true,
+  "physicalInput": false
+}

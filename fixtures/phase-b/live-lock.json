@@ -1,0 +1,7516 @@
+{
+  "startedAt": "2026-10-13T20:39:42+0900",
+  "events": [
+    {
+      "elapsedMs": 45404.8,
+      "event": "capability",
+      "inputArmed": false,
+      "locked": false,
+      "selectedDeviceId": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+      "devices": [
+        {
+          "id": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+          "name": "Logitech G304",
+          "path": "/dev/input/event3",
+          "physicalPath": "pci-0000:00:14.0-usb-0:11.2:1.2"
+        }
+      ],
+      "reason": "手势已暂停"
+    },
+    {
+      "elapsedMs": 45903.9,
+      "event": "capability",
+      "inputArmed": false,
+      "locked": false,
+      "selectedDeviceId": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+      "devices": [
+        {
+          "id": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+          "name": "Logitech G304",
+          "path": "/dev/input/event3",
+          "physicalPath": "pci-0000:00:14.0-usb-0:11.2:1.2"
+        }
+      ],
+      "reason": "手势已暂停"
+    },
+    {
+      "elapsedMs": 49403.9,
+      "event": "capability",
+      "inputArmed": false,
+      "locked": false,
+      "selectedDeviceId": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+      "devices": [
+        {
+          "id": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+          "name": "Logitech G304",
+          "path": "/dev/input/event3",
+          "physicalPath": "pci-0000:00:14.0-usb-0:11.2:1.2"
+        }
+      ],
+      "reason": "手势已暂停"
+    },
+    {
+      "elapsedMs": 49904.1,
+      "event": "capability",
+      "inputArmed": false,
+      "locked": false,
+      "selectedDeviceId": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+      "devices": [
+        {
+          "id": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+          "name": "Logitech G304",
+          "path": "/dev/input/event3",
+          "physicalPath": "pci-0000:00:14.0-usb-0:11.2:1.2"
+        }
+      ],
+      "reason": "手势已暂停"
+    },
+    {
+      "elapsedMs": 97591.5,
+      "event": "capability",
+      "inputArmed": true,
+      "locked": false,
+      "selectedDeviceId": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+      "devices": [
+        {
+          "id": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+          "name": "Logitech G304",
+          "path": "/dev/input/event3",
+          "physicalPath": "pci-0000:00:14.0-usb-0:11.2:1.2"
+        }
+      ],
+      "reason": "鼠标手势已接入；基本快捷键、启动及窗口动作可用"
+    },
+    {
+      "elapsedMs": 131375.7,
+      "context": {
+        "applicationId": "org.waystroke.ProbeClient",
+        "locked": false,
+        "monitor": 0,
+        "monotonicMs": 96649110.11,
+        "position": [
+          1122.0,
+          610.0
+        ],
+        "sequence": 1,
+        "title": "Probe A",
+        "window": {
+          "id": "7",
+          "instance": "d79323fc-9884-46e6-8373-f08b74c692fc"
+        },
+        "workspace": 0
+      },
+      "event": "gestureStarted",
+      "sequence": 1
+    },
+    {
+      "elapsedMs": 135043.6,
+      "event": "canceled",
+      "reason": "停留超时",
+      "sequence": 1
+    },
+    {
+      "elapsedMs": 136781.5,
+      "context": {
+        "applicationId": "org.waystroke.ProbeClient",
+        "locked": false,
+        "monitor": 0,
+        "monotonicMs": 96654516.068,
+        "position": [
+          1210.0,
+          617.0
+        ],
+        "sequence": 2,
+        "title": "Probe A",
+        "window": {
+          "id": "7",
+          "instance": "d79323fc-9884-46e6-8373-f08b74c692fc"
+        },
+        "workspace": 0
+      },
+      "event": "gestureStarted",
+      "sequence": 2
+    },
+    {
+      "elapsedMs": 138293.4,
+      "endContext": {
+        "applicationId": "org.waystroke.ProbeClient",
+        "locked": false,
+        "monitor": 0,
+        "monotonicMs": 96656028.113,
+        "position": [
+          1397,
+          736
+        ],
+        "sequence": 0,
+        "title": "Probe B",
+        "window": {
+          "id": "8",
+          "instance": "d79323fc-9884-46e6-8373-f08b74c692fc"
+        },
+        "workspace": 0
+      },
+      "event": "strokeReady",
+      "points": [
+        [
+          1210.0,
+          617.0
+        ],
+        [
+          1210.0,
+          618.0
+        ],
+        [
+          1210.0,
+          619.0
+        ],
+        [
+          1210.0,
+          621.0
+        ],
+        [
+          1211.0,
+          625.0
+        ],
+        [
+          1211.0,
+          629.0
+        ],
+        [
+          1211.0,
+          632.0
+        ],
+        [
+          1211.0,
+          636.0
+        ],
+        [
+          1211.0,
+          641.0
+        ],
+        [
+          1211.0,
+          644.0
+        ],
+        [
+          1211.0,
+          648.0
+        ],
+        [
+          1211.0,
+          653.0
+        ],
+        [
+          1211.0,
+          658.0
+        ],
+        [
+          1211.0,
+          663.0
+        ],
+        [
+          1211.0,
+          671.0
+        ],
+        [
+          1211.0,
+          676.0
+        ],
+        [
+          1211.0,
+          680.0
+        ],
+        [
+          1211.0,
+          686.0
+        ],
+        [
+          1211.0,
+          690.0
+        ],
+        [
+          1211.0,
+          693.0
+        ],
+        [
+          1211.0,
+          695.0
+        ],
+        [
+          1211.0,
+          698.0
+        ],
+        [
+          1211.0,
+          700.0
+        ],
+        [
+          1211.0,
+          702.0
+        ],
+        [
+          1211.0,
+          703.0
+        ],
+        [
+          1211.0,
+          705.0
+        ],
+        [
+          1211.0,
+          706.0
+        ],
+        [
+          1211.0,
+          708.0
+        ],
+        [
+          1211.0,
+          710.0
+        ],
+        [
+          1211.0,
+          711.0
+        ],
+        [
+          1211.0,
+          713.0
+        ],
+        [
+          1211.0,
+          714.0
+        ],
+        [
+          1211.0,
+          715.0
+        ],
+        [
+          1211.0,
+          716.0
+        ],
+        [
+          1211.0,
+          717.0
+        ],
+        [
+          1211.0,
+          718.0
+        ],
+        [
+          1211.0,
+          720.0
+        ],
+        [
+          1211.0,
+          722.0
+        ],
+        [
+          1211.0,
+          724.0
+        ],
+        [
+          1211.0,
+          726.0
+        ],
+        [
+          1211.0,
+          728.0
+        ],
+        [
+          1211.0,
+          729.0
+        ],
+        [
+          1211.0,
+          730.0
+        ],
+        [
+          1211.0,
+          731.0
+        ],
+        [
+          1211.0,
+          732.0
+        ],
+        [
+          1212.0,
+          732.0
+        ],
+        [
+          1213.0,
+          732.0
+        ],
+        [
+          1215.0,
+          732.0
+        ],
+        [
+          1218.0,
+          732.0
+        ],
+        [
+          1220.0,
+          732.0
+        ],
+        [
+          1224.0,
+          732.0
+        ],
+        [
+          1229.0,
+          732.0
+        ],
+        [
+          1234.0,
+          732.0
+        ],
+        [
+          1240.0,
+          732.0
+        ],
+        [
+          1245.0,
+          732.0
+        ],
+        [
+          1250.0,
+          732.0
+        ],
+        [
+          1254.0,
+          732.0
+        ],
+        [
+          1259.0,
+          732.0
+        ],
+        [
+          1263.0,
+          732.0
+        ],
+        [
+          1266.0,
+          732.0
+        ],
+        [
+          1270.0,
+          732.0
+        ],
+        [
+          1274.0,
+          732.0
+        ],
+        [
+          1277.0,
+          732.0
+        ],
+        [
+          1281.0,
+          732.0
+        ],
+        [
+          1284.0,
+          732.0
+        ],
+        [
+          1291.0,
+          732.0
+        ],
+        [
+          1294.0,
+          732.0
+        ],
+        [
+          1296.0,
+          732.0
+        ],
+        [
+          1298.0,
+          732.0
+        ],
+        [
+          1300.0,
+          732.0
+        ],
+        [
+          1303.0,
+          732.0
+        ],
+        [
+          1307.0,
+          732.0
+        ],
+        [
+          1313.0,
+          733.0
+        ],
+        [
+          1316.0,
+          733.0
+        ],
+        [
+          1320.0,
+          733.0
+        ],
+        [
+          1323.0,
+          734.0
+        ],
+        [
+          1326.0,
+          734.0
+        ],
+        [
+          1329.0,
+          734.0
+        ],
+        [
+          1331.0,
+          735.0
+        ],
+        [
+          1334.0,
+          735.0
+        ],
+        [
+          1336.0,
+          735.0
+        ],
+        [
+          1338.0,
+          735.0
+        ],
+        [
+          1340.0,
+          735.0
+        ],
+        [
+          1342.0,
+          735.0
+        ],
+        [
+          1345.0,
+          736.0
+        ],
+        [
+          1347.0,
+          736.0
+        ],
+        [
+          1350.0,
+          736.0
+        ],
+        [
+          1353.0,
+          736.0
+        ],
+        [
+          1355.0,
+          736.0
+        ],
+        [
+          1359.0,
+          736.0
+        ],
+        [
+          1362.0,
+          736.0
+        ],
+        [
+          1364.0,
+          736.0
+        ],
+        [
+          1367.0,
+          736.0
+        ],
+        [
+          1370.0,
+          736.0
+        ],
+        [
+          1372.0,
+          736.0
+        ],
+        [
+          1375.0,
+          736.0
+        ],
+        [
+          1377.0,
+          736.0
+        ],
+        [
+          1379.0,
+          736.0
+        ],
+        [
+          1381.0,
+          736.0
+        ],
+        [
+          1383.0,
+          736.0
+        ],
+        [
+          1385.0,
+          736.0
+        ],
+        [
+          1387.0,
+          736.0
+        ],
+        [
+          1389.0,
+          736.0
+        ],
+        [
+          1391.0,
+          736.0
+        ],
+        [
+          1392.0,
+          736.0
+        ],
+        [
+          1394.0,
+          736.0
+        ],
+        [
+          1395.0,
+          736.0
+        ],
+        [
+          1396.0,
+          736.0
+        ],
+        [
+          1397.0,
+          736.0
+        ]
+      ],
+      "sequence": 2
+    },
+    {
+      "elapsedMs": 138293.7,
+      "event": "executionQueued",
+      "execution": {
+        "context": {
+          "applicationId": "org.waystroke.ProbeClient",
+          "locked": false,
+          "monitor": 0,
+          "monotonicMs": 96654516.068,
+          "position": [
+            1210.0,
+            617.0
+          ],
+          "sequence": 2,
+          "title": "Probe A",
+          "window": {
+            "id": "7",
+            "instance": "d79323fc-9884-46e6-8373-f08b74c692fc"
+          },
+          "workspace": 0
+        },
+        "finishedAt": null,
+        "id": "f98ebf05-33bf-4405-88e4-6c3bc5fc3074",
+        "name": "实机最大化",
+        "reason": null,
+        "revision": 22,
+        "startedAt": null,
+        "state": "queued",
+        "steps": []
+      }
+    },
+    {
+      "elapsedMs": 138293.8,
+      "event": "recognition",
+      "result": {
+        "candidates": [
+          {
+            "gestureId": "gesture-1791886088768",
+            "priority": 0,
+            "ruleId": "0ead8411-b772-47fc-a393-758763a83098",
+            "ruleName": "实机最大化",
+            "sampleId": "gesture-1791886088768:sample-1",
+            "score": 90.91036637106892
+          }
+        ],
+        "length": 301.76649145375245,
+        "outcome": "matched",
+        "reason": "已按起点窗口范围和辅助键匹配",
+        "ruleId": "0ead8411-b772-47fc-a393-758763a83098"
+      },
+      "timing": {
+        "boundMs": 96654518.248123,
+        "enqueuedMs": 96656030.570134,
+        "leaseId": "adf17aa3-b3a2-4a7d-8c66-f05588268cb3",
+        "recognizedMs": 96656030.319381,
+        "releaseDeviceMs": 96656026.988,
+        "sequence": 2,
+        "startDeviceMs": 96654515.007,
+        "startedMs": null
+      }
+    },
+    {
+      "elapsedMs": 138294.0,
+      "event": "executionStarted",
+      "execution": {
+        "context": {
+          "applicationId": "org.waystroke.ProbeClient",
+          "locked": false,
+          "monitor": 0,
+          "monotonicMs": 96654516.068,
+          "position": [
+            1210.0,
+            617.0
+          ],
+          "sequence": 2,
+          "title": "Probe A",
+          "window": {
+            "id": "7",
+            "instance": "d79323fc-9884-46e6-8373-f08b74c692fc"
+          },
+          "workspace": 0
+        },
+        "finishedAt": null,
+        "id": "f98ebf05-33bf-4405-88e4-6c3bc5fc3074",
+        "name": "实机最大化",
+        "reason": null,
+        "revision": 22,
+        "startedAt": "2026-10-13T11:42:01.103876969+00:00",
+        "state": "running",
+        "steps": []
+      },
+      "timing": {
+        "boundMs": 96654518.248123,
+        "enqueuedMs": 96656030.570134,
+        "leaseId": "adf17aa3-b3a2-4a7d-8c66-f05588268cb3",
+        "recognizedMs": 96656030.319381,
+        "releaseDeviceMs": 96656026.988,
+        "sequence": 2,
+        "startDeviceMs": 96654515.007,
+        "startedMs": 96656030.67457
+      }
+    },
+    {
+      "elapsedMs": 138295.8,
+      "event": "executionFinished",
+      "execution": {
+        "context": {
+          "applicationId": "org.waystroke.ProbeClient",
+          "locked": false,
+          "monitor": 0,
+          "monotonicMs": 96654516.068,
+          "position": [
+            1210.0,
+            617.0
+          ],
+          "sequence": 2,
+          "title": "Probe A",
+          "window": {
+            "id": "7",
+            "instance": "d79323fc-9884-46e6-8373-f08b74c692fc"
+          },
+          "workspace": 0
+        },
+        "finishedAt": "2026-10-13T11:42:01.105941312+00:00",
+        "id": "f98ebf05-33bf-4405-88e4-6c3bc5fc3074",
+        "name": "实机最大化",
+        "reason": null,
+        "revision": 22,
+        "startedAt": "2026-10-13T11:42:01.103876969+00:00",
+        "state": "succeeded",
+        "steps": [
+          {
+            "finishedAt": "2026-10-13T11:42:01.105934755+00:00",
+            "reason": null,
+            "startedAt": "2026-10-13T11:42:01.103896086+00:00",
+            "state": "succeeded",
+            "stepId": "de3058b8-1d3f-4929-be20-917536bbe039",
+            "summary": "窗口操作"
+          }
+        ]
+      }
+    },
+    {
+      "elapsedMs": 138405.4,
+      "event": "capability",
+      "inputArmed": true,
+      "locked": false,
+      "selectedDeviceId": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+      "devices": [
+        {
+          "id": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+          "name": "Logitech G304",
+          "path": "/dev/input/event3",
+          "physicalPath": "pci-0000:00:14.0-usb-0:11.2:1.2"
+        }
+      ],
+      "reason": "鼠标手势已接入；基本快捷键、启动及窗口动作可用"
+    },
+    {
+      "elapsedMs": 147177.9,
+      "context": {
+        "applicationId": "org.waystroke.ProbeClient",
+        "locked": false,
+        "monitor": 0,
+        "monotonicMs": 96664912.258,
+        "position": [
+          991.0,
+          608.0
+        ],
+        "sequence": 3,
+        "title": "Probe A",
+        "window": {
+          "id": "7",
+          "instance": "d79323fc-9884-46e6-8373-f08b74c692fc"
+        },
+        "workspace": 0
+      },
+      "event": "gestureStarted",
+      "sequence": 3
+    },
+    {
+      "elapsedMs": 147230.6,
+      "endContext": {
+        "applicationId": "org.waystroke.ProbeClient",
+        "locked": false,
+        "monitor": 0,
+        "monotonicMs": 96664966.041,
+        "position": [
+          991,
+          608
+        ],
+        "sequence": 0,
+        "title": "Probe A",
+        "window": {
+          "id": "7",
+          "instance": "d79323fc-9884-46e6-8373-f08b74c692fc"
+        },
+        "workspace": 0
+      },
+      "event": "strokeReady",
+      "points": [
+        [
+          991.0,
+          608.0
+        ]
+      ],
+      "sequence": 3
+    },
+    {
+      "elapsedMs": 147230.9,
+      "event": "recognition",
+      "result": {
+        "candidates": [],
+        "length": -0.0,
+        "outcome": "tooShort",
+        "reason": "未达到最小逻辑像素长度",
+        "ruleId": null
+      },
+      "timing": {
+        "boundMs": 96664914.726569,
+        "enqueuedMs": null,
+        "leaseId": "adf17aa3-b3a2-4a7d-8c66-f05588268cb3",
+        "recognizedMs": 96664967.619613,
+        "releaseDeviceMs": 96664964.996,
+        "sequence": 3,
+        "startDeviceMs": 96664911.016,
+        "startedMs": null
+      }
+    },
+    {
+      "elapsedMs": 147404.3,
+      "event": "capability",
+      "inputArmed": true,
+      "locked": false,
+      "selectedDeviceId": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+      "devices": [
+        {
+          "id": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+          "name": "Logitech G304",
+          "path": "/dev/input/event3",
+          "physicalPath": "pci-0000:00:14.0-usb-0:11.2:1.2"
+        }
+      ],
+      "reason": "鼠标手势已接入；基本快捷键、启动及窗口动作可用"
+    },
+    {
+      "elapsedMs": 148467.6,
+      "context": {
+        "applicationId": "org.waystroke.ProbeClient",
+        "locked": false,
+        "monitor": 0,
+        "monotonicMs": 96666202.449,
+        "position": [
+          1009.0,
+          644.0
+        ],
+        "sequence": 4,
+        "title": "Probe A",
+        "window": {
+          "id": "7",
+          "instance": "d79323fc-9884-46e6-8373-f08b74c692fc"
+        },
+        "workspace": 0
+      },
+      "event": "gestureStarted",
+      "sequence": 4
+    },
+    {
+      "elapsedMs": 148554.6,
+      "endContext": {
+        "applicationId": "org.waystroke.ProbeClient",
+        "locked": false,
+        "monitor": 0,
+        "monotonicMs": 96666290.092,
+        "position": [
+          1009,
+          644
+        ],
+        "sequence": 0,
+        "title": "Probe A",
+        "window": {
+          "id": "7",
+          "instance": "d79323fc-9884-46e6-8373-f08b74c692fc"
+        },
+        "workspace": 0
+      },
+      "event": "strokeReady",
+      "points": [
+        [
+          1009.0,
+          644.0
+        ]
+      ],
+      "sequence": 4
+    },
+    {
+      "elapsedMs": 148554.9,
+      "event": "recognition",
+      "result": {
+        "candidates": [],
+        "length": -0.0,
+        "outcome": "tooShort",
+        "reason": "未达到最小逻辑像素长度",
+        "ruleId": null
+      },
+      "timing": {
+        "boundMs": 96666204.487387,
+        "enqueuedMs": null,
+        "leaseId": "adf17aa3-b3a2-4a7d-8c66-f05588268cb3",
+        "recognizedMs": 96666291.640932,
+        "releaseDeviceMs": 96666289.017,
+        "sequence": 4,
+        "startDeviceMs": 96666200.996,
+        "startedMs": null
+      }
+    },
+    {
+      "elapsedMs": 148904.7,
+      "event": "capability",
+      "inputArmed": true,
+      "locked": false,
+      "selectedDeviceId": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+      "devices": [
+        {
+          "id": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+          "name": "Logitech G304",
+          "path": "/dev/input/event3",
+          "physicalPath": "pci-0000:00:14.0-usb-0:11.2:1.2"
+        }
+      ],
+      "reason": "鼠标手势已接入；基本快捷键、启动及窗口动作可用"
+    },
+    {
+      "elapsedMs": 149266.1,
+      "context": {
+        "applicationId": "org.waystroke.ProbeClient",
+        "locked": false,
+        "monitor": 0,
+        "monotonicMs": 96667001.325,
+        "position": [
+          994.0,
+          601.0
+        ],
+        "sequence": 5,
+        "title": "Probe A",
+        "window": {
+          "id": "7",
+          "instance": "d79323fc-9884-46e6-8373-f08b74c692fc"
+        },
+        "workspace": 0
+      },
+      "event": "gestureStarted",
+      "sequence": 5
+    },
+    {
+      "elapsedMs": 149354.3,
+      "endContext": {
+        "applicationId": "org.waystroke.ProbeClient",
+        "locked": false,
+        "monitor": 0,
+        "monotonicMs": 96667088.833,
+        "position": [
+          994,
+          601
+        ],
+        "sequence": 0,
+        "title": "Probe A",
+        "window": {
+          "id": "7",
+          "instance": "d79323fc-9884-46e6-8373-f08b74c692fc"
+        },
+        "workspace": 0
+      },
+      "event": "strokeReady",
+      "points": [
+        [
+          994.0,
+          601.0
+        ]
+      ],
+      "sequence": 5
+    },
+    {
+      "elapsedMs": 149354.8,
+      "event": "recognition",
+      "result": {
+        "candidates": [],
+        "length": -0.0,
+        "outcome": "tooShort",
+        "reason": "未达到最小逻辑像素长度",
+        "ruleId": null
+      },
+      "timing": {
+        "boundMs": 96667002.93024,
+        "enqueuedMs": null,
+        "leaseId": "adf17aa3-b3a2-4a7d-8c66-f05588268cb3",
+        "recognizedMs": 96667091.21318,
+        "releaseDeviceMs": 96667087.017,
+        "sequence": 5,
+        "startDeviceMs": 96666999.997,
+        "startedMs": null
+      }
+    },
+    {
+      "elapsedMs": 149405.5,
+      "event": "capability",
+      "inputArmed": true,
+      "locked": false,
+      "selectedDeviceId": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+      "devices": [
+        {
+          "id": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+          "name": "Logitech G304",
+          "path": "/dev/input/event3",
+          "physicalPath": "pci-0000:00:14.0-usb-0:11.2:1.2"
+        }
+      ],
+      "reason": "鼠标手势已接入；基本快捷键、启动及窗口动作可用"
+    },
+    {
+      "elapsedMs": 150740.1,
+      "context": {
+        "applicationId": "org.waystroke.ProbeClient",
+        "locked": false,
+        "monitor": 0,
+        "monotonicMs": 96668475.154,
+        "position": [
+          971.0,
+          555.0
+        ],
+        "sequence": 6,
+        "title": "Probe A",
+        "window": {
+          "id": "7",
+          "instance": "d79323fc-9884-46e6-8373-f08b74c692fc"
+        },
+        "workspace": 0
+      },
+      "event": "gestureStarted",
+      "sequence": 6
+    },
+    {
+      "elapsedMs": 151299.9,
+      "endContext": {
+        "applicationId": "org.waystroke.ProbeClient",
+        "locked": false,
+        "monitor": 0,
+        "monotonicMs": 96669034.841,
+        "position": [
+          971,
+          554
+        ],
+        "sequence": 0,
+        "title": "Probe A",
+        "window": {
+          "id": "7",
+          "instance": "d79323fc-9884-46e6-8373-f08b74c692fc"
+        },
+        "workspace": 0
+      },
+      "event": "strokeReady",
+      "points": [
+        [
+          971.0,
+          555.0
+        ],
+        [
+          971.0,
+          554.0
+        ]
+      ],
+      "sequence": 6
+    },
+    {
+      "elapsedMs": 151300.4,
+      "event": "recognition",
+      "result": {
+        "candidates": [],
+        "length": 1.0,
+        "outcome": "tooShort",
+        "reason": "未达到最小逻辑像素长度",
+        "ruleId": null
+      },
+      "timing": {
+        "boundMs": 96668476.810899,
+        "enqueuedMs": null,
+        "leaseId": "adf17aa3-b3a2-4a7d-8c66-f05588268cb3",
+        "recognizedMs": 96669036.821879,
+        "releaseDeviceMs": 96669033.999,
+        "sequence": 6,
+        "startDeviceMs": 96668474.02,
+        "startedMs": null
+      }
+    },
+    {
+      "elapsedMs": 151404.9,
+      "event": "capability",
+      "inputArmed": true,
+      "locked": false,
+      "selectedDeviceId": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+      "devices": [
+        {
+          "id": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+          "name": "Logitech G304",
+          "path": "/dev/input/event3",
+          "physicalPath": "pci-0000:00:14.0-usb-0:11.2:1.2"
+        }
+      ],
+      "reason": "鼠标手势已接入；基本快捷键、启动及窗口动作可用"
+    },
+    {
+      "elapsedMs": 152685.9,
+      "context": {
+        "applicationId": "org.waystroke.ProbeClient",
+        "locked": false,
+        "monitor": 0,
+        "monotonicMs": 96670421.008,
+        "position": [
+          951.0,
+          592.0
+        ],
+        "sequence": 7,
+        "title": "Probe A",
+        "window": {
+          "id": "7",
+          "instance": "d79323fc-9884-46e6-8373-f08b74c692fc"
+        },
+        "workspace": 0
+      },
+      "event": "gestureStarted",
+      "sequence": 7
+    },
+    {
+      "elapsedMs": 154124.8,
+      "endContext": {
+        "applicationId": "org.waystroke.ProbeClient",
+        "locked": false,
+        "monitor": 0,
+        "monotonicMs": 96671859.221,
+        "position": [
+          951,
+          605
+        ],
+        "sequence": 0,
+        "title": "Probe A",
+        "window": {
+          "id": "7",
+          "instance": "d79323fc-9884-46e6-8373-f08b74c692fc"
+        },
+        "workspace": 0
+      },
+      "event": "strokeReady",
+      "points": [
+        [
+          951.0,
+          592.0
+        ],
+        [
+          951.0,
+          593.0
+        ],
+        [
+          951.0,
+          594.0
+        ],
+        [
+          951.0,
+          595.0
+        ],
+        [
+          951.0,
+          596.0
+        ],
+        [
+          951.0,
+          597.0
+        ],
+        [
+          951.0,
+          598.0
+        ],
+        [
+          951.0,
+          599.0
+        ],
+        [
+          951.0,
+          600.0
+        ],
+        [
+          951.0,
+          601.0
+        ],
+        [
+          951.0,
+          602.0
+        ],
+        [
+          951.0,
+          603.0
+        ],
+        [
+          951.0,
+          604.0
+        ],
+        [
+          951.0,
+          605.0
+        ]
+      ],
+      "sequence": 7
+    },
+    {
+      "elapsedMs": 154125.2,
+      "event": "recognition",
+      "result": {
+        "candidates": [
+          {
+            "gestureId": "gesture-1791886088768",
+            "priority": 0,
+            "ruleId": "0ead8411-b772-47fc-a393-758763a83098",
+            "ruleName": "实机最大化",
+            "sampleId": "gesture-1791886088768:sample-1",
+            "score": 26.609403265951297
+          }
+        ],
+        "length": 13.0,
+        "outcome": "noMatch",
+        "reason": "没有候选达到识别阈值",
+        "ruleId": null
+      },
+      "timing": {
+        "boundMs": 96670422.500626,
+        "enqueuedMs": null,
+        "leaseId": "adf17aa3-b3a2-4a7d-8c66-f05588268cb3",
+        "recognizedMs": 96671861.533837,
+        "releaseDeviceMs": 96671858.003,
+        "sequence": 7,
+        "startDeviceMs": 96670420.0,
+        "startedMs": null
+      }
+    },
+    {
+      "elapsedMs": 154404.9,
+      "event": "capability",
+      "inputArmed": true,
+      "locked": false,
+      "selectedDeviceId": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+      "devices": [
+        {
+          "id": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+          "name": "Logitech G304",
+          "path": "/dev/input/event3",
+          "physicalPath": "pci-0000:00:14.0-usb-0:11.2:1.2"
+        }
+      ],
+      "reason": "鼠标手势已接入；基本快捷键、启动及窗口动作可用"
+    },
+    {
+      "elapsedMs": 154910.4,
+      "context": {
+        "applicationId": "org.waystroke.ProbeClient",
+        "locked": false,
+        "monitor": 0,
+        "monotonicMs": 96672645.28,
+        "position": [
+          958.0,
+          600.0
+        ],
+        "sequence": 8,
+        "title": "Probe A",
+        "window": {
+          "id": "7",
+          "instance": "d79323fc-9884-46e6-8373-f08b74c692fc"
+        },
+        "workspace": 0
+      },
+      "event": "gestureStarted",
+      "sequence": 8
+    },
+    {
+      "elapsedMs": 154980.4,
+      "endContext": {
+        "applicationId": "org.waystroke.ProbeClient",
+        "locked": false,
+        "monitor": 0,
+        "monotonicMs": 96672714.729,
+        "position": [
+          958,
+          600
+        ],
+        "sequence": 0,
+        "title": "Probe A",
+        "window": {
+          "id": "7",
+          "instance": "d79323fc-9884-46e6-8373-f08b74c692fc"
+        },
+        "workspace": 0
+      },
+      "event": "strokeReady",
+      "points": [
+        [
+          958.0,
+          600.0
+        ]
+      ],
+      "sequence": 8
+    },
+    {
+      "elapsedMs": 154980.9,
+      "event": "recognition",
+      "result": {
+        "candidates": [],
+        "length": -0.0,
+        "outcome": "tooShort",
+        "reason": "未达到最小逻辑像素长度",
+        "ruleId": null
+      },
+      "timing": {
+        "boundMs": 96672647.11899,
+        "enqueuedMs": null,
+        "leaseId": "adf17aa3-b3a2-4a7d-8c66-f05588268cb3",
+        "recognizedMs": 96672717.207328,
+        "releaseDeviceMs": 96672713.004,
+        "sequence": 8,
+        "startDeviceMs": 96672644.003,
+        "startedMs": null
+      }
+    },
+    {
+      "elapsedMs": 155405.0,
+      "event": "capability",
+      "inputArmed": true,
+      "locked": false,
+      "selectedDeviceId": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+      "devices": [
+        {
+          "id": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+          "name": "Logitech G304",
+          "path": "/dev/input/event3",
+          "physicalPath": "pci-0000:00:14.0-usb-0:11.2:1.2"
+        }
+      ],
+      "reason": "鼠标手势已接入；基本快捷键、启动及窗口动作可用"
+    },
+    {
+      "elapsedMs": 156356.7,
+      "context": {
+        "applicationId": "org.waystroke.ProbeClient",
+        "locked": false,
+        "monitor": 0,
+        "monotonicMs": 96674091.211,
+        "position": [
+          950.0,
+          563.0
+        ],
+        "sequence": 9,
+        "title": "Probe A",
+        "window": {
+          "id": "7",
+          "instance": "d79323fc-9884-46e6-8373-f08b74c692fc"
+        },
+        "workspace": 0
+      },
+      "event": "gestureStarted",
+      "sequence": 9
+    },
+    {
+      "elapsedMs": 156420.5,
+      "endContext": {
+        "applicationId": "org.waystroke.ProbeClient",
+        "locked": false,
+        "monitor": 0,
+        "monotonicMs": 96674154.325,
+        "position": [
+          950,
+          563
+        ],
+        "sequence": 0,
+        "title": "Probe A",
+        "window": {
+          "id": "7",
+          "instance": "d79323fc-9884-46e6-8373-f08b74c692fc"
+        },
+        "workspace": 0
+      },
+      "event": "strokeReady",
+      "points": [
+        [
+          950.0,
+          563.0
+        ]
+      ],
+      "sequence": 9
+    },
+    {
+      "elapsedMs": 156420.9,
+      "event": "recognition",
+      "result": {
+        "candidates": [],
+        "length": -0.0,
+        "outcome": "tooShort",
+        "reason": "未达到最小逻辑像素长度",
+        "ruleId": null
+      },
+      "timing": {
+        "boundMs": 96674093.413778,
+        "enqueuedMs": null,
+        "leaseId": "adf17aa3-b3a2-4a7d-8c66-f05588268cb3",
+        "recognizedMs": 96674157.460779,
+        "releaseDeviceMs": 96674153.013,
+        "sequence": 9,
+        "startDeviceMs": 96674090.01,
+        "startedMs": null
+      }
+    },
+    {
+      "elapsedMs": 156905.0,
+      "event": "capability",
+      "inputArmed": true,
+      "locked": false,
+      "selectedDeviceId": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+      "devices": [
+        {
+          "id": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+          "name": "Logitech G304",
+          "path": "/dev/input/event3",
+          "physicalPath": "pci-0000:00:14.0-usb-0:11.2:1.2"
+        }
+      ],
+      "reason": "鼠标手势已接入；基本快捷键、启动及窗口动作可用"
+    },
+    {
+      "elapsedMs": 167628.5,
+      "context": {
+        "applicationId": "org.waystroke.ProbeClient",
+        "locked": false,
+        "monitor": 0,
+        "monotonicMs": 96685363.077,
+        "position": [
+          1187.0,
+          565.0
+        ],
+        "sequence": 10,
+        "title": "Probe A",
+        "window": {
+          "id": "7",
+          "instance": "d79323fc-9884-46e6-8373-f08b74c692fc"
+        },
+        "workspace": 0
+      },
+      "event": "gestureStarted",
+      "sequence": 10
+    },
+    {
+      "elapsedMs": 169046.9,
+      "event": "canceled",
+      "reason": "Esc 取消",
+      "sequence": 10
+    },
+    {
+      "elapsedMs": 192096.6,
+      "event": "canceled",
+      "reason": "停留超时",
+      "sequence": 11
+    },
+    {
+      "elapsedMs": 194593.6,
+      "event": "canceled",
+      "reason": "停留超时",
+      "sequence": 12
+    },
+    {
+      "elapsedMs": 198283.7,
+      "event": "canceled",
+      "reason": "停留超时",
+      "sequence": 13
+    },
+    {
+      "elapsedMs": 201321.3,
+      "event": "canceled",
+      "reason": "停留超时",
+      "sequence": 14
+    },
+    {
+      "elapsedMs": 232923.2,
+      "event": "canceled",
+      "reason": "停留超时",
+      "sequence": 15
+    },
+    {
+      "elapsedMs": 234904.6,
+      "event": "capability",
+      "inputArmed": true,
+      "locked": false,
+      "selectedDeviceId": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+      "devices": [
+        {
+          "id": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+          "name": "Logitech G304",
+          "path": "/dev/input/event3",
+          "physicalPath": "pci-0000:00:14.0-usb-0:11.2:1.2"
+        }
+      ],
+      "reason": "鼠标手势已接入；基本快捷键、启动及窗口动作可用"
+    },
+    {
+      "elapsedMs": 287230.2,
+      "event": "capability",
+      "inputArmed": false,
+      "locked": false,
+      "selectedDeviceId": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+      "devices": [
+        {
+          "id": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+          "name": "Logitech G304",
+          "path": "/dev/input/event3",
+          "physicalPath": "pci-0000:00:14.0-usb-0:11.2:1.2"
+        }
+      ],
+      "reason": "手势已暂停"
+    },
+    {
+      "elapsedMs": 493950.7,
+      "event": "capability",
+      "inputArmed": false,
+      "locked": false,
+      "selectedDeviceId": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+      "devices": [],
+      "reason": "鼠标服务未连接或未授权"
+    },
+    {
+      "elapsedMs": 494462.7,
+      "event": "capability",
+      "inputArmed": false,
+      "locked": false,
+      "selectedDeviceId": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+      "devices": [
+        {
+          "id": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+          "name": "Logitech G304",
+          "path": "/dev/input/event3",
+          "physicalPath": "pci-0000:00:14.0-usb-0:11.2:1.2"
+        }
+      ],
+      "reason": "手势已暂停"
+    },
+    {
+      "elapsedMs": 1097541.8,
+      "event": "capability",
+      "inputArmed": true,
+      "locked": false,
+      "selectedDeviceId": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+      "devices": [
+        {
+          "id": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+          "name": "Logitech G304",
+          "path": "/dev/input/event3",
+          "physicalPath": "pci-0000:00:14.0-usb-0:11.2:1.2"
+        }
+      ],
+      "reason": "鼠标手势已接入；基本快捷键、启动及窗口动作可用"
+    },
+    {
+      "elapsedMs": 1108943.6,
+      "context": {
+        "applicationId": "org.waystroke.ProbeClient",
+        "locked": false,
+        "monitor": 0,
+        "monotonicMs": 97626677.083,
+        "position": [
+          1050.0,
+          539.0
+        ],
+        "sequence": 1,
+        "title": "Probe A",
+        "window": {
+          "id": "7",
+          "instance": "1130fc5c-ae35-4aa1-a813-cae5fdf9b455"
+        },
+        "workspace": 0
+      },
+      "event": "gestureStarted",
+      "sequence": 1
+    },
+    {
+      "elapsedMs": 1111503.7,
+      "event": "capability",
+      "inputArmed": false,
+      "locked": false,
+      "selectedDeviceId": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+      "devices": [
+        {
+          "id": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+          "name": "Logitech G304",
+          "path": "/dev/input/event3",
+          "physicalPath": "pci-0000:00:14.0-usb-0:11.2:1.2"
+        }
+      ],
+      "reason": "GNOME 扩展未连接"
+    },
+    {
+      "elapsedMs": 1123071.4,
+      "event": "capability",
+      "inputArmed": true,
+      "locked": false,
+      "selectedDeviceId": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+      "devices": [
+        {
+          "id": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+          "name": "Logitech G304",
+          "path": "/dev/input/event3",
+          "physicalPath": "pci-0000:00:14.0-usb-0:11.2:1.2"
+        }
+      ],
+      "reason": "鼠标手势已接入；基本快捷键、启动及窗口动作可用"
+    },
+    {
+      "elapsedMs": 1129866.1,
+      "context": {
+        "applicationId": "org.waystroke.ProbeClient",
+        "locked": false,
+        "monitor": 0,
+        "monotonicMs": 97647599.173,
+        "position": [
+          971.0,
+          519.0
+        ],
+        "sequence": 1,
+        "title": "Probe A",
+        "window": {
+          "id": "7",
+          "instance": "b3ec11c2-7f59-4bb9-9773-0bc938ea1266"
+        },
+        "workspace": 0
+      },
+      "event": "gestureStarted",
+      "sequence": 1
+    },
+    {
+      "elapsedMs": 1130709.0,
+      "endContext": {
+        "applicationId": "org.waystroke.ProbeClient",
+        "locked": false,
+        "monitor": 0,
+        "monotonicMs": 97648444.041,
+        "position": [
+          1154,
+          615
+        ],
+        "sequence": 0,
+        "title": "Probe A",
+        "window": {
+          "id": "7",
+          "instance": "b3ec11c2-7f59-4bb9-9773-0bc938ea1266"
+        },
+        "workspace": 0
+      },
+      "event": "strokeReady",
+      "points": [
+        [
+          971.0,
+          519.0
+        ],
+        [
+          971.0,
+          521.0
+        ],
+        [
+          972.0,
+          524.0
+        ],
+        [
+          972.0,
+          527.0
+        ],
+        [
+          972.0,
+          533.0
+        ],
+        [
+          972.0,
+          540.0
+        ],
+        [
+          972.0,
+          549.0
+        ],
+        [
+          972.0,
+          554.0
+        ],
+        [
+          972.0,
+          562.0
+        ],
+        [
+          972.0,
+          574.0
+        ],
+        [
+          973.0,
+          581.0
+        ],
+        [
+          973.0,
+          585.0
+        ],
+        [
+          973.0,
+          590.0
+        ],
+        [
+          973.0,
+          597.0
+        ],
+        [
+          973.0,
+          601.0
+        ],
+        [
+          973.0,
+          604.0
+        ],
+        [
+          973.0,
+          606.0
+        ],
+        [
+          973.0,
+          608.0
+        ],
+        [
+          972.0,
+          610.0
+        ],
+        [
+          972.0,
+          611.0
+        ],
+        [
+          972.0,
+          612.0
+        ],
+        [
+          972.0,
+          613.0
+        ],
+        [
+          972.0,
+          614.0
+        ],
+        [
+          973.0,
+          614.0
+        ],
+        [
+          974.0,
+          614.0
+        ],
+        [
+          976.0,
+          614.0
+        ],
+        [
+          977.0,
+          614.0
+        ],
+        [
+          979.0,
+          614.0
+        ],
+        [
+          982.0,
+          614.0
+        ],
+        [
+          985.0,
+          613.0
+        ],
+        [
+          990.0,
+          613.0
+        ],
+        [
+          994.0,
+          613.0
+        ],
+        [
+          999.0,
+          613.0
+        ],
+        [
+          1004.0,
+          613.0
+        ],
+        [
+          1010.0,
+          613.0
+        ],
+        [
+          1016.0,
+          613.0
+        ],
+        [
+          1023.0,
+          613.0
+        ],
+        [
+          1030.0,
+          613.0
+        ],
+        [
+          1039.0,
+          613.0
+        ],
+        [
+          1047.0,
+          613.0
+        ],
+        [
+          1058.0,
+          613.0
+        ],
+        [
+          1067.0,
+          614.0
+        ],
+        [
+          1077.0,
+          614.0
+        ],
+        [
+          1084.0,
+          614.0
+        ],
+        [
+          1092.0,
+          614.0
+        ],
+        [
+          1098.0,
+          614.0
+        ],
+        [
+          1104.0,
+          614.0
+        ],
+        [
+          1111.0,
+          614.0
+        ],
+        [
+          1117.0,
+          616.0
+        ],
+        [
+          1121.0,
+          616.0
+        ],
+        [
+          1126.0,
+          616.0
+        ],
+        [
+          1129.0,
+          616.0
+        ],
+        [
+          1132.0,
+          616.0
+        ],
+        [
+          1135.0,
+          616.0
+        ],
+        [
+          1138.0,
+          616.0
+        ],
+        [
+          1140.0,
+          616.0
+        ],
+        [
+          1141.0,
+          616.0
+        ],
+        [
+          1143.0,
+          616.0
+        ],
+        [
+          1144.0,
+          616.0
+        ],
+        [
+          1145.0,
+          616.0
+        ],
+        [
+          1146.0,
+          616.0
+        ],
+        [
+          1147.0,
+          616.0
+        ],
+        [
+          1148.0,
+          616.0
+        ],
+        [
+          1149.0,
+          616.0
+        ],
+        [
+          1150.0,
+          616.0
+        ],
+        [
+          1151.0,
+          616.0
+        ],
+        [
+          1152.0,
+          616.0
+        ],
+        [
+          1152.0,
+          615.0
+        ],
+        [
+          1153.0,
+          615.0
+        ],
+        [
+          1154.0,
+          615.0
+        ]
+      ],
+      "sequence": 1
+    },
+    {
+      "elapsedMs": 1130709.9,
+      "event": "recognition",
+      "result": {
+        "candidates": [
+          {
+            "gestureId": "gesture-1791886088768",
+            "priority": 0,
+            "ruleId": "0ead8411-b772-47fc-a393-758763a83098",
+            "ruleName": "实机最大化",
+            "sampleId": "gesture-1791886088768:sample-1",
+            "score": 76.81587329148181
+          }
+        ],
+        "length": 279.0116315681762,
+        "outcome": "noMatch",
+        "reason": "没有候选达到识别阈值",
+        "ruleId": null
+      },
+      "timing": {
+        "boundMs": 97647602.490371,
+        "enqueuedMs": null,
+        "leaseId": "d8f65b7d-bead-46a8-9db8-b8e53d135049",
+        "recognizedMs": 97648445.867867,
+        "releaseDeviceMs": 97648442.934,
+        "sequence": 1,
+        "startDeviceMs": 97647597.907,
+        "startedMs": null
+      }
+    },
+    {
+      "elapsedMs": 1130951.0,
+      "event": "capability",
+      "inputArmed": true,
+      "locked": false,
+      "selectedDeviceId": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+      "devices": [
+        {
+          "id": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+          "name": "Logitech G304",
+          "path": "/dev/input/event3",
+          "physicalPath": "pci-0000:00:14.0-usb-0:11.2:1.2"
+        }
+      ],
+      "reason": "鼠标手势已接入；基本快捷键、启动及窗口动作可用"
+    },
+    {
+      "elapsedMs": 1131117.8,
+      "context": {
+        "applicationId": "org.waystroke.ProbeClient",
+        "locked": false,
+        "monitor": 0,
+        "monotonicMs": 97648853.097,
+        "position": [
+          1029.0,
+          526.0
+        ],
+        "sequence": 2,
+        "title": "Probe A",
+        "window": {
+          "id": "7",
+          "instance": "b3ec11c2-7f59-4bb9-9773-0bc938ea1266"
+        },
+        "workspace": 0
+      },
+      "event": "gestureStarted",
+      "sequence": 2
+    },
+    {
+      "elapsedMs": 1132807.5,
+      "endContext": {
+        "applicationId": "org.waystroke.ProbeClient",
+        "locked": false,
+        "monitor": 0,
+        "monotonicMs": 97650542.151,
+        "position": [
+          1206,
+          647
+        ],
+        "sequence": 0,
+        "title": "Probe A",
+        "window": {
+          "id": "7",
+          "instance": "b3ec11c2-7f59-4bb9-9773-0bc938ea1266"
+        },
+        "workspace": 0
+      },
+      "event": "strokeReady",
+      "points": [
+        [
+          1029.0,
+          526.0
+        ],
+        [
+          1029.0,
+          527.0
+        ],
+        [
+          1029.0,
+          531.0
+        ],
+        [
+          1029.0,
+          541.0
+        ],
+        [
+          1029.0,
+          552.0
+        ],
+        [
+          1029.0,
+          566.0
+        ],
+        [
+          1029.0,
+          582.0
+        ],
+        [
+          1029.0,
+          595.0
+        ],
+        [
+          1029.0,
+          606.0
+        ],
+        [
+          1029.0,
+          615.0
+        ],
+        [
+          1029.0,
+          624.0
+        ],
+        [
+          1029.0,
+          630.0
+        ],
+        [
+          1031.0,
+          637.0
+        ],
+        [
+          1031.0,
+          642.0
+        ],
+        [
+          1032.0,
+          647.0
+        ],
+        [
+          1032.0,
+          649.0
+        ],
+        [
+          1032.0,
+          652.0
+        ],
+        [
+          1032.0,
+          654.0
+        ],
+        [
+          1033.0,
+          655.0
+        ],
+        [
+          1033.0,
+          656.0
+        ],
+        [
+          1033.0,
+          657.0
+        ],
+        [
+          1034.0,
+          657.0
+        ],
+        [
+          1036.0,
+          657.0
+        ],
+        [
+          1037.0,
+          656.0
+        ],
+        [
+          1038.0,
+          656.0
+        ],
+        [
+          1040.0,
+          655.0
+        ],
+        [
+          1043.0,
+          655.0
+        ],
+        [
+          1047.0,
+          654.0
+        ],
+        [
+          1050.0,
+          654.0
+        ],
+        [
+          1055.0,
+          652.0
+        ],
+        [
+          1059.0,
+          652.0
+        ],
+        [
+          1064.0,
+          652.0
+        ],
+        [
+          1069.0,
+          651.0
+        ],
+        [
+          1073.0,
+          651.0
+        ],
+        [
+          1078.0,
+          651.0
+        ],
+        [
+          1081.0,
+          651.0
+        ],
+        [
+          1084.0,
+          651.0
+        ],
+        [
+          1086.0,
+          651.0
+        ],
+        [
+          1089.0,
+          651.0
+        ],
+        [
+          1091.0,
+          651.0
+        ],
+        [
+          1092.0,
+          651.0
+        ],
+        [
+          1094.0,
+          651.0
+        ],
+        [
+          1095.0,
+          651.0
+        ],
+        [
+          1096.0,
+          651.0
+        ],
+        [
+          1098.0,
+          651.0
+        ],
+        [
+          1099.0,
+          651.0
+        ],
+        [
+          1100.0,
+          651.0
+        ],
+        [
+          1102.0,
+          651.0
+        ],
+        [
+          1103.0,
+          651.0
+        ],
+        [
+          1104.0,
+          651.0
+        ],
+        [
+          1105.0,
+          651.0
+        ],
+        [
+          1106.0,
+          651.0
+        ],
+        [
+          1107.0,
+          651.0
+        ],
+        [
+          1109.0,
+          651.0
+        ],
+        [
+          1110.0,
+          651.0
+        ],
+        [
+          1112.0,
+          651.0
+        ],
+        [
+          1113.0,
+          651.0
+        ],
+        [
+          1115.0,
+          651.0
+        ],
+        [
+          1117.0,
+          651.0
+        ],
+        [
+          1119.0,
+          651.0
+        ],
+        [
+          1121.0,
+          651.0
+        ],
+        [
+          1123.0,
+          651.0
+        ],
+        [
+          1124.0,
+          651.0
+        ],
+        [
+          1126.0,
+          651.0
+        ],
+        [
+          1127.0,
+          651.0
+        ],
+        [
+          1129.0,
+          651.0
+        ],
+        [
+          1130.0,
+          651.0
+        ],
+        [
+          1132.0,
+          651.0
+        ],
+        [
+          1134.0,
+          651.0
+        ],
+        [
+          1136.0,
+          651.0
+        ],
+        [
+          1138.0,
+          651.0
+        ],
+        [
+          1141.0,
+          651.0
+        ],
+        [
+          1143.0,
+          651.0
+        ],
+        [
+          1145.0,
+          651.0
+        ],
+        [
+          1147.0,
+          651.0
+        ],
+        [
+          1149.0,
+          651.0
+        ],
+        [
+          1151.0,
+          651.0
+        ],
+        [
+          1152.0,
+          651.0
+        ],
+        [
+          1153.0,
+          651.0
+        ],
+        [
+          1154.0,
+          651.0
+        ],
+        [
+          1155.0,
+          651.0
+        ],
+        [
+          1156.0,
+          651.0
+        ],
+        [
+          1157.0,
+          651.0
+        ],
+        [
+          1158.0,
+          651.0
+        ],
+        [
+          1159.0,
+          651.0
+        ],
+        [
+          1160.0,
+          651.0
+        ],
+        [
+          1161.0,
+          651.0
+        ],
+        [
+          1162.0,
+          651.0
+        ],
+        [
+          1163.0,
+          651.0
+        ],
+        [
+          1164.0,
+          651.0
+        ],
+        [
+          1165.0,
+          651.0
+        ],
+        [
+          1166.0,
+          650.0
+        ],
+        [
+          1167.0,
+          650.0
+        ],
+        [
+          1168.0,
+          650.0
+        ],
+        [
+          1169.0,
+          650.0
+        ],
+        [
+          1170.0,
+          650.0
+        ],
+        [
+          1171.0,
+          650.0
+        ],
+        [
+          1172.0,
+          649.0
+        ],
+        [
+          1173.0,
+          649.0
+        ],
+        [
+          1174.0,
+          649.0
+        ],
+        [
+          1175.0,
+          649.0
+        ],
+        [
+          1176.0,
+          649.0
+        ],
+        [
+          1177.0,
+          649.0
+        ],
+        [
+          1178.0,
+          649.0
+        ],
+        [
+          1179.0,
+          649.0
+        ],
+        [
+          1180.0,
+          649.0
+        ],
+        [
+          1181.0,
+          649.0
+        ],
+        [
+          1182.0,
+          649.0
+        ],
+        [
+          1183.0,
+          649.0
+        ],
+        [
+          1184.0,
+          649.0
+        ],
+        [
+          1185.0,
+          649.0
+        ],
+        [
+          1186.0,
+          649.0
+        ],
+        [
+          1187.0,
+          649.0
+        ],
+        [
+          1188.0,
+          649.0
+        ],
+        [
+          1189.0,
+          649.0
+        ],
+        [
+          1190.0,
+          649.0
+        ],
+        [
+          1190.0,
+          648.0
+        ],
+        [
+          1191.0,
+          648.0
+        ],
+        [
+          1192.0,
+          648.0
+        ],
+        [
+          1193.0,
+          648.0
+        ],
+        [
+          1194.0,
+          648.0
+        ],
+        [
+          1195.0,
+          648.0
+        ],
+        [
+          1196.0,
+          648.0
+        ],
+        [
+          1197.0,
+          648.0
+        ],
+        [
+          1198.0,
+          648.0
+        ],
+        [
+          1199.0,
+          648.0
+        ],
+        [
+          1200.0,
+          648.0
+        ],
+        [
+          1201.0,
+          648.0
+        ],
+        [
+          1202.0,
+          648.0
+        ],
+        [
+          1203.0,
+          648.0
+        ],
+        [
+          1204.0,
+          648.0
+        ],
+        [
+          1205.0,
+          648.0
+        ],
+        [
+          1206.0,
+          647.0
+        ]
+      ],
+      "sequence": 2
+    },
+    {
+      "elapsedMs": 1132808.9,
+      "event": "executionQueued",
+      "execution": {
+        "context": {
+          "applicationId": "org.waystroke.ProbeClient",
+          "locked": false,
+          "monitor": 0,
+          "monotonicMs": 97648853.097,
+          "position": [
+            1029.0,
+            526.0
+          ],
+          "sequence": 2,
+          "title": "Probe A",
+          "window": {
+            "id": "7",
+            "instance": "b3ec11c2-7f59-4bb9-9773-0bc938ea1266"
+          },
+          "workspace": 0
+        },
+        "finishedAt": null,
+        "id": "88437479-9ed3-4e81-8111-c76a0c70901f",
+        "name": "实机最大化",
+        "reason": null,
+        "revision": 24,
+        "startedAt": null,
+        "state": "queued",
+        "steps": []
+      }
+    },
+    {
+      "elapsedMs": 1132810.1,
+      "event": "recognition",
+      "result": {
+        "candidates": [
+          {
+            "gestureId": "gesture-1791886088768",
+            "priority": 0,
+            "ruleId": "0ead8411-b772-47fc-a393-758763a83098",
+            "ruleName": "实机最大化",
+            "sampleId": "gesture-1791886088768:sample-1",
+            "score": 91.25113760651635
+          }
+        ],
+        "length": 308.2935551385836,
+        "outcome": "matched",
+        "reason": "已按起点窗口范围和辅助键匹配",
+        "ruleId": "0ead8411-b772-47fc-a393-758763a83098"
+      },
+      "timing": {
+        "boundMs": 97648854.655046,
+        "enqueuedMs": 97650544.551826,
+        "leaseId": "d8f65b7d-bead-46a8-9db8-b8e53d135049",
+        "recognizedMs": 97650544.279843,
+        "releaseDeviceMs": 97650540.91,
+        "sequence": 2,
+        "startDeviceMs": 97648851.924,
+        "startedMs": null
+      }
+    },
+    {
+      "elapsedMs": 1132811.3,
+      "event": "executionStarted",
+      "execution": {
+        "context": {
+          "applicationId": "org.waystroke.ProbeClient",
+          "locked": false,
+          "monitor": 0,
+          "monotonicMs": 97648853.097,
+          "position": [
+            1029.0,
+            526.0
+          ],
+          "sequence": 2,
+          "title": "Probe A",
+          "window": {
+            "id": "7",
+            "instance": "b3ec11c2-7f59-4bb9-9773-0bc938ea1266"
+          },
+          "workspace": 0
+        },
+        "finishedAt": null,
+        "id": "88437479-9ed3-4e81-8111-c76a0c70901f",
+        "name": "实机最大化",
+        "reason": null,
+        "revision": 24,
+        "startedAt": "2026-10-13T11:58:35.617853257+00:00",
+        "state": "running",
+        "steps": []
+      },
+      "timing": {
+        "boundMs": 97648854.655046,
+        "enqueuedMs": 97650544.551826,
+        "leaseId": "d8f65b7d-bead-46a8-9db8-b8e53d135049",
+        "recognizedMs": 97650544.279843,
+        "releaseDeviceMs": 97650540.91,
+        "sequence": 2,
+        "startDeviceMs": 97648851.924,
+        "startedMs": 97650544.650895
+      }
+    },
+    {
+      "elapsedMs": 1132812.4,
+      "event": "executionFinished",
+      "execution": {
+        "context": {
+          "applicationId": "org.waystroke.ProbeClient",
+          "locked": false,
+          "monitor": 0,
+          "monotonicMs": 97648853.097,
+          "position": [
+            1029.0,
+            526.0
+          ],
+          "sequence": 2,
+          "title": "Probe A",
+          "window": {
+            "id": "7",
+            "instance": "b3ec11c2-7f59-4bb9-9773-0bc938ea1266"
+          },
+          "workspace": 0
+        },
+        "finishedAt": "2026-10-13T11:58:35.620697367+00:00",
+        "id": "88437479-9ed3-4e81-8111-c76a0c70901f",
+        "name": "实机最大化",
+        "reason": null,
+        "revision": 24,
+        "startedAt": "2026-10-13T11:58:35.617853257+00:00",
+        "state": "succeeded",
+        "steps": [
+          {
+            "finishedAt": "2026-10-13T11:58:35.620691818+00:00",
+            "reason": null,
+            "startedAt": "2026-10-13T11:58:35.617872068+00:00",
+            "state": "succeeded",
+            "stepId": "de3058b8-1d3f-4929-be20-917536bbe039",
+            "summary": "窗口操作"
+          }
+        ]
+      }
+    },
+    {
+      "elapsedMs": 1132950.2,
+      "event": "capability",
+      "inputArmed": true,
+      "locked": false,
+      "selectedDeviceId": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+      "devices": [
+        {
+          "id": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+          "name": "Logitech G304",
+          "path": "/dev/input/event3",
+          "physicalPath": "pci-0000:00:14.0-usb-0:11.2:1.2"
+        }
+      ],
+      "reason": "鼠标手势已接入；基本快捷键、启动及窗口动作可用"
+    }
+  ],
+  "shellCpuSamples": [
+    {
+      "elapsedMs": 2007.5,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 3008.5,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 4009.5,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 5010.5,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 6011.6,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 7012.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 8012.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 9013.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 10014.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 11015.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 12016.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 13017.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 14018.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 15019.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 16020.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 17021.6,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 18021.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 19022.7,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 20023.7,
+      "oneCorePercent": 11.0
+    },
+    {
+      "elapsedMs": 21024.7,
+      "oneCorePercent": 14.0
+    },
+    {
+      "elapsedMs": 22025.8,
+      "oneCorePercent": 11.0
+    },
+    {
+      "elapsedMs": 23026.8,
+      "oneCorePercent": 11.0
+    },
+    {
+      "elapsedMs": 24027.8,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 25028.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 26029.8,
+      "oneCorePercent": 11.0
+    },
+    {
+      "elapsedMs": 27030.9,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 28031.9,
+      "oneCorePercent": 11.0
+    },
+    {
+      "elapsedMs": 29032.9,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 30034.0,
+      "oneCorePercent": 11.0
+    },
+    {
+      "elapsedMs": 31035.0,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 32035.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 33036.9,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 34037.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 35038.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 36039.8,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 37040.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 38041.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 39042.9,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 40043.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 41044.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 42045.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 43046.8,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 44047.7,
+      "oneCorePercent": 15.0
+    },
+    {
+      "elapsedMs": 45048.7,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 46048.9,
+      "oneCorePercent": 12.0
+    },
+    {
+      "elapsedMs": 47050.0,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 48050.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 49051.8,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 50052.0,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 51053.0,
+      "oneCorePercent": 11.0
+    },
+    {
+      "elapsedMs": 52054.0,
+      "oneCorePercent": 12.0
+    },
+    {
+      "elapsedMs": 53055.0,
+      "oneCorePercent": 12.0
+    },
+    {
+      "elapsedMs": 54055.8,
+      "oneCorePercent": 13.0
+    },
+    {
+      "elapsedMs": 55056.8,
+      "oneCorePercent": 13.0
+    },
+    {
+      "elapsedMs": 56057.8,
+      "oneCorePercent": 16.0
+    },
+    {
+      "elapsedMs": 57058.8,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 58059.8,
+      "oneCorePercent": 11.0
+    },
+    {
+      "elapsedMs": 59060.8,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 60061.8,
+      "oneCorePercent": 11.0
+    },
+    {
+      "elapsedMs": 61062.9,
+      "oneCorePercent": 17.0
+    },
+    {
+      "elapsedMs": 62063.9,
+      "oneCorePercent": 15.0
+    },
+    {
+      "elapsedMs": 63064.9,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 64065.9,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 65067.0,
+      "oneCorePercent": 12.0
+    },
+    {
+      "elapsedMs": 66067.7,
+      "oneCorePercent": 11.0
+    },
+    {
+      "elapsedMs": 67068.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 68069.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 69070.9,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 70071.9,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 71072.9,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 72073.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 73074.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 74075.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 75076.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 76077.8,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 77078.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 78079.8,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 79080.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 80081.8,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 81082.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 82083.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 83084.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 84085.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 85086.9,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 86087.8,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 87088.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 88089.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 89090.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 90091.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 91092.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 92093.8,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 93094.8,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 94095.9,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 95096.9,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 96097.7,
+      "oneCorePercent": 12.0
+    },
+    {
+      "elapsedMs": 97098.8,
+      "oneCorePercent": 14.0
+    },
+    {
+      "elapsedMs": 98099.3,
+      "oneCorePercent": 14.0
+    },
+    {
+      "elapsedMs": 99099.7,
+      "oneCorePercent": 18.0
+    },
+    {
+      "elapsedMs": 100100.7,
+      "oneCorePercent": 24.0
+    },
+    {
+      "elapsedMs": 101101.8,
+      "oneCorePercent": 26.0
+    },
+    {
+      "elapsedMs": 102102.8,
+      "oneCorePercent": 15.0
+    },
+    {
+      "elapsedMs": 103103.8,
+      "oneCorePercent": 15.0
+    },
+    {
+      "elapsedMs": 104104.7,
+      "oneCorePercent": 14.0
+    },
+    {
+      "elapsedMs": 105105.8,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 106106.8,
+      "oneCorePercent": 15.0
+    },
+    {
+      "elapsedMs": 107107.7,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 108108.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 109109.7,
+      "oneCorePercent": 14.0
+    },
+    {
+      "elapsedMs": 110110.7,
+      "oneCorePercent": 21.0
+    },
+    {
+      "elapsedMs": 111111.8,
+      "oneCorePercent": 21.0
+    },
+    {
+      "elapsedMs": 112112.8,
+      "oneCorePercent": 20.0
+    },
+    {
+      "elapsedMs": 113113.8,
+      "oneCorePercent": 18.0
+    },
+    {
+      "elapsedMs": 114114.7,
+      "oneCorePercent": 12.0
+    },
+    {
+      "elapsedMs": 115115.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 116116.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 117117.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 118118.7,
+      "oneCorePercent": 13.0
+    },
+    {
+      "elapsedMs": 119119.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 120120.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 121121.7,
+      "oneCorePercent": 21.0
+    },
+    {
+      "elapsedMs": 122122.7,
+      "oneCorePercent": 16.0
+    },
+    {
+      "elapsedMs": 123123.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 124124.7,
+      "oneCorePercent": 14.0
+    },
+    {
+      "elapsedMs": 125125.7,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 126126.7,
+      "oneCorePercent": 17.0
+    },
+    {
+      "elapsedMs": 127127.8,
+      "oneCorePercent": 15.0
+    },
+    {
+      "elapsedMs": 128128.7,
+      "oneCorePercent": 12.0
+    },
+    {
+      "elapsedMs": 129129.7,
+      "oneCorePercent": 18.0
+    },
+    {
+      "elapsedMs": 130130.7,
+      "oneCorePercent": 13.0
+    },
+    {
+      "elapsedMs": 131131.7,
+      "oneCorePercent": 13.0
+    },
+    {
+      "elapsedMs": 132132.5,
+      "oneCorePercent": 27.0
+    },
+    {
+      "elapsedMs": 133133.5,
+      "oneCorePercent": 21.0
+    },
+    {
+      "elapsedMs": 134134.6,
+      "oneCorePercent": 16.0
+    },
+    {
+      "elapsedMs": 135134.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 136135.7,
+      "oneCorePercent": 18.0
+    },
+    {
+      "elapsedMs": 137135.8,
+      "oneCorePercent": 18.0
+    },
+    {
+      "elapsedMs": 138136.8,
+      "oneCorePercent": 24.0
+    },
+    {
+      "elapsedMs": 139137.5,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 140137.7,
+      "oneCorePercent": 11.0
+    },
+    {
+      "elapsedMs": 141138.7,
+      "oneCorePercent": 13.0
+    },
+    {
+      "elapsedMs": 142139.8,
+      "oneCorePercent": 14.0
+    },
+    {
+      "elapsedMs": 143140.8,
+      "oneCorePercent": 12.0
+    },
+    {
+      "elapsedMs": 144141.8,
+      "oneCorePercent": 18.0
+    },
+    {
+      "elapsedMs": 145142.7,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 146143.7,
+      "oneCorePercent": 15.0
+    },
+    {
+      "elapsedMs": 147144.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 148145.5,
+      "oneCorePercent": 13.0
+    },
+    {
+      "elapsedMs": 149145.8,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 150146.7,
+      "oneCorePercent": 13.0
+    },
+    {
+      "elapsedMs": 151146.9,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 152147.7,
+      "oneCorePercent": 12.0
+    },
+    {
+      "elapsedMs": 153148.2,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 154148.2,
+      "oneCorePercent": 12.0
+    },
+    {
+      "elapsedMs": 155148.5,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 156148.8,
+      "oneCorePercent": 14.0
+    },
+    {
+      "elapsedMs": 157149.0,
+      "oneCorePercent": 16.0
+    },
+    {
+      "elapsedMs": 158149.8,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 159150.8,
+      "oneCorePercent": 12.0
+    },
+    {
+      "elapsedMs": 160151.8,
+      "oneCorePercent": 15.0
+    },
+    {
+      "elapsedMs": 161152.7,
+      "oneCorePercent": 15.0
+    },
+    {
+      "elapsedMs": 162153.8,
+      "oneCorePercent": 11.0
+    },
+    {
+      "elapsedMs": 163154.7,
+      "oneCorePercent": 13.0
+    },
+    {
+      "elapsedMs": 164155.8,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 165156.8,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 166157.7,
+      "oneCorePercent": 12.0
+    },
+    {
+      "elapsedMs": 167158.8,
+      "oneCorePercent": 13.0
+    },
+    {
+      "elapsedMs": 168159.3,
+      "oneCorePercent": 20.0
+    },
+    {
+      "elapsedMs": 169159.5,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 170159.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 171160.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 172161.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 173162.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 174163.8,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 175164.8,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 176166.0,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 177166.8,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 178167.8,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 179168.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 180169.8,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 181170.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 182171.8,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 183172.8,
+      "oneCorePercent": 13.0
+    },
+    {
+      "elapsedMs": 184173.9,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 185174.7,
+      "oneCorePercent": 14.0
+    },
+    {
+      "elapsedMs": 186175.9,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 187176.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 188177.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 189178.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 190179.2,
+      "oneCorePercent": 17.0
+    },
+    {
+      "elapsedMs": 191179.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 192179.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 193180.3,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 194180.7,
+      "oneCorePercent": 11.0
+    },
+    {
+      "elapsedMs": 195181.3,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 196181.5,
+      "oneCorePercent": 16.0
+    },
+    {
+      "elapsedMs": 197182.1,
+      "oneCorePercent": 19.0
+    },
+    {
+      "elapsedMs": 198182.6,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 199182.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 200183.7,
+      "oneCorePercent": 18.0
+    },
+    {
+      "elapsedMs": 201184.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 202185.6,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 203185.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 204186.8,
+      "oneCorePercent": 11.0
+    },
+    {
+      "elapsedMs": 205187.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 206188.9,
+      "oneCorePercent": 12.0
+    },
+    {
+      "elapsedMs": 207189.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 208190.8,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 209191.8,
+      "oneCorePercent": 11.0
+    },
+    {
+      "elapsedMs": 210192.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 211193.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 212194.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 213195.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 214196.9,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 215198.0,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 216198.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 217199.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 218200.9,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 219201.9,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 220202.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 221203.9,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 222204.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 223205.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 224206.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 225207.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 226208.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 227209.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 228209.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 229210.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 230211.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 231212.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 232213.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 233213.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 234214.1,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 235214.4,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 236215.5,
+      "oneCorePercent": 11.0
+    },
+    {
+      "elapsedMs": 237215.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 238216.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 239217.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 240218.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 241219.9,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 242220.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 243221.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 244222.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 245223.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 246224.8,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 247225.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 248226.9,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 249227.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 250228.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 251229.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 252230.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 253231.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 254232.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 255233.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 256234.8,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 257235.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 258236.8,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 259237.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 260238.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 261239.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 262240.9,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 263241.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 264242.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 265243.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 266244.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 267245.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 268246.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 269247.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 270248.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 271249.9,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 272250.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 273251.9,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 274252.9,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 275253.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 276254.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 277255.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 278256.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 279257.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 280258.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 281259.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 282260.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 283261.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 284262.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 285263.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 286264.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 287264.8,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 288265.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 289266.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 290267.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 291268.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 292269.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 293270.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 294271.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 295272.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 296273.8,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 297274.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 298275.9,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 299276.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 300277.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 301278.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 302279.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 303280.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 304281.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 305282.9,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 306283.9,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 307285.0,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 308285.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 309286.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 310287.8,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 311288.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 312289.8,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 313290.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 314291.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 315292.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 316293.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 317294.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 318295.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 319296.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 320297.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 321298.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 322299.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 323300.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 324301.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 325302.9,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 326303.9,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 327304.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 328305.9,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 329306.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 330307.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 331308.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 332309.9,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 333310.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 334311.8,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 335312.8,
+      "oneCorePercent": 18.0
+    },
+    {
+      "elapsedMs": 336313.8,
+      "oneCorePercent": 14.0
+    },
+    {
+      "elapsedMs": 337314.9,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 338315.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 339316.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 340317.9,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 341318.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 342319.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 343320.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 344321.8,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 345322.9,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 346323.8,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 347324.9,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 348325.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 349326.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 350327.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 351328.9,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 352329.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 353330.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 354331.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 355332.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 356333.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 357334.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 358335.9,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 359336.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 360337.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 361338.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 362339.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 363340.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 364341.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 365342.9,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 366343.9,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 367344.9,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 368345.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 369346.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 370347.8,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 371348.9,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 372349.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 373350.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 374351.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 375352.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 376353.9,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 377355.0,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 378355.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 379356.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 380357.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 381358.9,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 382359.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 383360.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 384361.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 385362.9,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 386363.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 387364.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 388365.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 389366.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 390367.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 391368.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 392369.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 393370.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 394371.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 395372.8,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 396373.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 397374.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 398375.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 399376.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 400377.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 401378.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 402379.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 403380.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 404381.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 405382.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 406383.8,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 407384.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 408385.9,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 409386.9,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 410388.0,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 411389.1,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 412389.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 413390.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 414391.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 415392.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 416393.8,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 417394.9,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 418395.9,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 419396.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 420397.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 421398.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 422399.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 423400.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 424401.9,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 425402.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 426403.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 427404.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 428405.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 429406.8,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 430407.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 431408.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 432409.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 433410.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 434411.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 435412.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 436413.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 437414.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 438415.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 439416.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 440417.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 441418.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 442419.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 443420.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 444421.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 445422.9,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 446423.9,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 447425.0,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 448425.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 449426.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 450427.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 451428.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 452429.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 453430.9,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 454431.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 455432.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 456433.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 457434.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 458435.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 459436.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 460437.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 461438.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 462439.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 463440.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 464441.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 465442.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 466443.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 467444.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 468445.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 469446.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 470447.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 471448.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 472449.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 473450.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 474451.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 475452.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 476453.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 477454.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 478455.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 479456.9,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 480457.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 481458.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 482459.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 483460.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 484461.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 485462.8,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 486463.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 487464.8,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 488465.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 489466.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 490467.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 491468.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 492469.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 493470.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 494470.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 495471.8,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 496472.3,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 497473.4,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 498473.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 499474.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 500475.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 501476.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 502477.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 503478.8,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 504479.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 505480.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 506481.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 507482.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 508483.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 509484.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 510485.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 511486.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 512487.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 513488.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 514489.8,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 515490.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 516491.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 517492.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 518493.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 519494.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 520495.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 521496.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 522497.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 523498.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 524499.8,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 525500.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 526501.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 527502.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 528503.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 529504.9,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 530505.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 531506.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 532507.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 533508.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 534509.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 535510.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 536511.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 537512.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 538513.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 539514.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 540515.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 541516.9,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 542517.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 543518.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 544519.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 545520.8,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 546521.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 547522.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 548523.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 549524.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 550525.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 551526.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 552527.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 553528.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 554529.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 555530.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 556531.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 557532.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 558533.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 559534.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 560535.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 561536.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 562538.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 563539.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 564540.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 565541.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 566542.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 567543.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 568544.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 569545.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 570546.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 571547.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 572548.9,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 573549.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 574550.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 575551.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 576552.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 577553.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 578554.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 579555.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 580556.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 581557.0,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 582557.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 583558.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 584559.9,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 585560.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 586561.9,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 587562.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 588563.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 589564.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 590565.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 591566.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 592567.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 593568.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 594569.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 595570.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 596571.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 597572.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 598573.8,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 599574.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 600575.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 601576.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 602577.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 603578.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 604579.8,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 605580.8,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 606581.7,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 607582.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 608583.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 609584.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 610585.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 611586.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 612587.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 613588.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 614589.9,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 615590.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 616591.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 617592.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 618593.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 619594.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 620595.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 621596.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 622597.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 623598.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 624599.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 625600.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 626601.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 627602.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 628603.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 629604.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 630605.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 631606.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 632607.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 633608.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 634609.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 635610.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 636611.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 637612.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 638613.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 639614.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 640615.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 641616.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 642617.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 643618.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 644619.7,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 645620.8,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 646621.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 647622.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 648623.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 649624.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 650625.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 651626.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 652627.7,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 653628.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 654629.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 655630.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 656631.7,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 657632.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 658633.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 659634.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 660635.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 661636.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 662637.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 663638.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 664639.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 665640.7,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 666641.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 667642.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 668643.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 669644.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 670645.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 671646.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 672647.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 673648.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 674649.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 675650.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 676651.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 677652.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 678653.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 679654.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 680655.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 681656.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 682657.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 683658.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 684659.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 685660.8,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 686661.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 687662.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 688663.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 689663.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 690664.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 691665.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 692666.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 693667.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 694668.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 695669.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 696670.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 697671.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 698672.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 699673.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 700674.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 701675.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 702676.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 703677.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 704678.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 705679.8,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 706680.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 707681.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 708682.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 709683.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 710684.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 711685.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 712686.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 713687.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 714688.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 715689.7,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 716690.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 717691.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 718692.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 719693.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 720694.9,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 721695.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 722696.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 723697.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 724698.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 725699.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 726700.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 727701.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 728702.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 729703.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 730704.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 731705.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 732706.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 733707.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 734708.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 735709.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 736710.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 737711.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 738712.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 739713.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 740714.9,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 741716.0,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 742716.8,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 743717.9,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 744718.8,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 745719.6,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 746720.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 747721.8,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 748722.9,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 749723.8,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 750724.9,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 751726.0,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 752726.8,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 753727.8,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 754728.7,
+      "oneCorePercent": 0.0
+    },
+    {
+      "elapsedMs": 755729.9,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 756730.7,
+      "oneCorePercent": 0.0
+    },
+    {
+      "elapsedMs": 757731.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 758732.9,
+      "oneCorePercent": 0.0
+    },
+    {
+      "elapsedMs": 759733.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 760734.7,
+      "oneCorePercent": 0.0
+    },
+    {
+      "elapsedMs": 761735.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 762736.8,
+      "oneCorePercent": 0.0
+    },
+    {
+      "elapsedMs": 763737.1,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 764738.1,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 765739.3,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 766740.5,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 767740.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 768741.9,
+      "oneCorePercent": 0.0
+    },
+    {
+      "elapsedMs": 769742.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 770743.8,
+      "oneCorePercent": 0.0
+    },
+    {
+      "elapsedMs": 771744.9,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 772745.8,
+      "oneCorePercent": 0.0
+    },
+    {
+      "elapsedMs": 773746.9,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 774747.9,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 775749.0,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 776749.8,
+      "oneCorePercent": 0.0
+    },
+    {
+      "elapsedMs": 777751.0,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 778752.0,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 779753.1,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 780754.2,
+      "oneCorePercent": 0.0
+    },
+    {
+      "elapsedMs": 781755.4,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 782756.5,
+      "oneCorePercent": 0.0
+    },
+    {
+      "elapsedMs": 783757.6,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 784758.7,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 785759.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 786760.9,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 787761.8,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 788762.8,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 789763.8,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 790764.9,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 791766.0,
+      "oneCorePercent": 0.0
+    },
+    {
+      "elapsedMs": 792767.1,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 793768.2,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 794769.3,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 795770.4,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 796771.5,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 797772.5,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 798772.7,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 799773.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 800774.9,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 801775.8,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 802776.9,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 803777.8,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 804778.8,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 805779.9,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 806780.9,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 807782.0,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 808782.8,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 809783.9,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 810785.0,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 811786.1,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 812787.2,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 813788.3,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 814789.4,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 815789.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 816790.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 817791.9,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 818792.7,
+      "oneCorePercent": 0.0
+    },
+    {
+      "elapsedMs": 819793.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 820794.9,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 821796.0,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 822797.2,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 823798.3,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 824798.9,
+      "oneCorePercent": 0.0
+    },
+    {
+      "elapsedMs": 825799.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 826800.9,
+      "oneCorePercent": 0.0
+    },
+    {
+      "elapsedMs": 827802.0,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 828802.7,
+      "oneCorePercent": 0.0
+    },
+    {
+      "elapsedMs": 829803.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 830804.8,
+      "oneCorePercent": 0.0
+    },
+    {
+      "elapsedMs": 831805.9,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 832806.8,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 833807.9,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 834809.0,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 835810.1,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 836810.8,
+      "oneCorePercent": 0.0
+    },
+    {
+      "elapsedMs": 837811.9,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 838812.9,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 839814.0,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 840814.8,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 841815.9,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 842817.0,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 843818.1,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 844819.2,
+      "oneCorePercent": 0.0
+    },
+    {
+      "elapsedMs": 845820.3,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 846820.8,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 847821.9,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 848822.8,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 849823.8,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 850824.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 851825.9,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 852826.9,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 853827.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 854828.9,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 855829.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 856830.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 857831.9,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 858832.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 859833.8,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 860834.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 861835.8,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 862836.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 863837.7,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 864838.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 865839.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 866840.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 867841.7,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 868842.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 869843.8,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 870844.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 871845.7,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 872846.8,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 873847.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 874848.8,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 875849.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 876850.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 877851.8,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 878852.9,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 879854.0,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 880855.0,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 881856.0,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 882856.8,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 883857.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 884858.7,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 885859.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 886860.7,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 887861.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 888862.7,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 889863.9,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 890864.7,
+      "oneCorePercent": 0.0
+    },
+    {
+      "elapsedMs": 891865.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 892866.7,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 893867.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 894868.7,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 895869.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 896870.8,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 897871.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 898872.7,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 899873.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 900874.8,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 901875.8,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 902876.7,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 903877.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 904878.7,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 905879.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 906880.7,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 907881.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 908882.7,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 909883.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 910884.8,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 911885.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 912886.7,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 913887.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 914888.8,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 915889.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 916890.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 917891.8,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 918892.9,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 919893.7,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 920894.8,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 921895.7,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 922896.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 923897.9,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 924898.9,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 925899.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 926900.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 927901.8,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 928902.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 929903.8,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 930904.3,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 931905.3,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 932906.6,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 933906.8,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 934907.8,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 935908.9,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 936909.9,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 937910.9,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 938911.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 939912.7,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 940913.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 941914.8,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 942915.8,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 943916.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 944917.9,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 945918.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 946919.9,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 947920.0,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 948920.7,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 949921.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 950922.8,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 951923.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 952924.7,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 953925.8,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 954927.0,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 955927.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 956928.7,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 957929.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 958930.8,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 959931.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 960932.8,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 961933.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 962934.8,
+      "oneCorePercent": 0.0
+    },
+    {
+      "elapsedMs": 963935.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 964936.7,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 965937.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 966938.7,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 967939.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 968940.8,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 969941.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 970942.7,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 971943.7,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 972944.8,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 973945.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 974946.8,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 975947.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 976948.7,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 977949.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 978950.7,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 979951.8,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 980952.7,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 981953.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 982954.8,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 983955.7,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 984956.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 985957.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 986958.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 987959.8,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 988960.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 989961.8,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 990962.9,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 991963.8,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 992964.8,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 993965.7,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 994966.7,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 995967.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 996968.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 997969.7,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 998970.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 999971.7,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 1000972.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 1001973.7,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 1002974.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 1003975.7,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 1004976.8,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 1005977.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 1006978.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 1007979.8,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 1008980.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 1009981.7,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 1010982.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 1011983.7,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 1012984.7,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 1013985.7,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 1014986.8,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 1015987.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 1016988.8,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 1017989.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 1018990.8,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 1019991.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 1020992.8,
+      "oneCorePercent": 0.0
+    },
+    {
+      "elapsedMs": 1021993.9,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 1022995.0,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 1023996.1,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 1024996.7,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 1025997.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 1026998.7,
+      "oneCorePercent": 0.0
+    },
+    {
+      "elapsedMs": 1027999.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 1029000.8,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 1030001.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 1031002.7,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 1032003.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 1033004.8,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 1034005.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 1035006.9,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 1036008.0,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 1037008.8,
+      "oneCorePercent": 0.0
+    },
+    {
+      "elapsedMs": 1038009.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 1039010.9,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 1040011.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 1041012.8,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 1042013.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 1043014.7,
+      "oneCorePercent": 0.0
+    },
+    {
+      "elapsedMs": 1044015.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 1045016.8,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 1046017.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 1047018.8,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 1048019.9,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 1049021.0,
+      "oneCorePercent": 0.0
+    },
+    {
+      "elapsedMs": 1050021.8,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 1051022.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 1052023.9,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 1053025.0,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 1054026.1,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 1055026.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 1056027.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 1057028.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 1058029.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 1059030.7,
+      "oneCorePercent": 14.0
+    },
+    {
+      "elapsedMs": 1060031.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 1061032.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 1062033.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 1063034.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 1064035.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 1065036.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 1066037.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 1067038.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 1068039.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 1069040.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 1070041.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 1071042.7,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 1072043.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 1073044.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 1074045.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 1075046.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 1076047.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 1077048.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 1078049.8,
+      "oneCorePercent": 11.0
+    },
+    {
+      "elapsedMs": 1079050.8,
+      "oneCorePercent": 16.0
+    },
+    {
+      "elapsedMs": 1080051.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 1081052.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 1082053.8,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 1083054.8,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 1084055.8,
+      "oneCorePercent": 11.0
+    },
+    {
+      "elapsedMs": 1085056.8,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 1086057.7,
+      "oneCorePercent": 16.0
+    },
+    {
+      "elapsedMs": 1087058.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 1088059.8,
+      "oneCorePercent": 11.0
+    },
+    {
+      "elapsedMs": 1089060.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 1090061.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 1091062.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 1092063.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 1093064.8,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 1094065.7,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 1095066.5,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 1096067.5,
+      "oneCorePercent": 12.0
+    },
+    {
+      "elapsedMs": 1097068.1,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 1098068.7,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 1099068.8,
+      "oneCorePercent": 12.0
+    },
+    {
+      "elapsedMs": 1100069.7,
+      "oneCorePercent": 15.0
+    },
+    {
+      "elapsedMs": 1101070.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 1102071.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 1103072.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 1104073.6,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 1105073.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 1106074.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 1107075.7,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 1108076.7,
+      "oneCorePercent": 15.0
+    },
+    {
+      "elapsedMs": 1109076.9,
+      "oneCorePercent": 13.0
+    },
+    {
+      "elapsedMs": 1110077.7,
+      "oneCorePercent": 22.0
+    },
+    {
+      "elapsedMs": 1111078.8,
+      "oneCorePercent": 17.0
+    },
+    {
+      "elapsedMs": 1112079.4,
+      "oneCorePercent": 26.0
+    },
+    {
+      "elapsedMs": 1113079.8,
+      "oneCorePercent": 27.0
+    },
+    {
+      "elapsedMs": 1114080.8,
+      "oneCorePercent": 26.0
+    },
+    {
+      "elapsedMs": 1115081.9,
+      "oneCorePercent": 29.0
+    },
+    {
+      "elapsedMs": 1116083.0,
+      "oneCorePercent": 33.0
+    },
+    {
+      "elapsedMs": 1117083.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 1118084.9,
+      "oneCorePercent": 1.0
+    },
+    {
+      "elapsedMs": 1119086.0,
+      "oneCorePercent": 19.0
+    },
+    {
+      "elapsedMs": 1120087.1,
+      "oneCorePercent": 13.0
+    },
+    {
+      "elapsedMs": 1121088.1,
+      "oneCorePercent": 14.0
+    },
+    {
+      "elapsedMs": 1122088.8,
+      "oneCorePercent": 23.0
+    },
+    {
+      "elapsedMs": 1123088.9,
+      "oneCorePercent": 42.0
+    },
+    {
+      "elapsedMs": 1124089.8,
+      "oneCorePercent": 25.0
+    },
+    {
+      "elapsedMs": 1125090.7,
+      "oneCorePercent": 11.0
+    },
+    {
+      "elapsedMs": 1126091.8,
+      "oneCorePercent": 16.0
+    },
+    {
+      "elapsedMs": 1127092.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 1128093.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 1129094.8,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 1130095.1,
+      "oneCorePercent": 17.0
+    },
+    {
+      "elapsedMs": 1131095.2,
+      "oneCorePercent": 18.0
+    },
+    {
+      "elapsedMs": 1132095.7,
+      "oneCorePercent": 23.0
+    },
+    {
+      "elapsedMs": 1133095.8,
+      "oneCorePercent": 14.0
+    },
+    {
+      "elapsedMs": 1134096.8,
+      "oneCorePercent": 11.0
+    },
+    {
+      "elapsedMs": 1135097.9,
+      "oneCorePercent": 15.0
+    },
+    {
+      "elapsedMs": 1136098.2,
+      "oneCorePercent": 13.0
+    },
+    {
+      "elapsedMs": 1137098.8,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 1138099.9,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 1139100.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 1140101.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 1141102.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 1142103.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 1143104.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 1144105.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 1145106.9,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 1146107.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 1147108.9,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 1148109.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 1149110.9,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 1150111.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 1151112.8,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 1152113.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 1153114.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 1154115.8,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 1155116.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 1156117.9,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 1157118.9,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 1158119.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 1159120.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 1160121.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 1161122.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 1162123.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 1163124.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 1164125.9,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 1165126.7,
+      "oneCorePercent": 14.0
+    },
+    {
+      "elapsedMs": 1166127.8,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 1167128.8,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 1168129.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 1169130.7,
+      "oneCorePercent": 11.0
+    },
+    {
+      "elapsedMs": 1170131.8,
+      "oneCorePercent": 16.0
+    },
+    {
+      "elapsedMs": 1171132.8,
+      "oneCorePercent": 16.0
+    },
+    {
+      "elapsedMs": 1172132.9,
+      "oneCorePercent": 12.0
+    },
+    {
+      "elapsedMs": 1173133.7,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 1174134.8,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 1175135.8,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 1176136.8,
+      "oneCorePercent": 15.0
+    },
+    {
+      "elapsedMs": 1177137.8,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 1178138.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 1179139.7,
+      "oneCorePercent": 13.0
+    },
+    {
+      "elapsedMs": 1180140.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 1181140.9,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 1182141.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 1183142.7,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 1184143.8,
+      "oneCorePercent": 14.0
+    },
+    {
+      "elapsedMs": 1185144.7,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 1186145.7,
+      "oneCorePercent": 15.0
+    },
+    {
+      "elapsedMs": 1187146.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 1188147.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 1189148.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 1190149.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 1191150.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 1192151.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 1193152.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 1194153.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 1195154.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 1196155.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 1197156.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 1198157.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 1199158.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 1200159.8,
+      "oneCorePercent": 6.0
+    }
+  ],
+  "scope": "Own Probe windows only; no keyboard contents or input control",
+  "userFeedback": "锁屏测试正常；用户明确跳过重插验证。"
+}

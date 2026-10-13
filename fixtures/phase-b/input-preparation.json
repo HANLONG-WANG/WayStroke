@@ -1,0 +1,28 @@
+{
+  "physicalGrab": false,
+  "inputInjected": false,
+  "device": {
+    "id": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+    "name": "Logitech G304",
+    "path": "/dev/input/event3",
+    "physicalPath": "pci-0000:00:14.0-usb-0:11.2:1.2"
+  },
+  "preparedDevices": [
+    {
+      "name": "WayStroke Virtual Source Keys b06e0aee-0709-40dc-893b-0cf105e493a7",
+      "node": "/dev/input/event18",
+      "keyboard": true,
+      "mouse": true
+    },
+    {
+      "name": "WayStroke Virtual Pointer b06e0aee-0709-40dc-893b-0cf105e493a7",
+      "node": "/dev/input/event16",
+      "keyboard": true,
+      "mouse": true
+    }
+  ],
+  "explicitRelease": true,
+  "controllerDisconnectReleases": true,
+  "leaseTimeoutMs": 3074.1,
+  "leaseTimeoutReleases": true
+}
