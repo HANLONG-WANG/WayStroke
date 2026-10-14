@@ -217,7 +217,7 @@ const ACTION_CATALOG = [
         ]
       }
     ],
-    "note": "",
+    "note": "指针不在目标窗口内时，先移到目标窗口中心再滚动，避免滚动另一窗口。",
     "children": false
   },
   {
@@ -1205,6 +1205,21 @@ const ACTION_CATALOG = [
         "choices": []
       },
       {
+        "key": "itemKind",
+        "label": "当前项类型",
+        "initial": "文本",
+        "kind": "select",
+        "choices": [
+          "自动",
+          "文本",
+          "数字",
+          "布尔值",
+          "列表",
+          "窗口",
+          "数据"
+        ]
+      },
+      {
         "key": "index",
         "label": "索引变量名",
         "initial": "索引",
@@ -1360,7 +1375,7 @@ const ACTION_CATALOG = [
       {
         "key": "left",
         "label": "左值",
-        "initial": "${次数}",
+        "initial": "0",
         "kind": "text",
         "choices": []
       },
@@ -1407,7 +1422,7 @@ const ACTION_CATALOG = [
       {
         "key": "value",
         "label": "文本",
-        "initial": "${结果}",
+        "initial": "",
         "kind": "textarea",
         "choices": []
       },
@@ -1524,7 +1539,7 @@ const ACTION_CATALOG = [
       {
         "key": "value",
         "label": "JSON 文本",
-        "initial": "${响应正文}",
+        "initial": "{}",
         "kind": "textarea",
         "choices": []
       },

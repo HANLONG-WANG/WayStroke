@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<repository version="1.2" xmlns="http://www.gtk.org/introspection/core/1.0" xmlns:c="http://www.gtk.org/introspection/c/1.0" xmlns:glib="http://www.gtk.org/introspection/glib/1.0">
+  <include name="GObject" version="2.0"/><include name="GLib" version="2.0"/>
+  <namespace name="WayStrokeClipboard" version="1.0" shared-library="libwaystroke-clipboard.so" c:identifier-prefixes="WayStrokeClipboard" c:symbol-prefixes="waystroke_clipboard">
+    <function name="source_new" c:identifier="waystroke_clipboard_source_new">
+      <return-value transfer-ownership="full"><type name="GObject.Object" c:type="GObject*"/></return-value>
+      <parameters><parameter name="contents" transfer-ownership="none"><type name="GLib.Variant" c:type="GVariant*"/></parameter></parameters>
+    </function>
+  </namespace>
+</repository>

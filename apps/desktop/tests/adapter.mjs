@@ -58,3 +58,14 @@ const typedResult=toConfig(fromConfig(typedInterface));
 assert.deepEqual(typedResult.workflows[0].inputs,typedInterface.workflows[0].inputs);
 assert.deepEqual(typedResult.workflows[0].outputs,typedInterface.workflows[0].outputs);
 console.log('PASS: workflow defaults and returned structured literals retain their exact value types.');
+// Switching to unary operations retains inactive editor values without requiring
+// their removed references, while result-field comparisons remain numeric.
+const switched=structuredClone(config);
+const binary={...step('switch-math','number.calculate'),params:{left:{mode:'literal',value:{kind:'number',value:1.6}},value:{mode:'literal',value:{kind:'text',value:'加'}},right:{mode:'reference',value:{symbolId:'removed-value',path:[],kind:'number'}}},output:{id:'rounded',name:'rounded',kind:'number'}};
+switched.workflows=[{id:'switch-workflow',name:'Switch operations',description:'',inputs:[],outputs:[],steps:[binary]}];
+const switchedEditor=fromConfig(switched);switchedEditor.workflows[0].steps[0].value='四舍五入';
+const switchedConfig=toConfig(switchedEditor);assert.deepEqual(switchedConfig.workflows[0].steps[0].params.right,binary.params.right);
+const fieldEditor=fromConfig(structuredClone(config));
+fieldEditor.workflows=[{id:'field-workflow',name:'Field comparisons',description:'',inputs:[],outputs:[],steps:[{uid:'http-source',type:'http.request',value:'http://127.0.0.1',method:'GET',headers:'',body:'',timeout:1000,output:'response'},{uid:'compare-status',type:'condition',value:'变量',source:'response.status',operator:'等于',compare:'200',children:[],otherwise:[]}]}];
+const fieldConfig=toConfig(fieldEditor);assert.deepEqual(fieldConfig.workflows[0].steps[1].params.compare,{mode:'literal',value:{kind:'number',value:200}});
+console.log('PASS: inactive parameters preserve bindings and numeric result-field comparisons retain their type.');

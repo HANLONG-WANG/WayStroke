@@ -233,6 +233,8 @@ B 阶段至少用一个快捷键、一个程序启动和一个窗口动作形成
 
 ### C：声明式编排与全部 69 项动作
 
+**状态：已完成。** 用户明确确认“测试环境验证通过即代表通过”，阶段 C 不再要求主桌面验证。C01–C05 与 69 项动作的验收证据见下方索引及文末完成记录；硬件/服务限制按实际能力明确报告。
+
 | ID | 依赖 | 实施与代码归属 | 通过条件 |
 | --- | --- | --- | --- |
 | C01 | A02–03 | 编排编辑器接正式模型：排序/复制/嵌套/启停、输入输出接口、动态参数、引用/变量选择、局部作用域与类型提示 | 编辑和重启保留结构，非法变量/循环退出/递归定位；规则另存为动作及改为引用真实完成 |
@@ -319,126 +321,126 @@ python3 scripts/check-ui.py
 
 ## 69 项动作实施与验收索引
 
-以下每行状态均为待实现。ID沿用设计稿，参数与操作枚举以动作目录和原型字段为准；“通过证据”要求真实执行，不接受toast代替结果。后续在对应行追加执行器路径与通过结果即可，不再另建一份覆盖报告。
+以下逐行记录当前实现和隔离验收结果。证据文件位于 `fixtures/phase-c/`，斜线后为结果键。ID 沿用设计稿，参数与操作枚举以动作目录和原型字段为准；环境能力限制和未经执行的主机会话操作单独注明。隔离结果不代替主会话升级闭环。
 
 ### 键鼠输入
 
 | 动作 ID | 动作 | 任务 | 通过证据 | 状态 |
 | --- | --- | --- | --- | --- |
-| `shortcut` | 发送快捷键 | C04 | 测试窗口收到正确键/按钮/坐标/滚动/拖动；目标校验及取消释放 | 待实现 |
-| `key` | 按下或释放按键 | C04 | 测试窗口收到正确键/按钮/坐标/滚动/拖动；目标校验及取消释放 | 待实现 |
-| `mouse` | 鼠标点击或按下释放 | C04 | 测试窗口收到正确键/按钮/坐标/滚动/拖动；目标校验及取消释放 | 待实现 |
-| `pointer` | 移动鼠标指针 | C04 | 测试窗口收到正确键/按钮/坐标/滚动/拖动；目标校验及取消释放 | 待实现 |
-| `scroll` | 滚动 | C04 | 测试窗口收到正确键/按钮/坐标/滚动/拖动；目标校验及取消释放 | 待实现 |
-| `drag` | 拖动 | C04 | 测试窗口收到正确键/按钮/坐标/滚动/拖动；目标校验及取消释放 | 待实现 |
+| `shortcut` | 发送快捷键 | C04 | 测试窗口收到正确键/按钮/坐标/滚动/拖动；目标校验及取消释放 | 隔离执行通过；`desktop-input-clipboard.json / phaseCKeyAndUnicode` |
+| `key` | 按下或释放按键 | C04 | 测试窗口收到正确键/按钮/坐标/滚动/拖动；目标校验及取消释放 | 隔离执行通过；`desktop-input-clipboard.json / phaseCKeyAndUnicode` |
+| `mouse` | 鼠标点击或按下释放 | C04 | 测试窗口收到正确键/按钮/坐标/滚动/拖动；目标校验及取消释放 | 隔离执行通过；`desktop-enums.json / additionalInputEnums、phaseCInput` |
+| `pointer` | 移动鼠标指针 | C04 | 测试窗口收到正确键/按钮/坐标/滚动/拖动；目标校验及取消释放 | 隔离执行通过；`desktop-enums.json / additionalInputEnums、phaseCInput` |
+| `scroll` | 滚动 | C04 | 测试窗口收到正确键/按钮/坐标/滚动/拖动；目标校验及取消释放 | 隔离执行通过；`desktop-scroll-target.json / scrollTargetsWindowAcrossPointerLocation、phaseCInput` |
+| `drag` | 拖动 | C04 | 测试窗口收到正确键/按钮/坐标/滚动/拖动；目标校验及取消释放 | 隔离执行通过；`desktop-enums.json / additionalInputEnums、phaseCInput` |
 
 ### 文本与剪贴板
 
 | 动作 ID | 动作 | 任务 | 通过证据 | 状态 |
 | --- | --- | --- | --- | --- |
-| `text` | 输入文本 | C04 | 实际文字/剪贴板变化与输出一致；临时恢复和旧内容排除 | 待实现 |
-| `paste` | 粘贴文本 | C04 | 实际文字/剪贴板变化与输出一致；临时恢复和旧内容排除 | 待实现 |
-| `clipboard.read` | 读取剪贴板 | C04 | 实际文字/剪贴板变化与输出一致；临时恢复和旧内容排除 | 待实现 |
-| `clipboard.write` | 写入剪贴板 | C04 | 实际文字/剪贴板变化与输出一致；临时恢复和旧内容排除 | 待实现 |
-| `clipboard.clear` | 清空剪贴板 | C04 | 实际文字/剪贴板变化与输出一致；临时恢复和旧内容排除 | 待实现 |
-| `selection.copy` | 获取选中文本 | C04 | 实际文字/剪贴板变化与输出一致；临时恢复和旧内容排除 | 待实现 |
+| `text` | 输入文本 | C04 | 实际文字/剪贴板变化与输出一致；临时恢复和旧内容排除 | 隔离执行通过；`desktop-input-clipboard.json / phaseCKeyAndUnicode` |
+| `paste` | 粘贴文本 | C04 | 实际文字/剪贴板变化与输出一致；临时恢复和旧内容排除 | 隔离执行通过；`desktop-input-clipboard.json / phaseCClipboardRestoreAllMime` |
+| `clipboard.read` | 读取剪贴板 | C04 | 实际文字/剪贴板变化与输出一致；临时恢复和旧内容排除 | 隔离执行通过；`desktop-input-clipboard.json / phaseCClipboardRestoreAllMime` |
+| `clipboard.write` | 写入剪贴板 | C04 | 实际文字/剪贴板变化与输出一致；临时恢复和旧内容排除 | 隔离执行通过；`desktop-input-clipboard.json / phaseCClipboardRestoreAllMime` |
+| `clipboard.clear` | 清空剪贴板 | C04 | 实际文字/剪贴板变化与输出一致；临时恢复和旧内容排除 | 隔离执行通过；`desktop-input-clipboard.json / phaseCClipboardRestoreAllMime` |
+| `selection.copy` | 获取选中文本 | C04 | 实际文字/剪贴板变化与输出一致；临时恢复和旧内容排除 | 隔离执行通过；`desktop-input-clipboard.json / phaseCSelectionCopy` |
 
 ### 应用与命令
 
 | 动作 ID | 动作 | 任务 | 通过证据 | 状态 |
 | --- | --- | --- | --- | --- |
-| `launch` | 打开程序 | C03/C04 | 实际程序/窗口/进程状态及退出结果；目标和超时正确 | 待实现 |
-| `app.activate` | 激活或打开应用 | C03/C04 | 实际程序/窗口/进程状态及退出结果；目标和超时正确 | 待实现 |
-| `command` | 运行命令 | C03/C04 | 实际程序/窗口/进程状态及退出结果；目标和超时正确 | 待实现 |
-| `uri.open` | 打开链接或文件 | C03/C04 | 实际程序/窗口/进程状态及退出结果；目标和超时正确 | 待实现 |
-| `app.quit` | 关闭应用窗口 | C03/C04 | 实际程序/窗口/进程状态及退出结果；目标和超时正确 | 待实现 |
-| `process.signal` | 向进程发送信号 | C03/C04 | 实际程序/窗口/进程状态及退出结果；目标和超时正确 | 待实现 |
+| `launch` | 打开程序 | C03/C04 | 实际程序/窗口/进程状态及退出结果；目标和超时正确 | 隔离执行通过；`desktop-apps-session.json / applicationArgumentsAndNewTarget` |
+| `app.activate` | 激活或打开应用 | C03/C04 | 实际程序/窗口/进程状态及退出结果；目标和超时正确 | 隔离执行通过；`desktop-apps-session.json / applicationActivateExisting` |
+| `command` | 运行命令 | C03/C04 | 实际程序/窗口/进程状态及退出结果；目标和超时正确 | 隔离执行通过；`execution-final-data.json / directAndShellCommands` |
+| `uri.open` | 打开链接或文件 | C03/C04 | 实际程序/窗口/进程状态及退出结果；目标和超时正确 | 隔离执行通过；`execution-final-data.json / actualUriHandler` |
+| `app.quit` | 关闭应用窗口 | C03/C04 | 实际程序/窗口/进程状态及退出结果；目标和超时正确 | 隔离执行通过；`desktop-apps-session.json / applicationQuitOne` |
+| `process.signal` | 向进程发送信号 | C03/C04 | 实际程序/窗口/进程状态及退出结果；目标和超时正确 | 隔离执行通过；`execution-final-data.json / asyncAndSignal` |
 
 ### 窗口与工作区
 
 | 动作 ID | 动作 | 任务 | 通过证据 | 状态 |
 | --- | --- | --- | --- | --- |
-| `window` | 窗口操作 | C04 | 真实窗口/工作区/显示器状态变化或信息输出；目标失效报错 | 待实现 |
-| `window.find` | 查找窗口 | C04 | 真实窗口/工作区/显示器状态变化或信息输出；目标失效报错 | 待实现 |
-| `window.target` | 设置动作目标窗口 | C04 | 真实窗口/工作区/显示器状态变化或信息输出；目标失效报错 | 待实现 |
-| `window.info` | 读取窗口信息 | C04 | 真实窗口/工作区/显示器状态变化或信息输出；目标失效报错 | 待实现 |
-| `window.geometry` | 移动或调整窗口尺寸 | C04 | 真实窗口/工作区/显示器状态变化或信息输出；目标失效报错 | 待实现 |
-| `window.monitor` | 移动窗口到显示器 | C04 | 真实窗口/工作区/显示器状态变化或信息输出；目标失效报错 | 待实现 |
-| `workspace.switch` | 切换工作区 | C04 | 真实窗口/工作区/显示器状态变化或信息输出；目标失效报错 | 待实现 |
-| `workspace.move` | 移动窗口到工作区 | C04 | 真实窗口/工作区/显示器状态变化或信息输出；目标失效报错 | 待实现 |
-| `desktop.overview` | 概览或应用列表 | C04 | 真实窗口/工作区/显示器状态变化或信息输出；目标失效报错 | 待实现 |
-| `desktop.show` | 显示桌面或恢复窗口 | C04 | 真实窗口/工作区/显示器状态变化或信息输出；目标失效报错 | 待实现 |
+| `window` | 窗口操作 | C04 | 真实窗口/工作区/显示器状态变化或信息输出；目标失效报错 | 隔离执行通过；`desktop-enums.json / phaseCWindows` |
+| `window.find` | 查找窗口 | C04 | 真实窗口/工作区/显示器状态变化或信息输出；目标失效报错 | 隔离执行通过；`desktop-enums.json / phaseCWindows` |
+| `window.target` | 设置动作目标窗口 | C04 | 真实窗口/工作区/显示器状态变化或信息输出；目标失效报错 | 隔离执行通过；`desktop-enums.json / phaseCWindows` |
+| `window.info` | 读取窗口信息 | C04 | 真实窗口/工作区/显示器状态变化或信息输出；目标失效报错 | 隔离执行通过；`desktop-enums.json / windowInformationAndTargetEnums` |
+| `window.geometry` | 移动或调整窗口尺寸 | C04 | 真实窗口/工作区/显示器状态变化或信息输出；目标失效报错 | 隔离执行通过；`desktop-enums.json / phaseCWindows` |
+| `window.monitor` | 移动窗口到显示器 | C04 | 真实窗口/工作区/显示器状态变化或信息输出；目标失效报错 | 隔离执行通过；`desktop-enums.json / phaseCWindows` |
+| `workspace.switch` | 切换工作区 | C04 | 真实窗口/工作区/显示器状态变化或信息输出；目标失效报错 | 隔离执行通过；`desktop-enums.json / phaseCWindows` |
+| `workspace.move` | 移动窗口到工作区 | C04 | 真实窗口/工作区/显示器状态变化或信息输出；目标失效报错 | 隔离执行通过；`desktop-enums.json / phaseCWindows` |
+| `desktop.overview` | 概览或应用列表 | C04 | 真实窗口/工作区/显示器状态变化或信息输出；目标失效报错 | 隔离执行通过；`desktop-enums.json / phaseCWindows` |
+| `desktop.show` | 显示桌面或恢复窗口 | C04 | 真实窗口/工作区/显示器状态变化或信息输出；目标失效报错 | 隔离执行通过；`desktop-enums.json / phaseCWindows` |
 
 ### 流程控制
 
 | 动作 ID | 动作 | 任务 | 通过证据 | 状态 |
 | --- | --- | --- | --- | --- |
-| `wait` | 等待时长 | C02 | 真实步骤顺序/分支/循环/等待/调用结果及取消/超时 | 待实现 |
-| `wait.condition` | 等待条件成立 | C02 | 真实步骤顺序/分支/循环/等待/调用结果及取消/超时 | 待实现 |
-| `condition` | 条件分支 | C02 | 真实步骤顺序/分支/循环/等待/调用结果及取消/超时 | 待实现 |
-| `repeat` | 有限次数重复 | C02 | 真实步骤顺序/分支/循环/等待/调用结果及取消/超时 | 待实现 |
-| `foreach` | 遍历列表 | C02 | 真实步骤顺序/分支/循环/等待/调用结果及取消/超时 | 待实现 |
-| `loop.break` | 退出当前重复 | C02 | 真实步骤顺序/分支/循环/等待/调用结果及取消/超时 | 待实现 |
-| `loop.continue` | 跳过当前循环项 | C02 | 真实步骤顺序/分支/循环/等待/调用结果及取消/超时 | 待实现 |
-| `flow.stop` | 停止动作序列 | C02 | 真实步骤顺序/分支/循环/等待/调用结果及取消/超时 | 待实现 |
-| `flow.call` | 调用可复用动作 | C02 | 真实步骤顺序/分支/循环/等待/调用结果及取消/超时 | 待实现 |
+| `wait` | 等待时长 | C02 | 真实步骤顺序/分支/循环/等待/调用结果及取消/超时 | 隔离执行通过；`execution-final-data.json / scopedNestedCallAndRepeat` |
+| `wait.condition` | 等待条件成立 | C02 | 真实步骤顺序/分支/循环/等待/调用结果及取消/超时 | 隔离执行通过；`desktop-integration.json / representativeWaitFindTargetInput` |
+| `condition` | 条件分支 | C02 | 真实步骤顺序/分支/循环/等待/调用结果及取消/超时 | 隔离执行通过；`execution-final-data.json / scopedNestedCallAndRepeat` |
+| `repeat` | 有限次数重复 | C02 | 真实步骤顺序/分支/循环/等待/调用结果及取消/超时 | 隔离执行通过；`execution-final-data.json / scopedNestedCallAndRepeat` |
+| `foreach` | 遍历列表 | C02 | 真实步骤顺序/分支/循环/等待/调用结果及取消/超时 | 隔离执行通过；`execution-final-data.json / typedForeach` |
+| `loop.break` | 退出当前重复 | C02 | 真实步骤顺序/分支/循环/等待/调用结果及取消/超时 | 隔离执行通过；`execution-final-data.json / nearestLoopControl` |
+| `loop.continue` | 跳过当前循环项 | C02 | 真实步骤顺序/分支/循环/等待/调用结果及取消/超时 | 隔离执行通过；`execution-final-data.json / nearestLoopControl` |
+| `flow.stop` | 停止动作序列 | C02 | 真实步骤顺序/分支/循环/等待/调用结果及取消/超时 | 隔离执行通过；`execution-final-data.json / stopWholeNestedSequence` |
+| `flow.call` | 调用可复用动作 | C02 | 真实步骤顺序/分支/循环/等待/调用结果及取消/超时 | 隔离执行通过；`execution-final-data.json / scopedNestedCallAndRepeat` |
 
 ### 变量与数据
 
 | 动作 ID | 动作 | 任务 | 通过证据 | 状态 |
 | --- | --- | --- | --- | --- |
-| `variable` | 设置变量 | C03 | 真实类型化输出被后续步骤消费；作用域与参数类型正确 | 待实现 |
-| `variable.read` | 读取上下文值 | C03 | 真实类型化输出被后续步骤消费；作用域与参数类型正确 | 待实现 |
-| `number.calculate` | 数字计算 | C03 | 真实类型化输出被后续步骤消费；作用域与参数类型正确 | 待实现 |
-| `text.transform` | 处理文本 | C03 | 真实类型化输出被后续步骤消费；作用域与参数类型正确 | 待实现 |
-| `date.format` | 格式化日期时间 | C03 | 真实类型化输出被后续步骤消费；作用域与参数类型正确 | 待实现 |
-| `number.random` | 生成随机数 | C03 | 真实类型化输出被后续步骤消费；作用域与参数类型正确 | 待实现 |
-| `json.parse` | 解析 JSON | C03 | 真实类型化输出被后续步骤消费；作用域与参数类型正确 | 待实现 |
-| `data.field` | 读取数据字段 | C03 | 真实类型化输出被后续步骤消费；作用域与参数类型正确 | 待实现 |
-| `list.change` | 操作列表 | C03 | 真实类型化输出被后续步骤消费；作用域与参数类型正确 | 待实现 |
+| `variable` | 设置变量 | C03 | 真实类型化输出被后续步骤消费；作用域与参数类型正确 | 隔离执行通过；`execution-final-data.json / scopedNestedCallAndRepeat` |
+| `variable.read` | 读取上下文值 | C03 | 真实类型化输出被后续步骤消费；作用域与参数类型正确 | 隔离执行通过；`execution-final-data.json / contextDateRandom` |
+| `number.calculate` | 数字计算 | C03 | 真实类型化输出被后续步骤消费；作用域与参数类型正确 | 隔离执行通过；`execution-final-data.json / scopedNestedCallAndRepeat` |
+| `text.transform` | 处理文本 | C03 | 真实类型化输出被后续步骤消费；作用域与参数类型正确 | 隔离执行通过；`execution-final-data.json / jsonListUnicodeChain` |
+| `date.format` | 格式化日期时间 | C03 | 真实类型化输出被后续步骤消费；作用域与参数类型正确 | 隔离执行通过；`execution-final-data.json / contextDateRandom` |
+| `number.random` | 生成随机数 | C03 | 真实类型化输出被后续步骤消费；作用域与参数类型正确 | 隔离执行通过；`execution-final-data.json / contextDateRandom` |
+| `json.parse` | 解析 JSON | C03 | 真实类型化输出被后续步骤消费；作用域与参数类型正确 | 隔离执行通过；`execution-final-data.json / jsonListUnicodeChain` |
+| `data.field` | 读取数据字段 | C03 | 真实类型化输出被后续步骤消费；作用域与参数类型正确 | 隔离执行通过；`execution-final-data.json / jsonListUnicodeChain` |
+| `list.change` | 操作列表 | C03 | 真实类型化输出被后续步骤消费；作用域与参数类型正确 | 隔离执行通过；`execution-final-data.json / allListOperations` |
 
 ### 文件与路径
 
 | 动作 ID | 动作 | 任务 | 通过证据 | 状态 |
 | --- | --- | --- | --- | --- |
-| `file.read` | 读取文本文件 | C03 | 临时目录中的实际文件/目录状态及输出；冲突策略正确 | 待实现 |
-| `file.write` | 写入或追加文本文件 | C03 | 临时目录中的实际文件/目录状态及输出；冲突策略正确 | 待实现 |
-| `file.copy` | 复制文件或目录 | C03 | 临时目录中的实际文件/目录状态及输出；冲突策略正确 | 待实现 |
-| `file.move` | 移动或重命名 | C03 | 临时目录中的实际文件/目录状态及输出；冲突策略正确 | 待实现 |
-| `file.trash` | 移到回收站 | C03 | 临时目录中的实际文件/目录状态及输出；冲突策略正确 | 待实现 |
-| `directory.create` | 创建目录 | C03 | 临时目录中的实际文件/目录状态及输出；冲突策略正确 | 待实现 |
-| `directory.list` | 列出目录内容 | C03 | 临时目录中的实际文件/目录状态及输出；冲突策略正确 | 待实现 |
-| `file.info` | 读取路径信息 | C03 | 临时目录中的实际文件/目录状态及输出；冲突策略正确 | 待实现 |
+| `file.read` | 读取文本文件 | C03 | 临时目录中的实际文件/目录状态及输出；冲突策略正确 | 隔离执行通过；`execution-final-data.json / realFiles` |
+| `file.write` | 写入或追加文本文件 | C03 | 临时目录中的实际文件/目录状态及输出；冲突策略正确 | 隔离执行通过；`execution-final-data.json / realFiles` |
+| `file.copy` | 复制文件或目录 | C03 | 临时目录中的实际文件/目录状态及输出；冲突策略正确 | 隔离执行通过；`execution-final-data.json / directoryCopyMoveAndSymlink` |
+| `file.move` | 移动或重命名 | C03 | 临时目录中的实际文件/目录状态及输出；冲突策略正确 | 隔离执行通过；`execution-final-data.json / directoryCopyMoveAndSymlink` |
+| `file.trash` | 移到回收站 | C03 | 临时目录中的实际文件/目录状态及输出；冲突策略正确 | 隔离执行通过；`execution-final-data.json / actualTrash` |
+| `directory.create` | 创建目录 | C03 | 临时目录中的实际文件/目录状态及输出；冲突策略正确 | 隔离执行通过；`execution-final-data.json / realFiles` |
+| `directory.list` | 列出目录内容 | C03 | 临时目录中的实际文件/目录状态及输出；冲突策略正确 | 隔离执行通过；`execution-final-data.json / directoryOverwriteAndRecursiveFilter` |
+| `file.info` | 读取路径信息 | C03 | 临时目录中的实际文件/目录状态及输出；冲突策略正确 | 隔离执行通过；`execution-final-data.json / allFileInfoProperties` |
 
 ### 系统与媒体
 
 | 动作 ID | 动作 | 任务 | 通过证据 | 状态 |
 | --- | --- | --- | --- | --- |
-| `volume` | 调节音量或静音 | C05 | 对应系统/媒体真实效果或已核实能力限制；取消/权限原因准确 | 待实现 |
-| `brightness` | 调节亮度 | C05 | 对应系统/媒体真实效果或已核实能力限制；取消/权限原因准确 | 待实现 |
-| `media` | 控制媒体播放 | C05 | 对应系统/媒体真实效果或已核实能力限制；取消/权限原因准确 | 待实现 |
-| `notification` | 显示通知 | C05 | 对应系统/媒体真实效果或已核实能力限制；取消/权限原因准确 | 待实现 |
-| `dialog.message` | 显示消息或询问 | C05 | 对应系统/媒体真实效果或已核实能力限制；取消/权限原因准确 | 待实现 |
-| `dialog.input` | 请求用户输入 | C05 | 对应系统/媒体真实效果或已核实能力限制；取消/权限原因准确 | 待实现 |
-| `screenshot` | 截图 | C05 | 对应系统/媒体真实效果或已核实能力限制；取消/权限原因准确 | 待实现 |
-| `session` | 锁屏或会话操作 | C05 | 对应系统/媒体真实效果或已核实能力限制；取消/权限原因准确 | 待实现 |
-| `settings.open` | 打开系统设置 | C05 | 对应系统/媒体真实效果或已核实能力限制；取消/权限原因准确 | 待实现 |
+| `volume` | 调节音量或静音 | C05 | 对应系统/媒体真实效果或已核实能力限制；取消/权限原因准确 | 隔离执行通过；`desktop-audio.json / phaseCRealPrivateAudio` |
+| `brightness` | 调节亮度 | C05 | 对应系统/媒体真实效果或已核实能力限制；取消/权限原因准确 | 当前无背光，明确不可用且执行失败；硬件分支保留；`desktop-system.json / phaseCBrightnessUnavailable` |
+| `media` | 控制媒体播放 | C05 | 对应系统/媒体真实效果或已核实能力限制；取消/权限原因准确 | 隔离执行通过；`execution-final-data.json / mprisAllOperations` |
+| `notification` | 显示通知 | C05 | 对应系统/媒体真实效果或已核实能力限制；取消/权限原因准确 | 隔离执行通过；`desktop-system.json / phaseCNotification` |
+| `dialog.message` | 显示消息或询问 | C05 | 对应系统/媒体真实效果或已核实能力限制；取消/权限原因准确 | 隔离执行通过；`desktop-system.json / phaseCNativePromptWithoutUI` |
+| `dialog.input` | 请求用户输入 | C05 | 对应系统/媒体真实效果或已核实能力限制；取消/权限原因准确 | 隔离执行通过；`desktop-system.json / phaseCNativeInput` |
+| `screenshot` | 截图 | C05 | 对应系统/媒体真实效果或已核实能力限制；取消/权限原因准确 | 隔离执行通过；`desktop-system.json / phaseCFullScreenshot` |
+| `session` | 锁屏或会话操作 | C05 | 对应系统/媒体真实效果或已核实能力限制；取消/权限原因准确 | 隔离实际锁屏通过；注销/挂起私有服务契约及权限失败通过，未自动操作主会话；`desktop-apps-session.json / sessionActualPrivateLock` |
+| `settings.open` | 打开系统设置 | C05 | 对应系统/媒体真实效果或已核实能力限制；取消/权限原因准确 | 隔离执行通过；`desktop-apps-session.json / actualSystemSettings` |
 
 ### 高级集成
 
 | 动作 ID | 动作 | 任务 | 通过证据 | 状态 |
 | --- | --- | --- | --- | --- |
-| `http.request` | 发送 HTTP 请求 | C03 | 本机fixture HTTP/D-Bus收发及类型化结果；错误/超时正确 | 待实现 |
-| `dbus.call` | 调用 D-Bus 方法 | C03 | 本机fixture HTTP/D-Bus收发及类型化结果；错误/超时正确 | 待实现 |
-| `dbus.property` | 读取或设置 D-Bus 属性 | C03 | 本机fixture HTTP/D-Bus收发及类型化结果；错误/超时正确 | 待实现 |
+| `http.request` | 发送 HTTP 请求 | C03 | 本机fixture HTTP/D-Bus收发及类型化结果；错误/超时正确 | 隔离执行通过；`execution-final-data.json / realHttpAndTypedField` |
+| `dbus.call` | 调用 D-Bus 方法 | C03 | 本机fixture HTTP/D-Bus收发及类型化结果；错误/超时正确 | 隔离执行通过；`execution-final-data.json / dbusTypedArgumentsAndReturns` |
+| `dbus.property` | 读取或设置 D-Bus 属性 | C03 | 本机fixture HTTP/D-Bus收发及类型化结果；错误/超时正确 | 隔离执行通过；`execution-final-data.json / dbusPropertiesAndEmptyCall` |
 
 ### WayStroke 控制
 
 | 动作 ID | 动作 | 任务 | 通过证据 | 状态 |
 | --- | --- | --- | --- | --- |
-| `waystroke.toggle` | 控制手势或文本替换 | C03 | 真实启停/规则/页面变化，配置或会话状态符合语义 | 待实现 |
-| `waystroke.rule` | 启停指定规则 | C03 | 真实启停/规则/页面变化，配置或会话状态符合语义 | 待实现 |
-| `waystroke.open` | 打开 WayStroke 页面 | C03 | 真实启停/规则/页面变化，配置或会话状态符合语义 | 待实现 |
+| `waystroke.toggle` | 控制手势或文本替换 | C03 | 真实启停/规则/页面变化，配置或会话状态符合语义 | 隔离执行通过；`execution-final-data.json / realWayStrokeControl` |
+| `waystroke.rule` | 启停指定规则 | C03 | 真实启停/规则/页面变化，配置或会话状态符合语义 | 隔离执行通过；`execution-final-data.json / realWayStrokeControl` |
+| `waystroke.open` | 打开 WayStroke 页面 | C03 | 真实启停/规则/页面变化，配置或会话状态符合语义 | 隔离原生执行通过；`native-editor-final.json / realWayStrokeOpenAction` |
 
 优先细查的特殊语义：显示桌面恢复仅恢复本程序保存的窗口状态；截图覆盖选区/窗口/全屏与文件/剪贴板输出；音量包含默认输入/输出；亮度受实际设备能力限制；MPRIS按播放器能力报告；命令不等待与等待有不同结果结构；文件覆盖/重命名/回收站使用真实策略；所有窗口操作枚举不能只实现最大化；HTTP全部方法及D-Bus读取/设置/调用均需接入。交互询问、请求输入在设置未打开时仍可完成或明确取消。
 
@@ -537,3 +539,129 @@ A01–A04 已完成并取得下述证据，下一阶段为 B01 的正式输入�
 负载验收：后台 30 秒单核进程退出码 0；两次成功跨窗手势起点、结束与识别均处于该负载时间范围内，起点 A/终点 B，实际最大化 A。起点绑定 3.76/3.84 ms，松键→识别 3.19/3.43 ms，松键→入队 3.55/3.75 ms；用户反馈“没问题”。该证据限定为所定义的单核负载，不宣称所有负载的时延保证。其余低分轨迹未执行。见 live-load.json，完整执行开始时间和排队时间保留于事件 timing。
 
 安装/更新说明已按实际 GNOME 50.5 源码与运行结果修正：直接重新开启仅重新启用已导入模块；代码更新受 ESM 缓存限制，需要新桌面会话。不使用 unsafe Eval、不把实例变化或磁盘文件一致误当作新代码加载证明。
+
+
+### 阶段 C 实施进展：参数与执行快照
+
+阶段 C 已开始，C01–C05 及 69 项动作仍按原合同实施，不以现有阶段 B 执行能力代替完成。
+
+- 新增 `core/parameters.rs`：固定值、稳定 ID 引用、嵌套对象/列表、文本模板真实求值；字段和列表索引读取保留类型，失效引用及类型不符报错。
+- 执行任务同步冻结可复用动作定义，避免排队期间配置修改影响调用；调用执行尚待接入。
+- 新增纯数据执行器，接入变量赋值、数字计算、文本处理和字段读取。按 Unicode 字符截取与计数；除零和无效字段真实失败。列表合并的正式校验和编辑器参数类型同步修正。
+- 已通过 core 库测试（含新增嵌套求值/模板/类型检查），尚未进行完整 C 验收，当前运行中的用户程序未替换。
+- 下一步：递归编排执行、局部作用域、调用参数/返回、取消/超时和实时步骤事件，再逐类完成 I/O 与 GNOME 系统动作及 UI 接入。
+
+### 阶段 C 增量：流程、I/O 与窗口桥接
+
+- C02 已接入正式递归执行器：分支、有限重复/遍历、break/continue/stop、可复用输入和类型化返回、局部作用域、失败后继续、嵌套超时、实时步骤事件与输出、取消当前/排队任务。调用定义与顶层步骤一同冻结。真实 core 私有总线检查证明顺序与作用域、排队期间修改调用定义仍执行原快照、超时关闭运行中的子步骤、未开始的队列取消没有开始时间。显式 flow.stop 结束整个序列；失败继续仍保留失败总体结果。
+- C03 已接入变量/数据、日期时区、随机数、文件、命令、HTTP、D-Bus 与配置启停执行器。文件目录返回排序的文本路径列表；命令结果 pid/exitCode/stdout/stderr，异步 exitCode 为 null；非零退出码可被后续条件消费，命令超时/取消清理本次进程组。HTTP 返回 status/headers/body。D-Bus 参数完整覆盖设计表单的 s/i/d/b/as；方法返回 values 类型化列表、属性返回 value，权限与超时真实失败。JSON null 保留为独立值，JSON 根类型可通过结果类型选择声明。测试结果见 `fixtures/phase-c/execution-io.json`，未验证项不能据此计作通过。
+- C01 同步当前遍历项类型选择到正式目录、HTML 和编辑器，支持直接遍历文本文件路径列表；循环项在运行时校验声明类型。修复列表参数与列表合并的类型校验。打开 WayStroke 页面已接原生启动参数/已有窗口导航，仍待原生 UI 验收；取消页面切换按已有草稿确认流程处理。
+- C04 窗口/工作区桥接已取得独立 GNOME 双屏实证，见 `desktop-windows.json`。所有配置中的窗口操作枚举、查找排序、百分比几何、显示器和工作区操作、显式窗口变量目标及显示桌面恢复通过。半屏使用当前显示器工作区几何；编号面向用户为 1 起，底层起点快照保持 0 起供反馈使用。键鼠与文本输入仍在验证。
+- 输入实测发现 Unicode keyval 在当前布局没有键码时不会产生输入，原先 void API 的返回不能证明文字成功。已加入原生文本提交或明确能力错误，完整 Unicode/临时粘贴路径继续接入。当前失败证据 `/tmp/waystroke-desktop-check-v3pd4scv`，未记为通过。
+- 保留全部剪贴板格式需要多 MIME MetaSelectionSource。已实际证明 GJS 无法实现带 callback 参数的 read_async vfunc，因此增加很小的原生 C source，使用本机 50.5 开发头文件编译，GJS 调用原生 factory；不降低为只恢复纯文本。`scripts/build-clipboard-native.sh` 和 `check-clipboard-source.mjs` 已证明 UTF-8/HTML/二进制逐字节读回，见 `clipboard-source.json`。开发 SDK 下载并解压在 `/tmp/waystroke-mutter-sdk`，没有系统安装；可通过 WAYSTROKE_MUTTER_SDK 指定该 SDK。正式构建、安装、应用端粘贴确认与恢复尚待接入。当前主会话扩展未更新。
+
+继续工作：完成剪贴板/选中文本/原生输入的端到端接入与检查，再完成系统媒体、截图和无 UI 窗口时的对话框、能力注册及 69 项核对，最后进行原生编排/UI 全流程验收。C01–C05 均未宣布整体完成。
+
+### 阶段 C 增量：剪贴板与系统动作的实际接入
+
+- 正式剪贴板事务已接入 core/GNOME：读取、写入、清空、复制选中文本、临时/保留粘贴及自动文本输入。临时粘贴保存所有 MIME 字节，成功和取消恢复；用户期间主动复制的新内容优先。应用未读取时真实超时，复制没有产生新 selection 时不读旧剪贴板。原为空的剪贴板也按空 selection 恢复。
+- 修复 Ctrl+字母快捷键错误使用大写 keysym 而意外合成 Shift；输入实测确认 ASCII/Shift、Unicode 自动粘贴、五个按钮、四向滚动、指针与拖动、持有按键超时释放。`desktop-input-clipboard.json` complete=true，范围仅为该独立桌面检查。
+- GNOME 50.5 的缓存管理器会在 owner-changed 内同步预读取新剪贴板，不能据此宣布应用粘贴。正式事务在 set_owner 返回后重置计数，只确认后续读取；不使用固定延迟猜测。依据是当前版本 [clipboard manager 源码](https://raw.githubusercontent.com/GNOME/mutter/50.5/src/core/meta-clipboard-manager.c) 和 [selection 源码](https://raw.githubusercontent.com/GNOME/mutter/50.5/src/core/meta-selection.c)，实际无粘贴读取的超时与恢复检查通过。
+- C05 已接入真实 GNOME 通知、无需设置窗口的消息/询问/输入对话框、全屏/目标窗口/选区截图、文件/PNG 剪贴板输出与取消。输入框 Enter 实际确认，Esc 返回取消错误而不是有效空字符串。`desktop-system.json` 包含实际模态 UI、通知与 PNG 文件/selection 结果；没有设置窗口也通过。
+- 音量与静音已在私有 PipeWire/Pulse 加仅策略 WirePlumber 下验证，完全不加载硬件监视器。虚拟输出与独立虚拟输入分别通过设置/增减音量、静音/取消/切换共 12 项，pactl 读回实际服务状态，见 `desktop-audio.json`。无可控制背光的独立 GNOME 正确报告能力缺失；没有把亮度请求当作成功。
+- MPRIS 的八种操作和微秒 Seek 参数、能力不支持时不调用动作已由实际标准接口 fixture 验证，见 `execution-io-media.json`；它验证协议和 executor，不宣称用户播放器均支持所有操作。
+- 系统设置、锁屏/挂起/注销执行器已经接入，但其完整验收、能力注册和 69 项逐条核对仍待完成；不在用户主会话自动执行注销或挂起。打开 WayStroke 页面的原生启动参数已按真实 sidebar 路由修正为 rules/text/test/settings，仍待 UI 实测。
+- 统一构建现在包含原生剪贴板组件。`install-dev-clipboard.sh` 负责安装其独立共享库和 typelib，扩展安装脚本同步复制全部 JS 模块；脚本已检查，尚未在主机安装或更新主会话扩展。开发 SDK 仍位于 `/tmp/waystroke-mutter-sdk`。
+
+当前收尾重点：C01 动态参数/字段引用的类型与定位、可复用编排及页面导航的原生 UI 实测；C03 逐动作剩余文件/编码/URI/应用操作检查；C05 会话/系统设置、能力注册与 69 项对应证据审计。隐藏的非活动参数不应妨碍切换操作后的保存，需同时核对 model 和 adapter。阶段 C 仍保持进行中。
+
+### 阶段 C 增量：编排类型、超时与原生 UI（2026-10-14）
+
+- model/adapter/执行器统一处理非活动参数：切换到四舍五入、单目条件等操作后，隐藏字段保留原绑定，但不要求已经删除的引用继续可用。重新启用该参数仍严格检查；条件比较支持变量选择器插入的字段路径，并按字段类型保存数字等比较值。
+- 全宽编排和规则内步骤设置补齐公共“步骤超时”，正式 HTML 同步同样布局。原生 UI 已证明 300 ms 超时落盘、变量输出改名保持 ID、正式录制/识别/运行详情、复制/重开、断线保存保留草稿和真实退出，见 native-ui.json。
+- 编排应用/保存前接入正式模型校验；错误选择对应步骤，参数与树保留。检查期间离开页面不会让异步响应覆盖另一页面。类型化数据默认值允许 JSON 对象，列表支持每行文本或 JSON 列表；命令 pid 可直接插入变量。
+- 结果类型“自动”使用推断声明 Any，实际值仍保持原生 Text/Number/Boolean/List/Window/Data 类型。字段读取、JSON 和列表项可被后续合适的动作直接消费；显式指定的输出类型仍严格校验，不能把失败结果伪装为数据对象。遍历项可选择自动；工作流接口仍提供既定六种类型。真实 core 检查自动字段→数字计算成功及显式错误类型失败，见 execution-inference.json。
+- UTF-16 写入必须实际编码为所选字节序，不能采用编码库返回的 UTF-8 替代；Unicode/emoji 字节与读取结果实证见 execution-encoding.json。HTTP 正文支持响应字符集，重复响应头按换行保留。D-Bus 属性设置的可选输出为服务确认的 written=true，不伪造读回值。
+
+阶段 C 尚未完成。继续：补齐可复用编排另存/调用和页面导航的原生 UI 验收、类型推断 UI 检查、其余文件/应用/URI 与会话操作、代表性完整编排、能力注册及 69 项证据审计。上表“已接入”只表示执行路径已存在，未代替逐项验收；主会话组件仍未更新。
+
+### 阶段 C 增量：剩余文件、可复用动作与能力注册
+
+- 目录复制/移动保留子文件与符号链接，覆盖替换旧目录，递归筛选和全部文件信息枚举已经真实执行。GIO 不支持对 /tmp 内部挂载回收；检查将自己的源文件及私有回收站置于工作区同一文件系统后，实际回收成功且内容完整，随后清理这些临时文件。没有写用户回收站。URI 打开使用私有注册的 scheme handler，确实收到原 URI，见 execution-files-uri.json。
+- 原生 UI 实际另存全部步骤为可复用动作、将规则改成 flow.call 并保存、调用真实执行成功；新进程的 --page text 通过单实例路径切换现有窗口。新增检查参数已经传入私有会话，结果明确包含这些项目，而不是仅用原有 complete 标志推断，见 native-reusable-ui.json。
+- 69 项动作使用显式执行器注册映射，GetActionCapabilities 返回 available/limited/unavailable、执行器与真实原因。扩展报告当前剪贴板原生组件、音频及背光条件；旧扩展模块不冒充阶段 C 能力，目标服务/权限仍逐步校验。支持配置当前受限动作，不能把暂缺硬件当成删除功能。运行状态、动作选择器与当前参数说明已经显示能力信息，HTML 同步对应布局。
+- 独立 GNOME 证明 69 项均有注册、原生剪贴板可用、无背光明确不可用；原生 UI 加能力信息后，完整保存/另存调用/导航/重开/退出仍通过，见 desktop-capabilities.json 和 native-capabilities-ui.json。注册与环境报告不等于每种操作均已逐项通过，阶段 C 尚未完成。
+
+继续收尾：应用/命令参数与目标、实际系统设置、会话操作的安全检查、计划指定的完整代表性编排，以及 69 项逐行证据核对。主会话升级和原生组件安装仍未执行，现有用户配置及运行窗口保留。
+
+### 阶段 C 增量：完整编排、应用与会话收尾（2026-10-14）
+
+- 计划指定的剪贴板→文字处理→真实 HTTP POST→状态分支→遍历真实文件→GNOME 通知，以及等待窗口→查找→显式目标→文字输入，均在独立 GNOME 中完整执行，结果见 `fixtures/phase-c/desktop-integration.json`。
+- 修复启动动作的窗口语义：不保存窗口且不设目标时，桌面启动请求成功即可；要求新窗口时先快照已有句柄，等待此次新窗口，不能拿旧窗口冒充。原生启动参数包含带空格参数、已有窗口激活、关闭一个/全部窗口、新窗口目标、无窗口超时与真正 GNOME 声音设置入口通过，见 `desktop-apps-session.json`。
+- 会话确认取消不执行锁屏；正式 session 动作确实锁定独立 GNOME，并禁用执行。扩展锁屏事件现一次更新 locked/输入释放/执行不可用及状态原因，消除过渡状态不一致。注销和挂起仅对私有会话/系统总线服务验证 Logout(0)、CanSuspend、Suspend(true) 及权限/能力失败，见 `execution-session-contract.json`；主机只读 CanSuspend=yes，没有在用户主会话自动挂起或注销。
+- 列表五种操作、停止完整嵌套序列补齐正式执行证据，见 `execution-final-data.json`。原生编排的非法循环、缺失变量及递归定位和自动结果类型引用检查已通过，见 `native-editor-final.json`。
+
+阶段 C 仍未宣布全部完成：剩余编辑器错误定位审计、69 项证据逐行映射和主会话组件升级闭环。以上结果各自只证明注明的范围。
+
+### 阶段 C 当前交付状态
+
+- C01：正式模型/动态参数/类型和局部作用域已接入；原生 UI 已验证保存重开、复制引用、另存并改为调用、自动类型引用、非法循环退出、缺失变量及递归调用定位。递归错误现在指向当前编排中造成循环的调用步骤，见 `native-editor-final.json`。新增动作使用有效字面量默认值，不再自带未定义示例变量；HTML 同步默认值。
+- C02：快照/FIFO/嵌套流程、接口参数与返回、有限循环控制、整序列停止、失败继续、超时和取消事件完成隔离验收；按键及剪贴板取消清理已有真实桌面证据。
+- C03–C05：69 行均已映射对应执行证据；无背光明确不可用，MPRIS/音频等以实际服务或设备为条件。注销/挂起只验私有服务调用及失败，依计划不自动执行主会话破坏性操作。原生 UI、编译、模型/core 和适配器必要检查通过；锁屏拒绝新 RunRule 的隔离回归也已通过，见 `desktop-final-lock.json`。
+- 主会话仍保留阶段 B 的运行窗口和配置，尚未安装剪贴板原生组件、加载当前扩展或启动当前窗口/core，阶段 C 不宣布全部完成。已向用户提供 `sudo bash scripts/install-dev-clipboard.sh`；之后需保留用户编辑并核实实际 hello 能力和 69 项注册，不能仅以磁盘文件或扩展实例变化认定升级成功。
+
+主会话只读核对：目前 locked=true、inputArmed=false、executionAvailable=false，原因“桌面已锁定”；扩展因 GNOME 锁屏停用而不拥有总线名。没有重启窗口或修改用户配置。RunRule 因此先检查原生锁屏状态，再检查扩展连接，避免将锁屏误报成一般服务缺失。
+
+本轮自主检查完成：锁屏实际生效、正在执行/排队取消及恢复、锁屏后 RunRule 拒绝全部通过。主会话原生组件管理员安装请求仍待用户回复，窗口和旧 core 保留；未宣称阶段 C 全部完成。
+
+### C04 加强核对进行中：概览与焦点顺序
+
+按“所有操作枚举正确”补齐双击、鼠标按下/释放、三种拖动、显示桌面切换及全部窗口信息/目标来源。组合检查暴露概览动画与输入目标焦点的顺序问题；新增 GNOME 显示/隐藏信号等待，并在主循环清理后完成；键盘、快捷键、文本、复制/粘贴等待明确目标聚焦，停止时清除相应等待。该轮输入枚举已执行，取消粘贴后 GTK 多 MIME 读取出现超时，正在核对，不能将当前加强检查或阶段 C 整体记为完成。管理员组件安装也仍未完成。
+
+C04 加强核对结果：`desktop-enums.json` 完整通过双屏窗口/信息与目标来源、显示桌面切换、键鼠全部常用枚举及剪贴板恢复组合检查。概览动作等待实际 shown/hidden，并在 GNOME 模态焦点清理后的主循环完成；输入等待目标 focus-window 后再发送，剪贴板发送回调也参与等待。测试 GTK 读取改为异步，避免自身同步读管道阻塞主循环造成超时。另补滚动跨窗目标检查：指针不在指定窗口时先移到其中心；动作说明和 HTML 一致。最后跨窗滚动回归正在执行。管理员安装仍待回复，没有修改主会话窗口。
+
+C04 本轮补齐完成：跨窗滚动的实际 GTK 全窗口捕获通过，B 内指针的滚动只进入 A；全部键鼠枚举、双屏窗口与信息枚举、显式目标、概览后顺序输入、多格式恢复和取消释放均有对应结果。`desktop-scroll-target.json`、`desktop-enums.json` 为新增证据。统一构建及 diff 检查通过；没有为未改变的 UI 重复运行整套检查。当前阶段 C 剩余主会话安装/加载闭环，管理员组件仍未安装，已提出的安装请求继续有效。
+
+主会话升级受阻（2026-10-14）：连续三轮等待同一管理员安装步骤，系统共享库及 typelib 仍不存在；`sudo -n true` 明确返回需要密码。独立检查已完成且无未结束的检查进程需要等待，现阶段不能代用户输入管理员密码，也不为等待重复运行已通过检查。目标状态标记 blocked（需要用户协助，非完成）；用户运行已提供安装命令并回复后恢复，随后保留编辑并核实新版扩展/core 的主会话加载。
+
+### 主会话升级恢复（2026-10-14）
+
+用户恢复目标后核对确认剪贴板共享库与 typelib 已安装，SHA256 与当前 target/native 一致；主机 GJS 空源 factory 导入成功，未操作用户剪贴板。当前 WayStroke 窗口和 core 均未运行。扩展安装脚本已在普通用户会话执行，五个文件与仓库一致，并按用户约定 disable/enable；实际新实例 4021e4db-106f-4b32-8dbe-aec9af64f497 仍只报告阶段 B 三项能力，没有 declarativeActionsV1，因此不能认定阶段 C 已加载。证据 `host-upgrade.json`。本轮阻塞不再是管理员安装，而是当前 GNOME 已导入模块缓存：已请求用户保存其他工作、注销并重新登录；之后启动当前窗口/core 并核实实际阶段 C 能力，原目标仍 active，未宣布完成。
+
+用户请求安全暂停并重新登录：已优雅停止项目旧后台残留 PID 833030，确认该进程退出，系统不存在 WayStroke 虚拟输入设备；当前不启动窗口、不执行动作。目标暂停，等待用户重新登录后明确继续。恢复后首先查询 hello 的 declarativeActionsV1，确认当前扩展实际加载，再启动当前窗口/core 完成阶段 C 主会话闭环。
+
+### 主会话联通与连续粘贴修正
+
+重新登录后的扩展实例 12742613-0efe-4cb6-bae7-3acb56ee61d9 实际包含 declarativeActionsV1。已启动当前原生窗口/core；主会话 69 项注册（63 available / 5 limited / 1 unavailable）、原生多格式剪贴板与音频输入/输出能力可用、无背光明确不可用，鼠标 inputArmed=true，原三条规则通过正式校验。实际可复用接口/自动数字/重复/Unicode 临时粘贴向专用 PhaseC A 执行，B 未输入；两次输入出现覆盖而非追加，整体验收仍未通过，见 host-session.json 的 complete=false。临时停用规则与动作已按 ID 移除，原有配置 ID 保留。
+
+修正输入焦点处理：已有焦点就是目标窗口时，不重复 Main.activateWindow，避免 GTK 的重复激活改变选择区和光标；原本需要切窗时仍等待明确焦点。隔离连续粘贴和全部剪贴板恢复回归通过，见 desktop-serial-paste.json。hello 增加 stableInputFocus 作为该行为的实际加载标记，避免仅凭磁盘更新认定修复已加载。当前主会话尚未载入该小修复，阶段 C 仍保持进行中。
+
+连续粘贴修复的安装后核对：重开实例 cac39760-925f-4a03-ae10-cdd0ad046d39 仍没有 stableInputFocus，实际仍使用修复前模块；core 已恢复 inputArmed=true / locked=false。已请求用户先保存 WayStroke 编辑并确认可安全暂停，再释放鼠标和退出后台后重新登录。没有主动关闭可能有未保存编辑的窗口，不将当前主会话联测失败改判通过；待加载修复标记后重跑专用窗口闭环。
+
+用户确认“可以暂停”：已通过主会话 Core.Quit 成功退出后台，确认无 waystroke/waystroke-core 进程且无 WayStroke 虚拟输入设备。配置保留，目标暂停等待重新登录。恢复先核对 stableInputFocus 已实际加载，再重跑 /tmp/waystroke-phase-c-host-check.py 的专用窗口连续粘贴闭环，不能重复安装或把上一轮失败当成通过。
+
+### 默认开发验证切换至 Devkit
+
+用户要求减少主桌面注销，后续扩展/UI/编排回归使用独立 Devkit Shell、私有 D-Bus 和 XDG 配置；修改后只重启该测试实例。入口 `python3 scripts/check-gnome.py --devkit --phase-c-clipboard --phase-c-composed-input`。主桌面扩展部署集中到版本验收，不能把每次小修复当成要求用户注销的理由。
+
+GNOME 50.5 Devkit 默认带宿主剪贴板转发，回归启动后即通过私有 RemoteDesktop.Session.DisableClipboard 禁用，避免宿主内容进入测试及额外读取伪装目标应用消费。测试启动概览显式关闭；最大化按真实 GNOME 原生状态核对，不依赖可调整 Devkit 窗口的像素增长。没有删除未读取超时或取消恢复验收。
+
+本轮 `devkit-desktop.json` 整体通过：新实例实际 stableInputFocus、当前默认图形后端（未强制软件渲染）、69 项注册、连续粘贴保持光标、原多格式恢复/取消/未读取超时、可复用参数返回→自动数字→重复→Unicode 实际输入，另一个窗口未变化，临时条目移除，停止/锁定队列清理通过。独立配置原 ID 保留。`devkit-composed-input.json` 为该完整编排子检查。主桌面未部署或重新开启，本轮不要求注销。
+
+Devkit 之后的主桌面只读核对：当前扩展仍是 cac39760-925f-4a03-ae10-cdd0ad046d39，没有 stableInputFocus。本轮未更新、重开或启动主桌面组件，也不要求为常规回归注销；剩余集中部署/实际加载验证仍记为未完成，开发与 Devkit 通过不冒充主桌面已加载。此前 Devkit 默认剪贴板同步可能把测试内容带到宿主，现已在入口启动阶段明确关闭此通道；后续仅私有桌面读写测试剪贴板。
+
+### 阶段 C 完成记录（2026-10-14）
+
+用户明确取消主桌面验证要求，以测试环境通过作为验收通过。撤销此前由开发过程附加的主会话加载完成门槛；主桌面当前模块状态保留为部署事实，不再阻塞阶段 C，也不再要求用户注销。
+
+| 任务 | 完成依据 | 状态 |
+| --- | --- | --- |
+| C01 | 正式编排模型与原生 WebKitGTK 界面；保存/重开、复制稳定引用、规则另存并改为真实调用、自动类型、非法变量/循环退出/递归定位。native-editor-final.json 与适配器检查。 | 完成 |
+| C02 | execution-final-data.json：不可变快照/FIFO、类型化参数返回、分支/有限循环、break/continue/整序列 stop、等待、失败继续、超时、取消与步骤事件；桌面检查证明输入释放。 | 完成 |
+| C03 | 69 行逐项执行证据：实际数据/文件/目录/回收站/URI、命令直接与 Shell/等待与异步、子进程取消、HTTP/D-Bus、WayStroke 控制及实际页面导航。 | 完成 |
+| C04 | desktop-enums.json、desktop-scroll-target.json、desktop-input-clipboard.json、devkit-desktop.json：显式目标、键鼠枚举、双屏/工作区、显示桌面恢复、复制拒绝旧内容、完整 MIME 恢复与取消、连续粘贴及可复用重复输入。 | 完成 |
+| C05 | desktop-audio.json、desktop-system.json、desktop-apps-session.json、execution-session-contract.json、desktop-capabilities.json：实际系统动作或明确能力限制、无设置窗口的原生对话框、69 项显式注册。注销/挂起仅对私有服务验证，符合原计划。 | 完成 |
+
+最终补齐动态参数执行语义：显示器/工作区只有“指定编号”解析编号，剪贴板截图不解析隐藏路径；缺失隐藏引用仍可执行，实际窗口操作和 PNG 输出通过。证据 desktop-inactive-window.json、desktop-inactive-screenshot.json。原生目录与 HTML 的 69 项定义逐项相等，构建与 diff 检查通过。未追加无关边界测试，未执行主桌面验证。
+
+完整代表性编排、可复用参数返回、失败继续和用户取消已有对应测试结果。原始主会话尝试失败记录保留为历史事实，不改写为通过；当前完成结论依据被用户认可的隔离/Devkit 验收。无背光设备明确不可用，不伪造亮度执行成功；服务与权限相关动作保持实际条件检查。下一阶段为 D：真实文本替换，不属于本次完成范围。

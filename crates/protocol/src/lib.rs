@@ -27,6 +27,13 @@ impl<T> Reply<T> {
 #[serde(rename_all="camelCase")]
 pub struct Status { pub protocol_version:u32, pub core_version:String, pub extension_connected:bool, pub input_connected:bool, pub execution_available:bool, pub reason:String }
 
+#[derive(Clone,Debug,Serialize,Deserialize,TS)]
+#[serde(rename_all="camelCase")]
+pub enum ActionAvailability { Available, Limited, Unavailable }
+#[derive(Clone,Debug,Serialize,Deserialize,TS)]
+#[serde(rename_all="camelCase")]
+pub struct ActionCapability { pub action_id:String,pub executor:Option<String>,pub state:ActionAvailability,pub reason:String }
+
 /// Privileged input service protocol. It carries mouse routing only, never actions.
 pub const INPUT_PROTOCOL_VERSION:u32=1;
 pub const INPUT_SOCKET:&str="/run/waystroke/control.sock";

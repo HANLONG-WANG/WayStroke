@@ -1,0 +1,445 @@
+{
+  "hello": {
+    "protocolVersion": 1,
+    "instance": "12742613-0efe-4cb6-bae7-3acb56ee61d9",
+    "locked": false,
+    "shellVersion": "50.5",
+    "capabilities": [
+      "liveRuleName",
+      "bottomFeedback",
+      "quietGestureStart",
+      "declarativeActionsV1"
+    ]
+  },
+  "capabilities": [
+    {
+      "actionId": "shortcut",
+      "executor": "desktop:input",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "key",
+      "executor": "desktop:input",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "mouse",
+      "executor": "desktop:input",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "pointer",
+      "executor": "desktop:input",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "scroll",
+      "executor": "desktop:input",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "drag",
+      "executor": "desktop:input",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "text",
+      "executor": "desktop:input",
+      "reason": "原生文本提交取决于目标应用；自动/临时粘贴需要剪贴板原生组件",
+      "state": "limited"
+    },
+    {
+      "actionId": "paste",
+      "executor": "desktop:input",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "clipboard.read",
+      "executor": "desktop:input",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "clipboard.write",
+      "executor": "desktop:input",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "clipboard.clear",
+      "executor": "desktop:input",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "selection.copy",
+      "executor": "desktop:input",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "launch",
+      "executor": "desktop:window",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "app.activate",
+      "executor": "desktop:window",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "command",
+      "executor": "core:io",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "uri.open",
+      "executor": "core:io",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "app.quit",
+      "executor": "desktop:window",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "process.signal",
+      "executor": "core:io",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "window",
+      "executor": "desktop:window",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "window.find",
+      "executor": "desktop:window",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "window.target",
+      "executor": "desktop:window",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "window.info",
+      "executor": "desktop:window",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "window.geometry",
+      "executor": "desktop:window",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "window.monitor",
+      "executor": "desktop:window",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "workspace.switch",
+      "executor": "desktop:window",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "workspace.move",
+      "executor": "desktop:window",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "desktop.overview",
+      "executor": "desktop:window",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "desktop.show",
+      "executor": "desktop:window",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "wait",
+      "executor": "core:flow",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "wait.condition",
+      "executor": "core:flow",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "condition",
+      "executor": "core:flow",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "repeat",
+      "executor": "core:flow",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "foreach",
+      "executor": "core:flow",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "loop.break",
+      "executor": "core:flow",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "loop.continue",
+      "executor": "core:flow",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "flow.stop",
+      "executor": "core:flow",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "flow.call",
+      "executor": "core:flow",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "variable",
+      "executor": "core:data",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "variable.read",
+      "executor": "core:data",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "number.calculate",
+      "executor": "core:data",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "text.transform",
+      "executor": "core:data",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "date.format",
+      "executor": "core:data",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "number.random",
+      "executor": "core:data",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "json.parse",
+      "executor": "core:data",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "data.field",
+      "executor": "core:data",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "list.change",
+      "executor": "core:data",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "file.read",
+      "executor": "core:io",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "file.write",
+      "executor": "core:io",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "file.copy",
+      "executor": "core:io",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "file.move",
+      "executor": "core:io",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "file.trash",
+      "executor": "core:io",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "directory.create",
+      "executor": "core:io",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "directory.list",
+      "executor": "core:io",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "file.info",
+      "executor": "core:io",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "volume",
+      "executor": "desktop:system",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "brightness",
+      "executor": "desktop:system",
+      "reason": "GNOME 没有可控制的显示器背光",
+      "state": "unavailable"
+    },
+    {
+      "actionId": "media",
+      "executor": "core:system",
+      "reason": "具体播放和定位操作由所选播放器的能力决定",
+      "state": "limited"
+    },
+    {
+      "actionId": "notification",
+      "executor": "desktop:system",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "dialog.message",
+      "executor": "desktop:system",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "dialog.input",
+      "executor": "desktop:system",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "screenshot",
+      "executor": "desktop:system",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "session",
+      "executor": "core:system",
+      "reason": "锁屏使用 GNOME 服务；注销和挂起另需会话服务及系统权限",
+      "state": "limited"
+    },
+    {
+      "actionId": "settings.open",
+      "executor": "core:system",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "http.request",
+      "executor": "core:io",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "dbus.call",
+      "executor": "core:dbus",
+      "reason": "按目标服务的接口和访问权限执行",
+      "state": "limited"
+    },
+    {
+      "actionId": "dbus.property",
+      "executor": "core:dbus",
+      "reason": "按目标服务的接口和访问权限执行",
+      "state": "limited"
+    },
+    {
+      "actionId": "waystroke.toggle",
+      "executor": "core:control",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "waystroke.rule",
+      "executor": "core:control",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "waystroke.open",
+      "executor": "core:control",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    }
+  ],
+  "complete": false,
+  "temporaryDocumentsRemoved": true,
+  "originalIdsPreserved": true,
+  "runtime": {
+    "locked": false,
+    "inputArmed": true,
+    "status": {
+      "protocolVersion": 1,
+      "coreVersion": "0.1.0",
+      "extensionConnected": true,
+      "inputConnected": true,
+      "executionAvailable": true,
+      "reason": "鼠标手势已接入；具体动作能力见运行状态"
+    }
+  }
+}

@@ -1,0 +1,1160 @@
+{
+  "hello": {
+    "protocolVersion": 1,
+    "instance": "9fb50ebd-00e3-42c1-af82-fdad8256db47",
+    "locked": false,
+    "shellVersion": "50.5",
+    "capabilities": [
+      "liveRuleName",
+      "bottomFeedback",
+      "quietGestureStart",
+      "declarativeActionsV1"
+    ]
+  },
+  "windows": [
+    {
+      "handle": {
+        "instance": "9fb50ebd-00e3-42c1-af82-fdad8256db47",
+        "id": "1"
+      },
+      "title": "Probe A",
+      "applicationId": "org.waystroke.ProbeClient",
+      "clientType": 0
+    },
+    {
+      "handle": {
+        "instance": "9fb50ebd-00e3-42c1-af82-fdad8256db47",
+        "id": "2"
+      },
+      "title": "Probe B",
+      "applicationId": "org.waystroke.ProbeClient",
+      "clientType": 0
+    }
+  ],
+  "barrierRegistration": true,
+  "foreignF24PassesThrough": true,
+  "escapeClearsLiveLabel": true,
+  "idleClearsLiveLabel": {
+    "elapsedMs": 1216.5,
+    "physicalInput": false
+  },
+  "origin": {
+    "sequence": 0,
+    "monotonicMs": 112911395.606,
+    "position": [
+      200,
+      300
+    ],
+    "window": {
+      "instance": "9fb50ebd-00e3-42c1-af82-fdad8256db47",
+      "id": "1"
+    },
+    "applicationId": "org.waystroke.ProbeClient",
+    "title": "Probe A",
+    "workspace": 0,
+    "monitor": 0,
+    "locked": false
+  },
+  "pointWindowDiffersFromFocus": {
+    "start": {
+      "sequence": 0,
+      "monotonicMs": 112911395.606,
+      "position": [
+        200,
+        300
+      ],
+      "window": {
+        "instance": "9fb50ebd-00e3-42c1-af82-fdad8256db47",
+        "id": "1"
+      },
+      "applicationId": "org.waystroke.ProbeClient",
+      "title": "Probe A",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    },
+    "end": {
+      "sequence": 0,
+      "monotonicMs": 112911399.006,
+      "position": [
+        600,
+        300
+      ],
+      "window": {
+        "instance": "9fb50ebd-00e3-42c1-af82-fdad8256db47",
+        "id": "2"
+      },
+      "applicationId": "org.waystroke.ProbeClient",
+      "title": "Probe B",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    }
+  },
+  "shortcutTargetsOriginalHandle": true,
+  "actionCapabilities": [
+    {
+      "actionId": "shortcut",
+      "executor": "desktop:input",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "key",
+      "executor": "desktop:input",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "mouse",
+      "executor": "desktop:input",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "pointer",
+      "executor": "desktop:input",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "scroll",
+      "executor": "desktop:input",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "drag",
+      "executor": "desktop:input",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "text",
+      "executor": "desktop:input",
+      "reason": "原生文本提交取决于目标应用；自动/临时粘贴需要剪贴板原生组件",
+      "state": "limited"
+    },
+    {
+      "actionId": "paste",
+      "executor": "desktop:input",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "clipboard.read",
+      "executor": "desktop:input",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "clipboard.write",
+      "executor": "desktop:input",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "clipboard.clear",
+      "executor": "desktop:input",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "selection.copy",
+      "executor": "desktop:input",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "launch",
+      "executor": "desktop:window",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "app.activate",
+      "executor": "desktop:window",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "command",
+      "executor": "core:io",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "uri.open",
+      "executor": "core:io",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "app.quit",
+      "executor": "desktop:window",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "process.signal",
+      "executor": "core:io",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "window",
+      "executor": "desktop:window",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "window.find",
+      "executor": "desktop:window",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "window.target",
+      "executor": "desktop:window",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "window.info",
+      "executor": "desktop:window",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "window.geometry",
+      "executor": "desktop:window",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "window.monitor",
+      "executor": "desktop:window",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "workspace.switch",
+      "executor": "desktop:window",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "workspace.move",
+      "executor": "desktop:window",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "desktop.overview",
+      "executor": "desktop:window",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "desktop.show",
+      "executor": "desktop:window",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "wait",
+      "executor": "core:flow",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "wait.condition",
+      "executor": "core:flow",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "condition",
+      "executor": "core:flow",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "repeat",
+      "executor": "core:flow",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "foreach",
+      "executor": "core:flow",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "loop.break",
+      "executor": "core:flow",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "loop.continue",
+      "executor": "core:flow",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "flow.stop",
+      "executor": "core:flow",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "flow.call",
+      "executor": "core:flow",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "variable",
+      "executor": "core:data",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "variable.read",
+      "executor": "core:data",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "number.calculate",
+      "executor": "core:data",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "text.transform",
+      "executor": "core:data",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "date.format",
+      "executor": "core:data",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "number.random",
+      "executor": "core:data",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "json.parse",
+      "executor": "core:data",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "data.field",
+      "executor": "core:data",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "list.change",
+      "executor": "core:data",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "file.read",
+      "executor": "core:io",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "file.write",
+      "executor": "core:io",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "file.copy",
+      "executor": "core:io",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "file.move",
+      "executor": "core:io",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "file.trash",
+      "executor": "core:io",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "directory.create",
+      "executor": "core:io",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "directory.list",
+      "executor": "core:io",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "file.info",
+      "executor": "core:io",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "volume",
+      "executor": "desktop:system",
+      "reason": "没有可用的默认音频设备",
+      "state": "unavailable"
+    },
+    {
+      "actionId": "brightness",
+      "executor": "desktop:system",
+      "reason": "GNOME 没有可控制的显示器背光",
+      "state": "unavailable"
+    },
+    {
+      "actionId": "media",
+      "executor": "core:system",
+      "reason": "没有 MPRIS 播放器",
+      "state": "unavailable"
+    },
+    {
+      "actionId": "notification",
+      "executor": "desktop:system",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "dialog.message",
+      "executor": "desktop:system",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "dialog.input",
+      "executor": "desktop:system",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "screenshot",
+      "executor": "desktop:system",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "session",
+      "executor": "core:system",
+      "reason": "锁屏使用 GNOME 服务；注销和挂起另需会话服务及系统权限",
+      "state": "limited"
+    },
+    {
+      "actionId": "settings.open",
+      "executor": "core:system",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "http.request",
+      "executor": "core:io",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "dbus.call",
+      "executor": "core:dbus",
+      "reason": "按目标服务的接口和访问权限执行",
+      "state": "limited"
+    },
+    {
+      "actionId": "dbus.property",
+      "executor": "core:dbus",
+      "reason": "按目标服务的接口和访问权限执行",
+      "state": "limited"
+    },
+    {
+      "actionId": "waystroke.toggle",
+      "executor": "core:control",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "waystroke.rule",
+      "executor": "core:control",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    },
+    {
+      "actionId": "waystroke.open",
+      "executor": "core:control",
+      "reason": "执行器已接入；具体参数、目标和权限在运行时核对",
+      "state": "available"
+    }
+  ],
+  "coreShortcut": {
+    "id": "36cecb8f-0b9e-45bc-b1a8-fcd730681385",
+    "name": "shortcut",
+    "revision": 1,
+    "context": {
+      "sequence": 0,
+      "monotonicMs": 112911395.606,
+      "position": [
+        200.0,
+        300.0
+      ],
+      "window": {
+        "instance": "9fb50ebd-00e3-42c1-af82-fdad8256db47",
+        "id": "1"
+      },
+      "applicationId": "org.waystroke.ProbeClient",
+      "title": "Probe A",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    },
+    "state": "succeeded",
+    "startedAt": "2026-10-13T16:12:56.688552214+00:00",
+    "finishedAt": "2026-10-13T16:12:56.691037998+00:00",
+    "reason": null,
+    "steps": [
+      {
+        "stepId": "step-shortcut-1",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T16:12:56.689323870+00:00",
+        "finishedAt": "2026-10-13T16:12:56.690472003+00:00",
+        "reason": null,
+        "summary": "发送快捷键",
+        "output": null
+      }
+    ]
+  },
+  "coreWindow": {
+    "id": "d65ead32-72b6-412e-a779-b2d2e50ede19",
+    "name": "window",
+    "revision": 1,
+    "context": {
+      "sequence": 0,
+      "monotonicMs": 112911395.606,
+      "position": [
+        200.0,
+        300.0
+      ],
+      "window": {
+        "instance": "9fb50ebd-00e3-42c1-af82-fdad8256db47",
+        "id": "1"
+      },
+      "applicationId": "org.waystroke.ProbeClient",
+      "title": "Probe A",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    },
+    "state": "succeeded",
+    "startedAt": "2026-10-13T16:12:56.793249923+00:00",
+    "finishedAt": "2026-10-13T16:12:56.796558585+00:00",
+    "reason": null,
+    "steps": [
+      {
+        "stepId": "step-window-2",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T16:12:56.794074275+00:00",
+        "finishedAt": "2026-10-13T16:12:56.795830565+00:00",
+        "reason": null,
+        "summary": "窗口操作",
+        "output": null
+      }
+    ]
+  },
+  "coreLaunch": {
+    "id": "edc44afc-91ad-4966-ae92-a3dda2672d5b",
+    "name": "launch",
+    "revision": 1,
+    "context": {
+      "sequence": 0,
+      "monotonicMs": 112911395.606,
+      "position": [
+        200.0,
+        300.0
+      ],
+      "window": {
+        "instance": "9fb50ebd-00e3-42c1-af82-fdad8256db47",
+        "id": "1"
+      },
+      "applicationId": "org.waystroke.ProbeClient",
+      "title": "Probe A",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    },
+    "state": "succeeded",
+    "startedAt": "2026-10-13T16:12:56.897822876+00:00",
+    "finishedAt": "2026-10-13T16:12:56.910122170+00:00",
+    "reason": null,
+    "steps": [
+      {
+        "stepId": "step-launch-3",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T16:12:56.898797129+00:00",
+        "finishedAt": "2026-10-13T16:12:56.909317095+00:00",
+        "reason": null,
+        "summary": "打开程序",
+        "output": null
+      }
+    ]
+  },
+  "feedbackBottomCentered": {
+    "text": "launch · 已执行",
+    "position": [
+      654,
+      894
+    ],
+    "width": 133,
+    "height": 42,
+    "monitors": [
+      {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 1000
+      }
+    ]
+  },
+  "inputStateAfter": {
+    "visible": false,
+    "shown": false,
+    "animating": false,
+    "modal": false,
+    "keyFocus": "null",
+    "focus": "Probe A",
+    "context": {
+      "sequence": 0,
+      "monotonicMs": 112912252.959,
+      "position": [
+        600,
+        300
+      ],
+      "window": {
+        "instance": "9fb50ebd-00e3-42c1-af82-fdad8256db47",
+        "id": "1"
+      },
+      "applicationId": "org.waystroke.ProbeClient",
+      "title": "Probe A",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    },
+    "client": {
+      "Probe A": {
+        "keyEvents": [
+          [
+            65293,
+            true
+          ],
+          [
+            65293,
+            false
+          ],
+          [
+            65293,
+            true
+          ],
+          [
+            65293,
+            false
+          ],
+          [
+            65505,
+            true
+          ],
+          [
+            65,
+            true
+          ],
+          [
+            65,
+            false
+          ],
+          [
+            65505,
+            false
+          ],
+          [
+            65507,
+            true
+          ],
+          [
+            118,
+            true
+          ],
+          [
+            118,
+            false
+          ],
+          [
+            65507,
+            false
+          ]
+        ],
+        "mouseEvents": [],
+        "scrollEvents": [],
+        "motions": 0,
+        "f24": 0,
+        "text": "A中文🙂",
+        "password": "",
+        "rightPress": 0,
+        "rightRelease": 0,
+        "activate": 2,
+        "activatedText": "",
+        "passwordActivate": 0,
+        "passwordActivatedLength": 0
+      },
+      "Probe B": {
+        "keyEvents": [
+          [
+            65493,
+            true
+          ],
+          [
+            65493,
+            false
+          ],
+          [
+            65307,
+            true
+          ],
+          [
+            65307,
+            false
+          ]
+        ],
+        "mouseEvents": [],
+        "scrollEvents": [],
+        "motions": 0,
+        "f24": 1,
+        "text": "",
+        "password": "",
+        "rightPress": 0,
+        "rightRelease": 0,
+        "activate": 0,
+        "activatedText": "",
+        "passwordActivate": 0,
+        "passwordActivatedLength": 0
+      }
+    }
+  },
+  "phaseCKeyAndUnicode": {
+    "id": "afe6fdbb-5714-4b21-aa7c-a71ab761d2ea",
+    "name": "input",
+    "revision": 3,
+    "context": {
+      "sequence": 0,
+      "monotonicMs": 112911395.606,
+      "position": [
+        200.0,
+        300.0
+      ],
+      "window": {
+        "instance": "9fb50ebd-00e3-42c1-af82-fdad8256db47",
+        "id": "1"
+      },
+      "applicationId": "org.waystroke.ProbeClient",
+      "title": "Probe A",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    },
+    "state": "succeeded",
+    "startedAt": "2026-10-13T16:12:57.221813792+00:00",
+    "finishedAt": "2026-10-13T16:12:57.232775953+00:00",
+    "reason": null,
+    "steps": [
+      {
+        "stepId": "key-down",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T16:12:57.222583426+00:00",
+        "finishedAt": "2026-10-13T16:12:57.223401345+00:00",
+        "reason": null,
+        "summary": "按下或释放按键",
+        "output": null
+      },
+      {
+        "stepId": "text-shifted",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T16:12:57.223555014+00:00",
+        "finishedAt": "2026-10-13T16:12:57.224198014+00:00",
+        "reason": null,
+        "summary": "输入文本",
+        "output": null
+      },
+      {
+        "stepId": "key-up",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T16:12:57.224358342+00:00",
+        "finishedAt": "2026-10-13T16:12:57.225402796+00:00",
+        "reason": null,
+        "summary": "按下或释放按键",
+        "output": null
+      },
+      {
+        "stepId": "text-unicode",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T16:12:57.225633323+00:00",
+        "finishedAt": "2026-10-13T16:12:57.231713085+00:00",
+        "reason": null,
+        "summary": "输入文本",
+        "output": null
+      }
+    ]
+  },
+  "scrollTargetsWindowAcrossPointerLocation": true,
+  "additionalInputEnums": {
+    "keyPressRelease": true,
+    "absolutePointer": true,
+    "doubleClick": [
+      [
+        1,
+        true,
+        1
+      ],
+      [
+        1,
+        false,
+        1
+      ],
+      [
+        1,
+        true,
+        2
+      ],
+      [
+        1,
+        false,
+        2
+      ]
+    ],
+    "mouseHoldRelease": [
+      [
+        2,
+        true,
+        1
+      ],
+      [
+        2,
+        false,
+        1
+      ]
+    ],
+    "gestureStartPosition": true,
+    "middleAndRightDrags": [
+      {
+        "id": "6d408ff3-2056-4492-bc78-b3ca19754fb4",
+        "name": "input",
+        "revision": 15,
+        "context": {
+          "sequence": 0,
+          "monotonicMs": 112911395.606,
+          "position": [
+            200.0,
+            300.0
+          ],
+          "window": {
+            "instance": "9fb50ebd-00e3-42c1-af82-fdad8256db47",
+            "id": "1"
+          },
+          "applicationId": "org.waystroke.ProbeClient",
+          "title": "Probe A",
+          "workspace": 0,
+          "monitor": 0,
+          "locked": false
+        },
+        "state": "succeeded",
+        "startedAt": "2026-10-13T16:12:58.746722488+00:00",
+        "finishedAt": "2026-10-13T16:12:58.844735372+00:00",
+        "reason": null,
+        "steps": [
+          {
+            "stepId": "step-drag-30",
+            "state": "succeeded",
+            "startedAt": "2026-10-13T16:12:58.747491409+00:00",
+            "finishedAt": "2026-10-13T16:12:58.843978695+00:00",
+            "reason": null,
+            "summary": "拖动",
+            "output": null
+          }
+        ]
+      },
+      {
+        "id": "cc075910-d173-4d3a-ac25-202449593fc2",
+        "name": "input",
+        "revision": 16,
+        "context": {
+          "sequence": 0,
+          "monotonicMs": 112911395.606,
+          "position": [
+            200.0,
+            300.0
+          ],
+          "window": {
+            "instance": "9fb50ebd-00e3-42c1-af82-fdad8256db47",
+            "id": "1"
+          },
+          "applicationId": "org.waystroke.ProbeClient",
+          "title": "Probe A",
+          "workspace": 0,
+          "monitor": 0,
+          "locked": false
+        },
+        "state": "succeeded",
+        "startedAt": "2026-10-13T16:12:58.955870819+00:00",
+        "finishedAt": "2026-10-13T16:12:59.050649296+00:00",
+        "reason": null,
+        "steps": [
+          {
+            "stepId": "step-drag-31",
+            "state": "succeeded",
+            "startedAt": "2026-10-13T16:12:58.956556890+00:00",
+            "finishedAt": "2026-10-13T16:12:59.050081245+00:00",
+            "reason": null,
+            "summary": "拖动",
+            "output": null
+          }
+        ]
+      }
+    ]
+  },
+  "phaseCInput": {
+    "buttons": [
+      [
+        1,
+        true,
+        1
+      ],
+      [
+        1,
+        false,
+        1
+      ],
+      [
+        2,
+        true,
+        1
+      ],
+      [
+        2,
+        false,
+        1
+      ],
+      [
+        3,
+        true,
+        1
+      ],
+      [
+        3,
+        false,
+        1
+      ],
+      [
+        8,
+        true,
+        1
+      ],
+      [
+        8,
+        false,
+        1
+      ],
+      [
+        9,
+        true,
+        1
+      ],
+      [
+        9,
+        false,
+        1
+      ]
+    ],
+    "scrolls": [
+      [
+        0.0,
+        -1.0
+      ],
+      [
+        0.0,
+        1.0
+      ],
+      [
+        -1.0,
+        0.0
+      ],
+      [
+        1.0,
+        0.0
+      ]
+    ],
+    "dragMotion": true,
+    "pointerModes": true,
+    "timeoutReleasesHeldShift": {
+      "id": "800be6a1-0279-4bc1-8427-e01c359c9e3a",
+      "name": "input",
+      "revision": 17,
+      "context": {
+        "sequence": 0,
+        "monotonicMs": 112911395.606,
+        "position": [
+          200.0,
+          300.0
+        ],
+        "window": {
+          "instance": "9fb50ebd-00e3-42c1-af82-fdad8256db47",
+          "id": "1"
+        },
+        "applicationId": "org.waystroke.ProbeClient",
+        "title": "Probe A",
+        "workspace": 0,
+        "monitor": 0,
+        "locked": false
+      },
+      "state": "timedOut",
+      "startedAt": "2026-10-13T16:12:59.164710064+00:00",
+      "finishedAt": "2026-10-13T16:12:59.218701908+00:00",
+      "reason": "步骤超时",
+      "steps": [
+        {
+          "stepId": "step-repeat-32",
+          "state": "timedOut",
+          "startedAt": "2026-10-13T16:12:59.165410199+00:00",
+          "finishedAt": "2026-10-13T16:12:59.216881252+00:00",
+          "reason": "步骤超时",
+          "summary": "有限次数重复",
+          "output": null
+        },
+        {
+          "stepId": "key-down",
+          "state": "succeeded",
+          "startedAt": "2026-10-13T16:12:59.165543555+00:00",
+          "finishedAt": "2026-10-13T16:12:59.166240303+00:00",
+          "reason": null,
+          "summary": "按下或释放按键",
+          "output": null
+        },
+        {
+          "stepId": "step-wait-33",
+          "state": "timedOut",
+          "startedAt": "2026-10-13T16:12:59.166391619+00:00",
+          "finishedAt": "2026-10-13T16:12:59.216890022+00:00",
+          "reason": "步骤超时",
+          "summary": "等待时长",
+          "output": null
+        }
+      ]
+    }
+  },
+  "cancelRunningAndQueued": [
+    {
+      "id": "817087aa-cd5e-43af-a0c7-28221ef03714",
+      "name": "shortcut",
+      "revision": 18,
+      "context": {
+        "sequence": 0,
+        "monotonicMs": 112911395.606,
+        "position": [
+          200.0,
+          300.0
+        ],
+        "window": {
+          "instance": "9fb50ebd-00e3-42c1-af82-fdad8256db47",
+          "id": "1"
+        },
+        "applicationId": "org.waystroke.ProbeClient",
+        "title": "Probe A",
+        "workspace": 0,
+        "monitor": 0,
+        "locked": false
+      },
+      "state": "canceled",
+      "startedAt": "2026-10-13T16:12:59.273726028+00:00",
+      "finishedAt": "2026-10-13T16:12:59.276664972+00:00",
+      "reason": "动作已停止",
+      "steps": [
+        {
+          "stepId": "step-wait-34",
+          "state": "canceled",
+          "startedAt": "2026-10-13T16:12:59.274532829+00:00",
+          "finishedAt": "2026-10-13T16:12:59.276244712+00:00",
+          "reason": "动作已停止",
+          "summary": "等待时长",
+          "output": null
+        }
+      ]
+    },
+    {
+      "id": "a58e6457-16eb-414e-a0a0-9b70a55b7440",
+      "name": "shortcut",
+      "revision": 18,
+      "context": {
+        "sequence": 0,
+        "monotonicMs": 112911395.606,
+        "position": [
+          200.0,
+          300.0
+        ],
+        "window": {
+          "instance": "9fb50ebd-00e3-42c1-af82-fdad8256db47",
+          "id": "1"
+        },
+        "applicationId": "org.waystroke.ProbeClient",
+        "title": "Probe A",
+        "workspace": 0,
+        "monitor": 0,
+        "locked": false
+      },
+      "state": "canceled",
+      "startedAt": null,
+      "finishedAt": "2026-10-13T16:12:59.276705774+00:00",
+      "reason": "排队动作已取消",
+      "steps": []
+    }
+  ],
+  "maximize": {
+    "before": {
+      "x": 100,
+      "y": 180,
+      "width": 420,
+      "height": 260
+    },
+    "after": {
+      "x": 0,
+      "y": 32,
+      "width": 1440,
+      "height": 968
+    }
+  },
+  "closedHandleDoesNotRetarget": true,
+  "nativeShieldStopsAndResumes": {
+    "locked": true,
+    "reason": "桌面已锁定",
+    "queuedNeverStarted": true,
+    "resumed": true,
+    "physicalInput": false
+  },
+  "complete": true
+}

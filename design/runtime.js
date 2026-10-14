@@ -31,7 +31,7 @@ function runtimeComponentRows(){
  const mouse=runtimeMode==='permission'?'等待授权':['ready','locked'].includes(runtimeMode)?'已连接':'未连接';
  const gesture=runtimeMode==='locked'?'锁屏暂停':runtimeReady()?(paused?'已暂停':'已启用'):'等待桌面接入';
  const text=runtimeMode==='locked'?'锁屏暂停':!data.settings.textEnabled?'已停用':textRuntimeReady()?'已启用 · 按适配范围生效':'等待桌面接入';
- return [['GNOME 桌面扩展',extension],['鼠标接入服务',mouse],['手势识别',gesture],['文本替换',text],['配置存储','已保存']];
+ return [['动作执行器','已注册 69 项 · 部分能力依赖硬件或服务'],['配置后台','已连接'],['GNOME 桌面扩展',extension],['鼠标接入服务',mouse],['手势识别',gesture],['文本替换',text],['配置存储','已保存']];
 }
 function renderRuntime(){
  const state=runtimeStates[runtimeMode],context=textContextState();

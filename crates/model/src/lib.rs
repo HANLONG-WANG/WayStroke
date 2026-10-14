@@ -58,15 +58,15 @@ fn default_rule_feedback()->bool { true }
 pub struct Rule { pub id: String, pub name: String, pub enabled: bool, #[serde(default="default_rule_feedback")] pub feedback: bool, pub gesture_id: String, pub auxiliary_buttons: Vec<u16>, pub application_id: Option<String>, pub title_match: TitleCondition, pub steps: Vec<Step> }
 #[derive(Clone, Debug, Serialize, Deserialize, TS, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
-pub enum ValueKind { Text, Number, Boolean, List, Window, Data }
+pub enum ValueKind { Text, Number, Boolean, List, Window, Data, Any }
 #[derive(Clone, Debug, Serialize, Deserialize, TS, PartialEq)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct WindowHandle { pub instance: String, pub id: String }
 #[derive(Clone, Debug, Serialize, Deserialize, TS, PartialEq)]
 #[serde(tag="kind", content="value", rename_all="camelCase")]
-pub enum Value { Text(String), Number(f64), Boolean(bool), List(Vec<Value>), Window(WindowHandle), Data(BTreeMap<String,Value>) }
+pub enum Value { Null, Text(String), Number(f64), Boolean(bool), List(Vec<Value>), Window(WindowHandle), Data(BTreeMap<String,Value>) }
 impl Value {
-    pub fn kind(&self) -> ValueKind { match self { Self::Text(_)=>ValueKind::Text, Self::Number(_)=>ValueKind::Number, Self::Boolean(_)=>ValueKind::Boolean, Self::List(_)=>ValueKind::List, Self::Window(_)=>ValueKind::Window, Self::Data(_)=>ValueKind::Data } }
+    pub fn kind(&self) -> ValueKind { match self { Self::Null=>ValueKind::Data, Self::Text(_)=>ValueKind::Text, Self::Number(_)=>ValueKind::Number, Self::Boolean(_)=>ValueKind::Boolean, Self::List(_)=>ValueKind::List, Self::Window(_)=>ValueKind::Window, Self::Data(_)=>ValueKind::Data } }
 }
 #[derive(Clone, Debug, Serialize, Deserialize, TS, PartialEq)]
 #[serde(rename_all="camelCase", deny_unknown_fields)]
@@ -125,6 +125,7 @@ pub enum ExecutionState { Queued, Running, Succeeded, Failed, Canceled, TimedOut
 pub struct StepResult {
     pub step_id: String, pub state: ExecutionState, pub started_at: Option<String>,
     pub finished_at: Option<String>, pub reason: Option<String>, pub summary: Option<String>,
+    #[serde(default)] pub output: Option<Value>,
 }
 #[derive(Clone, Debug, Serialize, Deserialize, TS, PartialEq)]
 #[serde(rename_all="camelCase", deny_unknown_fields)]
@@ -196,7 +197,7 @@ impl Validator<'_> {
             if t.key.is_empty() { self.error(&p,"关键词不能为空"); }
             if c.snippets.iter().any(|o|o.id!=t.id && o.key==t.key && o.application_id==t.application_id) { self.error(&p,"同一应用范围的关键词重复"); }
         }
-        for w in &c.workflows { self.cycle(&w.id,&mut BTreeSet::new()); }
+        for w in &c.workflows { self.cycle(&w.id,&mut BTreeSet::new(),None); }
     }
     fn symbol(&mut self,s:&Symbol,p:&str,names:&mut BTreeSet<String>) { self.id(&s.id,p); self.name(&s.name,p); if !names.insert(s.name.clone()) { self.error(p,"变量或接口名称重复"); } }
     fn binding(&mut self,b:&Binding,scope:&BTreeMap<String,ValueKind>,expected:Option<&ValueKind>,p:&str) -> Option<ValueKind> {
@@ -212,7 +213,7 @@ impl Validator<'_> {
                             match workflow.outputs.iter().find(|o|o.symbol.id==r.path[0]) {
                                 None=>self.error(p,"可复用动作的返回字段引用已失效"),
                                 Some(field) if r.path.len()==1 && field.symbol.kind!=r.kind=>self.error(p,"返回字段引用类型不匹配"),
-                                Some(field) if r.path.len()>1 && !matches!(field.symbol.kind,ValueKind::Data|ValueKind::List|ValueKind::Window)=>self.error(p,"该返回字段不支持嵌套路径"),
+                                Some(field) if r.path.len()>1 && !matches!(field.symbol.kind,ValueKind::Data|ValueKind::List|ValueKind::Window|ValueKind::Any)=>self.error(p,"该返回字段不支持嵌套路径"),
                                 _=>{},
                             }
                         }
@@ -220,14 +221,14 @@ impl Validator<'_> {
                 }
                 match scope.get(&r.symbol_id) {
                     None=>{self.error(p,"引用值不在当前可见作用域或尚未产生");None},
-                    Some(k) if r.path.is_empty() && *k!=r.kind=>{self.error(p,"变量引用类型不匹配");None},
-                    Some(k) if !r.path.is_empty() && !matches!(k,ValueKind::Data|ValueKind::List|ValueKind::Window)=>{self.error(p,"该类型不支持读取字段");None},
+                    Some(k) if r.path.is_empty() && *k!=ValueKind::Any && *k!=r.kind=>{self.error(p,"变量引用类型不匹配");None},
+                    Some(k) if !r.path.is_empty() && !matches!(k,ValueKind::Data|ValueKind::List|ValueKind::Window|ValueKind::Any)=>{self.error(p,"该类型不支持读取字段");None},
                     Some(_)=>Some(r.kind.clone()),
                 }
             },
             Binding::Template(parts)=>{for part in parts { if let TextPart::Reference(r)=part { self.binding(&Binding::Reference(r.clone()),scope,None,p); } } Some(ValueKind::Text)},
         };
-        if let (Some(got),Some(want))=(&kind,expected) { if got!=want { self.error(p,format!("参数需要 {want:?}，当前为 {got:?}")); } }
+        if let (Some(got),Some(want))=(&kind,expected) { if *got!=ValueKind::Any && *want!=ValueKind::Any && got!=want { self.error(p,format!("参数需要 {want:?}，当前为 {got:?}")); } }
         kind
     }
     fn steps(&mut self,steps:&[Step],scope:&mut BTreeMap<String,ValueKind>,loop_depth:usize,p:&str) {
@@ -240,6 +241,7 @@ impl Validator<'_> {
             for (key,b) in &s.params {
                 let field=def.fields.iter().find(|f|f.key==*key);
                 if field.is_none() && !matches!(key.as_str(),"resultKind"|"dbusArgs"|"itemSymbol"|"indexSymbol") { self.error(format!("{p}.{key}"),"未知动作参数"); continue; }
+                if !parameter_active(s,key) { continue; }
                 let expected=step_parameter_kind(s,key,field);
                 if key=="dbusArgs" && s.action=="dbus.call" {
                     if let Binding::List(args)=b { for (index,arg) in args.iter().enumerate() {
@@ -278,17 +280,19 @@ impl Validator<'_> {
             }
             self.steps(&s.children,&mut nested_scope,nested_loop,&p);
             self.steps(&s.otherwise,&mut scope.clone(),loop_depth,&p);
+            if s.output.is_some()&&s.action!="variable"&&!def.fields.iter().any(|field|field.key=="output"){self.error(&p,"该动作不产生输出变量");}
             if let Some(out)=&s.output { self.symbol(out,&p,&mut names); if let Some(kind)=step_output_kind(s) { if kind!=out.kind { self.error(&p,"步骤输出类型与动作定义不匹配"); } } if s.enabled { scope.insert(out.id.clone(),out.kind.clone()); } }
         }
     }
-    fn cycle(&mut self,id:&str,stack:&mut BTreeSet<String>) {
-        if !stack.insert(id.into()) { self.error(format!("workflows.{id}"),"禁止直接或间接递归调用"); return; }
-        if let Some(w)=self.config.workflows.iter().find(|w|w.id==id) { for target in calls(&w.steps) { self.cycle(target,stack); } }
+    fn cycle(&mut self,id:&str,stack:&mut BTreeSet<String>,origin:Option<String>) {
+        if !stack.insert(id.into()) { self.error(origin.unwrap_or_else(||format!("workflows.{id}")),"禁止直接或间接递归调用"); return; }
+        if let Some(w)=self.config.workflows.iter().find(|w|w.id==id) {
+            for step in all_steps(&w.steps) {if let Some(target)=step.workflow_id.as_deref(){self.cycle(target,stack,Some(origin.clone().unwrap_or_else(||format!("workflows.{id}.steps.{}",step.id))));}}
+        }
         stack.remove(id);
     }
 }
 fn all_steps(steps:&[Step])->Vec<&Step> { steps.iter().flat_map(|s|std::iter::once(s).chain(all_steps(&s.children)).chain(all_steps(&s.otherwise))).collect() }
-fn calls(steps:&[Step])->Vec<&str> { steps.iter().flat_map(|s|s.workflow_id.as_deref().into_iter().chain(calls(&s.children)).chain(calls(&s.otherwise))).collect() }
 pub fn context_scope()->BTreeMap<String,ValueKind> {
     [("start.applicationId",ValueKind::Text),("start.title",ValueKind::Text),("start.window",ValueKind::Window),("start.x",ValueKind::Number),("start.y",ValueKind::Number),("start.position",ValueKind::List),("pointer.position",ValueKind::List),("workspace",ValueKind::Number),("monitor",ValueKind::Number),("clipboard",ValueKind::Text),("now",ValueKind::Text),("home",ValueKind::Text)].into_iter().map(|(id,k)|(format!("context:{id}"),k)).collect()
 }
@@ -301,14 +305,40 @@ pub fn parameter_kind(action:&str,key:&str,field:Option<&ActionField>)->Option<V
 fn param_text<'a>(s:&'a Step,key:&str)->Option<&'a str> { match s.params.get(key) { Some(Binding::Literal(Value::Text(v)))=>Some(v),_=>None } }
 fn dbus_kind(signature:&str)->Option<ValueKind> { match signature { "s"=>Some(ValueKind::Text),"i"|"d"=>Some(ValueKind::Number),"b"=>Some(ValueKind::Boolean),"as"=>Some(ValueKind::List),_=>None } }
 fn named_kind(name:&str)->Option<ValueKind> { match name { "文本"=>Some(ValueKind::Text),"数字"=>Some(ValueKind::Number),"布尔值"=>Some(ValueKind::Boolean),"列表"=>Some(ValueKind::List),"窗口"=>Some(ValueKind::Window),"数据"=>Some(ValueKind::Data),_=>None } }
+/// Hidden parameters retain their saved values but do not participate in the
+/// selected operation. Unknown dynamic selectors keep all parameters active.
+pub fn parameter_active(step:&Step,key:&str)->bool {
+    let selected=|name:&str|param_text(step,name);
+    match (step.action.as_str(),key) {
+        ("text.transform","argument")=>selected("operation").is_none_or(|v|matches!(v,"替换"|"截取"|"按分隔符拆分"|"按分隔符合并")),
+        ("text.transform","replacement")=>selected("operation").is_none_or(|v|matches!(v,"替换"|"连接")),
+        ("condition","source")=>selected("value").is_none_or(|v|matches!(v,"变量"|"文件是否存在"|"命令退出码")),
+        ("condition","compare")=>selected("operator").is_none_or(|v|!matches!(v,"为空"|"不为空"|"为真"|"为假")),
+        ("wait.condition","subject")=>selected("value")!=Some("剪贴板包含"),
+        ("wait.condition","compare")=>selected("value").is_none_or(|v|matches!(v,"窗口标题包含"|"变量等于"|"剪贴板包含")),
+        ("mouse","x"|"y")=>selected("position").is_none_or(|v|v=="指定坐标"),
+        ("command","arguments")=>selected("mode")!=Some("通过 Shell 运行"),
+        ("window.target","variable")=>selected("value").is_none_or(|v|v=="窗口变量"),
+        ("workspace.switch"|"window.monitor","index")=>selected("value").is_none_or(|v|v=="指定编号"),
+        ("media","seconds")=>selected("value").is_none_or(|v|matches!(v,"快进"|"快退")),
+        ("screenshot","path")=>selected("destination").is_none_or(|v|v=="文件"),
+        ("number.calculate","right")=>selected("value")!=Some("四舍五入"),
+        ("list.change","argument")=>selected("operation")!=Some("获取长度"),
+        ("dbus.property","content"|"signature")=>selected("operation").is_none_or(|v|v=="设置"),
+        ("dbus.call","arguments")=>!step.params.contains_key("dbusArgs"),
+        _=>true,
+    }
+}
 fn step_parameter_kind(s:&Step,key:&str,field:Option<&ActionField>)->Option<ValueKind> {
     match (s.action.as_str(),key) {
         ("dbus.property","content") if param_text(s,"operation")==Some("设置")=>param_text(s,"signature").and_then(dbus_kind),
         ("variable","value")=>param_text(s,"kind").and_then(named_kind),
+        ("text.transform","value") if param_text(s,"operation")==Some("按分隔符合并")=>Some(ValueKind::List),
         ("foreach","value")=>Some(ValueKind::List),
         ("data.field","value")=>None,
         ("condition","source"|"compare")|("wait.condition","subject"|"compare")=>None,
         ("list.change","value")=>Some(ValueKind::List),
+        ("list.change","argument")=>None,
         ("window.target","variable")=>Some(if param_text(s,"value")==Some("窗口变量") { ValueKind::Window } else { ValueKind::Text }),
         ("process.signal"|"workspace.move","value")=>Some(ValueKind::Number),
         (_,"dbusArgs"|"itemSymbol"|"indexSymbol")=>None,
@@ -325,7 +355,8 @@ fn step_output_kind(s:&Step)->Option<ValueKind> {
         "window.find"|"launch"|"app.activate"=>Window,
         "directory.list"=>List,
         "dialog.message"=>Boolean,
-        "command"|"http.request"|"flow.call"|"json.parse"=>Data,
+        "command"|"http.request"|"flow.call"=>Data,
+        "json.parse"=>return None,
         "text.transform"=>match param_text(s,"operation") { Some("获取长度")=>Number,Some("按分隔符拆分")=>List,_=>Text },
         "window.info"=>match param_text(s,"value") { Some("标题"|"应用 ID")=>Text,Some("工作区"|"所在显示器")=>Number,Some("是否最大化"|"是否全屏"|"是否置顶")=>Boolean,_=>Data },
         "file.info"=>match param_text(s,"property") { Some("是否存在"|"是否为目录")=>Boolean,Some("大小")=>Number,_=>Text },
@@ -340,6 +371,16 @@ mod tests {
     use super::*;
     fn step(id:&str,action:&str)->Step { Step{id:id.into(),action:action.into(),enabled:true,params:BTreeMap::new(),output:None,on_failure:FailurePolicy::Stop,timeout_ms:None,workflow_id:None,arguments:BTreeMap::new(),children:vec![],otherwise:vec![],loop_item:None,loop_index:None} }
     fn workflow(id:&str,steps:Vec<Step>)->Workflow { Workflow{id:id.into(),name:id.into(),description:String::new(),inputs:vec![],outputs:vec![],steps} }
+    #[test]
+    fn inactive_parameter_does_not_require_a_removed_value() {
+        let mut c=Config::default();let mut math=step("math","number.calculate");
+        math.params.insert("value".into(),Binding::Literal(Value::Text("四舍五入".into())));
+        math.params.insert("left".into(),Binding::Literal(Value::Number(1.6)));
+        math.params.insert("right".into(),Binding::Reference(Reference{symbol_id:"removed".into(),path:vec![],kind:ValueKind::Number}));
+        c.workflows.push(workflow("active-params",vec![math]));assert!(validate(&c).is_empty());
+        c.workflows[0].steps[0].params.insert("value".into(),Binding::Literal(Value::Text("加".into())));
+        assert!(validate(&c).iter().any(|e|e.path.ends_with(".right")&&e.message.contains("尚未产生")));
+    }
     #[test]
     fn full_catalog_and_freeform_configuration_round_trip() {
         let defs=catalog(); assert_eq!(defs.len(),69);assert_eq!(defs.iter().map(|a|&a.id).collect::<BTreeSet<_>>().len(),69);
@@ -366,6 +407,8 @@ mod tests {
         let mut a=step("call-a","flow.call");a.workflow_id=Some("b".into());
         let mut b=step("call-b","flow.call");b.workflow_id=Some("a".into());
         let mut c=Config::default();c.workflows=vec![workflow("a",vec![a]),workflow("b",vec![b])];
-        assert!(validate(&c).iter().any(|e|e.message.contains("递归")));
+        let errors=validate(&c);
+        assert!(errors.iter().any(|e|e.path=="workflows.a.steps.call-a"&&e.message.contains("递归")));
+        assert!(errors.iter().any(|e|e.path=="workflows.b.steps.call-b"&&e.message.contains("递归")));
     }
 }

@@ -15,7 +15,7 @@ settings=Gio.Settings.new('org.gnome.shell')
 settings.set_strv('enabled-extensions',[uuid for uuid in settings.get_strv('enabled-extensions') if uuid!='waystroke@local'])
 Gio.Settings.sync()
 PYTHON
-  rm -f "$extension_dir/extension.js" "$extension_dir/metadata.json"
+  rm -f "$extension_dir/extension.js" "$extension_dir/metadata.json" "$extension_dir/clipboard.js" "$extension_dir/dialogs.js" "$extension_dir/system.js"
   rmdir "$extension_dir" 2>/dev/null || true
   echo '已移除 WayStroke 开发扩展；用户配置保留。'
   exit 0
@@ -23,7 +23,7 @@ fi
 if [[ $# != 0 ]]; then echo '用法：install-dev-extension.sh [--uninstall]' >&2; exit 1; fi
 [[ "$(gnome-shell --version)" == 'GNOME Shell 50.5' ]] || { echo '仅适配 GNOME Shell 50.5。' >&2; exit 1; }
 mkdir -p "$extension_dir"
-install -m 644 "$repo_dir/extension/metadata.json" "$repo_dir/extension/extension.js" "$extension_dir/"
+install -m 644 "$repo_dir/extension/metadata.json" "$repo_dir/extension/extension.js" "$repo_dir/extension/clipboard.js" "$repo_dir/extension/dialogs.js" "$repo_dir/extension/system.js" "$extension_dir/"
 python3 - <<'PY'
 from gi.repository import Gio
 settings=Gio.Settings.new('org.gnome.shell')

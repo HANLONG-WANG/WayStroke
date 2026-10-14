@@ -1,4 +1,4 @@
-function actionFields(step,definition){const fields=definition.fields.map(field=>({...field,choices:[...field.choices]}));if(step.type==='data.field'||(step.type==='list.change'&&step.operation==='读取指定索引'))fields.splice(fields.length-1,0,{key:'resultKind',label:'结果类型',kind:'select',choices:['自动','文本','数字','布尔值','列表','窗口','数据'],initial:'自动'});return fields.filter(field=>{
+function actionFields(step,definition){const fields=definition.fields.map(field=>({...field,choices:[...field.choices]}));if(['data.field','json.parse'].includes(step.type)||(step.type==='list.change'&&step.operation==='读取指定索引'))fields.splice(fields.length-1,0,{key:'resultKind',label:'结果类型',kind:'select',choices:['自动','文本','数字','布尔值','列表','窗口','数据'],initial:'自动'});return fields.filter(field=>{
  if(step.type==='text.transform'){if(field.key==='argument')return ['替换','截取','按分隔符拆分','按分隔符合并'].includes(step.operation);if(field.key==='replacement')return ['替换','连接'].includes(step.operation)}
  if(step.type==='condition'){if(field.key==='source')return ['变量','文件是否存在','命令退出码'].includes(step.value);if(field.key==='compare')return !['为空','不为空','为真','为假'].includes(step.operator)}
  if(step.type==='wait.condition'&&field.key==='subject'&&step.value==='剪贴板包含')return false;
@@ -14,7 +14,7 @@ function actionFields(step,definition){const fields=definition.fields.map(field=
  if(step.type==='dbus.property'&&['content','signature'].includes(field.key))return step.operation==='设置';
  return true;
  }).map(field=>{
- if(step.type==='variable'&&field.key==='value'){if(step.kind==='布尔值'){field.kind='select';field.choices=['true','false'];field.initial='true'}if(step.kind==='列表'){field.kind='textarea';field.label='列表值（每行一项）'}if(step.kind==='文本')field.kind='textarea'}
+ if(step.type==='variable'&&field.key==='value'){if(step.kind==='布尔值'){field.kind='select';field.choices=['true','false'];field.initial='true'}if(step.kind==='列表'){field.kind='textarea';field.label='列表值（每行文本或 JSON 列表）'}if(step.kind==='文本')field.kind='textarea'}
  if(step.type==='wait.condition'&&field.key==='subject')field.label=step.value.startsWith('窗口')?'应用 ID 或窗口条件':step.value==='文件存在'?'文件路径':step.value==='变量等于'?'变量名称':'条件对象';
  if(step.type==='condition'&&field.key==='source')field.label=step.value==='文件是否存在'?'文件路径':'变量名称';
  if(step.type==='text.transform'&&field.key==='argument')field.label=step.operation==='替换'?'查找文本':step.operation==='截取'?'起始位置与长度（例如 0, 5）':'分隔符';

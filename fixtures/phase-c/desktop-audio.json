@@ -1,0 +1,766 @@
+{
+  "hello": {
+    "protocolVersion": 1,
+    "instance": "a89cc8a4-7054-4a5d-a9f6-4dedf9e56d22",
+    "locked": false,
+    "shellVersion": "50.5",
+    "capabilities": [
+      "liveRuleName",
+      "bottomFeedback",
+      "quietGestureStart"
+    ]
+  },
+  "windows": [
+    {
+      "handle": {
+        "instance": "a89cc8a4-7054-4a5d-a9f6-4dedf9e56d22",
+        "id": "1"
+      },
+      "title": "Probe A",
+      "applicationId": "org.waystroke.ProbeClient",
+      "clientType": 0
+    },
+    {
+      "handle": {
+        "instance": "a89cc8a4-7054-4a5d-a9f6-4dedf9e56d22",
+        "id": "2"
+      },
+      "title": "Probe B",
+      "applicationId": "org.waystroke.ProbeClient",
+      "clientType": 0
+    }
+  ],
+  "barrierRegistration": true,
+  "foreignF24PassesThrough": true,
+  "escapeClearsLiveLabel": true,
+  "idleClearsLiveLabel": {
+    "elapsedMs": 1213.2,
+    "physicalInput": false
+  },
+  "origin": {
+    "sequence": 0,
+    "monotonicMs": 106542784.248,
+    "position": [
+      200,
+      300
+    ],
+    "window": {
+      "instance": "a89cc8a4-7054-4a5d-a9f6-4dedf9e56d22",
+      "id": "1"
+    },
+    "applicationId": "org.waystroke.ProbeClient",
+    "title": "Probe A",
+    "workspace": 0,
+    "monitor": 0,
+    "locked": false
+  },
+  "pointWindowDiffersFromFocus": {
+    "start": {
+      "sequence": 0,
+      "monotonicMs": 106542784.248,
+      "position": [
+        200,
+        300
+      ],
+      "window": {
+        "instance": "a89cc8a4-7054-4a5d-a9f6-4dedf9e56d22",
+        "id": "1"
+      },
+      "applicationId": "org.waystroke.ProbeClient",
+      "title": "Probe A",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    },
+    "end": {
+      "sequence": 0,
+      "monotonicMs": 106542786.593,
+      "position": [
+        600,
+        300
+      ],
+      "window": {
+        "instance": "a89cc8a4-7054-4a5d-a9f6-4dedf9e56d22",
+        "id": "2"
+      },
+      "applicationId": "org.waystroke.ProbeClient",
+      "title": "Probe B",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    }
+  },
+  "multipleMonitorLogicalContexts": {
+    "start": {
+      "sequence": 0,
+      "monotonicMs": 106542784.248,
+      "position": [
+        200,
+        300
+      ],
+      "window": {
+        "instance": "a89cc8a4-7054-4a5d-a9f6-4dedf9e56d22",
+        "id": "1"
+      },
+      "applicationId": "org.waystroke.ProbeClient",
+      "title": "Probe A",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    },
+    "secondary": {
+      "sequence": 0,
+      "monotonicMs": 106542890.67,
+      "position": [
+        1800,
+        300
+      ],
+      "window": {
+        "instance": "a89cc8a4-7054-4a5d-a9f6-4dedf9e56d22",
+        "id": "2"
+      },
+      "applicationId": "org.waystroke.ProbeClient",
+      "title": "Probe B",
+      "workspace": 0,
+      "monitor": 1,
+      "locked": false
+    }
+  },
+  "shortcutTargetsOriginalHandle": true,
+  "coreShortcut": {
+    "id": "6c30e8eb-0beb-4776-9e27-9e08e6af857e",
+    "name": "shortcut",
+    "revision": 1,
+    "context": {
+      "sequence": 0,
+      "monotonicMs": 106542784.248,
+      "position": [
+        200.0,
+        300.0
+      ],
+      "window": {
+        "instance": "a89cc8a4-7054-4a5d-a9f6-4dedf9e56d22",
+        "id": "1"
+      },
+      "applicationId": "org.waystroke.ProbeClient",
+      "title": "Probe A",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    },
+    "state": "succeeded",
+    "startedAt": "2026-10-13T14:26:48.173492725+00:00",
+    "finishedAt": "2026-10-13T14:26:48.175776740+00:00",
+    "reason": null,
+    "steps": [
+      {
+        "stepId": "step-shortcut-1",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T14:26:48.174250055+00:00",
+        "finishedAt": "2026-10-13T14:26:48.175093812+00:00",
+        "reason": null,
+        "summary": "发送快捷键",
+        "output": null
+      }
+    ]
+  },
+  "coreWindow": {
+    "id": "b298f60c-1518-4f4c-889a-bebc733fd830",
+    "name": "window",
+    "revision": 1,
+    "context": {
+      "sequence": 0,
+      "monotonicMs": 106542784.248,
+      "position": [
+        200.0,
+        300.0
+      ],
+      "window": {
+        "instance": "a89cc8a4-7054-4a5d-a9f6-4dedf9e56d22",
+        "id": "1"
+      },
+      "applicationId": "org.waystroke.ProbeClient",
+      "title": "Probe A",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    },
+    "state": "succeeded",
+    "startedAt": "2026-10-13T14:26:48.278699390+00:00",
+    "finishedAt": "2026-10-13T14:26:48.282562886+00:00",
+    "reason": null,
+    "steps": [
+      {
+        "stepId": "step-window-2",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T14:26:48.279734177+00:00",
+        "finishedAt": "2026-10-13T14:26:48.282014849+00:00",
+        "reason": null,
+        "summary": "窗口操作",
+        "output": null
+      }
+    ]
+  },
+  "coreLaunch": {
+    "id": "e680f7d8-97d6-4ae4-9206-728b843e5e1d",
+    "name": "launch",
+    "revision": 1,
+    "context": {
+      "sequence": 0,
+      "monotonicMs": 106542784.248,
+      "position": [
+        200.0,
+        300.0
+      ],
+      "window": {
+        "instance": "a89cc8a4-7054-4a5d-a9f6-4dedf9e56d22",
+        "id": "1"
+      },
+      "applicationId": "org.waystroke.ProbeClient",
+      "title": "Probe A",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    },
+    "state": "succeeded",
+    "startedAt": "2026-10-13T14:26:48.383158703+00:00",
+    "finishedAt": "2026-10-13T14:26:48.497482923+00:00",
+    "reason": null,
+    "steps": [
+      {
+        "stepId": "step-launch-3",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T14:26:48.384313867+00:00",
+        "finishedAt": "2026-10-13T14:26:48.496279100+00:00",
+        "reason": null,
+        "summary": "打开程序",
+        "output": {
+          "kind": "window",
+          "value": {
+            "instance": "a89cc8a4-7054-4a5d-a9f6-4dedf9e56d22",
+            "id": "3"
+          }
+        }
+      }
+    ]
+  },
+  "feedbackBottomCentered": {
+    "text": "launch · 已执行",
+    "position": [
+      654,
+      894
+    ],
+    "width": 133,
+    "height": 42,
+    "monitors": [
+      {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 1000
+      },
+      {
+        "x": 1440,
+        "y": 0,
+        "width": 1280,
+        "height": 900
+      }
+    ]
+  },
+  "phaseCNativePromptWithoutUI": {
+    "id": "5c944a2f-4014-4ad9-854f-6ca2a9898fa7",
+    "name": "system",
+    "revision": 3,
+    "context": {
+      "sequence": 0,
+      "monotonicMs": 106542784.248,
+      "position": [
+        200.0,
+        300.0
+      ],
+      "window": {
+        "instance": "a89cc8a4-7054-4a5d-a9f6-4dedf9e56d22",
+        "id": "1"
+      },
+      "applicationId": "org.waystroke.ProbeClient",
+      "title": "Probe A",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    },
+    "state": "succeeded",
+    "startedAt": "2026-10-13T14:26:48.599296554+00:00",
+    "finishedAt": "2026-10-13T14:26:48.816346882+00:00",
+    "reason": null,
+    "steps": [
+      {
+        "stepId": "step-dialog.message-5",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T14:26:48.600094591+00:00",
+        "finishedAt": "2026-10-13T14:26:48.814666001+00:00",
+        "reason": null,
+        "summary": "显示消息或询问",
+        "output": {
+          "kind": "boolean",
+          "value": true
+        }
+      }
+    ]
+  },
+  "phaseCNativeInput": {
+    "id": "f424cd33-ac35-4096-86a2-fcbc10fbdaa1",
+    "name": "system",
+    "revision": 4,
+    "context": {
+      "sequence": 0,
+      "monotonicMs": 106542784.248,
+      "position": [
+        200.0,
+        300.0
+      ],
+      "window": {
+        "instance": "a89cc8a4-7054-4a5d-a9f6-4dedf9e56d22",
+        "id": "1"
+      },
+      "applicationId": "org.waystroke.ProbeClient",
+      "title": "Probe A",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    },
+    "state": "succeeded",
+    "startedAt": "2026-10-13T14:26:48.915795392+00:00",
+    "finishedAt": "2026-10-13T14:26:49.149500059+00:00",
+    "reason": null,
+    "steps": [
+      {
+        "stepId": "step-dialog.input-6",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T14:26:48.916565263+00:00",
+        "finishedAt": "2026-10-13T14:26:49.148092042+00:00",
+        "reason": null,
+        "summary": "请求用户输入",
+        "output": {
+          "kind": "text",
+          "value": "input-value"
+        }
+      }
+    ]
+  },
+  "phaseCPromptCancelIsNotEmptyResult": {
+    "id": "e87df9ff-b598-420e-bb03-884fb83c9910",
+    "name": "system",
+    "revision": 5,
+    "context": {
+      "sequence": 0,
+      "monotonicMs": 106542784.248,
+      "position": [
+        200.0,
+        300.0
+      ],
+      "window": {
+        "instance": "a89cc8a4-7054-4a5d-a9f6-4dedf9e56d22",
+        "id": "1"
+      },
+      "applicationId": "org.waystroke.ProbeClient",
+      "title": "Probe A",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    },
+    "state": "canceled",
+    "startedAt": "2026-10-13T14:26:49.227255535+00:00",
+    "finishedAt": "2026-10-13T14:26:49.467822865+00:00",
+    "reason": "用户取消了对话框",
+    "steps": [
+      {
+        "stepId": "step-dialog.input-6",
+        "state": "canceled",
+        "startedAt": "2026-10-13T14:26:49.228501380+00:00",
+        "finishedAt": "2026-10-13T14:26:49.464998433+00:00",
+        "reason": "用户取消了对话框",
+        "summary": "请求用户输入",
+        "output": null
+      }
+    ]
+  },
+  "phaseCNotification": true,
+  "phaseCFullScreenshot": {
+    "id": "b852f695-607d-4f6b-bf35-65f2160c21d9",
+    "name": "system",
+    "revision": 8,
+    "context": {
+      "sequence": 0,
+      "monotonicMs": 106542784.248,
+      "position": [
+        200.0,
+        300.0
+      ],
+      "window": {
+        "instance": "a89cc8a4-7054-4a5d-a9f6-4dedf9e56d22",
+        "id": "1"
+      },
+      "applicationId": "org.waystroke.ProbeClient",
+      "title": "Probe A",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    },
+    "state": "succeeded",
+    "startedAt": "2026-10-13T14:26:49.959666752+00:00",
+    "finishedAt": "2026-10-13T14:26:50.171904807+00:00",
+    "reason": null,
+    "steps": [
+      {
+        "stepId": "step-screenshot-8",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T14:26:49.960427061+00:00",
+        "finishedAt": "2026-10-13T14:26:50.170907496+00:00",
+        "reason": null,
+        "summary": "截图",
+        "output": {
+          "kind": "data",
+          "value": {
+            "destination": {
+              "kind": "text",
+              "value": "文件"
+            },
+            "height": {
+              "kind": "number",
+              "value": 1000.0
+            },
+            "path": {
+              "kind": "text",
+              "value": "/tmp/waystroke-desktop-check-04mdcd3a/full-screen.png"
+            },
+            "width": {
+              "kind": "number",
+              "value": 2720.0
+            }
+          }
+        }
+      }
+    ]
+  },
+  "phaseCWindowScreenshot": {
+    "id": "7724778e-2008-4f7f-89cd-07b35ba11432",
+    "name": "system",
+    "revision": 9,
+    "context": {
+      "sequence": 0,
+      "monotonicMs": 106542784.248,
+      "position": [
+        200.0,
+        300.0
+      ],
+      "window": {
+        "instance": "a89cc8a4-7054-4a5d-a9f6-4dedf9e56d22",
+        "id": "1"
+      },
+      "applicationId": "org.waystroke.ProbeClient",
+      "title": "Probe A",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    },
+    "state": "succeeded",
+    "startedAt": "2026-10-13T14:26:50.270149347+00:00",
+    "finishedAt": "2026-10-13T14:26:50.297188473+00:00",
+    "reason": null,
+    "steps": [
+      {
+        "stepId": "step-screenshot-9",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T14:26:50.270892600+00:00",
+        "finishedAt": "2026-10-13T14:26:50.296376106+00:00",
+        "reason": null,
+        "summary": "截图",
+        "output": {
+          "kind": "data",
+          "value": {
+            "destination": {
+              "kind": "text",
+              "value": "文件"
+            },
+            "height": {
+              "kind": "number",
+              "value": 968.0
+            },
+            "path": {
+              "kind": "text",
+              "value": "/tmp/waystroke-desktop-check-04mdcd3a/target-window.png"
+            },
+            "width": {
+              "kind": "number",
+              "value": 1440.0
+            }
+          }
+        }
+      }
+    ]
+  },
+  "phaseCSelectionScreenshot": {
+    "id": "fa9204fd-3381-4daa-9c9c-73e3e76e0b10",
+    "name": "system",
+    "revision": 10,
+    "context": {
+      "sequence": 0,
+      "monotonicMs": 106542784.248,
+      "position": [
+        200.0,
+        300.0
+      ],
+      "window": {
+        "instance": "a89cc8a4-7054-4a5d-a9f6-4dedf9e56d22",
+        "id": "1"
+      },
+      "applicationId": "org.waystroke.ProbeClient",
+      "title": "Probe A",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    },
+    "state": "succeeded",
+    "startedAt": "2026-10-13T14:26:50.378057942+00:00",
+    "finishedAt": "2026-10-13T14:26:50.839478837+00:00",
+    "reason": null,
+    "steps": [
+      {
+        "stepId": "step-screenshot-10",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T14:26:50.378827790+00:00",
+        "finishedAt": "2026-10-13T14:26:50.837932188+00:00",
+        "reason": null,
+        "summary": "截图",
+        "output": {
+          "kind": "data",
+          "value": {
+            "destination": {
+              "kind": "text",
+              "value": "文件"
+            },
+            "height": {
+              "kind": "number",
+              "value": 101.0
+            },
+            "path": {
+              "kind": "text",
+              "value": "/tmp/waystroke-desktop-check-04mdcd3a/selection.png"
+            },
+            "width": {
+              "kind": "number",
+              "value": 131.0
+            }
+          }
+        }
+      }
+    ]
+  },
+  "phaseCSelectionCancel": true,
+  "phaseCRealPrivateAudio": [
+    {
+      "device": "默认输出",
+      "operation": "设置音量",
+      "volume": [
+        30,
+        30
+      ]
+    },
+    {
+      "device": "默认输出",
+      "operation": "增加音量",
+      "volume": [
+        40,
+        40
+      ]
+    },
+    {
+      "device": "默认输出",
+      "operation": "降低音量",
+      "volume": [
+        35,
+        35
+      ]
+    },
+    {
+      "device": "默认输出",
+      "operation": "静音",
+      "muted": true
+    },
+    {
+      "device": "默认输出",
+      "operation": "取消静音",
+      "muted": false
+    },
+    {
+      "device": "默认输出",
+      "operation": "切换静音",
+      "muted": true
+    },
+    {
+      "device": "默认输入",
+      "operation": "设置音量",
+      "volume": [
+        30,
+        30
+      ]
+    },
+    {
+      "device": "默认输入",
+      "operation": "增加音量",
+      "volume": [
+        40,
+        40
+      ]
+    },
+    {
+      "device": "默认输入",
+      "operation": "降低音量",
+      "volume": [
+        35,
+        35
+      ]
+    },
+    {
+      "device": "默认输入",
+      "operation": "静音",
+      "muted": true
+    },
+    {
+      "device": "默认输入",
+      "operation": "取消静音",
+      "muted": false
+    },
+    {
+      "device": "默认输入",
+      "operation": "切换静音",
+      "muted": true
+    }
+  ],
+  "phaseCBrightnessUnavailable": {
+    "id": "dde39272-4cd8-4a8e-8e3b-483a68c1a45f",
+    "name": "system",
+    "revision": 24,
+    "context": {
+      "sequence": 0,
+      "monotonicMs": 106542784.248,
+      "position": [
+        200.0,
+        300.0
+      ],
+      "window": {
+        "instance": "a89cc8a4-7054-4a5d-a9f6-4dedf9e56d22",
+        "id": "1"
+      },
+      "applicationId": "org.waystroke.ProbeClient",
+      "title": "Probe A",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    },
+    "state": "failed",
+    "startedAt": "2026-10-13T14:26:52.480171862+00:00",
+    "finishedAt": "2026-10-13T14:26:52.482032885+00:00",
+    "reason": "GNOME 没有可控制亮度的显示器或背光设备",
+    "steps": [
+      {
+        "stepId": "step-brightness-24",
+        "state": "failed",
+        "startedAt": "2026-10-13T14:26:52.480907103+00:00",
+        "finishedAt": "2026-10-13T14:26:52.481430343+00:00",
+        "reason": "GNOME 没有可控制亮度的显示器或背光设备",
+        "summary": "调节亮度",
+        "output": null
+      }
+    ]
+  },
+  "cancelRunningAndQueued": [
+    {
+      "id": "e353b89b-0c84-438e-ba08-4de8e747942a",
+      "name": "shortcut",
+      "revision": 25,
+      "context": {
+        "sequence": 0,
+        "monotonicMs": 106542784.248,
+        "position": [
+          200.0,
+          300.0
+        ],
+        "window": {
+          "instance": "a89cc8a4-7054-4a5d-a9f6-4dedf9e56d22",
+          "id": "1"
+        },
+        "applicationId": "org.waystroke.ProbeClient",
+        "title": "Probe A",
+        "workspace": 0,
+        "monitor": 0,
+        "locked": false
+      },
+      "state": "canceled",
+      "startedAt": "2026-10-13T14:26:52.587907895+00:00",
+      "finishedAt": "2026-10-13T14:26:52.591811649+00:00",
+      "reason": "动作已停止",
+      "steps": [
+        {
+          "stepId": "step-wait-25",
+          "state": "canceled",
+          "startedAt": "2026-10-13T14:26:52.588892685+00:00",
+          "finishedAt": "2026-10-13T14:26:52.591282832+00:00",
+          "reason": "动作已停止",
+          "summary": "等待时长",
+          "output": null
+        }
+      ]
+    },
+    {
+      "id": "cc0637a2-d09e-4f9d-a528-5bd3f87db155",
+      "name": "shortcut",
+      "revision": 25,
+      "context": {
+        "sequence": 0,
+        "monotonicMs": 106542784.248,
+        "position": [
+          200.0,
+          300.0
+        ],
+        "window": {
+          "instance": "a89cc8a4-7054-4a5d-a9f6-4dedf9e56d22",
+          "id": "1"
+        },
+        "applicationId": "org.waystroke.ProbeClient",
+        "title": "Probe A",
+        "workspace": 0,
+        "monitor": 0,
+        "locked": false
+      },
+      "state": "canceled",
+      "startedAt": null,
+      "finishedAt": "2026-10-13T14:26:52.591871998+00:00",
+      "reason": "排队动作已取消",
+      "steps": []
+    }
+  ],
+  "maximize": {
+    "before": {
+      "x": 50,
+      "y": 200,
+      "width": 420,
+      "height": 260
+    },
+    "after": {
+      "x": 0,
+      "y": 32,
+      "width": 1440,
+      "height": 968
+    }
+  },
+  "closedHandleDoesNotRetarget": true,
+  "nativeShieldStopsAndResumes": {
+    "locked": true,
+    "reason": "桌面已锁定",
+    "queuedNeverStarted": true,
+    "resumed": true,
+    "physicalInput": false
+  },
+  "complete": true
+}

@@ -1,0 +1,39 @@
+{
+  "recordedAt": "2026-10-13T22:36:09.956300+00:00",
+  "nativeComponents": [
+    {
+      "name": "libwaystroke-clipboard.so",
+      "installed": "/usr/lib64/libwaystroke-clipboard.so",
+      "sha256": "972da8bfcf07b67f0610d680a0f733d375667d24f81454a973c42b3c6caf53ca",
+      "matchesBuild": true
+    },
+    {
+      "name": "WayStrokeClipboard-1.0.typelib",
+      "installed": "/usr/lib64/girepository-1.0/WayStrokeClipboard-1.0.typelib",
+      "sha256": "bb1c969f82bcdd2a6037d700d724022949743518c6034b812216544b1150c2f3",
+      "matchesBuild": true
+    }
+  ],
+  "nativeSourceFactory": "unknown_WayStrokeClipboardSource",
+  "factoryScope": "empty source only; no selection owner or clipboard contents changed",
+  "extensionFilesMatch": {
+    "extension.js": true,
+    "metadata.json": true,
+    "clipboard.js": true,
+    "dialogs.js": true,
+    "system.js": true
+  },
+  "afterReenable": {
+    "instance": "4021e4db-106f-4b32-8dbe-aec9af64f497",
+    "shellVersion": "50.5",
+    "capabilities": [
+      "liveRuleName",
+      "bottomFeedback",
+      "quietGestureStart"
+    ],
+    "stageCLoaded": false
+  },
+  "coreAndDesktopRunning": false,
+  "next": "fresh GNOME session required; user asked to save work and log out/in",
+  "complete": false
+}

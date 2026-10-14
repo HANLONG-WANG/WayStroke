@@ -10,12 +10,14 @@ if '--inside' not in sys.argv:
     ext=root/'data/gnome-shell/extensions/waystroke-probe@local';ext.mkdir(parents=True)
     for name in ['extension.js','metadata.json','terminal-monitor.js']:shutil.copy(REPO/'probes/gnome50'/name,ext/name)
     formal=root/'data/gnome-shell/extensions/waystroke@local';formal.mkdir()
-    for name in ['extension.js','metadata.json']:shutil.copy(REPO/'extension'/name,formal/name)
+    for name in ['extension.js','metadata.json','clipboard.js','dialogs.js','system.js']:shutil.copy(REPO/'extension'/name,formal/name)
     helper=ext/'extension.js';helper.write_text(helper.read_text().replace('clientType:a.meta_window.get_client_type()', 'clientType:a.meta_window.get_client_type(),minimized:a.meta_window.minimized'))
     env=os.environ.copy();env.update(XDG_RUNTIME_DIR=str(root/'runtime'),XDG_CONFIG_HOME=str(root/'config'),XDG_DATA_HOME=str(root/'data'),XDG_CACHE_HOME=str(root/'cache'),GSETTINGS_BACKEND='keyfile',LIBGL_ALWAYS_SOFTWARE='1',GIO_USE_VFS='local',WAYSTROKE_PROBE_DIR=str(root),GDK_BACKEND='wayland',GSK_RENDERER='cairo',WAYLAND_DISPLAY='waystroke-ui-check-0')
+    env['GI_TYPELIB_PATH']=str(REPO/'target/native')+':/usr/lib64/mutter-18'
+    env['LD_LIBRARY_PATH']=str(REPO/'target/native')+':/usr/lib64/mutter-18:/usr/lib64/gnome-shell'
     for name in ['DISPLAY','IBUS_ADDRESS','AT_SPI_BUS_ADDRESS']:env.pop(name,None)
     print('Native UI artifacts:',root,flush=True)
-    sys.exit(subprocess.run(['dbus-run-session','--',sys.executable,__file__,'--inside'],env=env).returncode)
+    sys.exit(subprocess.run(['dbus-run-session','--',sys.executable,__file__,'--inside',*sys.argv[1:]],env=env).returncode)
 root=Path(os.environ['WAYSTROKE_PROBE_DIR']);processes=[];results={}
 def spawn(name,args):
     log=(root/(name+'.log')).open('w');p=subprocess.Popen(args,stdout=log,stderr=log,start_new_session=True);processes.append(p);return p
@@ -82,6 +84,7 @@ try:
     wait(lambda:execute('return Boolean(document.querySelector("#main h1"))'))
     results['initial']=execute('return {title:document.querySelector("#main h1").textContent,nav:document.querySelectorAll(".nav").length,reviewTools:document.querySelectorAll(".review-tools").length};')
     assert results['initial']['nav']==8 and results['initial']['reviewTools']==0
+    assert len(core('GetActionCapabilities')['value'])==69;results['actionCapabilityRegistry']=True
     windows=wait(lambda:[w for w in shell({'action':'snapshot'})['windows'] if w['title']=='WayStroke'])
     assert all(w['clientType']==0 for w in windows);results['nativeWindows']=windows
     for page in ['rules','gestures','actions','text','test','runtime','configuration','settings']:
@@ -101,7 +104,31 @@ try:
     wait(lambda:len(core('GetConfig')['value']['config']['snippets'])==1)
     click('.nav[data-page="gestures"]');click('#new-gesture');fill('#template-name','自由曲线');draw('#template-canvas');results['drawing']=execute('return {status:document.querySelector("#sample-status").textContent,events:window.strokeEvents};');click('#save-template')
     wait(lambda:len(core('GetConfig')['value']['config']['gestures'])==1)
-    click('.nav[data-page="actions"]');click('#new-workflow');fill('#workflow-name','等待测试');click('#composer-add-root');click('[data-action-id="wait"]')
+    click('.nav[data-page="actions"]');click('#new-workflow');fill('#workflow-name','等待测试');click('#composer-add-root');click('[data-action-id="wait"]');fill('#composer-timeout','300');execute('document.querySelector("#composer-timeout").dispatchEvent(new Event("change",{bubbles:true}));return true;')
+    if '--phase-c' in sys.argv:
+        click('#composer-add-root');click('[data-action-id="loop.break"]');click('#composer-save')
+        error=wait(lambda:execute('const e=document.querySelector("#composer-errors");return e&&!e.hidden?e.textContent:null;'))
+        assert '循环' in error or '重复' in error,error
+        assert execute('return document.querySelector("#composer-param-title").textContent;')=='退出当前重复'
+        assert len(core('GetConfig')['value']['config']['workflows'])==0
+        results['illegalLoopExitLocated']=error;capture('composer-error-loop.png');click('#composer-delete')
+        click('#composer-add-root');click('[data-action-id="number.calculate"]');fill('#composer-params [data-param-key="left"] input','${未定义}');click('#composer-save')
+        error=wait(lambda:execute('const e=document.querySelector("#composer-errors");return e&&!e.hidden&&e.textContent.includes("未定义")?e.textContent:null;'))
+        assert execute('return document.querySelector("#composer-param-title").textContent;')=='数字计算'
+        results['missingVariableLocated']=error;click('#composer-delete')
+        click('#composer-add-root');click('[data-action-id="json.parse"]');fill('#composer-params [data-param-key="value"] textarea','8')
+        fill('#composer-params [data-param-key="output"] input','自动数值')
+        assert execute('return document.querySelector("#composer-params [data-param-key=resultKind] select").value;')=='自动'
+        click('#composer-add-root');click('[data-action-id="number.calculate"]');fill('#composer-params [data-param-key="left"] input','');click('#composer-params [data-param-key="left"] .insert-variable');click('[data-variable="自动数值"]')
+        fill('#composer-params [data-param-key="output"] input','计算结果')
+        click('#composer-save');wait(lambda:len(core('GetConfig')['value']['config']['workflows'])==1)
+        saved=core('GetConfig')['value']['config']['workflows'][0];assert saved['steps'][1]['output']['kind']=='any' and saved['steps'][2]['params']['left']['mode']=='reference'
+        results['automaticResultTypedReferenceSaved']=saved
+        click(f'[data-edit-workflow="{saved["id"]}"]');click('#composer-add-root');click('[data-action-id="flow.call"]')
+        execute(f'const e=document.querySelector("#composer-fields select");e.value={json.dumps(saved["id"])};e.dispatchEvent(new Event("change",{{bubbles:true}}));return true;');click('#composer-save')
+        error=wait(lambda:execute('const e=document.querySelector("#composer-errors");return e&&!e.hidden&&e.textContent.includes("递归")?e.textContent:null;'))
+        assert execute('return document.querySelector("#composer-param-title").textContent;')=='调用可复用动作';results['recursiveCallLocated']=error;click('#composer-delete')
+        click(f'[data-step-uid="{saved["steps"][1]["id"]}"]');click('#composer-delete');click('#composer-delete')
     capture('composer.png')
     click('#composer-add-root')
     capture('dialog-actions.png','#action-dialog')
@@ -110,8 +137,9 @@ try:
     capture('dialog-variable.png','#variable-dialog')
     click('[data-variable="读到的文本"]')
     click('#add-workflow-output');fill('#workflow-outputs [data-declaration-key="name"]','返回文本');fill('#workflow-outputs [data-declaration-key="value"]','${读到的文本}')
-    click('#composer-save');wait(lambda:len(core('GetConfig')['value']['config']['workflows'])==1)
+    click('#composer-save');wait(lambda:any(s['action']=='clipboard.read' for s in core('GetConfig')['value']['config']['workflows'][0]['steps']))
     workflow=core('GetConfig')['value']['config']['workflows'][0]
+    assert workflow['steps'][0]['timeoutMs']==300;results['stepTimeoutSaved']=True
     stable_output=workflow['steps'][1]['output']['id'];assert workflow['steps'][2]['params']['value']['value']['symbolId']==stable_output
     click(f'[data-edit-workflow="{workflow["id"]}"]');click(f'[data-step-uid="{workflow["steps"][1]["id"]}"]')
     fill('#composer-params [data-param-key="output"] input','重命名文本');execute('document.querySelector("#composer-params [data-param-key=output] input").blur();return true;')
@@ -149,7 +177,7 @@ try:
     results['continuousRuleScroll']=execute('const e=document.querySelector("#editor"),f=e.querySelector(".editor-footer"),before=f.getBoundingClientRect().bottom;e.scrollTop=e.scrollHeight;return {scrollable:e.scrollHeight>e.clientHeight,position:getComputedStyle(f).position,before,after:f.getBoundingClientRect().bottom};')
     assert results['continuousRuleScroll']['scrollable'] and results['continuousRuleScroll']['position']=='sticky'
     assert abs(results['continuousRuleScroll']['before']-results['continuousRuleScroll']['after'])<1
-    click('#open-composer');click('#save-as-workflow');assert execute('return document.querySelector("#workflow-dialog").open;')
+    click('#open-composer');click('#save-as-workflow');wait(lambda:execute('return document.querySelector("#workflow-dialog").open;'))
     capture('dialog-save-action.png','#workflow-dialog')
     click('#cancel-save-workflow');click('#composer-back')
     results['createdDocuments']= {k:len(core('GetConfig')['value']['config'][k]) for k in ['gestures','workflows','rules','snippets']}
@@ -163,6 +191,25 @@ try:
     copy_id=copied[1]['id'];click(f'[data-delete-workflow="{copy_id}"]');click('#accept-confirm')
     wait(lambda:len(core('GetConfig')['value']['config']['workflows'])==1)
     results['copyDelete']=True
+    if '--phase-c' in sys.argv:
+        click('.nav[data-page="rules"]');click('#open-composer');click('#save-as-workflow');wait(lambda:execute('return document.querySelector("#workflow-dialog").open;'))
+        fill('#save-workflow-form input[name="name"]','实际调用测试');click('#save-workflow-form button[type="submit"]')
+        wait(lambda:len(core('GetConfig')['value']['config']['workflows'])==2)
+        wait(lambda:execute('return !document.querySelector("#workflow-dialog").open;'))
+        click('#composer-save');wait(lambda:execute('return Boolean(document.querySelector("#save-rule"));'));click('#save-rule')
+        snapshot=wait(lambda:(lambda value:value if value['rules'][0]['steps'][0]['action']=='flow.call' else None)(core('GetConfig')['value']['config']))
+        reused=next(w for w in snapshot['workflows'] if w['name']=='实际调用测试');assert snapshot['rules'][0]['steps'][0]['workflowId']==reused['id']
+        context=core('GetContext')['value'];id=core('RunRule',{'ruleId':snapshot['rules'][0]['id'],'context':context})['value']['executionId']
+        result=wait(lambda:next((e for e in core('GetRuntime')['value']['executions'] if e['id']==id and e['state'] not in ['queued','running']),None));assert result['state']=='succeeded' and result['steps'][0]['summary']=='调用可复用动作' and len(result['steps'])>1,result
+        results['saveAsAndExecuteReusableWorkflow']=result
+        # Actual native navigation through the single-instance launch path.
+        click('.nav[data-page="runtime"]')
+        committed=core('GetConfig')['value'];config=committed['config'];rule=config['rules'][0];original_steps=rule['steps']
+        rule['steps']=[{'id':'ui-open-page','action':'waystroke.open','enabled':True,'params':{'value':{'mode':'literal','value':{'kind':'text','value':'文本替换'}}},'output':None,'onFailure':'stop','timeoutMs':None,'workflowId':None,'arguments':{},'children':[],'otherwise':[],'loopItem':None,'loopIndex':None}]
+        core('CommitConfig',{'requestId':'ui-page-action','expectedRevision':committed['revision'],'config':config})
+        id=core('RunRule',{'ruleId':rule['id'],'context':context})['value']['executionId'];result=wait(lambda:next((e for e in core('GetRuntime')['value']['executions'] if e['id']==id and e['state'] not in ['queued','running']),None));assert result['state']=='succeeded',result;results['realWayStrokeOpenAction']=result
+        committed=core('GetConfig')['value'];config=committed['config'];config['rules'][0]['steps']=original_steps;core('CommitConfig',{'requestId':'restore-ui-rule','expectedRevision':committed['revision'],'config':config})
+        wait(lambda:execute('return document.querySelector(".nav.active").dataset.page;')=='text');results['nativeRequestedPage']=True
     click('.nav[data-page="settings"]');click('#pick-exclusion');assert execute('return document.querySelector("#window-dialog").open;')
     capture('dialog-window.png','#window-dialog');click('#close-window-dialog')
     click('.nav[data-page="runtime"]');click('#reopen-setup')

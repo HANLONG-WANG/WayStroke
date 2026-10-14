@@ -7,6 +7,12 @@ use zbus::names::OwnedBusName;
 #[tauri::command]
 fn default_config()->String { serde_json::to_string(&waystroke_protocol::Snapshot::default()).expect("default snapshot") }
 
+fn requested_page(args:&[String])->Option<String> {
+    args.windows(2).find(|pair|pair[0]=="--page" && ["rules","text","test","settings"].contains(&pair[1].as_str())).map(|pair|pair[1].clone())
+}
+#[tauri::command]
+fn launch_page()->Option<String> {requested_page(&std::env::args().collect::<Vec<_>>())}
+
 static CORE_CONNECTION:tokio::sync::OnceCell<zbus::Connection>=tokio::sync::OnceCell::const_new();
 #[tauri::command]
 async fn core_call(method:String,payload:String)->Result<String,String> {
@@ -16,6 +22,7 @@ async fn core_call(method:String,payload:String)->Result<String,String> {
         "get_config"=>proxy.call("GetConfig",&()).await,
         "validate_document"=>proxy.call("ValidateDocument",&(payload,)).await,
         "commit_config"=>proxy.call("CommitConfig",&(payload,)).await,
+        "get_action_capabilities"=>proxy.call("GetActionCapabilities",&()).await,
         "get_runtime"=>proxy.call("GetRuntime",&()).await,
         "list_devices"=>proxy.call("ListDevices",&()).await,
         "list_windows"=>proxy.call("ListWindows",&()).await,
@@ -51,7 +58,8 @@ fn main() {
         }
     }
     tauri::Builder::default()
-        .plugin(tauri_plugin_single_instance::init(|app,_,_| {
+        .plugin(tauri_plugin_single_instance::init(|app,args,_| {
+            if let Some(page)=requested_page(&args) {let _=app.emit("navigate-request",page);}
             if let Some(w)=app.get_webview_window("main") {
                 // xdg-shell has no unminimize request; GTK deiconify alone does not
                 // restore a minimized surface on GNOME Wayland. Remap this same
@@ -94,6 +102,6 @@ fn main() {
             });
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![core_call,default_config])
+        .invoke_handler(tauri::generate_handler![core_call,default_config,launch_page])
         .run(tauri::generate_context!()).expect("WayStroke desktop startup failed");
 }

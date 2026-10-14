@@ -4,6 +4,9 @@ import GLib from 'gi://GLib';
 import Meta from 'gi://Meta';
 import Shell from 'gi://Shell';
 import St from 'gi://St';
+import {ClipboardBridge,clipboardCapability} from './clipboard.js';
+import {PromptBridge} from './dialogs.js';
+import {SystemBridge} from './system.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as Config from 'resource:///org/gnome/shell/misc/config.js';
 import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
@@ -18,13 +21,18 @@ export default class WayStroke extends Extension {
         this.instance=GLib.uuid_string_random();this.windows=new Map();this.snapshots=new Map();this.bindings=[];this.ordinal=0;
         this.seat=global.stage.context.get_backend().get_default_seat();
         this.keyboard=this.seat.create_virtual_device(Clutter.InputDeviceType.KEYBOARD_DEVICE);
+        this.pointer=this.seat.create_virtual_device(Clutter.InputDeviceType.POINTER_DEVICE);this.heldKeys=new Set();this.heldButtons=new Set();
+        this.overviewWaiters=new Set();
         this.object=Gio.DBusExportedObject.wrapJSObject(XML,{CallAsync:([text],invocation)=>this.handle(text,invocation)});
         this.object.export(Gio.DBus.session,'/io/github/waystroke/Gnome');
+        this.clipboard=new ClipboardBridge(global.display.get_selection(),value=>this.changed(value));
+        this.prompts=new PromptBridge(value=>this.changed(value));
+        this.system=new SystemBridge(this.clipboard,handle=>this.target(handle));
         this.deviceSignal=this.seat.connect('device-added',(_seat,device)=>this.changed({event:'deviceAdded',name:device.get_device_name()}));
         this.busName=Gio.bus_own_name_on_connection(Gio.DBus.session,'io.github.waystroke.Gnome',Gio.BusNameOwnerFlags.NONE,null,null);
         this.windowSignal=global.display.connect('window-created',(_display,window)=>this.changed({event:'window',window:this.windowInfo(window)}));
-        this.lockSignal=Main.sessionMode.connect('updated',()=>{if(this.locked()){this.cancelGesture('锁屏');this.releaseBarrier()}this.changed({event:'lock',locked:this.locked()})});
-        this.ownerWatch=Gio.bus_watch_name_on_connection(Gio.DBus.session,'io.github.waystroke.Core',Gio.BusNameWatcherFlags.NONE,()=>{},()=>{this.cancelGesture('后台断开');this.releaseBarrier()});
+        this.lockSignal=Main.sessionMode.connect('updated',()=>{if(this.locked()){this.cancelGesture('锁屏');this.releaseBarrier();this.releaseInputs()}this.changed({event:'lock',locked:this.locked()})});
+        this.ownerWatch=Gio.bus_watch_name_on_connection(Gio.DBus.session,'io.github.waystroke.Core',Gio.BusNameWatcherFlags.NONE,()=>{},()=>{this.cancelGesture('后台断开');this.releaseBarrier();this.releaseInputs()});
     }
     locked(){return Main.sessionMode.isLocked||Main.sessionMode.isGreeter}
     changed(value){this.object.emit_signal('Changed',new GLib.Variant('(s)',[JSON.stringify(value)]))}
@@ -32,14 +40,15 @@ export default class WayStroke extends Extension {
         try {
             const uid=await new Promise((resolve,reject)=>Gio.DBus.session.call('org.freedesktop.DBus','/org/freedesktop/DBus','org.freedesktop.DBus','GetConnectionUnixUser',new GLib.Variant('(s)',[invocation.get_sender()]),new GLib.VariantType('(u)'),Gio.DBusCallFlags.NONE,1000,null,(connection,result)=>{try{resolve(connection.call_finish(result).deep_unpack()[0])}catch(e){reject(e)}}));
             if(uid!==Gio.Credentials.new().get_unix_user())throw Object.assign(Error('仅允许同一用户会话访问'),{kind:'permission'});
-            const value=this.call(JSON.parse(text));invocation.return_value(new GLib.Variant('(s)',[JSON.stringify({status:'ok',value})]));
+            const value=await this.call(JSON.parse(text));invocation.return_value(new GLib.Variant('(s)',[JSON.stringify({status:'ok',value})]));
         }catch(e){invocation.return_value(new GLib.Variant('(s)',[JSON.stringify({status:'error',error:{kind:e.kind||'unavailable',message:e.message,details:[]}})]))}
     }
-    call(q) {
-        if(q.operation==='hello')return {protocolVersion:1,instance:this.instance,locked:this.locked(),shellVersion:Config.PACKAGE_VERSION,capabilities:['liveRuleName','bottomFeedback','quietGestureStart']};
+    async call(q) {
+        if(q.operation==='hello')return {protocolVersion:1,instance:this.instance,locked:this.locked(),shellVersion:Config.PACKAGE_VERSION,capabilities:['liveRuleName','bottomFeedback','quietGestureStart','declarativeActionsV1','stableInputFocus']};
         if(q.operation==='release') {this.cancelGesture('已释放');this.releaseBarrier();return null}
         if(this.locked())throw Error('桌面已锁定，鼠标接入与动作暂停');
         switch(q.operation) {
+            case 'actionSupport':return this.system.support().then(support=>clipboardCapability().then(clipboard=>({...support,clipboard})));
             case 'getContext':return this.context();
             case 'devicesReady':return this.devicesReady(q.leaseId);
             case 'registerBarrier':this.registerBarrier(q.leaseId);return {instance:this.instance};
@@ -70,9 +79,93 @@ export default class WayStroke extends Extension {
             case 'cancelGesture':this.cancelGesture(q.reason||'已取消');return null;
             case 'windows':return global.get_window_actors().map(a=>this.windowInfo(a.meta_window));
             case 'windowAction':return this.windowAction(q);
+            case 'windowFind':return this.findWindow(q);
+            case 'windowInfo':return this.fullWindowInfo(this.target(q.window));
+            case 'focusedWindow':return global.display.focus_window?this.windowInfo(global.display.focus_window).handle:null;
+            case 'windowGeometry': {
+                const window=this.target(q.window),area=window.get_work_area_for_monitor(window.get_monitor());
+                let {x,y,width,height}=q;
+                if(q.unit==='工作区百分比'){x=area.x+area.width*x/100;y=area.y+area.height*y/100;width=area.width*width/100;height=area.height*height/100}
+                if(![x,y,width,height].every(Number.isFinite)||width<=0||height<=0)throw Object.assign(Error('窗口位置与尺寸无效'),{kind:'validation'});
+                window.unmake_fullscreen();window.unmaximize();window.move_resize_frame(false,Math.round(x),Math.round(y),Math.round(width),Math.round(height));return null;
+            }
+            case 'windowMonitor': {
+                const window=this.target(q.window),monitors=Main.layoutManager.monitors;let index;
+                switch(q.value){case '下一个显示器':index=(window.get_monitor()+1)%monitors.length;break;case '上一个显示器':index=(window.get_monitor()+monitors.length-1)%monitors.length;break;case '主显示器':index=Main.layoutManager.primaryIndex;break;case '指定编号':index=q.index-1;break;default:throw Error('未知显示器操作')}
+                if(!Number.isInteger(index)||!monitors[index])throw Object.assign(Error('指定显示器不存在'),{kind:'targetInvalid'});window.move_to_monitor(index);return null;
+            }
+            case 'workspaceSwitch': {
+                const manager=global.workspace_manager,current=manager.get_active_workspace_index();let index;
+                switch(q.value){case '上一工作区':index=current-1;break;case '下一工作区':index=current+1;break;case '指定编号':index=q.index-1;break;default:throw Error('未知工作区操作')}
+                this.workspace(index).activate(global.get_current_time());return null;
+            }
+            case 'workspaceMove': {
+                const window=this.target(q.window),workspace=this.workspace(q.index-1);window.change_workspace(workspace);if(q.follow)workspace.activate(global.get_current_time());return null;
+            }
+            case 'desktopOverview':return this.overviewOperation(q.value);
+            case 'desktopShow':return this.showDesktop(q.value);
+            case 'applicationQuit': {
+                if(q.mode==='当前目标窗口'){const window=this.target(q.window);if(q.applicationId&&this.windowInfo(window).applicationId!==q.applicationId)throw Object.assign(Error('目标窗口不属于指定应用'),{kind:'targetInvalid'});window.delete(global.get_current_time());}
+                else if(q.mode==='该应用的所有窗口'){if(!q.applicationId)throw Object.assign(Error('关闭全部窗口需要应用 ID'),{kind:'validation'});const windows=global.get_window_actors().map(a=>a.meta_window).filter(w=>this.windowInfo(w).applicationId===q.applicationId);if(!windows.length)throw Object.assign(Error('指定应用没有窗口'),{kind:'targetInvalid'});for(const window of windows)window.delete(global.get_current_time());}
+                else throw Error('未知关闭范围');return null;
+            }
             case 'shortcut':return this.shortcut(q);
+            case 'keyInput': {
+                const window=this.target(q.window);await this.activateInputWindow(window);const key=this.keyValue(q.key);
+                switch(q.value){case '按下':this.pressKey(key);break;case '释放':this.releaseKey(key);break;case '按下并释放':{const held=this.heldKeys.has(key);this.pressKey(key);if(!held)this.releaseKey(key);break;}default:throw Error('未知按键操作')}return null;
+            }
+            case 'pointerMove': {
+                if(q.window)this.target(q.window);let {x,y}=q;
+                if(q.mode==='相对当前位置'){const [px,py]=global.get_pointer();x+=px;y+=py}
+                else if(q.mode==='目标窗口内'){const rect=this.target(q.window).get_frame_rect();x+=rect.x;y+=rect.y}
+                else if(q.mode!=='屏幕绝对坐标')throw Error('未知坐标参考');
+                if(!Number.isFinite(x)||!Number.isFinite(y))throw Object.assign(Error('指针坐标无效'),{kind:'validation'});
+                this.pointer.notify_absolute_motion(GLib.get_monotonic_time(),x,y);return null;
+            }
+            case 'mouseInput': {
+                if(![1,2,3,8,9].includes(q.button))throw Object.assign(Error('鼠标按钮无效'),{kind:'validation'});
+                if(q.pressed){if(!this.heldButtons.has(q.button)){this.pointer.notify_button(GLib.get_monotonic_time(),q.button,Clutter.ButtonState.PRESSED);this.heldButtons.add(q.button)}}
+                else if(this.heldButtons.delete(q.button))this.pointer.notify_button(GLib.get_monotonic_time(),q.button,Clutter.ButtonState.RELEASED);return null;
+            }
+            case 'scrollInput': {
+                const window=this.target(q.window);await this.activateInputWindow(window);const directions={'向上':Clutter.ScrollDirection.UP,'向下':Clutter.ScrollDirection.DOWN,'向左':Clutter.ScrollDirection.LEFT,'向右':Clutter.ScrollDirection.RIGHT};
+                const direction=directions[q.direction];if(direction===undefined)throw Error('未知滚动方向');
+                const [x,y]=global.get_pointer();
+                if(this.windowAt(x,y)!==window){const rect=window.get_frame_rect();this.pointer.notify_absolute_motion(GLib.get_monotonic_time(),rect.x+rect.width/2,rect.y+rect.height/2);}
+                this.pointer.notify_discrete_scroll(GLib.get_monotonic_time(),direction,Clutter.ScrollSource.WHEEL);return null;
+            }
+            case 'textInput': {
+                await this.activateInputWindow(this.target(q.window));
+                if([...q.text].some(character=>character.codePointAt(0)>127)){if(!Main.inputMethod.currentFocus)throw Object.assign(Error('当前应用没有原生文本提交接口，请使用剪贴板粘贴方式'),{kind:'unavailable'});Main.inputMethod.commit(q.text);return null}
+                for(const character of q.text){const key=character==='\n'?Clutter.KEY_Return:character==='\t'?Clutter.KEY_Tab:Clutter.unicode_to_keysym(character.codePointAt(0));this.keyboard.notify_keyval(GLib.get_monotonic_time(),key,Clutter.KeyState.PRESSED);this.keyboard.notify_keyval(GLib.get_monotonic_time(),key,Clutter.KeyState.RELEASED)}return null;
+            }
+            case 'volume':return this.system.volume(q);
+            case 'brightness':return this.system.brightness(q);
+            case 'notification':Main.notify(q.title,q.body);return null;
+            case 'screenshot':return this.system.screenshot(q);
+            case 'dialogMessage':return this.prompts.show({...q,kind:'message'});
+            case 'dialogInput':return this.prompts.show({...q,kind:'input'});
+            case 'clipboardRead':return this.clipboard.read();
+            case 'clipboardWrite':return this.clipboard.write(q.text);
+            case 'clipboardClear':return this.clipboard.clear();
+            case 'clipboardVersion':return {version:this.clipboard.version};
+            case 'clipboardCopyStart': {
+                await this.activateInputWindow(this.target(q.window));const version=this.clipboard.version;await this.shortcut({window:q.window,keys:'Ctrl+C'});return {version};
+            }
+            case 'clipboardCopyResult': {
+                if(this.clipboard.version<=q.version)return {changed:false};return this.clipboard.read().then(text=>({changed:true,text}));
+            }
+            case 'clipboardPasteStart': {
+                this.target(q.window);return this.clipboard.beginPaste(q.text,q.restore,()=>this.shortcut({window:q.window,keys:'Ctrl+V'}));
+            }
+            case 'clipboardPasteStatus':return this.clipboard.pasteStatus(q.token);
+            case 'clipboardPasteFinish':this.clipboard.pasteStatus(q.token);this.clipboard.finishPaste();return null;
+            case 'releaseInputs':this.releaseInputs();return null;
             case 'launch': {
-                const app=Shell.AppSystem.get_default().lookup_app(q.applicationId)||Shell.AppSystem.get_default().lookup_app(q.applicationId+'.desktop');if(!app)throw Error('未找到所选桌面应用');app.activate();return {applicationId:app.get_id()};
+                const app=Shell.AppSystem.get_default().lookup_app(q.applicationId)||Shell.AppSystem.get_default().lookup_app(q.applicationId+'.desktop');if(!app)throw Error('未找到所选桌面应用');
+                if(q.arguments){const info=app.get_app_info(),command=info?.get_commandline();if(!command)throw Error('应用没有可用启动命令');Gio.AppInfo.create_from_commandline(command+' '+q.arguments,info.get_name(),Gio.AppInfoCreateFlags.NONE).launch([],global.create_app_launch_context(global.get_current_time(),-1));}
+                else if(q.newWindow)app.open_new_window(-1);
+                else app.activate();return {applicationId:app.get_id()};
             }
             case 'feedback':this.feedback(q.text,q.monitor);return null;
             default:throw Error('不支持的桌面操作');
@@ -197,26 +290,136 @@ export default class WayStroke extends Extension {
         if(!handle||handle.instance!==this.instance)throw Object.assign(Error('窗口身份已失效'),{kind:'targetInvalid'});
         const window=this.windows.get(handle.id);if(!window||!global.get_window_actors().some(a=>a.meta_window===window))throw Object.assign(Error('起点窗口已关闭'),{kind:'targetInvalid'});return window;
     }
-    windowAction(q) {
+    async windowAction(q) {
         const window=this.target(q.window);
         switch(q.action) {
-            case 'activate':window.activate(global.get_current_time());break;
+            case 'activate':await this.activateInputWindow(window);break;
             case 'maximize':window.maximize();break;
             case 'unmaximize':window.unmaximize();break;
             case 'toggleMaximize':window.is_maximized()?window.unmaximize():window.maximize();break;
             case 'minimize':window.minimize();break;
             case 'close':window.delete(global.get_current_time());break;
-            default:throw Error('当前阶段不支持此窗口操作');
+            case 'unminimize':window.unminimize();break;
+            case 'fullscreen':window.make_fullscreen();break;
+            case 'unfullscreen':window.unmake_fullscreen();break;
+            case 'toggleFullscreen':window.is_fullscreen()?window.unmake_fullscreen():window.make_fullscreen();break;
+            case 'above':window.make_above();break;
+            case 'unabove':window.unmake_above();break;
+            case 'toggleAbove':window.is_above()?window.unmake_above():window.make_above();break;
+            case 'stick':window.stick();break;
+            case 'unstick':window.unstick();break;
+            case 'previousWorkspace':window.change_workspace(this.workspace(window.get_workspace().index()-1));break;
+            case 'nextWorkspace':window.change_workspace(this.workspace(window.get_workspace().index()+1));break;
+            case 'leftHalf':case 'rightHalf': {
+                const area=window.get_work_area_for_monitor(window.get_monitor()),left=Math.floor(area.width/2);
+                window.unmake_fullscreen();window.unmaximize();window.move_resize_frame(false,area.x+(q.action==='rightHalf'?left:0),area.y,q.action==='rightHalf'?area.width-left:left,area.height);break;
+            }
+            default:throw Error('未知窗口操作');
         }return this.windowInfo(window);
     }
-    shortcut(q) {
-        const window=this.target(q.window);window.activate(global.get_current_time());
+    workspace(index) {
+        const manager=global.workspace_manager;
+        if(!Number.isInteger(index)||index<0||index>=manager.n_workspaces)throw Object.assign(Error('指定工作区不存在'),{kind:'targetInvalid'});
+        return manager.get_workspace_by_index(index);
+    }
+    fullWindowInfo(window) {
+        const rect=window.get_frame_rect();return {...this.windowInfo(window),geometry:{x:rect.x,y:rect.y,width:rect.width,height:rect.height},workspace:window.get_workspace().index()+1,monitor:window.get_monitor()+1,maximized:window.is_maximized(),fullscreen:window.is_fullscreen(),above:window.is_above(),minimized:window.minimized,sticky:window.is_on_all_workspaces()};
+    }
+    findWindow(q) {
+        let windows=global.get_window_actors().map(a=>a.meta_window).filter(window=>{
+            const info=this.windowInfo(window);return (!q.applicationId||info.applicationId===q.applicationId)&&(!q.title||info.title.includes(q.title))&&(q.workspace!=='当前工作区'||window.located_on_workspace(global.workspace_manager.get_active_workspace()));
+        });
+        if(q.pick==='最近使用'){const recent=global.display.get_tab_list(Meta.TabList.NORMAL_ALL,null);windows.sort((a,b)=>recent.indexOf(a)-recent.indexOf(b));}
+        else if(q.pick==='最前方')windows=global.display.sort_windows_by_stacking(windows).reverse();
+        else throw Error('未知窗口选择方式');
+        if(!windows.length)throw Object.assign(Error('没有符合条件的窗口'),{kind:'targetInvalid'});return this.windowInfo(windows[0]).handle;
+    }
+    overviewOperation(operation) {
+        const overview=Main.overview;
+        if(!['显示概览','隐藏概览','切换概览','显示应用列表'].includes(operation))throw Error('未知概览操作');
+        if(overview.isDummy)throw Object.assign(Error('当前桌面没有可用概览'),{kind:'unavailable'});
+        const show=operation==='切换概览'?!overview.visible:operation!=='隐藏概览';
+        return new Promise((resolve,reject)=>{
+            const signals=[];let finished=false,idle=0;
+            const finish=error=>{
+                if(finished)return;finished=true;
+                if(idle){GLib.source_remove(idle);idle=0;}
+                for(const signal of signals)overview.disconnect(signal);
+                this.overviewWaiters.delete(cancel);
+                if(error)reject(error);else resolve(null);
+            };
+            const cancel=()=>finish(Object.assign(Error('概览操作已取消'),{kind:'canceled'}));
+            // GNOME emits hidden/shown before restoring its modal input grab.
+            // Resume on the next main-loop dispatch, after that cleanup.
+            const check=()=>{
+                if(finished||idle||overview.animationInProgress||overview.visible!==show)return;
+                idle=GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE,()=>{idle=0;if(!overview.animationInProgress&&overview.visible===show)finish();return GLib.SOURCE_REMOVE});
+            };
+            signals.push(overview.connect('shown',check),overview.connect('hidden',check));
+            this.overviewWaiters.add(cancel);
+            try{
+                if(operation==='显示应用列表'){overview.dash.showAppsButton.checked=true;overview.showApps();}
+                else if(show)overview.show();else overview.hide();
+                check();
+            }catch(error){finish(error)}
+        });
+    }
+    showDesktop(operation) {
+        const show=operation==='显示桌面'||(operation==='切换'&&!this.hiddenWindows);
+        if(show){
+            if(this.hiddenWindows)return null;
+            const workspace=global.workspace_manager.get_active_workspace();
+            this.hiddenWindows=global.display.get_tab_list(Meta.TabList.NORMAL,workspace).filter(window=>!window.minimized);
+            this.desktopFocus=global.display.focus_window;for(const window of this.hiddenWindows)window.minimize();
+        }else if(operation==='恢复窗口'||operation==='切换'){
+            const alive=new Set(global.get_window_actors().map(a=>a.meta_window));
+            for(const window of this.hiddenWindows||[]){if(alive.has(window))window.unminimize();}
+            if(alive.has(this.desktopFocus))this.desktopFocus.activate(global.get_current_time());
+            this.hiddenWindows=null;this.desktopFocus=null;
+        }else throw Error('未知显示桌面操作');return null;
+    }
+    async activateInputWindow(window) {
+        if(Main.overview.visible||Main.overview.animationInProgress)await this.overviewOperation('隐藏概览');
+        await new Promise((resolve,reject)=>{
+            let idle=0,finished=false;const signals=[];
+            const finish=error=>{
+                if(finished)return;finished=true;if(idle)GLib.source_remove(idle);
+                for(const [object,id] of signals)object.disconnect(id);
+                this.overviewWaiters.delete(cancel);if(error)reject(error);else resolve();
+            };
+            const cancel=()=>finish(Object.assign(Error('窗口输入已取消'),{kind:'canceled'}));
+            const check=()=>{
+                if(idle||finished||global.display.focus_window!==window)return;
+                idle=GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE,()=>{idle=0;if(global.display.focus_window===window)finish();return GLib.SOURCE_REMOVE});
+            };
+            signals.push([global.display,global.display.connect('notify::focus-window',check)],[window,window.connect('unmanaged',()=>finish(Object.assign(Error('目标窗口已关闭'),{kind:'targetInvalid'})))]);
+            this.overviewWaiters.add(cancel);
+            try{if(global.display.focus_window!==window)Main.activateWindow(window);check()}catch(error){finish(error)}
+        });
+    }
+    async shortcut(q) {
+        const window=this.target(q.window);await this.activateInputWindow(window);
         const parts=q.keys.split('+').map(part=>part.trim()),modifiers={Ctrl:Clutter.KEY_Control_L,Control:Clutter.KEY_Control_L,Alt:Clutter.KEY_Alt_L,Shift:Clutter.KEY_Shift_L,Super:Clutter.KEY_Super_L};
-        const input=parts.pop(),key=({Enter:'Return',Space:'space',Esc:'Escape',Backspace:'BackSpace',PageUp:'Page_Up',PageDown:'Page_Down'})[input]||input,value=Clutter['KEY_'+key]??(key.length===1?key.codePointAt(0):null);if(!value)throw Error('无法识别快捷键');
+        const input=parts.pop(),value=this.keyValue(/^[A-Z]$/.test(input)?input.toLowerCase():input);
         const held=parts.map(name=>{if(!modifiers[name])throw Error('无法识别修饰键');return modifiers[name]});
         const state=global.get_pointer()[2],masks=new Map([[Clutter.KEY_Control_L,Clutter.ModifierType.CONTROL_MASK],[Clutter.KEY_Alt_L,Clutter.ModifierType.MOD1_MASK],[Clutter.KEY_Shift_L,Clutter.ModifierType.SHIFT_MASK],[Clutter.KEY_Super_L,Clutter.ModifierType.SUPER_MASK|Clutter.ModifierType.MOD4_MASK]]);
         const own=held.filter(key=>!(state&masks.get(key)));
         const now=GLib.get_monotonic_time();for(const k of own)this.keyboard.notify_keyval(now,k,Clutter.KeyState.PRESSED);this.keyboard.notify_keyval(now,value,Clutter.KeyState.PRESSED);this.keyboard.notify_keyval(now,value,Clutter.KeyState.RELEASED);for(const k of own.reverse())this.keyboard.notify_keyval(now,k,Clutter.KeyState.RELEASED);return null;
+    }
+    keyValue(input) {
+        const name=({Ctrl:'Control_L',Control:'Control_L',Alt:'Alt_L',Shift:'Shift_L',Super:'Super_L',Enter:'Return',Space:'space',Esc:'Escape',Backspace:'BackSpace',PageUp:'Page_Up',PageDown:'Page_Down'})[input]||input;
+        if([...name].length===1&&name.codePointAt(0)>127)throw Object.assign(Error('该字符不能作为虚拟按键发送，请使用输入文本动作'),{kind:'unavailable'});
+        const value=Clutter['KEY_'+name]??([...name].length===1?Clutter.unicode_to_keysym(name.codePointAt(0)):null);
+        if(!value)throw Object.assign(Error('无法识别按键'),{kind:'validation'});return value;
+    }
+    pressKey(key) {if(!this.heldKeys.has(key)){this.keyboard.notify_keyval(GLib.get_monotonic_time(),key,Clutter.KeyState.PRESSED);this.heldKeys.add(key)}}
+    releaseKey(key) {if(this.heldKeys.delete(key))this.keyboard.notify_keyval(GLib.get_monotonic_time(),key,Clutter.KeyState.RELEASED)}
+    releaseInputs() {
+        for(const cancel of [...this.overviewWaiters])cancel();
+        this.system?.cancel();this.clipboard?.cancel();this.prompts?.cancel();
+        for(const key of [...this.heldKeys].reverse())this.releaseKey(key);
+        for(const button of this.heldButtons)this.pointer.notify_button(GLib.get_monotonic_time(),button,Clutter.ButtonState.RELEASED);
+        this.heldButtons.clear();
     }
     feedback(text,monitorIndex) {
         this.feedbackActor?.destroy();if(this.feedbackTimer)GLib.source_remove(this.feedbackTimer);
@@ -228,7 +431,7 @@ export default class WayStroke extends Extension {
         this.feedbackTimer=GLib.timeout_add(GLib.PRIORITY_DEFAULT,1500,()=>{this.feedbackActor?.destroy();this.feedbackActor=null;this.feedbackTimer=0;return GLib.SOURCE_REMOVE});
     }
     disable() {
-        this.clearGesture();this.releaseBarrier();this.feedbackActor?.destroy();if(this.feedbackTimer)GLib.source_remove(this.feedbackTimer);
-        this.seat.disconnect(this.deviceSignal);global.display.disconnect(this.windowSignal);Main.sessionMode.disconnect(this.lockSignal);Gio.bus_unwatch_name(this.ownerWatch);Gio.bus_unown_name(this.busName);this.object.unexport();this.keyboard=null;this.windows.clear();
+        this.clearGesture();this.releaseBarrier();this.releaseInputs();this.feedbackActor?.destroy();if(this.feedbackTimer)GLib.source_remove(this.feedbackTimer);
+        this.clipboard.disable();this.seat.disconnect(this.deviceSignal);global.display.disconnect(this.windowSignal);Main.sessionMode.disconnect(this.lockSignal);Gio.bus_unwatch_name(this.ownerWatch);Gio.bus_unown_name(this.busName);this.object.unexport();this.keyboard=null;this.pointer=null;this.windows.clear();
     }
 }

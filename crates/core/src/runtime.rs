@@ -17,7 +17,7 @@ impl Driver {
 }
 pub struct Runtime {pub(crate) info:Mutex<RuntimeInfo>,commands:mpsc::Sender<Command>,pub events:broadcast::Sender<Value>,published:Mutex<Option<String>>}
 struct Stroke {preview_text:String,points:Vec<[f64;2]>,auxiliary_buttons:Vec<u16>,sequence:u32,context:StartContext,config:Config,revision:u32,start_ms:f64,bound_ms:f64}
-pub struct Job {pub id:String,pub steps:Vec<waystroke_model::Step>,pub context:StartContext,pub revision:u32,pub timing:Option<GestureTiming>,pub feedback:bool,pub name:String,pub cancellation_generation:u32}
+pub struct Job {pub id:String,pub steps:Vec<waystroke_model::Step>,pub workflows:Vec<waystroke_model::Workflow>,pub context:StartContext,pub revision:u32,pub timing:Option<GestureTiming>,pub feedback:bool,pub name:String,pub cancellation_generation:u32}
 impl Runtime {
     pub fn new()->(Arc<Self>,Driver) {
         let (commands,receiver)=mpsc::channel(16);let (events,_)=broadcast::channel(256);
@@ -91,15 +91,18 @@ impl Runtime {
                         Some("windows")=>desktop.call(json!({"operation":"windows"})).await,
                         Some("getContext")=>desktop.call(json!({"operation":"getContext"})).await,
                         Some("runRule")=>async{
-                            desktop.hello().await?;
+                            if self.info.lock().await.locked{return Err(error(ErrorKind::Unavailable,"桌面已锁定，不能执行动作"));}
+                            let hello=desktop.hello().await?;
+                            if hello["locked"]==true||self.info.lock().await.locked{return Err(error(ErrorKind::Unavailable,"桌面已锁定，不能执行动作"));}
                             let snapshot=config.borrow().clone();let rule=snapshot.config.rules.iter().find(|rule|Some(rule.id.as_str())==command.operation["ruleId"].as_str());
                             if let Some(rule)=rule{
                                 let context=serde_json::from_value::<StartContext>(command.operation["context"].clone()).map_err(|e|error(ErrorKind::Validation,e.to_string()))?;
-                                match jobs.try_reserve(){Ok(permit)=>{let id=uuid::Uuid::new_v4().to_string();let execution=waystroke_model::Execution{id:id.clone(),name:rule.name.clone(),revision:snapshot.revision,context:context.clone(),state:waystroke_model::ExecutionState::Queued,started_at:None,finished_at:None,reason:None,steps:vec![]};self.info.lock().await.executions.push(execution.clone());self.event(json!({"event":"executionQueued","execution":execution}));permit.send(Job{id:id.clone(),steps:rule.steps.clone(),context,revision:snapshot.revision,timing:None,feedback:snapshot.config.settings.feedback&&rule.feedback,name:rule.name.clone(),cancellation_generation:*cancel.borrow()});Ok(json!({"executionId":id}))},Err(_)=>Err(error(ErrorKind::Unavailable,"动作队列已满"))}
+                                match jobs.try_reserve(){Ok(permit)=>{let id=uuid::Uuid::new_v4().to_string();let execution=waystroke_model::Execution{id:id.clone(),name:rule.name.clone(),revision:snapshot.revision,context:context.clone(),state:waystroke_model::ExecutionState::Queued,started_at:None,finished_at:None,reason:None,steps:vec![]};self.info.lock().await.executions.push(execution.clone());self.event(json!({"event":"executionQueued","execution":execution}));permit.send(Job{id:id.clone(),steps:rule.steps.clone(),workflows:snapshot.config.workflows.clone(),context,revision:snapshot.revision,timing:None,feedback:snapshot.config.settings.feedback&&rule.feedback,name:rule.name.clone(),cancellation_generation:*cancel.borrow()});Ok(json!({"executionId":id}))},Err(_)=>Err(error(ErrorKind::Unavailable,"动作队列已满"))}
                             }else{Err(error(ErrorKind::Validation,"规则不存在"))}
                         }.await,
                         Some("beginRecording")=>{let owner=command.operation["owner"].as_str().unwrap().to_string();if stroke.is_some()||pending_finish.is_some(){Err(error(ErrorKind::Conflict,"当前桌面手势尚未结束，请松开右键后重新进入录制区域"))}else if recording_owner.as_ref().is_some_and(|current|current!=&owner){Err(error(ErrorKind::Conflict,"另一个窗口正在录制手势"))}else{recording_owner=Some(owner);self.info.lock().await.recording=Some("canvas".into());Ok(Value::Null)}},
                         Some("endRecording")=>{if recording_owner.as_deref()==command.operation["owner"].as_str(){recording_owner=None;self.info.lock().await.recording=None;}Ok(Value::Null)},
+                        Some("actionCapabilities")=>{let locked=self.info.lock().await.locked;Ok(json!(crate::capabilities::collect(&desktop,locked).await))},
                         Some("clearLog")=>{self.info.lock().await.executions.retain(|entry|matches!(entry.state,waystroke_model::ExecutionState::Queued|waystroke_model::ExecutionState::Running));Ok(Value::Null)},
                         Some("stopAll")=>{cancel.send_modify(|generation|*generation+=1);Ok(Value::Null)},
                         _=>Err(error(ErrorKind::Unavailable,"当前桌面操作尚未接入")),
@@ -109,7 +112,11 @@ impl Runtime {
                 Wake::Desktop(Some(Ok(message)))=>{
                     let (text,):(String,)=message.body().deserialize().map_err(|e|error(ErrorKind::Unavailable,e.to_string()))?;
                     let event:Value=serde_json::from_str(&text).map_err(|e|error(ErrorKind::Unavailable,e.to_string()))?;
-                    if event["event"]=="lock"&&event["locked"]==true{Self::release(&input,&mut lease,&desktop).await;stroke=None;pending_finish=None;self.info.lock().await.locked=true;cancel.send_modify(|generation|*generation+=1);}
+                    if event["event"]=="lock"&&event["locked"]==true{
+                        Self::release(&input,&mut lease,&desktop).await;stroke=None;pending_finish=None;
+                        let mut info=self.info.lock().await;info.locked=true;info.input_armed=false;info.status.execution_available=false;info.status.reason="桌面已锁定".into();drop(info);
+                        cancel.send_modify(|generation|*generation+=1);
+                    }
                     if event["event"]=="canceled"{if let(Some(client),Some(id),Some(active))=(&input,&lease,&stroke){let _=client.request(Some(id),InputRequest::Cancel{sequence:active.sequence}).await;}stroke=None;}
                     if event["event"]=="previewStroke" {
                         if let(Some(active),Some(id))=(&mut stroke,&lease){
@@ -173,7 +180,7 @@ impl Runtime {
                             let id=uuid::Uuid::new_v4().to_string();
                             let execution=waystroke_model::Execution{id:id.clone(),name:rule.name.clone(),revision:active.revision,context:active.context.clone(),state:waystroke_model::ExecutionState::Queued,started_at:None,finished_at:None,reason:None,steps:vec![]};
                             self.info.lock().await.executions.push(execution.clone());self.event(json!({"event":"executionQueued","execution":execution}));
-                            permit.send(Job{id,steps:rule.steps.clone(),context:active.context,revision:active.revision,timing:Some(timing.clone()),feedback:active.config.settings.feedback&&rule.feedback,name:rule.name.clone(),cancellation_generation:*cancel.borrow()});
+                            permit.send(Job{id,steps:rule.steps.clone(),workflows:active.config.workflows.clone(),context:active.context,revision:active.revision,timing:Some(timing.clone()),feedback:active.config.settings.feedback&&rule.feedback,name:rule.name.clone(),cancellation_generation:*cancel.borrow()});
                         }
                         self.event(json!({"event":"recognition","result":result,"timing":timing}));
                     }
@@ -188,7 +195,7 @@ impl Runtime {
                     let snapshot=config.borrow().clone();let hello=desktop.hello().await;
                     let connected=hello.is_ok();let locked=screen_locked||hello.as_ref().ok().is_some_and(|v|v["locked"]==true);
                     let desired=if connected&&!locked&&snapshot.config.settings.setup_complete&&snapshot.config.settings.gestures_enabled{snapshot.config.settings.mouse_device_id.clone()}else{None};
-                    if lease.is_some()&&(desired!=selected||!connected||locked){Self::release(&input,&mut lease,&desktop).await;stroke=None;pending_finish=None;cancel.send_modify(|generation|*generation+=1);}
+                    if lease.is_some()&&(desired!=selected||!connected||locked){Self::release(&input,&mut lease,&desktop).await;stroke=None;pending_finish=None;if !connected||locked{cancel.send_modify(|generation|*generation+=1);}}
                     if input.is_none()&&connecting.is_empty(){connecting.spawn(InputClient::connect());}
                     if let Some(client)=input.as_ref(){
                         if lease.is_none()&&self.info.lock().await.devices.is_empty(){if let Ok(InputResult::Devices{devices})=client.request(None,InputRequest::ListDevices).await{self.info.lock().await.devices=devices;}}
@@ -207,7 +214,7 @@ impl Runtime {
                         }
                     }}
                     let mut info=self.info.lock().await;info.status.extension_connected=connected;info.status.input_connected=input.is_some();info.status.execution_available=connected&&!locked;info.input_armed=lease.is_some();info.locked=locked;info.selected_device_id=snapshot.config.settings.mouse_device_id;
-                    if locked{info.status.reason="桌面已锁定".into();}else if !connected{info.status.reason="GNOME 扩展未连接".into();}else if input.is_none(){info.status.reason="鼠标服务未连接或未授权".into();}else if !snapshot.config.settings.gestures_enabled{info.status.reason="手势已暂停".into();}else if info.selected_device_id.is_none(){info.status.reason="请选择用于手势的鼠标".into();}else if lease.is_some(){info.status.reason="鼠标手势已接入；基本快捷键、启动及窗口动作可用".into();}drop(info);self.publish().await;
+                    if locked{info.status.reason="桌面已锁定".into();}else if !connected{info.status.reason="GNOME 扩展未连接".into();}else if input.is_none(){info.status.reason="鼠标服务未连接或未授权".into();}else if !snapshot.config.settings.gestures_enabled{info.status.reason="手势已暂停".into();}else if info.selected_device_id.is_none(){info.status.reason="请选择用于手势的鼠标".into();}else if lease.is_some(){info.status.reason="鼠标手势已接入；具体动作能力见运行状态".into();}drop(info);self.publish().await;
                 }
             }
         }

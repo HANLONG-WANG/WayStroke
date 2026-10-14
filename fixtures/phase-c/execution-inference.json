@@ -1,0 +1,1750 @@
+{
+  "scopedNestedCallAndRepeat": {
+    "id": "0ee3613a-a257-4820-8d03-67bcef1e71ea",
+    "name": "Execution check",
+    "revision": 2,
+    "context": {
+      "sequence": 1,
+      "monotonicMs": 1.0,
+      "position": [
+        24.0,
+        35.0
+      ],
+      "window": null,
+      "applicationId": "fixture.desktop",
+      "title": "Fixture",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    },
+    "state": "succeeded",
+    "startedAt": "2026-10-13T15:09:42.266108757+00:00",
+    "finishedAt": "2026-10-13T15:09:42.270183768+00:00",
+    "reason": null,
+    "steps": [
+      {
+        "stepId": "initial",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.267290774+00:00",
+        "finishedAt": "2026-10-13T15:09:42.267340959+00:00",
+        "reason": null,
+        "summary": "设置变量",
+        "output": {
+          "kind": "number",
+          "value": 2.0
+        }
+      },
+      {
+        "stepId": "call",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.267376459+00:00",
+        "finishedAt": "2026-10-13T15:09:42.267543250+00:00",
+        "reason": null,
+        "summary": "调用可复用动作",
+        "output": {
+          "kind": "data",
+          "value": {
+            "return": {
+              "kind": "number",
+              "value": 6.0
+            }
+          }
+        }
+      },
+      {
+        "stepId": "calc",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.267444077+00:00",
+        "finishedAt": "2026-10-13T15:09:42.267503202+00:00",
+        "reason": null,
+        "summary": "数字计算",
+        "output": {
+          "kind": "number",
+          "value": 6.0
+        }
+      },
+      {
+        "stepId": "branch",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.267586419+00:00",
+        "finishedAt": "2026-10-13T15:09:42.269705598+00:00",
+        "reason": null,
+        "summary": "条件分支",
+        "output": null
+      },
+      {
+        "stepId": "repeat",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.267651974+00:00",
+        "finishedAt": "2026-10-13T15:09:42.269663156+00:00",
+        "reason": null,
+        "summary": "有限次数重复",
+        "output": null
+      },
+      {
+        "stepId": "loop-value",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.267735472+00:00",
+        "finishedAt": "2026-10-13T15:09:42.267829111+00:00",
+        "reason": null,
+        "summary": "设置变量",
+        "output": {
+          "kind": "number",
+          "value": 0.0
+        }
+      },
+      {
+        "stepId": "loop-value",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.267901545+00:00",
+        "finishedAt": "2026-10-13T15:09:42.267961694+00:00",
+        "reason": null,
+        "summary": "设置变量",
+        "output": {
+          "kind": "number",
+          "value": 1.0
+        }
+      },
+      {
+        "stepId": "loop-value",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.269557702+00:00",
+        "finishedAt": "2026-10-13T15:09:42.269617952+00:00",
+        "reason": null,
+        "summary": "设置变量",
+        "output": {
+          "kind": "number",
+          "value": 2.0
+        }
+      }
+    ]
+  },
+  "nearestLoopControl": {
+    "id": "caf77efe-a14d-4b1d-a7ee-7faa65c804fc",
+    "name": "Execution check",
+    "revision": 3,
+    "context": {
+      "sequence": 1,
+      "monotonicMs": 1.0,
+      "position": [
+        24.0,
+        35.0
+      ],
+      "window": null,
+      "applicationId": "fixture.desktop",
+      "title": "Fixture",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    },
+    "state": "succeeded",
+    "startedAt": "2026-10-13T15:09:42.295600498+00:00",
+    "finishedAt": "2026-10-13T15:09:42.300852314+00:00",
+    "reason": null,
+    "steps": [
+      {
+        "stepId": "control-repeat",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.296339267+00:00",
+        "finishedAt": "2026-10-13T15:09:42.298548258+00:00",
+        "reason": null,
+        "summary": "有限次数重复",
+        "output": null
+      },
+      {
+        "stepId": "skip",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.296468296+00:00",
+        "finishedAt": "2026-10-13T15:09:42.296495213+00:00",
+        "reason": null,
+        "summary": "条件分支",
+        "output": null
+      },
+      {
+        "stepId": "break-if",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.296633856+00:00",
+        "finishedAt": "2026-10-13T15:09:42.296655618+00:00",
+        "reason": null,
+        "summary": "条件分支",
+        "output": null
+      },
+      {
+        "stepId": "visit",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.296790122+00:00",
+        "finishedAt": "2026-10-13T15:09:42.296810971+00:00",
+        "reason": null,
+        "summary": "设置变量",
+        "output": {
+          "kind": "number",
+          "value": 0.0
+        }
+      },
+      {
+        "stepId": "skip",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.296961713+00:00",
+        "finishedAt": "2026-10-13T15:09:42.297105003+00:00",
+        "reason": null,
+        "summary": "条件分支",
+        "output": null
+      },
+      {
+        "stepId": "continue",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.297062631+00:00",
+        "finishedAt": "2026-10-13T15:09:42.297086572+00:00",
+        "reason": null,
+        "summary": "跳过当前循环项",
+        "output": null
+      },
+      {
+        "stepId": "skip",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.297364226+00:00",
+        "finishedAt": "2026-10-13T15:09:42.297392812+00:00",
+        "reason": null,
+        "summary": "条件分支",
+        "output": null
+      },
+      {
+        "stepId": "break-if",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.297581681+00:00",
+        "finishedAt": "2026-10-13T15:09:42.297608775+00:00",
+        "reason": null,
+        "summary": "条件分支",
+        "output": null
+      },
+      {
+        "stepId": "visit",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.297805177+00:00",
+        "finishedAt": "2026-10-13T15:09:42.297831589+00:00",
+        "reason": null,
+        "summary": "设置变量",
+        "output": {
+          "kind": "number",
+          "value": 2.0
+        }
+      },
+      {
+        "stepId": "skip",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.298051580+00:00",
+        "finishedAt": "2026-10-13T15:09:42.298081826+00:00",
+        "reason": null,
+        "summary": "条件分支",
+        "output": null
+      },
+      {
+        "stepId": "break-if",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.298323952+00:00",
+        "finishedAt": "2026-10-13T15:09:42.298522251+00:00",
+        "reason": null,
+        "summary": "条件分支",
+        "output": null
+      },
+      {
+        "stepId": "break",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.298468324+00:00",
+        "finishedAt": "2026-10-13T15:09:42.298496005+00:00",
+        "reason": null,
+        "summary": "退出当前重复",
+        "output": null
+      },
+      {
+        "stepId": "after-loop",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.299029641+00:00",
+        "finishedAt": "2026-10-13T15:09:42.300235029+00:00",
+        "reason": null,
+        "summary": "等待时长",
+        "output": null
+      }
+    ]
+  },
+  "continuedFailure": {
+    "id": "843c033d-bf27-493c-a122-03248b3cdcaa",
+    "name": "Execution check",
+    "revision": 4,
+    "context": {
+      "sequence": 1,
+      "monotonicMs": 1.0,
+      "position": [
+        24.0,
+        35.0
+      ],
+      "window": null,
+      "applicationId": "fixture.desktop",
+      "title": "Fixture",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    },
+    "state": "failed",
+    "startedAt": "2026-10-13T15:09:42.323368316+00:00",
+    "finishedAt": "2026-10-13T15:09:42.326877929+00:00",
+    "reason": "不能除以零",
+    "steps": [
+      {
+        "stepId": "divide-zero",
+        "state": "failed",
+        "startedAt": "2026-10-13T15:09:42.324474430+00:00",
+        "finishedAt": "2026-10-13T15:09:42.324514916+00:00",
+        "reason": "不能除以零",
+        "summary": "数字计算",
+        "output": null
+      },
+      {
+        "stepId": "after-error",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.325113116+00:00",
+        "finishedAt": "2026-10-13T15:09:42.326380272+00:00",
+        "reason": null,
+        "summary": "等待时长",
+        "output": null
+      }
+    ]
+  },
+  "nestedTimeout": {
+    "id": "29e991d2-a0bc-430e-9daa-7ba9beeca96d",
+    "name": "Execution check",
+    "revision": 5,
+    "context": {
+      "sequence": 1,
+      "monotonicMs": 1.0,
+      "position": [
+        24.0,
+        35.0
+      ],
+      "window": null,
+      "applicationId": "fixture.desktop",
+      "title": "Fixture",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    },
+    "state": "timedOut",
+    "startedAt": "2026-10-13T15:09:42.352305931+00:00",
+    "finishedAt": "2026-10-13T15:09:42.396166237+00:00",
+    "reason": "步骤超时",
+    "steps": [
+      {
+        "stepId": "timed-repeat",
+        "state": "timedOut",
+        "startedAt": "2026-10-13T15:09:42.353428740+00:00",
+        "finishedAt": "2026-10-13T15:09:42.394635669+00:00",
+        "reason": "步骤超时",
+        "summary": "有限次数重复",
+        "output": null
+      },
+      {
+        "stepId": "slow-child",
+        "state": "timedOut",
+        "startedAt": "2026-10-13T15:09:42.353635477+00:00",
+        "finishedAt": "2026-10-13T15:09:42.394643104+00:00",
+        "reason": "步骤超时",
+        "summary": "等待时长",
+        "output": null
+      }
+    ]
+  },
+  "cancelRunningAndQueue": [
+    {
+      "id": "85012011-8fa0-4d65-acbf-eee0e9810717",
+      "name": "Execution check",
+      "revision": 6,
+      "context": {
+        "sequence": 1,
+        "monotonicMs": 1.0,
+        "position": [
+          24.0,
+          35.0
+        ],
+        "window": null,
+        "applicationId": "fixture.desktop",
+        "title": "Fixture",
+        "workspace": 0,
+        "monitor": 0,
+        "locked": false
+      },
+      "state": "canceled",
+      "startedAt": "2026-10-13T15:09:42.401015120+00:00",
+      "finishedAt": "2026-10-13T15:09:42.425884322+00:00",
+      "reason": "动作已停止",
+      "steps": [
+        {
+          "stepId": "cancel-wait",
+          "state": "canceled",
+          "startedAt": "2026-10-13T15:09:42.401773350+00:00",
+          "finishedAt": "2026-10-13T15:09:42.425450556+00:00",
+          "reason": "动作已停止",
+          "summary": "等待时长",
+          "output": null
+        }
+      ]
+    },
+    {
+      "id": "106494b2-048c-4106-b83f-b5efc366153d",
+      "name": "Execution check",
+      "revision": 6,
+      "context": {
+        "sequence": 1,
+        "monotonicMs": 1.0,
+        "position": [
+          24.0,
+          35.0
+        ],
+        "window": null,
+        "applicationId": "fixture.desktop",
+        "title": "Fixture",
+        "workspace": 0,
+        "monitor": 0,
+        "locked": false
+      },
+      "state": "canceled",
+      "startedAt": null,
+      "finishedAt": "2026-10-13T15:09:42.425921424+00:00",
+      "reason": "排队动作已取消",
+      "steps": []
+    }
+  ],
+  "immutableWorkflowSnapshot": {
+    "id": "af9bbf64-afb1-45a6-8845-d406dbc813ff",
+    "name": "Execution check",
+    "revision": 7,
+    "context": {
+      "sequence": 1,
+      "monotonicMs": 1.0,
+      "position": [
+        24.0,
+        35.0
+      ],
+      "window": null,
+      "applicationId": "fixture.desktop",
+      "title": "Fixture",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    },
+    "state": "succeeded",
+    "startedAt": "2026-10-13T15:09:42.430495433+00:00",
+    "finishedAt": "2026-10-13T15:09:42.583623195+00:00",
+    "reason": null,
+    "steps": [
+      {
+        "stepId": "snapshot-wait",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.431658490+00:00",
+        "finishedAt": "2026-10-13T15:09:42.582472520+00:00",
+        "reason": null,
+        "summary": "等待时长",
+        "output": null
+      },
+      {
+        "stepId": "initial",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.582641363+00:00",
+        "finishedAt": "2026-10-13T15:09:42.582669930+00:00",
+        "reason": null,
+        "summary": "设置变量",
+        "output": {
+          "kind": "number",
+          "value": 2.0
+        }
+      },
+      {
+        "stepId": "call",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.582818156+00:00",
+        "finishedAt": "2026-10-13T15:09:42.582990541+00:00",
+        "reason": null,
+        "summary": "调用可复用动作",
+        "output": {
+          "kind": "data",
+          "value": {
+            "return": {
+              "kind": "number",
+              "value": 6.0
+            }
+          }
+        }
+      },
+      {
+        "stepId": "calc",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.582940356+00:00",
+        "finishedAt": "2026-10-13T15:09:42.582965705+00:00",
+        "reason": null,
+        "summary": "数字计算",
+        "output": {
+          "kind": "number",
+          "value": 6.0
+        }
+      }
+    ]
+  },
+  "typedForeach": {
+    "id": "f052d295-be89-4f08-98f6-7a08656bd484",
+    "name": "Execution check",
+    "revision": 9,
+    "context": {
+      "sequence": 1,
+      "monotonicMs": 1.0,
+      "position": [
+        24.0,
+        35.0
+      ],
+      "window": null,
+      "applicationId": "fixture.desktop",
+      "title": "Fixture",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    },
+    "state": "succeeded",
+    "startedAt": "2026-10-13T15:09:42.592777880+00:00",
+    "finishedAt": "2026-10-13T15:09:42.594142142+00:00",
+    "reason": null,
+    "steps": [
+      {
+        "stepId": "foreach",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.593504802+00:00",
+        "finishedAt": "2026-10-13T15:09:42.593839757+00:00",
+        "reason": null,
+        "summary": "遍历列表",
+        "output": null
+      },
+      {
+        "stepId": "foreach-value",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.593635915+00:00",
+        "finishedAt": "2026-10-13T15:09:42.593660799+00:00",
+        "reason": null,
+        "summary": "设置变量",
+        "output": {
+          "kind": "text",
+          "value": "A"
+        }
+      },
+      {
+        "stepId": "foreach-value",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.593805889+00:00",
+        "finishedAt": "2026-10-13T15:09:42.593825418+00:00",
+        "reason": null,
+        "summary": "设置变量",
+        "output": {
+          "kind": "text",
+          "value": "中文"
+        }
+      }
+    ]
+  },
+  "localScopeLeakRejected": [
+    {
+      "path": "rules.rule.steps.leak.value",
+      "message": "引用值不在当前可见作用域或尚未产生"
+    }
+  ],
+  "realWayStrokeControl": {
+    "id": "3fa2e4d5-d77b-4435-a28c-27ab4c4ca02d",
+    "name": "Execution check",
+    "revision": 10,
+    "context": {
+      "sequence": 1,
+      "monotonicMs": 1.0,
+      "position": [
+        24.0,
+        35.0
+      ],
+      "window": null,
+      "applicationId": "fixture.desktop",
+      "title": "Fixture",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    },
+    "state": "succeeded",
+    "startedAt": "2026-10-13T15:09:42.620660518+00:00",
+    "finishedAt": "2026-10-13T15:09:42.630393345+00:00",
+    "reason": null,
+    "steps": [
+      {
+        "stepId": "self-pause",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.621407452+00:00",
+        "finishedAt": "2026-10-13T15:09:42.626542146+00:00",
+        "reason": null,
+        "summary": "控制手势或文本替换",
+        "output": null
+      },
+      {
+        "stepId": "after-pause",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.626672104+00:00",
+        "finishedAt": "2026-10-13T15:09:42.627162290+00:00",
+        "reason": null,
+        "summary": "等待时长",
+        "output": null
+      },
+      {
+        "stepId": "self-disable",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.627193142+00:00",
+        "finishedAt": "2026-10-13T15:09:42.630050878+00:00",
+        "reason": null,
+        "summary": "启停指定规则",
+        "output": null
+      }
+    ]
+  },
+  "jsonListUnicodeChain": {
+    "id": "2df22df0-0a03-4371-90aa-1a356cbdd6a4",
+    "name": "Execution check",
+    "revision": 13,
+    "context": {
+      "sequence": 1,
+      "monotonicMs": 1.0,
+      "position": [
+        24.0,
+        35.0
+      ],
+      "window": null,
+      "applicationId": "fixture.desktop",
+      "title": "Fixture",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    },
+    "state": "succeeded",
+    "startedAt": "2026-10-13T15:09:42.647984597+00:00",
+    "finishedAt": "2026-10-13T15:09:42.649995766+00:00",
+    "reason": null,
+    "steps": [
+      {
+        "stepId": "parse",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.649099603+00:00",
+        "finishedAt": "2026-10-13T15:09:42.649152833+00:00",
+        "reason": null,
+        "summary": "解析 JSON",
+        "output": {
+          "kind": "data",
+          "value": {
+            "empty": {
+              "kind": "null"
+            },
+            "items": {
+              "kind": "list",
+              "value": [
+                {
+                  "kind": "text",
+                  "value": "A"
+                },
+                {
+                  "kind": "text",
+                  "value": "中文"
+                }
+              ]
+            },
+            "ok": {
+              "kind": "boolean",
+              "value": true
+            },
+            "status": {
+              "kind": "number",
+              "value": 200.0
+            }
+          }
+        }
+      },
+      {
+        "stepId": "field",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.649314477+00:00",
+        "finishedAt": "2026-10-13T15:09:42.649345976+00:00",
+        "reason": null,
+        "summary": "读取数据字段",
+        "output": {
+          "kind": "list",
+          "value": [
+            {
+              "kind": "text",
+              "value": "A"
+            },
+            {
+              "kind": "text",
+              "value": "中文"
+            }
+          ]
+        }
+      },
+      {
+        "stepId": "join",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.649504880+00:00",
+        "finishedAt": "2026-10-13T15:09:42.649535688+00:00",
+        "reason": null,
+        "summary": "处理文本",
+        "output": {
+          "kind": "text",
+          "value": "A,中文"
+        }
+      },
+      {
+        "stepId": "length",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.649711108+00:00",
+        "finishedAt": "2026-10-13T15:09:42.649738408+00:00",
+        "reason": null,
+        "summary": "处理文本",
+        "output": {
+          "kind": "number",
+          "value": 3.0
+        }
+      }
+    ]
+  },
+  "contextDateRandom": {
+    "id": "e903e502-831c-45bd-9fe6-7c2bde67d31c",
+    "name": "Execution check",
+    "revision": 14,
+    "context": {
+      "sequence": 1,
+      "monotonicMs": 1.0,
+      "position": [
+        24.0,
+        35.0
+      ],
+      "window": null,
+      "applicationId": "fixture.desktop",
+      "title": "Fixture",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    },
+    "state": "succeeded",
+    "startedAt": "2026-10-13T15:09:42.674956461+00:00",
+    "finishedAt": "2026-10-13T15:09:42.676642320+00:00",
+    "reason": null,
+    "steps": [
+      {
+        "stepId": "home",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.675684437+00:00",
+        "finishedAt": "2026-10-13T15:09:42.675714260+00:00",
+        "reason": null,
+        "summary": "读取上下文值",
+        "output": {
+          "kind": "text",
+          "value": "/home/hubery-fedora"
+        }
+      },
+      {
+        "stepId": "date",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.675809097+00:00",
+        "finishedAt": "2026-10-13T15:09:42.675854001+00:00",
+        "reason": null,
+        "summary": "格式化日期时间",
+        "output": {
+          "kind": "text",
+          "value": "2026-10-13"
+        }
+      },
+      {
+        "stepId": "random",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.675876833+00:00",
+        "finishedAt": "2026-10-13T15:09:42.675899157+00:00",
+        "reason": null,
+        "summary": "生成随机数",
+        "output": {
+          "kind": "number",
+          "value": 14.0
+        }
+      }
+    ]
+  },
+  "inferredResultConsumesActualType": {
+    "id": "2b291caa-ccb8-489e-a9c0-115434a3bd1e",
+    "name": "Execution check",
+    "revision": 15,
+    "context": {
+      "sequence": 1,
+      "monotonicMs": 1.0,
+      "position": [
+        24.0,
+        35.0
+      ],
+      "window": null,
+      "applicationId": "fixture.desktop",
+      "title": "Fixture",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    },
+    "state": "succeeded",
+    "startedAt": "2026-10-13T15:09:42.705676591+00:00",
+    "finishedAt": "2026-10-13T15:09:42.708232443+00:00",
+    "reason": null,
+    "steps": [
+      {
+        "stepId": "inferred-json",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.706779105+00:00",
+        "finishedAt": "2026-10-13T15:09:42.706838968+00:00",
+        "reason": null,
+        "summary": "解析 JSON",
+        "output": {
+          "kind": "data",
+          "value": {
+            "list": {
+              "kind": "list",
+              "value": [
+                {
+                  "kind": "boolean",
+                  "value": true
+                },
+                {
+                  "kind": "text",
+                  "value": "text"
+                }
+              ]
+            },
+            "number": {
+              "kind": "number",
+              "value": 8.0
+            }
+          }
+        }
+      },
+      {
+        "stepId": "inferred-field",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.707158119+00:00",
+        "finishedAt": "2026-10-13T15:09:42.707215275+00:00",
+        "reason": null,
+        "summary": "读取数据字段",
+        "output": {
+          "kind": "number",
+          "value": 8.0
+        }
+      },
+      {
+        "stepId": "inferred-calc",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.707584706+00:00",
+        "finishedAt": "2026-10-13T15:09:42.707630829+00:00",
+        "reason": null,
+        "summary": "数字计算",
+        "output": {
+          "kind": "number",
+          "value": 10.0
+        }
+      }
+    ]
+  },
+  "explicitOutputTypeIsEnforced": {
+    "id": "6ef1c541-c3d0-433d-9875-02bf78f2d088",
+    "name": "Execution check",
+    "revision": 16,
+    "context": {
+      "sequence": 1,
+      "monotonicMs": 1.0,
+      "position": [
+        24.0,
+        35.0
+      ],
+      "window": null,
+      "applicationId": "fixture.desktop",
+      "title": "Fixture",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    },
+    "state": "failed",
+    "startedAt": "2026-10-13T15:09:42.733979187+00:00",
+    "finishedAt": "2026-10-13T15:09:42.735667930+00:00",
+    "reason": "输出 inferred-number 的实际类型与声明不符",
+    "steps": [
+      {
+        "stepId": "inferred-json",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.734741261+00:00",
+        "finishedAt": "2026-10-13T15:09:42.734787507+00:00",
+        "reason": null,
+        "summary": "解析 JSON",
+        "output": {
+          "kind": "data",
+          "value": {
+            "list": {
+              "kind": "list",
+              "value": [
+                {
+                  "kind": "boolean",
+                  "value": true
+                },
+                {
+                  "kind": "text",
+                  "value": "text"
+                }
+              ]
+            },
+            "number": {
+              "kind": "number",
+              "value": 8.0
+            }
+          }
+        }
+      },
+      {
+        "stepId": "inferred-field",
+        "state": "failed",
+        "startedAt": "2026-10-13T15:09:42.734976076+00:00",
+        "finishedAt": "2026-10-13T15:09:42.735009105+00:00",
+        "reason": "输出 inferred-number 的实际类型与声明不符",
+        "summary": "读取数据字段",
+        "output": {
+          "kind": "number",
+          "value": 8.0
+        }
+      }
+    ]
+  },
+  "realFiles": {
+    "id": "42e325c3-ddda-46dc-b541-9ded29291238",
+    "name": "Execution check",
+    "revision": 17,
+    "context": {
+      "sequence": 1,
+      "monotonicMs": 1.0,
+      "position": [
+        24.0,
+        35.0
+      ],
+      "window": null,
+      "applicationId": "fixture.desktop",
+      "title": "Fixture",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    },
+    "state": "succeeded",
+    "startedAt": "2026-10-13T15:09:42.762278641+00:00",
+    "finishedAt": "2026-10-13T15:09:42.765763763+00:00",
+    "reason": null,
+    "steps": [
+      {
+        "stepId": "mkdir",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.762985955+00:00",
+        "finishedAt": "2026-10-13T15:09:42.763552195+00:00",
+        "reason": null,
+        "summary": "创建目录",
+        "output": null
+      },
+      {
+        "stepId": "write",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.763627149+00:00",
+        "finishedAt": "2026-10-13T15:09:42.763832714+00:00",
+        "reason": null,
+        "summary": "写入或追加文本文件",
+        "output": null
+      },
+      {
+        "stepId": "append",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.763969316+00:00",
+        "finishedAt": "2026-10-13T15:09:42.764133111+00:00",
+        "reason": null,
+        "summary": "写入或追加文本文件",
+        "output": null
+      },
+      {
+        "stepId": "read-file",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.764274572+00:00",
+        "finishedAt": "2026-10-13T15:09:42.764388858+00:00",
+        "reason": null,
+        "summary": "读取文本文件",
+        "output": {
+          "kind": "text",
+          "value": "中文 suffix"
+        }
+      },
+      {
+        "stepId": "copy-file",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.764480076+00:00",
+        "finishedAt": "2026-10-13T15:09:42.764805223+00:00",
+        "reason": null,
+        "summary": "复制文件或目录",
+        "output": null
+      },
+      {
+        "stepId": "rename-copy",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.764911307+00:00",
+        "finishedAt": "2026-10-13T15:09:42.765051714+00:00",
+        "reason": null,
+        "summary": "复制文件或目录",
+        "output": null
+      },
+      {
+        "stepId": "move-file",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.765157411+00:00",
+        "finishedAt": "2026-10-13T15:09:42.765259884+00:00",
+        "reason": null,
+        "summary": "移动或重命名",
+        "output": null
+      },
+      {
+        "stepId": "list-files",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.765433586+00:00",
+        "finishedAt": "2026-10-13T15:09:42.765517025+00:00",
+        "reason": null,
+        "summary": "列出目录内容",
+        "output": {
+          "kind": "list",
+          "value": [
+            {
+              "kind": "text",
+              "value": "/tmp/waystroke-execution-check-jfu2ygl5/files/copy (1).txt"
+            },
+            {
+              "kind": "text",
+              "value": "/tmp/waystroke-execution-check-jfu2ygl5/files/moved.txt"
+            },
+            {
+              "kind": "text",
+              "value": "/tmp/waystroke-execution-check-jfu2ygl5/files/source.txt"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "fileConflict": {
+    "id": "37623fc0-1719-4184-b2a3-1ca701573d05",
+    "name": "Execution check",
+    "revision": 18,
+    "context": {
+      "sequence": 1,
+      "monotonicMs": 1.0,
+      "position": [
+        24.0,
+        35.0
+      ],
+      "window": null,
+      "applicationId": "fixture.desktop",
+      "title": "Fixture",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    },
+    "state": "failed",
+    "startedAt": "2026-10-13T15:09:42.790057939+00:00",
+    "finishedAt": "2026-10-13T15:09:42.791743599+00:00",
+    "reason": "目标路径已存在",
+    "steps": [
+      {
+        "stepId": "copy-conflict",
+        "state": "failed",
+        "startedAt": "2026-10-13T15:09:42.790769805+00:00",
+        "finishedAt": "2026-10-13T15:09:42.791024653+00:00",
+        "reason": "目标路径已存在",
+        "summary": "复制文件或目录",
+        "output": null
+      }
+    ]
+  },
+  "directAndShellCommands": {
+    "id": "1c483ce7-5a54-414d-a7b9-951e639538ec",
+    "name": "Execution check",
+    "revision": 19,
+    "context": {
+      "sequence": 1,
+      "monotonicMs": 1.0,
+      "position": [
+        24.0,
+        35.0
+      ],
+      "window": null,
+      "applicationId": "fixture.desktop",
+      "title": "Fixture",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    },
+    "state": "succeeded",
+    "startedAt": "2026-10-13T15:09:42.817725900+00:00",
+    "finishedAt": "2026-10-13T15:09:42.831469830+00:00",
+    "reason": null,
+    "steps": [
+      {
+        "stepId": "direct",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.818443425+00:00",
+        "finishedAt": "2026-10-13T15:09:42.829129382+00:00",
+        "reason": null,
+        "summary": "运行命令",
+        "output": {
+          "kind": "data",
+          "value": {
+            "exitCode": {
+              "kind": "number",
+              "value": 7.0
+            },
+            "pid": {
+              "kind": "number",
+              "value": 622.0
+            },
+            "stderr": {
+              "kind": "text",
+              "value": "stderr"
+            },
+            "stdout": {
+              "kind": "text",
+              "value": "real\n"
+            }
+          }
+        }
+      },
+      {
+        "stepId": "shell",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.829455353+00:00",
+        "finishedAt": "2026-10-13T15:09:42.830657621+00:00",
+        "reason": null,
+        "summary": "运行命令",
+        "output": {
+          "kind": "data",
+          "value": {
+            "exitCode": {
+              "kind": "number",
+              "value": 0.0
+            },
+            "pid": {
+              "kind": "number",
+              "value": 623.0
+            },
+            "stderr": {
+              "kind": "text",
+              "value": ""
+            },
+            "stdout": {
+              "kind": "text",
+              "value": "shell-output"
+            }
+          }
+        }
+      }
+    ]
+  },
+  "asyncAndSignal": {
+    "id": "1bb9a834-b865-4861-b851-a86e6efde769",
+    "name": "Execution check",
+    "revision": 20,
+    "context": {
+      "sequence": 1,
+      "monotonicMs": 1.0,
+      "position": [
+        24.0,
+        35.0
+      ],
+      "window": null,
+      "applicationId": "fixture.desktop",
+      "title": "Fixture",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    },
+    "state": "succeeded",
+    "startedAt": "2026-10-13T15:09:42.848285652+00:00",
+    "finishedAt": "2026-10-13T15:09:42.850492977+00:00",
+    "reason": null,
+    "steps": [
+      {
+        "stepId": "async",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.849434331+00:00",
+        "finishedAt": "2026-10-13T15:09:42.849770290+00:00",
+        "reason": null,
+        "summary": "运行命令",
+        "output": {
+          "kind": "data",
+          "value": {
+            "exitCode": {
+              "kind": "null"
+            },
+            "pid": {
+              "kind": "number",
+              "value": 624.0
+            },
+            "stderr": {
+              "kind": "text",
+              "value": ""
+            },
+            "stdout": {
+              "kind": "text",
+              "value": ""
+            }
+          }
+        }
+      },
+      {
+        "stepId": "signal",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.849826222+00:00",
+        "finishedAt": "2026-10-13T15:09:42.849878612+00:00",
+        "reason": null,
+        "summary": "向进程发送信号",
+        "output": null
+      }
+    ]
+  },
+  "utf16ActualEncoding": {
+    "id": "4b5572c1-3196-4d58-87c9-55efa724b8a3",
+    "name": "Execution check",
+    "revision": 21,
+    "context": {
+      "sequence": 1,
+      "monotonicMs": 1.0,
+      "position": [
+        24.0,
+        35.0
+      ],
+      "window": null,
+      "applicationId": "fixture.desktop",
+      "title": "Fixture",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    },
+    "state": "succeeded",
+    "startedAt": "2026-10-13T15:09:42.877203197+00:00",
+    "finishedAt": "2026-10-13T15:09:42.878929537+00:00",
+    "reason": null,
+    "steps": [
+      {
+        "stepId": "utf16-write",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.877916233+00:00",
+        "finishedAt": "2026-10-13T15:09:42.878154129+00:00",
+        "reason": null,
+        "summary": "写入或追加文本文件",
+        "output": null
+      },
+      {
+        "stepId": "utf16-read",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:42.878347864+00:00",
+        "finishedAt": "2026-10-13T15:09:42.878537010+00:00",
+        "reason": null,
+        "summary": "读取文本文件",
+        "output": {
+          "kind": "text",
+          "value": "中文🙂"
+        }
+      }
+    ]
+  },
+  "commandTimeoutKillsChildGroup": {
+    "id": "7c27ee24-fe00-4d26-962e-5625cb111cc7",
+    "name": "Execution check",
+    "revision": 22,
+    "context": {
+      "sequence": 1,
+      "monotonicMs": 1.0,
+      "position": [
+        24.0,
+        35.0
+      ],
+      "window": null,
+      "applicationId": "fixture.desktop",
+      "title": "Fixture",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    },
+    "state": "timedOut",
+    "startedAt": "2026-10-13T15:09:42.908105426+00:00",
+    "finishedAt": "2026-10-13T15:09:43.062203704+00:00",
+    "reason": "命令执行超时",
+    "steps": [
+      {
+        "stepId": "slow-command",
+        "state": "timedOut",
+        "startedAt": "2026-10-13T15:09:42.909199920+00:00",
+        "finishedAt": "2026-10-13T15:09:43.060747068+00:00",
+        "reason": "命令执行超时",
+        "summary": "运行命令",
+        "output": null
+      }
+    ]
+  },
+  "realHttpAndTypedField": {
+    "id": "3f6ceb48-dfe8-4b5d-b7a7-4771935fb945",
+    "name": "Execution check",
+    "revision": 23,
+    "context": {
+      "sequence": 1,
+      "monotonicMs": 1.0,
+      "position": [
+        24.0,
+        35.0
+      ],
+      "window": null,
+      "applicationId": "fixture.desktop",
+      "title": "Fixture",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    },
+    "state": "succeeded",
+    "startedAt": "2026-10-13T15:09:43.071465807+00:00",
+    "finishedAt": "2026-10-13T15:09:43.089186795+00:00",
+    "reason": null,
+    "steps": [
+      {
+        "stepId": "http",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:43.072191524+00:00",
+        "finishedAt": "2026-10-13T15:09:43.088206425+00:00",
+        "reason": null,
+        "summary": "发送 HTTP 请求",
+        "output": {
+          "kind": "data",
+          "value": {
+            "body": {
+              "kind": "text",
+              "value": "REAL BODY"
+            },
+            "headers": {
+              "kind": "data",
+              "value": {
+                "date": {
+                  "kind": "text",
+                  "value": "Tue, 13 Oct 2026 15:09:43 GMT"
+                },
+                "server": {
+                  "kind": "text",
+                  "value": "BaseHTTP/0.6 Python/3.14.8"
+                },
+                "x-fixture": {
+                  "kind": "text",
+                  "value": "actual"
+                }
+              }
+            },
+            "status": {
+              "kind": "number",
+              "value": 201.0
+            }
+          }
+        }
+      },
+      {
+        "stepId": "http-body",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:43.088467301+00:00",
+        "finishedAt": "2026-10-13T15:09:43.088541706+00:00",
+        "reason": null,
+        "summary": "读取数据字段",
+        "output": {
+          "kind": "text",
+          "value": "REAL BODY"
+        }
+      }
+    ]
+  },
+  "httpTimeout": {
+    "id": "e816e627-14ac-4ce0-aed5-9df2efa3f08f",
+    "name": "Execution check",
+    "revision": 24,
+    "context": {
+      "sequence": 1,
+      "monotonicMs": 1.0,
+      "position": [
+        24.0,
+        35.0
+      ],
+      "window": null,
+      "applicationId": "fixture.desktop",
+      "title": "Fixture",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    },
+    "state": "timedOut",
+    "startedAt": "2026-10-13T15:09:43.100609672+00:00",
+    "finishedAt": "2026-10-13T15:09:43.148546451+00:00",
+    "reason": "error sending request for url (http://127.0.0.1:33843/)",
+    "steps": [
+      {
+        "stepId": "http",
+        "state": "timedOut",
+        "startedAt": "2026-10-13T15:09:43.101341304+00:00",
+        "finishedAt": "2026-10-13T15:09:43.147492296+00:00",
+        "reason": "error sending request for url (http://127.0.0.1:33843/)",
+        "summary": "发送 HTTP 请求",
+        "output": null
+      }
+    ]
+  },
+  "dbusTypedArgumentsAndReturns": {
+    "id": "e7bd04a0-3a58-458f-be3e-8c7d94cb5670",
+    "name": "Execution check",
+    "revision": 25,
+    "context": {
+      "sequence": 1,
+      "monotonicMs": 1.0,
+      "position": [
+        24.0,
+        35.0
+      ],
+      "window": null,
+      "applicationId": "fixture.desktop",
+      "title": "Fixture",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    },
+    "state": "succeeded",
+    "startedAt": "2026-10-13T15:09:43.623131399+00:00",
+    "finishedAt": "2026-10-13T15:09:43.625942507+00:00",
+    "reason": null,
+    "steps": [
+      {
+        "stepId": "echo",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:43.623883028+00:00",
+        "finishedAt": "2026-10-13T15:09:43.625320923+00:00",
+        "reason": null,
+        "summary": "调用 D-Bus 方法",
+        "output": {
+          "kind": "data",
+          "value": {
+            "values": {
+              "kind": "list",
+              "value": [
+                {
+                  "kind": "text",
+                  "value": "hello"
+                },
+                {
+                  "kind": "number",
+                  "value": 42.0
+                },
+                {
+                  "kind": "number",
+                  "value": 1.25
+                },
+                {
+                  "kind": "boolean",
+                  "value": true
+                },
+                {
+                  "kind": "list",
+                  "value": [
+                    {
+                      "kind": "text",
+                      "value": "A"
+                    },
+                    {
+                      "kind": "text",
+                      "value": "中文"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  "dbusPropertiesAndEmptyCall": {
+    "id": "e499ec7f-aa08-4525-ae33-0cbd2c352426",
+    "name": "Execution check",
+    "revision": 26,
+    "context": {
+      "sequence": 1,
+      "monotonicMs": 1.0,
+      "position": [
+        24.0,
+        35.0
+      ],
+      "window": null,
+      "applicationId": "fixture.desktop",
+      "title": "Fixture",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    },
+    "state": "succeeded",
+    "startedAt": "2026-10-13T15:09:43.654017875+00:00",
+    "finishedAt": "2026-10-13T15:09:43.659986724+00:00",
+    "reason": null,
+    "steps": [
+      {
+        "stepId": "property-set",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:43.654735556+00:00",
+        "finishedAt": "2026-10-13T15:09:43.656935926+00:00",
+        "reason": null,
+        "summary": "读取或设置 D-Bus 属性",
+        "output": {
+          "kind": "data",
+          "value": {
+            "written": {
+              "kind": "boolean",
+              "value": true
+            }
+          }
+        }
+      },
+      {
+        "stepId": "property-get",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:43.657139567+00:00",
+        "finishedAt": "2026-10-13T15:09:43.658439555+00:00",
+        "reason": null,
+        "summary": "读取或设置 D-Bus 属性",
+        "output": {
+          "kind": "data",
+          "value": {
+            "value": {
+              "kind": "text",
+              "value": "updated"
+            }
+          }
+        }
+      },
+      {
+        "stepId": "ping",
+        "state": "succeeded",
+        "startedAt": "2026-10-13T15:09:43.658651277+00:00",
+        "finishedAt": "2026-10-13T15:09:43.659531538+00:00",
+        "reason": null,
+        "summary": "调用 D-Bus 方法",
+        "output": {
+          "kind": "data",
+          "value": {
+            "values": {
+              "kind": "list",
+              "value": []
+            }
+          }
+        }
+      }
+    ]
+  },
+  "dbusTimeout": {
+    "id": "abd92d56-49da-45a9-b44e-314b81001426",
+    "name": "Execution check",
+    "revision": 27,
+    "context": {
+      "sequence": 1,
+      "monotonicMs": 1.0,
+      "position": [
+        24.0,
+        35.0
+      ],
+      "window": null,
+      "applicationId": "fixture.desktop",
+      "title": "Fixture",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    },
+    "state": "timedOut",
+    "startedAt": "2026-10-13T15:09:43.683906978+00:00",
+    "finishedAt": "2026-10-13T15:09:43.718238953+00:00",
+    "reason": "D-Bus 调用超时",
+    "steps": [
+      {
+        "stepId": "dbus-timeout",
+        "state": "timedOut",
+        "startedAt": "2026-10-13T15:09:43.684619092+00:00",
+        "finishedAt": "2026-10-13T15:09:43.716989603+00:00",
+        "reason": "D-Bus 调用超时",
+        "summary": "调用 D-Bus 方法",
+        "output": null
+      }
+    ]
+  },
+  "mprisAllOperations": {
+    "execution": {
+      "id": "4a395664-d606-4d42-b262-2a9bf11fda04",
+      "name": "Execution check",
+      "revision": 28,
+      "context": {
+        "sequence": 1,
+        "monotonicMs": 1.0,
+        "position": [
+          24.0,
+          35.0
+        ],
+        "window": null,
+        "applicationId": "fixture.desktop",
+        "title": "Fixture",
+        "workspace": 0,
+        "monitor": 0,
+        "locked": false
+      },
+      "state": "succeeded",
+      "startedAt": "2026-10-13T15:09:43.736017860+00:00",
+      "finishedAt": "2026-10-13T15:09:43.757847921+00:00",
+      "reason": null,
+      "steps": [
+        {
+          "stepId": "media-0",
+          "state": "succeeded",
+          "startedAt": "2026-10-13T15:09:43.736739279+00:00",
+          "finishedAt": "2026-10-13T15:09:43.741009343+00:00",
+          "reason": null,
+          "summary": "控制媒体播放",
+          "output": null
+        },
+        {
+          "stepId": "media-1",
+          "state": "succeeded",
+          "startedAt": "2026-10-13T15:09:43.741140268+00:00",
+          "finishedAt": "2026-10-13T15:09:43.743745752+00:00",
+          "reason": null,
+          "summary": "控制媒体播放",
+          "output": null
+        },
+        {
+          "stepId": "media-2",
+          "state": "succeeded",
+          "startedAt": "2026-10-13T15:09:43.743886213+00:00",
+          "finishedAt": "2026-10-13T15:09:43.746125991+00:00",
+          "reason": null,
+          "summary": "控制媒体播放",
+          "output": null
+        },
+        {
+          "stepId": "media-3",
+          "state": "succeeded",
+          "startedAt": "2026-10-13T15:09:43.746271399+00:00",
+          "finishedAt": "2026-10-13T15:09:43.748343043+00:00",
+          "reason": null,
+          "summary": "控制媒体播放",
+          "output": null
+        },
+        {
+          "stepId": "media-4",
+          "state": "succeeded",
+          "startedAt": "2026-10-13T15:09:43.748485001+00:00",
+          "finishedAt": "2026-10-13T15:09:43.750692761+00:00",
+          "reason": null,
+          "summary": "控制媒体播放",
+          "output": null
+        },
+        {
+          "stepId": "media-5",
+          "state": "succeeded",
+          "startedAt": "2026-10-13T15:09:43.750840686+00:00",
+          "finishedAt": "2026-10-13T15:09:43.753044810+00:00",
+          "reason": null,
+          "summary": "控制媒体播放",
+          "output": null
+        },
+        {
+          "stepId": "media-6",
+          "state": "succeeded",
+          "startedAt": "2026-10-13T15:09:43.753224408+00:00",
+          "finishedAt": "2026-10-13T15:09:43.755247404+00:00",
+          "reason": null,
+          "summary": "控制媒体播放",
+          "output": null
+        },
+        {
+          "stepId": "media-7",
+          "state": "succeeded",
+          "startedAt": "2026-10-13T15:09:43.755411653+00:00",
+          "finishedAt": "2026-10-13T15:09:43.757502865+00:00",
+          "reason": null,
+          "summary": "控制媒体播放",
+          "output": null
+        }
+      ]
+    },
+    "received": [
+      [
+        "Play"
+      ],
+      [
+        "Pause"
+      ],
+      [
+        "PlayPause"
+      ],
+      [
+        "Stop"
+      ],
+      [
+        "Previous"
+      ],
+      [
+        "Next"
+      ],
+      [
+        "Seek",
+        2000000
+      ],
+      [
+        "Seek",
+        -2000000
+      ]
+    ]
+  },
+  "mprisCapabilityFailure": {
+    "id": "5137a5b0-e5f8-416c-b1ac-c161795df872",
+    "name": "Execution check",
+    "revision": 29,
+    "context": {
+      "sequence": 1,
+      "monotonicMs": 1.0,
+      "position": [
+        24.0,
+        35.0
+      ],
+      "window": null,
+      "applicationId": "fixture.desktop",
+      "title": "Fixture",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    },
+    "state": "failed",
+    "startedAt": "2026-10-13T15:09:43.764413750+00:00",
+    "finishedAt": "2026-10-13T15:09:43.771783332+00:00",
+    "reason": "播放器不支持 快进",
+    "steps": [
+      {
+        "stepId": "media-no-seek",
+        "state": "failed",
+        "startedAt": "2026-10-13T15:09:43.765114333+00:00",
+        "finishedAt": "2026-10-13T15:09:43.771100409+00:00",
+        "reason": "播放器不支持 快进",
+        "summary": "控制媒体播放",
+        "output": null
+      }
+    ]
+  },
+  "stepEvents": true,
+  "complete": true
+}

@@ -16,13 +16,37 @@ impl Desktop {
         let proxy=zbus::Proxy::new(&self.connection,"org.gnome.ScreenSaver","/org/gnome/ScreenSaver","org.gnome.ScreenSaver").await.map_err(|e|error(ErrorKind::Unavailable,e.to_string()))?;
         proxy.call("GetActive",&()).await.map_err(|e|error(ErrorKind::Unavailable,e.to_string()))
     }
-    pub async fn launch_window(&self,application_id:&str)->Result<waystroke_model::WindowHandle,Error> {
+    /// Subscribe before initiating a clipboard transaction, then query cached
+    /// progress on actual selection events. No fixed delay guesses paste readiness.
+    pub async fn clipboard_transaction(&self,start:Value,paste:bool,timeout:u64)->Result<Value,Error> {
+        let proxy=zbus::Proxy::new(&self.connection,"io.github.waystroke.Gnome","/io/github/waystroke/Gnome","io.github.waystroke.Gnome1").await.map_err(|e|error(ErrorKind::Unavailable,e.to_string()))?;
+        let mut events=proxy.receive_signal("Changed").await.map_err(|e|error(ErrorKind::Unavailable,e.to_string()))?;
+        let started=self.call(start).await?;
+        let request=if paste {json!({"operation":"clipboardPasteStatus","token":started["token"]})}else{json!({"operation":"clipboardCopyResult","version":started["version"]})};
+        let operation=async {
+            loop {
+                let result=self.call(request.clone()).await?;
+                if if paste {result["read"]==true}else{result["changed"]==true} {return Ok(result);}
+                if events.next().await.is_none(){return Err(error(ErrorKind::Unavailable,"剪贴板事件连接中断"));}
+            }
+        };
+        let result=if timeout==0 {operation.await}else{tokio::time::timeout(std::time::Duration::from_millis(timeout),operation).await.map_err(|_|error(ErrorKind::Timeout,if paste {"目标应用没有读取粘贴内容"}else{"未获取到新的选中文本；未使用旧剪贴板"}))?};
+        if paste {self.call(json!({"operation":"clipboardPasteFinish","token":started["token"]})).await?;}
+        result
+    }
+    pub async fn launch_window(&self,application_id:&str)->Result<waystroke_model::WindowHandle,Error> {self.launch_window_arguments(application_id,"").await}
+    pub async fn launch_window_arguments(&self,application_id:&str,arguments:&str)->Result<waystroke_model::WindowHandle,Error> {self.launch_matching(application_id,arguments,"").await}
+    pub async fn launch_matching(&self,application_id:&str,arguments:&str,title:&str)->Result<waystroke_model::WindowHandle,Error> {
+        self.launch_matching_window(application_id,arguments,title,false).await
+    }
+    pub async fn launch_matching_window(&self,application_id:&str,arguments:&str,title:&str,new_window:bool)->Result<waystroke_model::WindowHandle,Error> {
         let proxy=zbus::Proxy::new(&self.connection,"io.github.waystroke.Gnome","/io/github/waystroke/Gnome","io.github.waystroke.Gnome1").await.map_err(|e|error(ErrorKind::Unavailable,e.to_string()))?;
         let mut signals=proxy.receive_signal("Changed").await.map_err(|e|error(ErrorKind::Unavailable,e.to_string()))?;
-        let launched=self.call(json!({"operation":"launch","applicationId":application_id})).await?;
+        let previous=if new_window {self.call(json!({"operation":"windows"})).await?.as_array().map(|windows|windows.iter().map(|window|window["handle"].clone()).collect::<Vec<_>>()).unwrap_or_default()}else{vec![]};
+        let launched=self.call(json!({"operation":"launch","applicationId":application_id,"arguments":arguments,"newWindow":new_window})).await?;
         let app=launched["applicationId"].as_str().unwrap_or(application_id);
         let find=|windows:Value|->Result<Option<waystroke_model::WindowHandle>,Error>{
-            let window=windows.as_array().and_then(|windows|windows.iter().find(|window|window["applicationId"]==app));
+            let window=windows.as_array().and_then(|windows|windows.iter().find(|window|window["applicationId"]==app&&window["title"].as_str().is_some_and(|value|value.contains(title))&&!previous.contains(&window["handle"])));
             window.map(|window|serde_json::from_value(window["handle"].clone()).map_err(|e|error(ErrorKind::Unavailable,e.to_string()))).transpose()
         };
         if let Some(window)=find(self.call(json!({"operation":"windows"})).await?)?{return Ok(window);}

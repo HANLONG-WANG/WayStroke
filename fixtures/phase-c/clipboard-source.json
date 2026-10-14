@@ -1,0 +1,18 @@
+{
+  "complete": true,
+  "scope": "native selection source byte round-trip only",
+  "formats": [
+    {
+      "mimetype": "text/plain;charset=utf-8",
+      "bytes": 10
+    },
+    {
+      "mimetype": "text/html",
+      "bytes": 17
+    },
+    {
+      "mimetype": "image/png",
+      "bytes": 6
+    }
+  ]
+}
