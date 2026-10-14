@@ -7,6 +7,7 @@ import St from 'gi://St';
 import {ClipboardBridge,clipboardCapability} from './clipboard.js';
 import {PromptBridge} from './dialogs.js';
 import {SystemBridge} from './system.js';
+import {TextBridge} from './text.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as Config from 'resource:///org/gnome/shell/misc/config.js';
 import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
@@ -28,6 +29,7 @@ export default class WayStroke extends Extension {
         this.clipboard=new ClipboardBridge(global.display.get_selection(),value=>this.changed(value));
         this.prompts=new PromptBridge(value=>this.changed(value));
         this.system=new SystemBridge(this.clipboard,handle=>this.target(handle));
+        this.text=new TextBridge(this);
         this.deviceSignal=this.seat.connect('device-added',(_seat,device)=>this.changed({event:'deviceAdded',name:device.get_device_name()}));
         this.busName=Gio.bus_own_name_on_connection(Gio.DBus.session,'io.github.waystroke.Gnome',Gio.BusNameOwnerFlags.NONE,null,null);
         this.windowSignal=global.display.connect('window-created',(_display,window)=>this.changed({event:'window',window:this.windowInfo(window)}));
@@ -44,6 +46,17 @@ export default class WayStroke extends Extension {
         }catch(e){invocation.return_value(new GLib.Variant('(s)',[JSON.stringify({status:'error',error:{kind:e.kind||'unavailable',message:e.message,details:[]}})]))}
     }
     async call(q) {
+        if(q.operation==='textStatus')return this.text.status();
+        if(q.operation==='textGuard')return this.text.guard();
+        if(q.operation==='textFocusChanged'){
+            const window=global.display.focus_window;
+            if(window?.get_client_type()===Meta.WindowClientType.X11&&window.get_pid()===q.pid)this.text.reset();
+            return null;
+        }
+        if(q.operation==='textUndoInvalidated'){
+            if(this.text.accessibleUndo?.token===q.token)this.text.accessibleUndo=null;
+            return null;
+        }
         if(q.operation==='hello')return {protocolVersion:1,instance:this.instance,locked:this.locked(),shellVersion:Config.PACKAGE_VERSION,capabilities:['liveRuleName','bottomFeedback','quietGestureStart','declarativeActionsV1','stableInputFocus']};
         if(q.operation==='release') {this.cancelGesture('已释放');this.releaseBarrier();return null}
         if(this.locked())throw Error('桌面已锁定，鼠标接入与动作暂停');
@@ -136,7 +149,8 @@ export default class WayStroke extends Extension {
             }
             case 'textInput': {
                 await this.activateInputWindow(this.target(q.window));
-                if([...q.text].some(character=>character.codePointAt(0)>127)){if(!Main.inputMethod.currentFocus)throw Object.assign(Error('当前应用没有原生文本提交接口，请使用剪贴板粘贴方式'),{kind:'unavailable'});Main.inputMethod.commit(q.text);return null}
+                if(Main.inputMethod.currentFocus){this.text.generated(()=>Main.inputMethod.commit(q.text));return null}
+                if([...q.text].some(character=>character.codePointAt(0)>127))throw Object.assign(Error('当前应用没有原生文本提交接口，请使用剪贴板粘贴方式'),{kind:'unavailable'});
                 for(const character of q.text){const key=character==='\n'?Clutter.KEY_Return:character==='\t'?Clutter.KEY_Tab:Clutter.unicode_to_keysym(character.codePointAt(0));this.keyboard.notify_keyval(GLib.get_monotonic_time(),key,Clutter.KeyState.PRESSED);this.keyboard.notify_keyval(GLib.get_monotonic_time(),key,Clutter.KeyState.RELEASED)}return null;
             }
             case 'volume':return this.system.volume(q);
@@ -431,6 +445,7 @@ export default class WayStroke extends Extension {
         this.feedbackTimer=GLib.timeout_add(GLib.PRIORITY_DEFAULT,1500,()=>{this.feedbackActor?.destroy();this.feedbackActor=null;this.feedbackTimer=0;return GLib.SOURCE_REMOVE});
     }
     disable() {
+        this.text.disable();
         this.clearGesture();this.releaseBarrier();this.releaseInputs();this.feedbackActor?.destroy();if(this.feedbackTimer)GLib.source_remove(this.feedbackTimer);
         this.clipboard.disable();this.seat.disconnect(this.deviceSignal);global.display.disconnect(this.windowSignal);Main.sessionMode.disconnect(this.lockSignal);Gio.bus_unwatch_name(this.ownerWatch);Gio.bus_unown_name(this.busName);this.object.unexport();this.keyboard=null;this.pointer=null;this.windows.clear();
     }

@@ -30,6 +30,7 @@ async fn core_call(method:String,payload:String)->Result<String,String> {
         "run_rule"=>proxy.call("RunRule",&(payload,)).await,
         "runtime_control"=>proxy.call("RuntimeControl",&(payload,)).await,
         "compare_strokes"=>proxy.call("CompareStrokes",&(payload,)).await,
+        "test_text_rule"=>proxy.call("TestTextRule",&(payload,)).await,
         "recognize_stroke"=>proxy.call("RecognizeStroke",&(payload,)).await,
         "get_status"=>proxy.call("GetStatus",&()).await,
         "quit"=>proxy.call("Quit",&()).await,

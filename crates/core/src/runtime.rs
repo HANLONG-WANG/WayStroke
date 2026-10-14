@@ -21,8 +21,13 @@ pub struct Job {pub id:String,pub steps:Vec<waystroke_model::Step>,pub workflows
 impl Runtime {
     pub fn new()->(Arc<Self>,Driver) {
         let (commands,receiver)=mpsc::channel(16);let (events,_)=broadcast::channel(256);
-        let runtime=Arc::new(Self{info:Mutex::new(RuntimeInfo{status:Status{protocol_version:PROTOCOL_VERSION,core_version:env!("CARGO_PKG_VERSION").into(),extension_connected:false,input_connected:false,execution_available:false,reason:"正在连接桌面和鼠标服务".into()},devices:vec![],selected_device_id:None,input_armed:false,locked:false,recording:None,executions:vec![],timings:vec![]}),commands,events,published:Mutex::new(None)});
+        let runtime=Arc::new(Self{info:Mutex::new(RuntimeInfo{text:TextStatus::default(),last_text_result:None,status:Status{protocol_version:PROTOCOL_VERSION,core_version:env!("CARGO_PKG_VERSION").into(),extension_connected:false,input_connected:false,execution_available:false,reason:"正在连接桌面和鼠标服务".into()},devices:vec![],selected_device_id:None,input_armed:false,locked:false,recording:None,executions:vec![],timings:vec![]}),commands,events,published:Mutex::new(None)});
         (runtime,Driver{receiver})
+    }
+    pub async fn observe_text(&self,event:&Value){
+        if event["event"]!="textExpansion"{return}
+        let result=TextResult{adapter:event["adapter"].as_str().unwrap_or("unknown").into(),state:event["state"].as_str().unwrap_or("failed").into(),rule_id:event["ruleId"].as_str().map(str::to_owned),reason:event["reason"].as_str().map(str::to_owned),time:chrono::Utc::now().to_rfc3339()};
+        self.info.lock().await.last_text_result=Some(result);self.publish().await;
     }
     pub async fn info(&self)->RuntimeInfo{self.info.lock().await.clone()}
     pub async fn request(&self,operation:Value)->Result<Value,Error>{if operation["operation"]=="stop"&&self.commands.is_closed(){return Ok(Value::Null);}let(sender,receiver)=oneshot::channel();self.commands.send(Command{operation,reply:sender}).await.map_err(|_|error(ErrorKind::Unavailable,"桌面协调器已停止"))?;receiver.await.map_err(|_|error(ErrorKind::Unavailable,"桌面协调器响应中断"))?}
@@ -73,7 +78,7 @@ impl Runtime {
                     let (locked,):(bool,)=message.body().deserialize().map_err(|e|error(ErrorKind::Unavailable,e.to_string()))?;
                     screen_locked=locked;
                     if locked{Self::release(&input,&mut lease,&desktop).await;stroke=None;pending_finish=None;cancel.send_modify(|generation|*generation+=1);}
-                    {let mut info=self.info.lock().await;info.locked=locked;if locked{info.input_armed=false;info.status.execution_available=false;info.status.reason="桌面已锁定".into();}}
+                    {let mut info=self.info.lock().await;info.locked=locked;if locked{info.input_armed=false;info.status.execution_available=false;info.status.reason="桌面已锁定".into();info.text.state="locked".into();info.text.reason="桌面已锁定，待处理替换和撤销已清除。".into();info.text.undo_available=false;}}
                     self.event(json!({"event":"lock","locked":locked}));self.publish().await;
                 },
                 Wake::Lock(Some(Err(e)))=>return Err(error(ErrorKind::Unavailable,e.to_string())),
@@ -114,7 +119,7 @@ impl Runtime {
                     let event:Value=serde_json::from_str(&text).map_err(|e|error(ErrorKind::Unavailable,e.to_string()))?;
                     if event["event"]=="lock"&&event["locked"]==true{
                         Self::release(&input,&mut lease,&desktop).await;stroke=None;pending_finish=None;
-                        let mut info=self.info.lock().await;info.locked=true;info.input_armed=false;info.status.execution_available=false;info.status.reason="桌面已锁定".into();drop(info);
+                        let mut info=self.info.lock().await;info.locked=true;info.input_armed=false;info.status.execution_available=false;info.status.reason="桌面已锁定".into();info.text.state="locked".into();info.text.reason="桌面已锁定，待处理替换和撤销已清除。".into();info.text.undo_available=false;drop(info);
                         cancel.send_modify(|generation|*generation+=1);
                     }
                     if event["event"]=="canceled"{if let(Some(client),Some(id),Some(active))=(&input,&lease,&stroke){let _=client.request(Some(id),InputRequest::Cancel{sequence:active.sequence}).await;}stroke=None;}
@@ -194,6 +199,14 @@ impl Runtime {
                 Wake::Tick|Wake::Config=>{
                     let snapshot=config.borrow().clone();let hello=desktop.hello().await;
                     let connected=hello.is_ok();let locked=screen_locked||hello.as_ref().ok().is_some_and(|v|v["locked"]==true);
+                    let mut text=if connected {
+                        match desktop.call(json!({"operation":"textStatus"})).await {
+                            Ok(value)=>serde_json::from_value::<TextStatus>(value).map_err(|error|crate::error(ErrorKind::Unavailable,format!("文本状态协议错误：{error}")))?,
+                            Err(error)=>TextStatus{enabled:snapshot.config.settings.text_enabled,terminal_enabled:snapshot.config.settings.terminal_text_enabled,state:"unavailable".into(),reason:error.message,..TextStatus::default()},
+                        }
+                    }else{TextStatus{enabled:snapshot.config.settings.text_enabled,terminal_enabled:snapshot.config.settings.terminal_text_enabled,state:"unavailable".into(),reason:"GNOME 文本接入已断开".into(),..TextStatus::default()}};
+                    if locked{text.state="locked".into();text.reason="桌面已锁定，待处理替换和撤销已清除。".into();text.undo_available=false;}
+                    self.info.lock().await.text=text;
                     let desired=if connected&&!locked&&snapshot.config.settings.setup_complete&&snapshot.config.settings.gestures_enabled{snapshot.config.settings.mouse_device_id.clone()}else{None};
                     if lease.is_some()&&(desired!=selected||!connected||locked){Self::release(&input,&mut lease,&desktop).await;stroke=None;pending_finish=None;if !connected||locked{cancel.send_modify(|generation|*generation+=1);}}
                     if input.is_none()&&connecting.is_empty(){connecting.spawn(InputClient::connect());}

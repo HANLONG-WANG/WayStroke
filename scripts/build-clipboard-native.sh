@@ -17,5 +17,5 @@ fi
 read -r -a base_flags <<< "$(pkg-config --cflags gio-2.0 cairo atk pango)"
 read -r -a link_flags <<< "$(pkg-config --libs gio-2.0)"
 mkdir -p target/native
-cc -shared -fPIC -Wall -Wextra -Werror -Wno-unused-parameter "${include_flags[@]}" "${base_flags[@]}" extension/native/clipboard.c -o target/native/libwaystroke-clipboard.so "${link_flags[@]}" -l:libmutter-18.so.0
+cc -shared -fPIC -Wall -Wextra -Werror -Wno-unused-parameter "${include_flags[@]}" "${base_flags[@]}" extension/native/clipboard.c -o target/native/libwaystroke-clipboard.so "${link_flags[@]}" -l:libmutter-18.so.0 -L/usr/lib64/mutter-18 -l:libmutter-clutter-18.so.0
 gi-compile-repository extension/native/WayStrokeClipboard-1.0.gir --output=target/native/WayStrokeClipboard-1.0.typelib

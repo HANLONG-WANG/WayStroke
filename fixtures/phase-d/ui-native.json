@@ -1,0 +1,67 @@
+{
+  "devkit": {
+    "viewer": true,
+    "privateBusAndConfig": true,
+    "softwareRenderingForced": false,
+    "clipboardForwardingDisabled": [
+      "/org/gnome/Mutter/RemoteDesktop/Session/u1"
+    ]
+  },
+  "initial": {
+    "title": "手势规则",
+    "reviewTools": 0,
+    "nav": 8
+  },
+  "textHelp": "输入法、撤销与终端说明组合输入先交给输入法，提交后才按规则匹配。被输入法消费的空格或 Enter 不会同时作为替换确认键。Ctrl+Z 可撤销当前字段中刚发生、范围仍可确认的替换；切换字段、导航或继续编辑后交还应用原生撤销。浏览器只回报部分段落时也使用应用原生撤销。终端仅支持紧邻且未提交换行的替换撤销。已验证 GTK、Firefox、Electron 和 XWayland GTK 的相应编辑区域，以及 Rime 中文提交；其他应用仍以运行状态中的实际能力为准。非终端密码字段跳过。终端普通及密码输入都参与，可在设置中单独关闭。Ptyxis/VTE 的普通行输入、Readline、getpass 已验证；raw/TUI 只显示“已提交”，不能确认程序如何处理编辑字节。导航、快捷键、粘贴及焦点变化会清除短期上下文；要求前边界的规则需重新输入可确认的边界。",
+  "pageMatcherMultilineAndUndo": true,
+  "existingSnippetEditorPersistsAndMatches": true,
+  "textIndependentOfMouseArming": {
+    "connected": true,
+    "enabled": true,
+    "terminalEnabled": true,
+    "adapter": "native",
+    "state": "ready",
+    "applicationId": "org.waystroke.ProbeClient",
+    "reason": "当前应用提供周围文本与编辑上下文，替换前后校验焦点、范围和光标。",
+    "undoAvailable": false
+  },
+  "nativeExpansionRuntimeResult": {
+    "adapter": "native",
+    "state": "succeeded",
+    "ruleId": "7faa6e70-c770-4f80-94ba-cd15f03e301d",
+    "reason": null,
+    "time": "2026-10-14T16:37:39.337627733+00:00"
+  },
+  "passwordRuntimeState": {
+    "connected": true,
+    "enabled": true,
+    "terminalEnabled": true,
+    "adapter": "none",
+    "state": "password",
+    "applicationId": "org.waystroke.ProbeClient",
+    "reason": "非终端密码字段已跳过，不读取或编辑密码文本。",
+    "undoAvailable": false
+  },
+  "disabledRuntimeState": {
+    "connected": true,
+    "enabled": false,
+    "terminalEnabled": true,
+    "adapter": "none",
+    "state": "disabled",
+    "applicationId": "org.waystroke.ProbeClient",
+    "reason": "文本替换已关闭，原输入透传。",
+    "undoAvailable": false
+  },
+  "actualLockedTextUI": {
+    "connected": false,
+    "enabled": false,
+    "terminalEnabled": true,
+    "adapter": "",
+    "state": "locked",
+    "applicationId": null,
+    "reason": "桌面已锁定，待处理替换和撤销已清除。",
+    "undoAvailable": false
+  },
+  "unlockTextUIRestored": true,
+  "complete": true
+}

@@ -1,17 +1,28 @@
 #!/usr/bin/env python3
 """Formal desktop extension checks in a disposable GNOME session; no host hooks."""
-import json,os,shutil,signal,subprocess,sys,tempfile,time
+import json,os,shutil,signal,subprocess,sys,tempfile,time,shlex
 from pathlib import Path
 from gi.repository import Gio,GLib
 REPO=Path(__file__).resolve().parents[1]
 if '--inside' not in sys.argv:
     root=Path(tempfile.mkdtemp(prefix='waystroke-desktop-check-'))
     for directory in ['runtime','config','data','cache','state']:(root/directory).mkdir(mode=0o700)
-    for uuid,source,files in [('waystroke@local',REPO/'extension',['extension.js','metadata.json','clipboard.js','dialogs.js','system.js']),('waystroke-probe@local',REPO/'probes/gnome50',['extension.js','metadata.json','terminal-monitor.js'])]:
+    if '--phase-d-terminal' in sys.argv:
+        (root/'runtime/bus').symlink_to(Path(os.environ['XDG_RUNTIME_DIR'])/'bus')
+        (root/'runtime/systemd').symlink_to(Path(os.environ['XDG_RUNTIME_DIR'])/'systemd')
+    for uuid,source,files in [('waystroke@local',REPO/'extension',['extension.js','metadata.json','clipboard.js','dialogs.js','system.js','text.js','terminal.js']),('waystroke-probe@local',REPO/'probes/gnome50',['extension.js','metadata.json','terminal-monitor.js'])]:
         dest=root/'data/gnome-shell/extensions'/uuid;dest.mkdir(parents=True)
         for file in files:shutil.copy(source/file,dest/file)
         if uuid=='waystroke@local':
-            ext=dest/'extension.js';ext.write_text(ext.read_text().replace("case 'windows':","case 'overviewInfo':return {visible:Main.overview.visible,shown:Main.overview._shown,animating:Main.overview.animationInProgress,modal:Main.overview._modal,keyFocus:String(global.stage.get_key_focus()),focus:global.display.focus_window?.get_title()};case 'systemInfo':return {dialogOpen:this.prompts.active?.dialog.state===0,selection:!!this.system.selection,notifications:Main.messageTray.getSources().flatMap(source=>source.notifications||[]).map(notification=>notification.title)};case 'fixtureGesture':this.beginGesture({sequence:99,color:'#6262cf',trail:false,minimumLength:12,cancelTimeout:1200},this.context());const [x,y]=this.stroke.points[0];this.point([x+120,y]);return null;case 'gestureInfo':return {active:!!this.stroke,label:!!this.ruleLabel,trail:!!this.trail};case 'feedbackInfo':return this.feedbackActor?{text:this.feedbackActor.text,position:this.feedbackActor.get_position(),width:this.feedbackActor.get_preferred_width(-1)[1],height:this.feedbackActor.get_preferred_height(-1)[1],monitors:Main.layoutManager.monitors.map(m=>({x:m.x,y:m.y,width:m.width,height:m.height}))}:null;case 'windows':",1))
+            if '--focus-race' in sys.argv:
+                text=dest/'text.js';text.write_text(text.read_text().replace('    async rpc(method,payload) {',"    async rpc(method,payload) {if(this.fixtureHold===method){this.fixtureHold=null;await new Promise(resolve=>this.fixtureRelease=resolve);this.fixtureRelease=null}"))
+                ext=dest/'extension.js';ext.write_text(ext.read_text().replace("case 'windows':","case 'fixtureHoldText':this.text.fixtureHold=q.method;return true;case 'fixtureReleaseText':this.text.fixtureRelease?.();return true;case 'fixtureHeldText':return !!this.text.fixtureRelease;case 'windows':",1))
+            if any(flag in sys.argv for flag in ['--phase-d-atspi','--phase-d-browser','--phase-d-terminal','--phase-d-text']):
+                text=dest/'text.js';text.write_text(text.read_text().replace('async confirm(grab,time){','async confirm(grab,time){this.fixtureConfirms=(this.fixtureConfirms||0)+1;').replace("failure(error,adapter='native'){","failure(error,adapter='native'){this.fixtureFailure=error.message;"))
+            if '--phase-d-terminal' in sys.argv:
+                terminal=dest/'terminal.js';terminal.write_text(terminal.read_text().replace("this.watchSignal=this.watch.connect('requested',()=>{","this.watchSignal=this.watch.connect('requested',()=>{this.bridge.fixturePasteRequests=(this.bridge.fixturePasteRequests||0)+1;").replace('const snapshot=this.snapshot();\n        if(!snapshot||origin.focus', 'const snapshot=this.snapshot();this.bridge.fixtureTerminalOrigin={originGeneration:origin.generation,currentGeneration:snapshot?.generation,sameFocus:origin.focus===snapshot?.focus,sameWindow:origin.window===snapshot?.window,sameTail:origin.token===snapshot?.text};\n        if(!snapshot||origin.focus'))
+                ext=dest/'extension.js';ext.write_text(ext.read_text().replace("case 'windows':","case 'fixturePrimary':{const native=(await import('gi://WayStrokeClipboard?version=1.0')).default;this.fixturePrimarySource=native.source_new(new GLib.Variant('a{say}',{'text/plain;charset=utf-8':[88],'text/plain':[88]}));this.fixturePrimaryReads=0;this.fixturePrimarySource.connect('read',()=>this.fixturePrimaryReads++);global.display.get_selection().set_owner(Meta.SelectionType.SELECTION_PRIMARY,this.fixturePrimarySource);return true}case 'fixturePrimaryReads':return this.fixturePrimaryReads;case 'windows':",1))
+            ext=dest/'extension.js';ext.write_text(ext.read_text().replace("case 'windows':","case 'textInfo':return {enabled:this.text.enabled,grabs:this.text.grabs.size,pending:!!this.text.pendingEdit,applying:this.text.applying,generation:this.text.generation,candidates:this.text.candidates.size,lastInput:this.text.lastInput,preedit:this.text.composing(),panelComposing:this.text.panelComposing,panelKnown:!!this.text.panel,snapshot:!!this.text.snapshot(),undo:!!this.text.undo,bindingMode:this.text.bindingMode(),actionMode:Main.actionMode,hasNativeFocus:!!this.text.im.currentFocus,accessibleUndo:!!this.text.accessibleUndo,accessibleToken:this.text.accessibleUndo?.token,confirms:this.text.fixtureConfirms,failure:this.text.fixtureFailure,nativeExpected:this.text.nativeExpected?{text:this.text.nativeExpected.text,cursor:this.text.nativeExpected.cursor,inserted:this.text.nativeExpected.inserted}:null,processing:this.text.processing,snapshotText:this.text.snapshot()?.text,pendingText:this.text.pendingEdit?.text,revision:this.text.configRevision,sensitive:this.text.sensitive(),ibusConnected:this.text.im._ibus.is_connected(),terminalOrigin:this.text.fixtureTerminalOrigin,pasteRequests:this.text.fixturePasteRequests||0,terminalLength:[...this.text.terminal.token].length};case 'overviewInfo':return {visible:Main.overview.visible,shown:Main.overview._shown,animating:Main.overview.animationInProgress,modal:Main.overview._modal,keyFocus:String(global.stage.get_key_focus()),focus:global.display.focus_window?.get_title()};case 'systemInfo':return {dialogOpen:this.prompts.active?.dialog.state===0,selection:!!this.system.selection,notifications:Main.messageTray.getSources().flatMap(source=>source.notifications||[]).map(notification=>notification.title)};case 'fixtureGesture':this.beginGesture({sequence:99,color:'#6262cf',trail:false,minimumLength:12,cancelTimeout:1200},this.context());const [x,y]=this.stroke.points[0];this.point([x+120,y]);return null;case 'gestureInfo':return {active:!!this.stroke,label:!!this.ruleLabel,trail:!!this.trail};case 'feedbackInfo':return this.feedbackActor?{text:this.feedbackActor.text,position:this.feedbackActor.get_position(),width:this.feedbackActor.get_preferred_width(-1)[1],height:this.feedbackActor.get_preferred_height(-1)[1],monitors:Main.layoutManager.monitors.map(m=>({x:m.x,y:m.y,width:m.width,height:m.height}))}:null;case 'windows':",1))
     applications=root/'data/applications';applications.mkdir()
     (applications/'org.waystroke.LaunchedClient.desktop').write_text('[Desktop Entry]\nType=Application\nName=WayStroke launch fixture\nExec=/usr/bin/env WAYSTROKE_CLIENT_PREFIX=Launched /usr/bin/python3 '+str(REPO/'probes/gnome50/client.py')+'\nStartupWMClass=org.waystroke.LaunchedClient\nTerminal=false\n')
     launcher=root/'launch-arguments.py'
@@ -58,7 +69,12 @@ def wait(fn):
         time.sleep(.1)
     raise RuntimeError('Desktop condition timed out')
 try:
+    if '--phase-d-atspi' in sys.argv:
+        spawn('a11y-bus',['/usr/libexec/at-spi-bus-launcher','--launch-immediately','--a11y=1','--screen-reader=1'])
+        def a11y_address():return connection.call_sync('org.a11y.Bus','/org/a11y/bus','org.a11y.Bus','GetAddress',None,GLib.VariantType('(s)'),Gio.DBusCallFlags.NONE,1000,None).unpack()[0]
+        os.environ['AT_SPI_BUS_ADDRESS']=wait(a11y_address);os.environ['GTK_A11Y']='atspi'
     if '--phase-c-audio' in sys.argv:
+
         pipewire_config=root/'pipewire.conf';pipewire_config.write_text(Path('/usr/share/pipewire/pipewire.conf').read_text()+'\ncontext.objects = [ { factory = metadata args = { metadata.name = default } } ]\n')
         spawn('pipewire',['pipewire','-c',str(pipewire_config)]);spawn('wireplumber',['wireplumber','--profile=policy']);spawn('pipewire-pulse',['pipewire-pulse'])
         wait(lambda:subprocess.run(['pactl','info'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).returncode==0)
@@ -72,7 +88,8 @@ try:
     if '--phase-c-window' in sys.argv:
         subprocess.run(['gsettings','set','org.gnome.mutter','dynamic-workspaces','false'],check=True)
         subprocess.run(['gsettings','set','org.gnome.desktop.wm.preferences','num-workspaces','2'],check=True)
-    spawn('shell',['gnome-shell','--headless','--wayland','--no-x11','--wayland-display=waystroke-desktop-check-0',*(['--devkit'] if '--devkit' in sys.argv else ['--virtual-monitor=1440x1000',*(['--virtual-monitor=1280x900'] if '--multi-monitor' in sys.argv else [])])])
+    if '--phase-d-terminal' in sys.argv or '--phase-d-browser' in sys.argv or '--ime' in sys.argv:subprocess.run(['gsettings','set','org.gnome.desktop.input-sources','sources',"[('xkb', 'us'), ('ibus', 'rime')]"],check=True)
+    spawn('shell',['gnome-shell','--headless','--wayland',*([] if '--phase-d-atspi' in sys.argv else ['--no-x11']),'--wayland-display=waystroke-desktop-check-0',*(['--devkit'] if '--devkit' in sys.argv else ['--virtual-monitor=1440x1000',*(['--virtual-monitor=1280x900'] if '--multi-monitor' in sys.argv else [])])])
     results['hello']=wait(lambda:call({'operation':'hello'}));assert results['hello']['shellVersion']=='50.5'
     if '--devkit' in sys.argv:
         viewer_env=os.environ.copy();viewer_env['XDG_RUNTIME_DIR']=viewer_env['WAYSTROKE_OUTER_RUNTIME'];viewer_env['WAYLAND_DISPLAY']=viewer_env['WAYSTROKE_OUTER_DISPLAY']
@@ -91,6 +108,7 @@ try:
             return paths
         results['devkit']['clipboardForwardingDisabled']=wait(disable_viewer_clipboard)
     client_source=(REPO/'probes/gnome50/client.py').read_text()
+    client_source=client_source.replace(" (root/('client.json' if prefix=='Probe' else prefix+'-client.json')).write_text(json.dumps(state,ensure_ascii=False));return True"," path=root/('client.json' if prefix=='Probe' else prefix+'-client.json');temporary=path.with_suffix('.tmp');temporary.write_text(json.dumps(state,ensure_ascii=False));temporary.replace(path);return True")
     client_source=client_source.replace("  state[name]={'text'", "  keys=Gtk.EventControllerKey();keys.set_propagation_phase(Gtk.PropagationPhase.CAPTURE)\n  keys.connect('key-pressed',lambda controller,keyval,*args,n=name:state[n].update(f24=state[n]['f24']+1) if keyval==Gdk.KEY_F24 else False)\n  win.add_controller(keys)\n  state[name]={'f24':0,'text'")
     if '--phase-c-input' in sys.argv:
         client_source=client_source.replace("  state[name]={'f24':0", "  state[name]={'keyEvents':[],'mouseEvents':[],'scrollEvents':[],'motions':0,'f24':0")
@@ -107,10 +125,10 @@ try:
   input_keys.connect('key-released',lambda controller,keyval,*args,n=name:state[n]['keyEvents'].append([keyval,False]));win.add_controller(input_keys)
   win.present();""")
         client_source=client_source.replace(" (root/('client.json' if prefix=='Probe' else prefix+'-client.json')).write_text(json.dumps(state,ensure_ascii=False));return True", " path=root/('client.json' if prefix=='Probe' else prefix+'-client.json');temporary=path.with_suffix('.tmp');temporary.write_text(json.dumps(state,ensure_ascii=False));temporary.replace(path);return True")
-    if '--phase-c-clipboard' in sys.argv:
+    if '--phase-c-clipboard' in sys.argv or '--phase-d-terminal' in sys.argv:
         client_source=client_source.replace("<method name=\"Focus\"><arg type=\"s\" direction=\"in\"/></method>","<method name=\"Focus\"><arg type=\"s\" direction=\"in\"/></method><method name=\"Clipboard\"><arg type=\"s\" direction=\"in\"/><arg type=\"s\" direction=\"out\"/></method>")
         client_source=client_source.replace("  title,kind=parameters.unpack()[0].split(':');", """  if method=='Clipboard':
-   q=json.loads(parameters.unpack()[0]);clipboard=Gdk.Display.get_default().get_clipboard()
+   q=json.loads(parameters.unpack()[0]);display=Gdk.Display.get_default();clipboard=display.get_primary_clipboard() if q.get('selection')=='primary' else display.get_clipboard()
    if q['operation']=='write':
     provider=Gdk.ContentProvider.new_union([Gdk.ContentProvider.new_for_bytes(mime,GLib.Bytes.new(bytes(content))) for mime,content in q['formats'].items()]);clipboard.set_content(provider);invocation.return_value(GLib.Variant('(s)',('true',)));return
    if q['operation']=='read':
@@ -126,11 +144,387 @@ try:
     clipboard.read_async([q['mime']],GLib.PRIORITY_DEFAULT,None,completed);return
   title,kind=parameters.unpack()[0].split(':');""")
         client_source=client_source.replace("(p if kind=='password' else e).grab_focus();", "(p if kind=='password' else e).grab_focus();\n  if kind=='none':e.select_region(0,0);w.get_child().get_last_child().set_focusable(True);w.get_child().get_last_child().grab_focus();\n  elif kind=='normal':e.set_position(-1);e.select_region(-1,-1)\n  " )
+    if '--focus-race' in sys.argv:
+        client_source=client_source.replace('state={};prefix=', 'state={};second_entries={};prefix=')
+        client_source=client_source.replace('box.append(entry);box.append(password);', "second=Gtk.Entry();second_entries[name]=second;box.append(entry);box.append(second);box.append(password);")
+        client_source=client_source.replace("'text':'','password':'',", "'text':'','second':'','password':'',")
+        client_source=client_source.replace("  entry.connect('changed',", "  second.connect('changed',lambda e,n=name:state[n].update(second=e.get_text()))\n  entry.connect('changed',")
+        client_source=client_source.replace("(p if kind=='password' else e).grab_focus();", "(p if kind=='password' else second_entries[title] if kind=='second' else e).grab_focus();state[title]['active']=kind;\n  if kind in ['normal','second']:\n   current=e if kind=='normal' else second_entries[title];current.set_position(-1);current.select_region(-1,-1)\n  ")
+    if '--multiline' in sys.argv:
+        client_source=client_source.replace('state={};', 'state={};multiline_entries={};')
+        client_source=client_source.replace('box.append(entry);', "multiline=Gtk.TextView(height_request=100);multiline_entries[name]=multiline;box.append(multiline);box.append(entry);")
+        client_source=client_source.replace("'password':'',", "'password':'','multiline':'',")
+        client_source=client_source.replace("  entry.connect('changed',", "  multiline.get_buffer().connect('changed',lambda b,n=name:state[n].update(multiline=b.get_text(*b.get_bounds(),True)))\n  entry.connect('changed',")
+        client_source=client_source.replace("(p if kind=='password' else ", "(p if kind=='password' else multiline_entries[title] if kind=='multiline' else ")
     (root/'client.py').write_text(client_source)
+    if '--phase-d-atspi' in sys.argv:
+        snapshot=call({'action':'snapshot'},False);os.environ.update(GDK_BACKEND='x11',DISPLAY=snapshot['xDisplay'],XAUTHORITY=snapshot['xAuthority'])
+        if '--ime' in sys.argv:
+            os.environ['GTK_IM_MODULE']='ibus'
+            # The daemon was started for private Wayland; X11 discovery uses a different filename.
+            address_file=wait(lambda:next(iter((root/'config/ibus/bus').glob('*')),None))
+            os.environ['IBUS_ADDRESS_FILE']=str(address_file)
+        # The private accessibility bus starts before XWayland. Its activation
+        # environment must be updated so a restarted registry uses this display.
+        activation=Gio.DBusConnection.new_for_address_sync(os.environ['AT_SPI_BUS_ADDRESS'],Gio.DBusConnectionFlags.AUTHENTICATION_CLIENT|Gio.DBusConnectionFlags.MESSAGE_BUS_CONNECTION,None,None)
+        activation.call_sync('org.freedesktop.DBus','/org/freedesktop/DBus','org.freedesktop.DBus','UpdateActivationEnvironment',GLib.Variant('(a{ss})',({name:os.environ[name] for name in ['DISPLAY','XAUTHORITY','XDG_RUNTIME_DIR','GDK_BACKEND']},)),None,Gio.DBusCallFlags.NONE,3000,None)
+        registry=spawn('a11y-registry',['/usr/libexec/at-spi2-registryd'])
     spawn('client',[sys.executable,str(root/'client.py')])
     windows=wait(lambda:(lambda ws:ws if {'Probe A','Probe B'}.issubset({w['title'] for w in ws}) else None)(call({'operation':'windows'})));a=next(w for w in windows if w['title']=='Probe A');b=next(w for w in windows if w['title']=='Probe B')
-    assert a['clientType']==0;results['windows']=windows
+    assert a['clientType']==(1 if '--phase-d-atspi' in sys.argv else 0);results['windows']=windows
     if '--devkit' in sys.argv:call({'operation':'desktopOverview','value':'隐藏概览'})
+    if '--phase-d-atspi' in sys.argv:
+        if '--devkit' not in sys.argv:raise RuntimeError('Phase D extension tests require --devkit')
+        a11y=Gio.DBusConnection.new_for_address_sync(os.environ['AT_SPI_BUS_ADDRESS'],Gio.DBusConnectionFlags.AUTHENTICATION_CLIENT|Gio.DBusConnectionFlags.MESSAGE_BUS_CONNECTION,None,None)
+        xml=a11y.call_sync('org.a11y.atspi.Registry','/org/a11y/atspi/registry/deviceeventcontroller','org.freedesktop.DBus.Introspectable','Introspect',None,GLib.VariantType('(s)'),Gio.DBusCallFlags.NONE,3000,None).unpack()[0]
+        (root/'device-event-controller.xml').write_text(xml)
+        spawn('core',[str(REPO/'target/debug/waystroke-core')]);snapshot=wait(lambda:core('GetConfig'));config=snapshot['config']
+        config['snippets']=[{'id':'accessible','key':'abc','value':'2003','enabled':True,'applicationId':None,'trigger':'confirm','caseSensitive':True,'boundary':True,'preserve':True}]
+        core('CommitConfig',{'requestId':'accessible','expectedRevision':snapshot['revision'],'config':config})
+        wait(lambda:call({'operation':'textInfo'})['enabled'])
+        call({'action':'activate','title':'Probe A'},False)
+        connection.call_sync('org.waystroke.Client','/org/waystroke/Client','org.waystroke.Client','Focus',GLib.Variant('(s)',('Probe A:normal',)),None,Gio.DBusCallFlags.NONE,3000,None)
+        wait(lambda:call({'action':'snapshot'},False)['focus']=='Probe A')
+        if '--ime' in sys.argv:
+            call({'action':'source','id':'us'},False)
+            wait(lambda:call({'action':'snapshot'},False)['ime']['source']=='us')
+        def key(keyval):
+            call({'action':'key','keyval':keyval,'pressed':True},False);call({'action':'key','keyval':keyval,'pressed':False},False)
+        def state():return json.loads((root/'client.json').read_text())['Probe A']
+        wait(lambda:call({'operation':'textInfo'})['actionMode']==1)
+        for char in 'abc':key(ord(char))
+        try:wait(lambda:state()['text']=='abc')
+        finally:results['accessibleInitialState']={'client':state(),'shell':call({'action':'snapshot'},False),'text':call({'operation':'textInfo'})}
+        guard=call({'operation':'textGuard'});results['accessibleGuard']=guard
+        result=core('ExpandAccessibleText',{'guard':guard,'trigger':'space'});results['accessibleRpc']=result
+        assert result['matched'],result;wait(lambda:state()['text']=='2003')
+        key(32)
+        try:wait(lambda:state()['text']=='2003 ')
+        finally:results['accessibleSpaceReplayState']={'client':state(),'shell':call({'action':'snapshot'},False),'text':call({'operation':'textInfo'})}
+        results['accessibleConfirmedSpace']=state()['text']
+        call({'action':'key','keyval':0xffe3,'pressed':True},False);key(ord('a'));call({'action':'key','keyval':0xffe3,'pressed':False},False);key(0xff08);wait(lambda:state()['text']=='')
+        for char in 'abc':key(ord(char))
+        wait(lambda:state()['text']=='abc');previous=state()['activate'];key(65293)
+        try:wait(lambda:state()['text']=='2003' and state()['activate']==previous+1);results['accessibleAcceleratorEnter']=True
+        finally:results['accessibleAfterEnter']=call({'operation':'textInfo'})
+        assert state()['activatedText']=='2003'
+        wait(lambda:call({'operation':'textInfo'})['accessibleUndo'])
+        call({'action':'key','keyval':0xffe3,'pressed':True},False);key(ord('z'));call({'action':'key','keyval':0xffe3,'pressed':False},False)
+        wait(lambda:state()['text']=='abc');results['accessibleAdjacentUndo']=True
+        results['accessibleStageEvents']=call({'action':'snapshot'},False)['counts']
+        snapshot=core('GetConfig');config=snapshot['config'];config['snippets'][0]['value']='中文'
+        core('CommitConfig',{'requestId':'unicode-accessible','expectedRevision':snapshot['revision'],'config':config})
+        call({'action':'key','keyval':0xffe3,'pressed':True},False);key(ord('a'));call({'action':'key','keyval':0xffe3,'pressed':False},False);key(0xff08);wait(lambda:state()['text']=='')
+        for char in 'abc':key(ord(char))
+        wait(lambda:state()['text']=='abc');key(32);wait(lambda:state()['text']=='中文 ');results['accessibleUnicodeByteLength']=state()['text']
+        wait(lambda:call({'operation':'textInfo'})['accessibleUndo'])
+        call({'action':'key','keyval':0xffe3,'pressed':True},False);key(ord('z'));call({'action':'key','keyval':0xffe3,'pressed':False},False)
+        wait(lambda:state()['text']=='abc ');results['accessibleUndoPreservesConfirmationSpace']=True
+        call({'action':'key','keyval':0xffe3,'pressed':True},False);key(ord('a'));call({'action':'key','keyval':0xffe3,'pressed':False},False);key(0xff08);wait(lambda:state()['text']=='')
+        for char in 'abc':key(ord(char))
+        wait(lambda:state()['text']=='abc');key(32);wait(lambda:state()['text']=='中文 ')
+        # Read the real replacement's token through the private fixture bridge.
+        token=call({'operation':'textInfo'}).get('accessibleToken')
+        key(0xff51);key(0xff53)
+        if token:assert not core('UndoAccessibleText',{'guard':call({'operation':'textGuard'}),'token':token})['matched']
+        else:raise AssertionError('Missing adjacent replacement token')
+        wait(lambda:not call({'operation':'textInfo'})['accessibleUndo'])
+        wait(lambda:not core('GetRuntime')['text']['undoAvailable'])
+        results['accessibleNavigationInvalidatesUndo']=True
+        results['accessibleUndoStatusCleared']=True
+        connection.call_sync('org.waystroke.Client','/org/waystroke/Client','org.waystroke.Client','Focus',GLib.Variant('(s)',('Probe A:password',)),None,Gio.DBusCallFlags.NONE,3000,None)
+        for char in 'abc':key(ord(char))
+        key(32);wait(lambda:state()['password']=='abc ');results['accessiblePasswordSkipped']=True
+        guard=call({'operation':'textGuard'});call({'action':'activate','title':'Probe B'},False)
+        wait(lambda:call({'action':'snapshot'},False)['focus']=='Probe B')
+        try:core('ExpandAccessibleText',{'guard':guard,'trigger':'space'})
+        except RuntimeError as error:assert '取消 AT-SPI 操作' in str(error);results['accessibleOldFocusRejected']=True
+        else:raise AssertionError('Old accessible focus accepted')
+        call({'action':'activate','title':'Probe A'},False)
+        connection.call_sync('org.waystroke.Client','/org/waystroke/Client','org.waystroke.Client','Focus',GLib.Variant('(s)',('Probe A:normal',)),None,Gio.DBusCallFlags.NONE,3000,None)
+        snapshot=core('GetConfig');config=snapshot['config'];config['snippets'][0]['trigger']='immediate';config['snippets'][0]['value']='2003'
+        core('CommitConfig',{'requestId':'accessible-immediate','expectedRevision':snapshot['revision'],'config':config})
+        try:wait(lambda:core('GetAccessibleTextStatus')['immediateReady'])
+        finally:results['accessibleImmediateStatus']=core('GetAccessibleTextStatus')
+        call({'action':'key','keyval':0xffe3,'pressed':True},False);key(ord('a'));call({'action':'key','keyval':0xffe3,'pressed':False},False);key(0xff08);wait(lambda:state()['text']=='')
+        for char in 'abc':key(ord(char))
+        try:wait(lambda:state()['text']=='2003');results['accessibleRealImmediate']=True
+        finally:results['accessibleImmediateFinalStatus']=core('GetAccessibleTextStatus')
+        wait(lambda:call({'operation':'textInfo'})['accessibleUndo'])
+        call({'action':'key','keyval':0xffe3,'pressed':True},False);key(ord('z'));call({'action':'key','keyval':0xffe3,'pressed':False},False)
+        wait(lambda:state()['text']=='abc');results['accessibleImmediateUndoNoRetrigger']=True
+        call({'action':'key','keyval':0xffe3,'pressed':True},False);key(ord('a'));call({'action':'key','keyval':0xffe3,'pressed':False},False);key(0xff08);wait(lambda:state()['text']=='')
+        before_keys=core('GetAccessibleTextStatus')['inputKeys']
+        call({'operation':'textInput','window':a['handle'],'text':'abc'})
+        wait(lambda:state()['text']=='abc');assert core('GetAccessibleTextStatus')['inputKeys']==before_keys;results['accessibleActionInputSuppressed']=True
+        call({'action':'key','keyval':0xffe3,'pressed':True},False);key(ord('a'));key(ord('c'));call({'action':'key','keyval':0xffe3,'pressed':False},False)
+        key(0xff08);wait(lambda:state()['text']=='')
+        call({'action':'key','keyval':0xffe3,'pressed':True},False);key(ord('v'));call({'action':'key','keyval':0xffe3,'pressed':False},False)
+        wait(lambda:state()['text']=='abc');assert core('GetAccessibleTextStatus')['inputKeys']==before_keys;results['accessiblePasteDoesNotTrigger']=True
+        snapshot=core('GetConfig');config=snapshot['config'];config['snippets'][0]['caseSensitive']=False
+        core('CommitConfig',{'requestId':'case-accessible','expectedRevision':snapshot['revision'],'config':config})
+        call({'action':'key','keyval':0xffe3,'pressed':True},False);key(ord('a'));call({'action':'key','keyval':0xffe3,'pressed':False},False);key(0xff08);wait(lambda:state()['text']=='')
+        for char in 'ABC':key(ord(char))
+        wait(lambda:state()['text']=='2003');results['accessibleShiftedImmediateCaseFold']=True
+        before_keys=core('GetAccessibleTextStatus')['inputKeys']
+        snapshot=core('GetConfig');config=snapshot['config'];config['snippets'].append({'id':'recursive','key':'2003','value':'recursive','enabled':True,'applicationId':None,'trigger':'immediate','caseSensitive':True,'boundary':True,'preserve':True})
+        core('CommitConfig',{'requestId':'recursion-accessible','expectedRevision':snapshot['revision'],'config':config})
+        call({'action':'key','keyval':0xffe3,'pressed':True},False);key(ord('a'));call({'action':'key','keyval':0xffe3,'pressed':False},False);key(0xff08);wait(lambda:state()['text']=='')
+        for char in 'abc':key(ord(char))
+        wait(lambda:state()['text']=='2003');assert core('GetAccessibleTextStatus')['inputKeys']==before_keys+1;results['accessibleGeneratedExpansionNotRecursive']=True
+        if '--caps' in sys.argv:
+            snapshot=core('GetConfig');snapshot['config']['snippets']=snapshot['config']['snippets'][:1];snapshot['config']['snippets'][0].update(key='ABC',caseSensitive=True)
+            committed=core('CommitConfig',{'requestId':'caps-sensitive','expectedRevision':snapshot['revision'],'config':snapshot['config']});wait(lambda:call({'operation':'textInfo'})['revision']==committed['revision'])
+            call({'action':'key','keyval':0xffe3,'pressed':True},False);key(ord('a'));call({'action':'key','keyval':0xffe3,'pressed':False},False);key(0xff08);wait(lambda:state()['text']=='')
+            def physical(code):
+                call({'action':'keycode','keycode':code,'pressed':True},False);call({'action':'keycode','keycode':code,'pressed':False},False)
+            physical(58);wait(lambda:call({'action':'snapshot'},False)['pointer'][2]&2)
+            for code in [30,48,46]:physical(code)
+            try:wait(lambda:state()['text']=='2003');results['accessibleCapsLockSensitiveImmediate']=True
+            finally:
+                results['accessibleCapsState']={'client':state(),'text':call({'operation':'textInfo'})}
+                physical(58);wait(lambda:not (call({'action':'snapshot'},False)['pointer'][2]&2))
+            snapshot=core('GetConfig');snapshot['config']['snippets'][0].update(key='abc',caseSensitive=True)
+            committed=core('CommitConfig',{'requestId':'after-caps','expectedRevision':snapshot['revision'],'config':snapshot['config']});wait(lambda:call({'operation':'textInfo'})['revision']==committed['revision'])
+            call({'action':'key','keyval':0xffe3,'pressed':True},False);key(ord('a'));call({'action':'key','keyval':0xffe3,'pressed':False},False);key(0xff08);wait(lambda:state()['text']=='')
+            for code in [30,48]:physical(code)
+            wait(lambda:state()['text']=='ab');call({'action':'keycode','keycode':46,'pressed':True},False)
+            try:wait(lambda:state()['text']=='2003');results['accessibleHeldKeyImmediate']=True
+            finally:call({'action':'keycode','keycode':46,'pressed':False},False)
+        if '--multiline' in sys.argv:
+            from gnome_text_multiline import check
+            check(call,core,wait,connection,key,state,results,False)
+        if '--focus-race' in sys.argv:
+            from gnome_text_focus import check
+            check(call,core,wait,connection,key,state,results,False)
+        if '--ime' in sys.argv:
+            call({'action':'track-panel'},False)
+            def clear_accessible():
+                call({'action':'key','keyval':0xffe3,'pressed':True},False);key(ord('a'));call({'action':'key','keyval':0xffe3,'pressed':False},False);key(0xff08);wait(lambda:state()['text']=='')
+            clear_accessible()
+            snapshot=core('GetConfig');config=snapshot['config'];config['snippets']=config['snippets'][:1];config['snippets'][0].update(key='你好',value='中文',trigger='confirm',preserve=False)
+            committed_config=core('CommitConfig',{'requestId':'accessible-ime','expectedRevision':snapshot['revision'],'config':config});wait(lambda:call({'operation':'textInfo'})['revision']==committed_config['revision'])
+            import gi;gi.require_version('IBus','1.0')
+            from gi.repository import IBus
+            ibus=IBus.Bus.new()
+            results['accessibleIbusConnection']={'connected':ibus.is_connected(),'context':ibus.current_input_context(),'engine':ibus.get_global_engine().get_name() if ibus.get_global_engine() else None}
+            results['accessibleImeSource']=call({'action':'source','id':'rime'},False)
+            wait(lambda:ibus.get_global_engine() and ibus.get_global_engine().get_name()=='rime')
+            # Wait for the real client composition/candidate path, then start a clean test.
+            for char in 'nihao':key(ord(char));time.sleep(.025)
+            wait(lambda:call({'action':'snapshot'},False)['panelState']['lookupVisible'])
+            key(0xff1b);wait(lambda:not call({'action':'snapshot'},False)['panelState']['lookupVisible']);clear_accessible()
+            for char in 'nihao':key(ord(char));time.sleep(.025)
+            try:wait(lambda:(lambda p:p['preeditVisible'] or p['lookupVisible'])(call({'action':'snapshot'},False)['panelState']))
+            finally:results['accessibleImePreeditState']={'client':state(),'shell':call({'action':'snapshot'},False),'text':call({'operation':'textInfo'})}
+            assert state()['text']=='';results['accessibleImePreeditProtected']=True
+            key(32)
+            try:wait(lambda:any(ord(c)>127 for c in state()['text']))
+            finally:results['accessibleImeAfterConfirm']={'client':state(),'guard':call({'operation':'textGuard'}),'text':call({'operation':'textInfo'}),'shell':call({'action':'snapshot'},False)}
+            keyword=state()['text'];results['accessibleImeCommittedKeyword']=keyword
+            snapshot=core('GetConfig');snapshot['config']['snippets'][0]['key']=keyword
+            committed_config=core('CommitConfig',{'requestId':'accessible-ime-keyword','expectedRevision':snapshot['revision'],'config':snapshot['config']});wait(lambda:call({'operation':'textInfo'})['revision']==committed_config['revision'])
+            key(32);wait(lambda:state()['text']=='中文');results['accessibleImeConfirmedExpansion']=True
+            clear_accessible()
+            snapshot=core('GetConfig');snapshot['config']['snippets'][0]['trigger']='immediate'
+            committed_config=core('CommitConfig',{'requestId':'accessible-ime-immediate','expectedRevision':snapshot['revision'],'config':snapshot['config']});wait(lambda:call({'operation':'textInfo'})['revision']==committed_config['revision'])
+            wait(lambda:core('GetAccessibleTextStatus')['immediateReady'])
+            for char in 'nihao':key(ord(char));time.sleep(.025)
+            wait(lambda:(lambda p:p['preeditVisible'] or p['lookupVisible'])(call({'action':'snapshot'},False)['panelState']));key(32)
+            try:wait(lambda:state()['text']=='中文');results['accessibleImeImmediateCommit']=True
+            finally:results['accessibleImeFinal']={'client':state(),'text':call({'operation':'textInfo'}),'shell':call({'action':'snapshot'},False)}
+            call({'action':'source','id':'us'},False)
+            wait(lambda:ibus.get_global_engine() and ibus.get_global_engine().get_name()=='xkb:us::eng')
+            clear_accessible()
+            snapshot=core('GetConfig');snapshot['config']['snippets'][0].update(key='abc',value='2003',trigger='immediate',preserve=True)
+            committed_config=core('CommitConfig',{'requestId':'accessible-after-ime','expectedRevision':snapshot['revision'],'config':snapshot['config']});wait(lambda:call({'operation':'textInfo'})['revision']==committed_config['revision'])
+        if '--lifecycle' in sys.argv:
+            registry_pid=a11y.call_sync('org.freedesktop.DBus','/org/freedesktop/DBus','org.freedesktop.DBus','GetConnectionUnixProcessID',GLib.Variant('(s)',('org.a11y.atspi.Registry',)),GLib.VariantType('(u)'),Gio.DBusCallFlags.NONE,3000,None).unpack()[0]
+            assert ('XDG_RUNTIME_DIR='+str(root/'runtime')).encode() in Path(f'/proc/{registry_pid}/environ').read_bytes().split(b'\0')
+            os.kill(registry_pid,signal.SIGTERM)
+            wait(lambda:not core('GetAccessibleTextStatus')['immediateReady'])
+            registry=spawn('a11y-registry-restarted',['/usr/libexec/at-spi2-registryd'])
+            def registry_owner():return a11y.call_sync('org.freedesktop.DBus','/org/freedesktop/DBus','org.freedesktop.DBus','GetConnectionUnixProcessID',GLib.Variant('(s)',('org.a11y.atspi.Registry',)),GLib.VariantType('(u)'),Gio.DBusCallFlags.NONE,3000,None).unpack()[0]
+            wait(lambda:registry_owner()==registry.pid)
+            wait(lambda:core('GetAccessibleTextStatus')['immediateReady'])
+            results['registryRootsAfterRestart']=a11y.call_sync('org.a11y.atspi.Registry','/org/a11y/atspi/accessible/root','org.a11y.atspi.Accessible','GetChildren',None,None,Gio.DBusCallFlags.NONE,3000,None).unpack()[0]
+            call({'action':'key','keyval':0xffe3,'pressed':True},False);key(ord('a'));call({'action':'key','keyval':0xffe3,'pressed':False},False);key(0xff08);wait(lambda:state()['text']=='')
+            for char in 'abc':key(ord(char))
+            wait(lambda:state()['text']=='2003');results['accessibleRegistryReconnectRestoresText']=True
+        results['complete']=True;sys.exit(0)
+    if '--phase-d-browser' in sys.argv:
+        if '--devkit' not in sys.argv:raise RuntimeError('Phase D browser tests require --devkit')
+        from gnome_text_browser import check
+        check(REPO,root,spawn,call,core,wait,results,'electron' if '--electron' in sys.argv else 'firefox')
+        sys.exit(0)
+    if '--phase-d-terminal' in sys.argv:
+        if '--devkit' not in sys.argv:raise RuntimeError('Phase D extension tests require --devkit')
+        # GNOME 50 defaults primary paste off; enable it only in this private session.
+        Gio.Settings.new('org.gnome.desktop.interface').set_boolean('gtk-enable-primary-paste',True)
+        spawn('core',[str(REPO/'target/debug/waystroke-core')]);snapshot=wait(lambda:core('GetConfig'));config=snapshot['config']
+        config['snippets']=[{'id':'terminal','key':'abc','value':'2003','enabled':True,'applicationId':None,'trigger':'confirm','caseSensitive':True,'boundary':True,'preserve':True}]
+        core('CommitConfig',{'requestId':'terminal','expectedRevision':snapshot['revision'],'config':config})
+        wait(lambda:call({'operation':'textInfo'})['enabled'])
+        spawn('ptyxis',['ptyxis','--standalone','--title','WayStroke terminal fixture','--execute',shlex.join([sys.executable,str(REPO/'fixtures/phase-d/terminal-client.py'),str(root)])])
+        wait(lambda:(root/'terminal-stage').exists())
+        call({'action':'activate','title':'WayStroke terminal fixture'},False)
+        wait(lambda:call({'action':'snapshot'},False)['ime']['purpose']==10)
+        def key(keyval):
+            call({'action':'key','keyval':keyval,'pressed':True},False);call({'action':'key','keyval':keyval,'pressed':False},False)
+        def type_text(text):
+            for character in text:key(ord(character))
+        def control(keyval):
+            call({'action':'key','keyval':0xffe3,'pressed':True},False);key(keyval);call({'action':'key','keyval':0xffe3,'pressed':False},False)
+        results['terminal']={}
+        for mode in ['canonical-space','canonical-enter','readline','password-space','password-enter','immediate','space-keyword','consume-space','undo','navigation','focus-boundary','space-only','enter-only','consume-enter','disabled','excluded','generated','generated-keyboard','ime','ime-confirm','ime-immediate','paste-middle','paste-external','raw']:
+            wait(lambda:(root/'terminal-stage').read_text()==mode)
+            snapshot=core('GetConfig');config=snapshot['config'];config['snippets'][0]['trigger']='immediate' if mode in ['immediate','space-keyword','generated','generated-keyboard','ime-immediate'] else 'space' if mode=='space-only' else 'enter' if mode=='enter-only' else 'confirm';config['snippets'][0]['preserve']=mode not in ['consume-space','consume-enter'];config['settings']['terminalTextEnabled']=mode!='disabled'
+            window=next(w for w in call({'operation':'windows'}) if 'WayStroke terminal fixture' in w['title']);config['exclusions']=[{'applicationId':window['applicationId'],'text':True,'gestures':False}] if mode=='excluded' else []
+            config['snippets'][0]['key']=results['terminal']['ime']['value'].split(' 2003 ')[0] if mode in ['ime-confirm','ime-immediate'] else 'abc ' if mode=='space-keyword' else 'abc'
+            committed=core('CommitConfig',{'requestId':mode,'expectedRevision':snapshot['revision'],'config':config})
+            wait(lambda:call({'operation':'textInfo'})['revision']==committed['revision'])
+            control(ord('u'))
+            if mode=='ime':
+                call({'action':'source','id':'rime'},False);wait(lambda:call({'action':'snapshot'},False)['ime']['engine']=='rime')
+                type_text('nihao');wait(lambda:call({'action':'snapshot'},False)['ime']['preedit'])
+                results['terminalImePreeditProtected']=not call({'operation':'textInfo'})['pending']
+                key(32);wait(lambda:not call({'action':'snapshot'},False)['ime']['preedit'])
+                call({'action':'source','id':'us'},False);wait(lambda:call({'action':'snapshot'},False)['ime']['source']=='us');type_text(' abc ')
+            elif mode in ['ime-confirm','ime-immediate']:
+                call({'action':'source','id':'rime'},False);wait(lambda:call({'action':'snapshot'},False)['ime']['engine']=='rime')
+                type_text('nihao');wait(lambda:call({'action':'snapshot'},False)['ime']['preedit']);key(32)
+                wait(lambda:not call({'action':'snapshot'},False)['ime']['preedit'])
+                if mode=='ime-confirm':
+                    wait(lambda:call({'operation':'textInfo'})['terminalLength']==len(config['snippets'][0]['key']))
+                    assert not call({'operation':'textInfo'})['undo'];key(32)
+                try:wait(lambda:call({'operation':'textInfo'})['undo'])
+                finally:results['terminalCommitOrigin_'+mode]=call({'operation':'textInfo'})
+                call({'action':'source','id':'us'},False);wait(lambda:call({'action':'snapshot'},False)['ime']['engine']=='xkb:us::eng')
+            elif mode=='focus-boundary':
+                type_text('a');call({'action':'activate','title':'Probe B'},False);wait(lambda:call({'action':'snapshot'},False)['focus']=='Probe B')
+                call({'action':'activate','title':'WayStroke terminal fixture'},False);wait(lambda:call({'action':'snapshot'},False)['ime']['purpose']==10);type_text('abc ' )
+            elif mode in ['paste-middle','paste-external']:
+                if mode=='paste-middle':call({'operation':'fixturePrimary'})
+                else:
+                    call({'action':'activate','title':'Probe A'},False);wait(lambda:call({'action':'snapshot'},False)['focus']=='Probe A');key(0xffd5)
+                    connection.call_sync('org.waystroke.Client','/org/waystroke/Client','org.waystroke.Client','Clipboard',GLib.Variant('(s)',(json.dumps({'operation':'write','selection':'primary','formats':{'text/plain;charset=utf-8':[88]}}),)),GLib.VariantType('(s)'),Gio.DBusCallFlags.NONE,3000,None)
+                    call({'action':'activate','title':'WayStroke terminal fixture'},False);wait(lambda:call({'action':'snapshot'},False)['ime']['purpose']==10);control(ord('u'))
+                requests=call({'operation':'textInfo'})['pasteRequests']
+                type_text('abc');wait(lambda:call({'operation':'textInfo'})['terminalLength']==3)
+                rect=next(w['rect'] for w in call({'action':'snapshot'},False)['windows'] if w['title']=='WayStroke terminal fixture')
+                call({'action':'pointer','x':rect['x']+100,'y':rect['y']+200},False);call({'action':'button','button':2,'pressed':True},False);call({'action':'button','button':2,'pressed':False},False)
+                results['terminalPastePointer']=call({'operation':'textInfo'})
+                wait(lambda:call({'operation':'textInfo'})['pasteRequests']>requests)
+                results['terminalPasteAfterTransfer']=call({'operation':'textInfo'})
+                time.sleep(.1) # Allow VTE's asynchronous primary clipboard transfer.
+                key(32)
+            elif mode=='generated':call({'operation':'textInput','window':window['handle'],'text':'abc'})
+            elif mode=='generated-keyboard':
+                for char in 'abc':call({'operation':'keyInput','window':window['handle'],'key':char,'value':'按下并释放'})
+            else:type_text('abc')
+            if mode in ['canonical-space','readline','password-space','raw']:key(32)
+            elif mode=='consume-space':key(32);type_text('.')
+            elif mode=='undo':
+                key(32);wait(lambda:call({'operation':'textInfo'})['undo']);control(ord('z'))
+            elif mode=='navigation':key(0xff51);key(32)
+            elif mode=='enter-only':key(32);type_text('abc')
+            elif mode=='consume-enter':key(65293);type_text('.')
+            if mode=='space-keyword':key(32)
+            if mode in ['immediate','space-keyword']:wait(lambda:call({'operation':'textInfo'})['undo'])
+            key(65293)
+            path=root/('terminal-'+mode+'.json');wait(path.exists);result=json.loads(path.read_text())
+            if mode.startswith('password'):assert result['matchesExpected'],result
+            elif mode=='raw':assert b'\x7f\x7f\x7f2003 ' in bytes(result['bytes']),result
+            else:
+                expected='2003 ' if mode in ['canonical-space','readline','ime-confirm'] else 'abc ' if mode=='undo' else 'ab c' if mode=='navigation' else 'aabc ' if mode=='focus-boundary' else '2003.' if mode in ['consume-space','consume-enter'] else 'abc 2003' if mode=='enter-only' else 'abc' if mode in ['space-only','disabled','excluded','generated','generated-keyboard'] else '2003'
+                if mode in ['paste-middle','paste-external']:assert result['value']=='abcX ',result
+                elif mode=='ime':assert result['value'].endswith(' 2003 ') and any(ord(char)>127 for char in result['value']),(mode,result)
+                else:assert result['value']==expected,(mode,result,expected)
+            results['terminal'][mode]=result
+        assert (root/'terminal-stage').read_text()=='complete';results['terminalRawLimitExplicit']=True
+        results['complete']=True;sys.exit(0)
+    if '--phase-d-text' in sys.argv:
+        if '--devkit' not in sys.argv:raise RuntimeError('Phase D extension tests require --devkit')
+        spawn('core',[str(REPO/'target/debug/waystroke-core')]);snapshot=wait(lambda:core('GetConfig'));config=snapshot['config']
+        config['snippets']=[{'id':'native','key':'abc','value':'2003','enabled':True,'applicationId':None,'trigger':'confirm','caseSensitive':True,'boundary':True,'preserve':True}]
+        core('CommitConfig',{'requestId':'text','expectedRevision':snapshot['revision'],'config':config})
+        wait(lambda:call({'operation':'textInfo'})['grabs']>=3)
+        wait(lambda:call({'operation':'textInfo'})['actionMode']==1 and call({'operation':'textInfo'})['ibusConnected'])
+        def key(keyval):
+            call({'action':'key','keyval':keyval,'pressed':True},False);call({'action':'key','keyval':keyval,'pressed':False},False)
+        def state():return json.loads((root/'client.json').read_text())['Probe A']
+        def focus(kind='normal'):
+            call({'action':'position','title':'Probe A','x':50,'y':200,'focus':True},False)
+            connection.call_sync('org.waystroke.Client','/org/waystroke/Client','org.waystroke.Client','Focus',GLib.Variant('(s)',('Probe A:'+kind,)),None,Gio.DBusCallFlags.NONE,3000,None)
+            wait(lambda:call({'action':'snapshot'},False)['focus']=='Probe A')
+            wait(lambda:(lambda ime:ime['hasFocus'] and ime['purpose']==(8 if kind=='password' else 0))(call({'action':'snapshot'},False)['ime']))
+        def reset_field():
+            call({'action':'key','keyval':0xffe3,'pressed':True},False);key(ord('a'));call({'action':'key','keyval':0xffe3,'pressed':False},False);key(0xff08)
+            wait(lambda:state()['text']=='')
+        def type_word():
+            for char in 'abc':key(ord(char))
+            wait(lambda:state()['text']=='abc')
+        focus();type_word();key(32)
+        try:wait(lambda:state()['text']=='2003 ')
+        except Exception:
+            results['nativeFailure']={'client':state(),'text':call({'operation':'textInfo'}),'ime':call({'action':'snapshot'},False)['ime']};raise
+        results['nativeConfirmSpace']={'text':state()['text'],'mouseAuthorized':False}
+        wait(lambda:call({'operation':'textInfo'})['undo'])
+        call({'action':'key','keyval':0xffe3,'pressed':True},False);key(ord('z'));call({'action':'key','keyval':0xffe3,'pressed':False},False)
+        wait(lambda:state()['text']=='abc ');results['nativeAdjacentUndoPreservesSpace']=True
+        reset_field();type_word();previous=state()['activate'];key(65293)
+        wait(lambda:state()['text']=='2003' and state()['activate']==previous+1)
+        results['nativeConfirmEnter']={'text':state()['text'],'activationCount':state()['activate']}
+        snapshot=core('GetConfig');config=snapshot['config'];config['snippets'][0]['preserve']=False
+        core('CommitConfig',{'requestId':'consume','expectedRevision':snapshot['revision'],'config':config})
+        reset_field();type_word();previous=state()['activate'];key(65293)
+        wait(lambda:state()['text']=='2003' and not call({'operation':'textInfo'})['pending'])
+        assert state()['activate']==previous;results['nativeConsumeEnter']=True
+        snapshot=core('GetConfig');config=snapshot['config'];config['snippets'][0]['trigger']='immediate'
+        core('CommitConfig',{'requestId':'immediate','expectedRevision':snapshot['revision'],'config':config})
+        reset_field()
+        for char in 'abc':key(ord(char))
+        wait(lambda:state()['text']=='2003');results['nativeImmediate']=state()['text']
+        wait(lambda:call({'operation':'textInfo'})['undo']);key(0xff51)
+        wait(lambda:not call({'operation':'textInfo'})['undo']);results['nativeNavigationInvalidatesUndo']=True
+        reset_field();call({'operation':'textInput','window':a['handle'],'text':'abc'})
+        wait(lambda:state()['text']=='abc');assert call({'operation':'textInfo'})['lastInput'] is None
+        assert not call({'operation':'textInfo'})['pending'];results['nativeActionInputSuppressed']=True
+        snapshot=core('GetConfig');config=snapshot['config'];config['snippets'].append({'id':'generated','key':'2003','value':'recursive','enabled':True,'applicationId':None,'trigger':'immediate','caseSensitive':True,'boundary':True,'preserve':True})
+        core('CommitConfig',{'requestId':'recursion','expectedRevision':snapshot['revision'],'config':config})
+        reset_field()
+        for char in 'abc':key(ord(char))
+        wait(lambda:state()['text']=='2003' and not call({'operation':'textInfo'})['pending'])
+        assert call({'operation':'textInfo'})['lastInput'] is None;results['nativeGeneratedExpansionNotRecursive']=True
+        reset_field()
+        for char in 'abc':call({'operation':'keyInput','window':a['handle'],'key':char,'value':'按下并释放'})
+        try:wait(lambda:state()['text']=='abc')
+        finally:results['nativeOwnKeyboardState']={'client':state(),'text':call({'operation':'textInfo'})}
+        results['nativeOwnKeyboardInputSuppressed']=True
+        focus('password')
+        for char in 'abc':key(ord(char))
+        key(32);wait(lambda:state()['password']=='abc ');previous=state()['passwordActivate'];key(65293)
+        wait(lambda:state()['passwordActivate']==previous+1);results['nativePasswordSkipped']=True
+        focus();reset_field();snapshot=core('GetConfig');config=snapshot['config'];config['exclusions']=[{'applicationId':a['applicationId'],'text':True,'gestures':False}]
+        core('CommitConfig',{'requestId':'excluded','expectedRevision':snapshot['revision'],'config':config});wait(lambda:not call({'operation':'textInfo'})['snapshot'])
+        type_word();key(32);wait(lambda:state()['text']=='abc ');results['nativeApplicationExclusion']=True
+        focus();reset_field();snapshot=core('GetConfig');config=snapshot['config'];config['settings']['textEnabled']=False
+        core('CommitConfig',{'requestId':'disable','expectedRevision':snapshot['revision'],'config':config});wait(lambda:call({'operation':'textInfo'})['grabs']==0)
+        type_word();key(32);wait(lambda:state()['text']=='abc ');results['nativeDisabledPassThrough']=True
+        if '--multiline' in sys.argv:
+            from gnome_text_multiline import check
+            check(call,core,wait,connection,key,state,results,True)
+        if '--focus-race' in sys.argv:
+            from gnome_text_focus import check
+            check(call,core,wait,connection,key,state,results,True)
+        if '--ime' in sys.argv:
+            from gnome_text_ime import check
+            check(call,core,wait,key,state,results)
+        if '--lifecycle' in sys.argv:
+            from gnome_text_lifecycle import check
+            check(REPO,root,processes,spawn,call,core,wait,connection,focus,reset_field,key,state,results)
+        results['complete']=True
+        sys.exit(0)
     call({'operation':'registerBarrier','leaseId':'00000000-0000-0000-0000-000000000001'});results['barrierRegistration']=True
     focused=wait(lambda:call({'action':'snapshot'},False).get('focus'))
     call({'action':'key','keyval':0xffd5,'pressed':True},False)

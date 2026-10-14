@@ -5,6 +5,7 @@ import { toConfig, fromConfig, setCatalog, type EditorDocument } from './adapter
 import definitions from '../../../crates/model/action-catalog.json';
 import type { Snapshot, Reply, Status, RuntimeInfo, ActionCapability, MouseDevice, RecognitionRequest, RecognitionResult } from './generated/protocol';
 import { PROTOCOL_VERSION } from './generated/protocol';
+import type { TextMatchRequest, TextExpansion } from './generated/protocol';
 export class Backend {
  revision=0;connected=false;lastError='';pendingWrites=0;
  onError=(message:string)=>console.error(message);
@@ -29,7 +30,7 @@ export class Backend {
   setCatalog(definitions);
   await listen<string>('navigate-request',event=>this.onPage(event.payload));
   await listen<boolean>('core-connected',event=>{if(event.payload)this.reconnect().catch(error=>{this.connected=false;this.lastError=String(error);this.onConnection(false)});else{this.connected=false;this.lastError='后台连接已中断，请重新连接后保存。';this.onConnection(false)}});
-  await listen<string>('config-changed',event=>{if(!this.connected)return;const snapshot=JSON.parse(event.payload) as Snapshot;if(!this.writing&&snapshot.revision!==this.revision&&this.onConfig(fromConfig(snapshot.config)))this.revision=snapshot.revision;});
+  await listen<string>('config-changed',event=>{if(!this.connected)return;const snapshot=JSON.parse(event.payload) as Snapshot;if(!this.writing&&snapshot.revision>this.revision&&this.onConfig(fromConfig(snapshot.config)))this.revision=snapshot.revision;});
   await listen<string>('runtime-changed',event=>{const update=JSON.parse(event.payload);if(update.event==='capability')this.runtime=update.runtime;this.onRuntime(update)});
   try{this.runtime=await this.call<RuntimeInfo>('get_runtime');await this.getCapabilities().catch(()=>{});const snapshot=await this.snapshot();this.revision=snapshot.revision;this.connected=true;return fromConfig(snapshot.config);}
   catch(error){this.lastError=String(error);this.connected=false;const fallback=JSON.parse(await invoke<string>('default_config')) as Snapshot;return fromConfig(fallback.config);}
@@ -46,6 +47,7 @@ export class Backend {
  async control(operation:string){return this.call('runtime_control',{operation});}
  async recognize(request:RecognitionRequest){return this.call<RecognitionResult>('recognize_stroke',request);}
  async compare(points:number[][],samples:number[][][]){return this.call<number[]>('compare_strokes',{points,samples});}
+ async testTextRule(request:TextMatchRequest){await this.flush();return this.call<TextExpansion|null>('test_text_rule',request);}
  async getRuntime(){this.runtime=await this.call<RuntimeInfo>('get_runtime');this.onRuntime({event:'capability',runtime:this.runtime});return this.runtime;}
  async listDevices(){return this.call<MouseDevice[]>('list_devices');}
  async listWindows(){return this.call<{handle:{instance:string,id:string},title:string,applicationId:string}[]>('list_windows');}

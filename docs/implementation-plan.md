@@ -249,6 +249,8 @@ C04/C05 包含动作目录中尚未完成的系统接入验证，不能把核心
 
 ### D：真实文本替换
 
+**状态：已完成（2026-10-15）。** 扩展程序验收仅在 mutter-devkit 独立 GNOME 环境进行；测试环境通过即视为通过，不要求主桌面重复测试。
+
 | ID | 依赖 | 实施与代码归属 | 通过条件 |
 | --- | --- | --- | --- |
 | D01 | A02–04、B02 | core/text：规则匹配、逐条四种触发、关键词边界/大小写/专属覆盖、多行、确认保留/吞掉；页内测试与全局共享匹配逻辑 | 应用专属触发覆盖全局、停用回退；立即模式不假设后边界；编辑弹窗和页内测试结果真实 |
@@ -258,7 +260,50 @@ C04/C05 包含动作目录中尚未完成的系统接入验证，不能把核心
 
 撤销使用文本适配器的“最近替换”记录；普通编辑器在可验证的紧邻状态下截获 Ctrl+Z 恢复关键词并保留原确认语义，否则交还应用原生撤销。终端采用仅紧邻可验证状态的撤销，不宣称具备文档级撤销；在没有可靠范围时不注入猜测删除。快捷键处理必须不抢输入法组合确认，具体实机行为在 D04 验收并记入用户帮助。
 
+D 阶段实施记录（历史过程，2026-10-14 起）：
+
+- D01：新增 `crates/core/src/text.rs` 正式共享匹配器及 `TestTextRule` D-Bus/Tauri 接口；四种触发、启用专属规则跨触发方式覆盖全局、停用回退、前边界、大小写、多行、确认保留/吞掉，以及开关/应用排除/组合/密码策略由 core 统一处理。协议文本偏移使用 Unicode scalar，UI 在应用时转换为 DOM 的 UTF-16 偏移。
+- 页内试输入已移除独立 JS 匹配算法和固定示例说明，使用已保存的正式配置；异步结果校验输入、光标、应用和组合状态，粘贴/删除不触发，自身生成内容不再次匹配。页内撤销在紧邻未变化状态恢复原输入，导航后失效；这不代表 D04 全局撤销已完成。
+- 已验证：`cargo test -p waystroke-core text::tests`（2 个代表性测试）、`cargo build -p waystroke-core --offline`、`python3 scripts/check-core.py`（新增实际文本 RPC、多行、Unicode 边界、组合、普通密码跳过/终端密码允许检查）、`npm run check --prefix apps/desktop`、`npm run web:build --prefix apps/desktop` 均通过。页内原生窗口交互验收仍待完成；后续原生 GTK 增量见下一条。阶段 D 不算完成。
+
+- D02/D04 原生增量：新增 `extension/text.js`，直接连接真实 `surrounding-text-set` 与 IME 后 `notify_key_event`；原生确认键在后处理入口消费并用 `forward_key` 保留原语义，不能依赖原生通知后并未触发的 Shell accelerator。替换前核对焦点/窗口/文本/选区/请求代次，替换后以客户端周围文本确认结果。提供紧邻 Ctrl+Z 撤销、导航失效、生成文本抑制、密码与排除直接透传、配置开关/后台身份订阅，以及 disable 信号/定时器/accelerator/输入法包装清理。开发安装与隔离检查复制新模块，不更新主会话。
+- 原生 GTK 隔离验收通过：`python3 scripts/check-gnome.py --devkit --phase-d-text`；证据 `fixtures/phase-d/native-gtk.json`、受测源码哈希 `native-source.json`。空格/Enter、立即、确认保留/吞掉、紧邻撤销/原空格保留、导航失效、动作生成文本抑制与替换不递归、普通密码跳过、应用排除及开关透传均通过；鼠标未授权。测试夹具状态改为原子更新，修复读取半写 JSON 的竞态。仍待 Firefox/Electron、中文多行/IME、旧焦点专项、Rust AT-SPI/XWayland、通用终端、锁屏/断连专项与真实运行状态页面，D02–D04 不标记完成。
+
+- D03/D04 终端增量：新增 `extension/terminal.js`，复用 core 匹配器；IME 后按键/真实提交跟踪、关键词长度决定的短尾部、单次 DEL+替换+确认提交、Space/Enter/立即与确认吞掉、紧邻且未提交换行的撤销、导航/快捷键/焦点清理、终端开关/应用排除与生成输入抑制已接入。事件明确为已提交，保留 canonical/Readline/getpass 支持与 raw/TUI 无可靠文档校验的边界；前边界未知不按空文档猜测。没有 Shell 插件依赖。
+- `python3 scripts/check-gnome.py --devkit --phase-d-terminal` 通过；`fixtures/phase-d/terminal-vte.json` 与 `terminal-source.json` 保存结果和源码哈希。真实 Ptyxis/VTE 的 canonical、Readline、getpass（密码仅记录固定夹具结果的长度/匹配布尔值）、四种触发代表分支、Space/Enter 吞掉、紧邻撤销、导航、跨焦点前边界保护、终端关闭/应用排除/动作生成文本、Rime 组合提交与 raw 字节均验证。短时间连续键入暴露的吞 Space 根因已修复为 IME 后排队；原生立即模式等待实际客户端对应文本更新，Shell 确认 accelerator 限制在 XWayland 窗口，避免干扰原生透传。粘贴失效、锁屏/断连专项、浏览器/原生多行/IME、Rust AT-SPI/XWayland 与运行状态界面仍待完成，阶段 D 保持进行中。
+
+- D02 AT-SPI 确认增量：`crates/core/src/atspi.rs` 使用 zbus 连接用户 AT-SPI bus，按辅助功能连接的真实 PID 与 Shell 稳定窗口句柄绑定，过滤密码/终端子树、焦点/可编辑状态、Text/EditableText 接口及选择范围；编辑前后检验文字、光标与桌面代次。`ExpandAccessibleText` 同 UID 授权，400 ms 操作上限，失败不伪称成功。扩展新增 `textGuard` 与 IBus panel 组合/候选状态监控；XWayland 确认 accelerator 调用 Rust 编辑器后才用独立虚拟键路径重放。
+- `python3 scripts/check-gnome.py --devkit --phase-d-atspi` 通过；`fixtures/phase-d/atspi-xwayland.json`/`atspi-source.json` 保存实际结果与源码哈希。XWayland GTK 的正式 RPC、确认空格/Enter、activate 得到替换后的输入、中文 UTF-8 字节长度与 Unicode 光标、密码字段跳过、旧焦点拒绝均通过。私有测试显式启动 AT-SPI bus/registry；曾发生的确认键测试失败来自 Shell 尚在启动动画中，现等待实际 NORMAL 状态。Rust 构建、既有匹配测试及前端类型检查通过。AT-SPI 的立即事件监听/紧邻撤销/自身输入来源、XWayland Rime、多行与浏览器、粘贴与生命周期专项、运行状态和原生页内交互尚待完成；阶段 D 不完成。
+
+- D04 AT-SPI 撤销增量：正式 `UndoAccessibleText`/`ClearAccessibleText`、一次替换的内存令牌、再次校验紧邻范围与光标、确认空格语义保留、光标/焦点真实事件失效及编辑串行锁已实现。Shell `captured-event` 实测不能收到普通 XWayland 应用按键，已删除无效路径；撤销失效由 AT-SPI `TextCaretMoved`/`StateChanged:focused` 负责。来源连接的消息序号排除编辑完成前的旧事件，导航往返不重新激活旧记录。解析当前 GTK 的 `(siiva{sv})` 实际结构，同时兼容旧结构。
+- 本轮 mutter-devkit 验收：`--phase-d-atspi` 的紧邻 Ctrl+Z、确认空格保留与导航往返失效通过，正常确认/Unicode/密码/旧窗口焦点检查仍通过；`--phase-d-text` 原生 GTK 回归通过。证据和源码哈希已更新。AT-SPI 部分编辑错误带阶段信息，焦点变化/超时/部分修改后停止确认键重放，故障专项仍待生命周期测试；停用后的输入法包装在其他扩展持有旧包装时直接透传。Rust 构建与前端类型检查通过。已核对真实 DeviceEventController 接口并归档 XML，但立即模式输入来源监听仍未实施；自身生成/粘贴与原生撤销来源抑制、XWayland Rime、窗口内换焦点竞态、浏览器/多行、生命周期与运行状态等保持待办，阶段 D 不标记完成。
+
+- D02/D04 AT-SPI 立即模式增量：新增 `crates/core/src/atspi_input.rs`，以 GNOME 立即规则末字符 accelerator 建立真实输入起点，再等待对应 AT-SPI 提交；绑定原节点身份，不把后来焦点替代原编辑区域。仅保留一次意图，匹配复用 core；本程序虚拟键盘校准/过滤避免重放与动作生成再次触发，保留实际 Shift 符号。提供真实来源监听状态/错误及计数 API，UI 状态订阅仍待后续统一接入。DeviceEventController 的注册返回值与监听表不足以证明键来源：全局和工具包模式均未收到回调，已移除不可用实验路径，采用已实际证明的 GNOME/AT-SPI 协作路径。
+- `--devkit --phase-d-atspi` 最新检查通过真实立即替换、立即撤销不再触发、动作输入抑制、Ctrl+V 粘贴不触发、Shift/大小写匹配和生成内容不递归；确认、Unicode、密码及旧焦点检查仍通过。`--phase-d-text` 原生 GTK 回归通过；Rust 构建、JS 语法及前端类型检查通过。结果与源码哈希已归档。XWayland 中文 IME 提交/立即模式、浏览器/多行、窗口内换焦点、终端粘贴与生命周期、运行状态与页内原生交互仍待完成，阶段 D 保持进行中。
+
 Zsh ZLE 保留为已验证的可选适配基础，不作为本次通用终端功能前提，也不以只实现Zsh替代D03。首版不新增独立Zsh插件分发需求。
+
+- D04 状态与 UI 增量：`RuntimeInfo.text` 由正式扩展实时提供当前应用/适配器、启用与终端开关、组合/密码/排除/锁屏/不可用状态及撤销可用性；`lastTextResult` 仅保存结果、原因、规则 ID 和时间，不保存输入或替换内容。运行状态页面订阅真实状态，移除文本静态样本；鼠标未选定、未接管时文本仍可用。`python3 scripts/check-ui.py --devkit --phase-d` 通过页内共享匹配器的中文多行与撤销、真实 GTK 替换、最近结果订阅、密码跳过及关闭状态；证据 `fixtures/phase-d/ui-native.json`、`ui-source.json`。测试等待 Shell 启动与正常模式，再建立真实字段输入上下文；GTK 原有 devkit 回归通过。
+- D02 浏览器增量：`python3 scripts/check-gnome.py --devkit --phase-d-browser` 完整通过 Firefox 中文多行/确认保留、可验证单行紧邻撤销、立即替换、密码字段、同窗 textarea → contenteditable，以及真实 Rime 预编辑保护、消费确认键、中文确认和中文立即提交；证据 `fixtures/phase-d/firefox-native.json`、`firefox-source.json`。Firefox 多行可能只回报当前段落，现核对对应段落及光标，并明确记录范围受限的已提交；完整范围不可验证时交还应用原生撤销。原生空格与替换一次提交，IME 提交等待组合结束与文本回报，删除/快捷键后不从旧全文预测后续输入；重复或过期配置版本不再重置当前输入。
+- 输入队列根因修复：Clutter IM API 先排入事件队列，Mutter 随后以 idle 发送 text-input-v3 `done`；同帧多次 `commit_string` 可覆盖前一次提交。队列现等 `after-update` 再以较低优先级继续，不用固定延迟；已处理按键的释放及时传递，确认超时不丢弃同焦点后续输入。`request_surrounding` 只读取合成器缓存，不能强制客户端刷新，实验调用已移除。依据 [Mutter 50.5 text-input](https://raw.githubusercontent.com/GNOME/mutter/50.5/src/wayland/meta-wayland-text-input.c) 与 [Clutter IM API](https://raw.githubusercontent.com/GNOME/mutter/50.5/clutter/clutter/clutter-input-method.c)。移除临时诊断后，原始快速输入节奏的 18 项终端回归全部通过，证据与哈希已更新；GTK 回归通过。Electron 同一完整浏览器分支亦通过：`--devkit --phase-d-browser --electron`，证据 `electron-native.json`、`electron-source.json`。临时 Electron 运行时不修改 Code 安装。XWayland IME、窗口内焦点竞态专项、终端粘贴与生命周期仍待完成，阶段 D 不标记完成。
+
+- D04 生命周期增量：终端 IME 缓冲在应用排除、禁用或输入法未连接时不再积累；用途/隐私判断使用 Clutter 保留的公开属性，避免 IBus 清除私有缓存后丢失密码标志。core 断连以新 owner/连接代次作边界，丢弃旧状态通知与旧配置回复。AT-SPI 关闭的连接不再复用，监听错误定时重连；注册服务换 owner 时清空旧撤销与监听，并重新注册。GTK 在注册服务重启后可能不重新登记应用，core 保留已验证的应用根引用，每次重新核对存活总线身份、实际 PID、焦点/角色/编辑接口，不缓存文本。`--devkit --phase-d-text --lifecycle` 与 `--devkit --phase-d-atspi --lifecycle` 通过真实进程停止/恢复、密码保护、锁屏禁用/解锁清理及同一 GTK 应用的注册服务重启后替换；证据 `lifecycle-native.json`、`lifecycle-atspi.json` 与对应源码记录。
+- 锁屏事件两个入口均同步文本暂停与撤销不可用；扩展随真实锁屏被禁用时，UI 仍明确显示锁屏暂停。前端配置通知只应用更高版本，防止迟到的旧通知重绘并清空页内输入。最新 `--devkit --phase-d` UI 检查通过实际锁屏/解锁、页内共享匹配与状态订阅。新增真实中键粘贴用例尚失败，`terminal-paste-pending.json` 保留未完成证据；未收到客户端鼠标事件的 Clutter 过滤器实验已移除，不将其作为已实现的清理路径。XWayland 中文 IME、焦点竞态专项与终端粘贴仍待完成，阶段 D 保持进行中。
+
+- D03 粘贴收尾（2026-10-15）：生产原生组件观察选区 source 的传输请求，不读取内容、不改变所有权；已有 source 与 owner 更新均覆盖，停用恢复 vfunc。终端无观察组件时明确不可用并透传。最新 devkit 20 项终端验收通过，两个中键粘贴用例覆盖原生 source 和实际 GTK Wayland 外部主选区，VTE 真正读入 `X` 后缓存失效，后续空格保持 `abcX `，不误删旧关键词。GNOME 50 默认关闭中键粘贴，夹具只在私有会话启用；证据 `terminal-vte.json`/`terminal-source.json` 已更新。原生库 MIME 原样读取与观察器停用验证通过。XWayland 中文 IME、焦点竞态专项与最终帮助审计仍待完成，阶段 D 保持进行中。
+
+- D02 XWayland 中文 IME 收尾（2026-10-15）：`--devkit --phase-d-atspi --ime --lifecycle` 完整分支通过真实 GTK/Rime 的组合保护、`你哈哦` 提交、确认吞掉与中文立即替换，同时保留旧 ASCII/Shift/撤销/导航/生成及粘贴抑制与注册服务恢复。组合确认改为独立 Clutter 转发对象排入按下/释放，绑定在实际帧之后恢复；不触碰 Main 输入法焦点。未生效的 XTEST/XSendEvent 实验已移除，普通重放继续用已验证虚拟设备。立即来源绑定提交前节点/上下文，核对实际插入和提交后的范围/光标，等待组合结束，500ms 自动过期；IBus 面板销毁时清除旧引用。`atspi-xwayland.json`/`atspi-source.json` 和生命周期证据已更新；原生 GTK 生命周期回归通过。焦点竞态专项与最终帮助审计仍待完成，阶段 D 不标记完成。
+
+D 最终验收（2026-10-15）：以下结果替代历史条目中的“待完成/进行中”，原需求范围未缩减。
+
+| 项目 | 完成依据 |
+| --- | --- |
+| D01 | `core/text.rs` 与正式 TestTextRule 接口共享页内/全局匹配；现有规则编辑后保存及实际大小写/立即匹配、页内多行/撤销通过。Rust 测试证明四种触发、前边界、专属跨触发覆盖、停用回退、大小写、多行和输入策略；GTK/XWayland/VTE 另验证空格结尾的合法立即关键词。 |
+| D02 | 原生 GTK、Firefox、Electron、XWayland GTK 的实际替换和中文多行通过；各正式路径的 Rime 组合保护、确认/立即提交通过，非终端密码跳过。真实同窗字段切换取消等待中的旧请求，新字段仍能替换；旧窗口请求拒绝。XWayland 以原键码/修饰状态和自身来源重放，Caps Lock、Shift 及按键保持均通过。 |
+| D03 | 当前 Ptyxis/VTE 的 24 项检查通过 canonical、Readline、getpass、确认/立即/吞掉、中文关键词、紧邻撤销、导航/焦点/快捷键/真实粘贴清理、开关/排除/生成输入与 raw 字节。没有 Shell 插件依赖，普通和密码终端输入均参与；raw/TUI 结果仍明确为已提交而非已校验文档。 |
+| D04 | 原生与 XWayland 生成内容不递归，自身按键及异步 IBus 提交抑制通过；撤销只用于当前可确认范围，导航后 core 和界面缓存均失效。开关/排除、真实状态/最近结果、锁屏、core/IBus 断连恢复、AT-SPI 注册服务重启恢复通过；鼠标未授权不阻止文本。用户帮助已加入并经实际窗口截图核对。 |
+
+最终证据及重跑命令见 [`fixtures/phase-d/README.md`](../fixtures/phase-d/README.md)，包含实际受测扩展副本哈希、结果和帮助截图。Rust 6 + 4 项、原生组件构建/MIME/停用检查、前端类型检查/Vite、桌面 custom-protocol 构建与 diff 检查通过。主桌面未部署或重复测试。
 
 ### E：配置迁移、备份与全页面闭环
 

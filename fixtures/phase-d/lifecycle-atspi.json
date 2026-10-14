@@ -1,0 +1,797 @@
+{
+  "hello": {
+    "protocolVersion": 1,
+    "instance": "4fba2bbf-c721-42bb-b0ba-d603583280bc",
+    "locked": false,
+    "shellVersion": "50.5",
+    "capabilities": [
+      "liveRuleName",
+      "bottomFeedback",
+      "quietGestureStart",
+      "declarativeActionsV1",
+      "stableInputFocus"
+    ]
+  },
+  "devkit": {
+    "viewer": true,
+    "privateBusAndConfig": true,
+    "softwareRenderingForced": false,
+    "clipboardForwardingDisabled": [
+      "/org/gnome/Mutter/RemoteDesktop/Session/u1"
+    ]
+  },
+  "windows": [
+    {
+      "handle": {
+        "instance": "4fba2bbf-c721-42bb-b0ba-d603583280bc",
+        "id": "1"
+      },
+      "title": "Probe A",
+      "applicationId": "org.waystroke.ProbeClient",
+      "clientType": 1
+    },
+    {
+      "handle": {
+        "instance": "4fba2bbf-c721-42bb-b0ba-d603583280bc",
+        "id": "2"
+      },
+      "title": "Probe B",
+      "applicationId": "org.waystroke.ProbeClient",
+      "clientType": 1
+    }
+  ],
+  "accessibleInitialState": {
+    "client": {
+      "f24": 0,
+      "text": "abc",
+      "second": "",
+      "password": "",
+      "multiline": "",
+      "rightPress": 0,
+      "rightRelease": 0,
+      "activate": 0,
+      "activatedText": "",
+      "passwordActivate": 0,
+      "passwordActivatedLength": 0,
+      "active": "normal"
+    },
+    "shell": {
+      "xDisplay": ":6",
+      "xAuthority": "/tmp/waystroke-desktop-check-u2osej1o/runtime/.mutter-Xwaylandauth.U076W3",
+      "monitors": 1,
+      "stageSize": [
+        1280,
+        800
+      ],
+      "pointer": [
+        924,
+        216,
+        0
+      ],
+      "overview": false,
+      "counts": {
+        "buttons": 0,
+        "keys": 0,
+        "motions": 1
+      },
+      "focus": "Probe A",
+      "ime": {
+        "source": "us",
+        "engine": "dummy",
+        "hasFocus": false,
+        "preedit": false,
+        "purpose": 0,
+        "hints": 0,
+        "surrounding": [
+          null,
+          null,
+          null
+        ]
+      },
+      "windows": [
+        {
+          "title": "Probe B",
+          "rect": {
+            "x": 585,
+            "y": 392,
+            "width": 210,
+            "height": 149
+          },
+          "clientType": 1
+        },
+        {
+          "title": "Probe A",
+          "rect": {
+            "x": 535,
+            "y": 342,
+            "width": 210,
+            "height": 149
+          },
+          "clientType": 1
+        }
+      ]
+    },
+    "text": {
+      "enabled": true,
+      "grabs": 3,
+      "pending": false,
+      "applying": false,
+      "generation": 11,
+      "candidates": 0,
+      "lastInput": null,
+      "preedit": false,
+      "panelComposing": false,
+      "panelKnown": true,
+      "snapshot": false,
+      "undo": false,
+      "bindingMode": 1,
+      "actionMode": 1,
+      "hasNativeFocus": false,
+      "accessibleUndo": false,
+      "nativeExpected": null,
+      "processing": false,
+      "revision": 1,
+      "sensitive": false,
+      "ibusConnected": true,
+      "pasteRequests": 0,
+      "terminalLength": 0
+    }
+  },
+  "accessibleGuard": {
+    "instance": "4fba2bbf-c721-42bb-b0ba-d603583280bc",
+    "generation": 11,
+    "window": {
+      "instance": "4fba2bbf-c721-42bb-b0ba-d603583280bc",
+      "id": "1"
+    },
+    "applicationId": "org.waystroke.ProbeClient",
+    "pid": 2468881,
+    "clientType": 1,
+    "composing": false,
+    "imeKnown": true,
+    "locked": false,
+    "enabled": true
+  },
+  "accessibleRpc": {
+    "adapter": "atspi",
+    "matched": true,
+    "preserve": true,
+    "ruleId": "accessible",
+    "undoToken": "7941927d-925d-472d-84fd-9cd9ce1f62f7"
+  },
+  "accessibleSpaceReplayState": {
+    "client": {
+      "f24": 0,
+      "text": "2003 ",
+      "second": "",
+      "password": "",
+      "multiline": "",
+      "rightPress": 0,
+      "rightRelease": 0,
+      "activate": 0,
+      "activatedText": "",
+      "passwordActivate": 0,
+      "passwordActivatedLength": 0,
+      "active": "normal"
+    },
+    "shell": {
+      "xDisplay": ":6",
+      "xAuthority": "/tmp/waystroke-desktop-check-u2osej1o/runtime/.mutter-Xwaylandauth.U076W3",
+      "monitors": 1,
+      "stageSize": [
+        1280,
+        800
+      ],
+      "pointer": [
+        924,
+        216,
+        0
+      ],
+      "overview": false,
+      "counts": {
+        "buttons": 0,
+        "keys": 0,
+        "motions": 1
+      },
+      "focus": "Probe A",
+      "ime": {
+        "source": "us",
+        "engine": "dummy",
+        "hasFocus": false,
+        "preedit": false,
+        "purpose": 0,
+        "hints": 0,
+        "surrounding": [
+          null,
+          null,
+          null
+        ]
+      },
+      "windows": [
+        {
+          "title": "Probe B",
+          "rect": {
+            "x": 585,
+            "y": 392,
+            "width": 210,
+            "height": 149
+          },
+          "clientType": 1
+        },
+        {
+          "title": "Probe A",
+          "rect": {
+            "x": 535,
+            "y": 342,
+            "width": 210,
+            "height": 149
+          },
+          "clientType": 1
+        }
+      ]
+    },
+    "text": {
+      "enabled": true,
+      "grabs": 3,
+      "pending": false,
+      "applying": false,
+      "generation": 11,
+      "candidates": 0,
+      "lastInput": null,
+      "preedit": false,
+      "panelComposing": false,
+      "panelKnown": true,
+      "snapshot": false,
+      "undo": false,
+      "bindingMode": 1,
+      "actionMode": 1,
+      "hasNativeFocus": false,
+      "accessibleUndo": false,
+      "confirms": 1,
+      "nativeExpected": null,
+      "processing": false,
+      "revision": 1,
+      "sensitive": false,
+      "ibusConnected": true,
+      "pasteRequests": 0,
+      "terminalLength": 0
+    }
+  },
+  "accessibleConfirmedSpace": "2003 ",
+  "accessibleAcceleratorEnter": true,
+  "accessibleAfterEnter": {
+    "enabled": true,
+    "grabs": 3,
+    "pending": false,
+    "applying": false,
+    "generation": 11,
+    "candidates": 0,
+    "lastInput": null,
+    "preedit": false,
+    "panelComposing": false,
+    "panelKnown": true,
+    "snapshot": false,
+    "undo": false,
+    "bindingMode": 1,
+    "actionMode": 1,
+    "hasNativeFocus": false,
+    "accessibleUndo": true,
+    "accessibleToken": "f12ee678-91d8-4167-9871-3e8b93cca6a3",
+    "confirms": 2,
+    "nativeExpected": null,
+    "processing": false,
+    "revision": 1,
+    "sensitive": false,
+    "ibusConnected": true,
+    "pasteRequests": 0,
+    "terminalLength": 0
+  },
+  "accessibleAdjacentUndo": true,
+  "accessibleStageEvents": {
+    "buttons": 0,
+    "keys": 0,
+    "motions": 1
+  },
+  "accessibleUnicodeByteLength": "中文 ",
+  "accessibleUndoPreservesConfirmationSpace": true,
+  "accessibleNavigationInvalidatesUndo": true,
+  "accessibleUndoStatusCleared": true,
+  "accessiblePasswordSkipped": true,
+  "accessibleOldFocusRejected": true,
+  "accessibleImmediateStatus": {
+    "immediateReady": true,
+    "inputError": null,
+    "inputKeys": 0,
+    "undoAvailable": false
+  },
+  "accessibleRealImmediate": true,
+  "accessibleImmediateFinalStatus": {
+    "immediateReady": true,
+    "inputError": null,
+    "inputKeys": 1,
+    "undoAvailable": true
+  },
+  "accessibleImmediateUndoNoRetrigger": true,
+  "accessibleActionInputSuppressed": true,
+  "accessiblePasteDoesNotTrigger": true,
+  "accessibleShiftedImmediateCaseFold": true,
+  "accessibleGeneratedExpansionNotRecursive": true,
+  "accessibleCapsLockSensitiveImmediate": true,
+  "accessibleCapsState": {
+    "client": {
+      "f24": 0,
+      "text": "2003",
+      "second": "",
+      "password": "abc ",
+      "multiline": "",
+      "rightPress": 0,
+      "rightRelease": 0,
+      "activate": 1,
+      "activatedText": "2003",
+      "passwordActivate": 0,
+      "passwordActivatedLength": 0,
+      "active": "normal"
+    },
+    "text": {
+      "enabled": true,
+      "grabs": 5,
+      "pending": false,
+      "applying": false,
+      "generation": 26,
+      "candidates": 0,
+      "lastInput": null,
+      "preedit": false,
+      "panelComposing": false,
+      "panelKnown": true,
+      "snapshot": false,
+      "undo": false,
+      "bindingMode": 1,
+      "actionMode": 1,
+      "hasNativeFocus": false,
+      "accessibleUndo": true,
+      "accessibleToken": "11c48d45-f918-4801-ae7f-bc57ee797ead",
+      "confirms": 12,
+      "nativeExpected": null,
+      "processing": false,
+      "revision": 6,
+      "sensitive": false,
+      "ibusConnected": true,
+      "pasteRequests": 0,
+      "terminalLength": 0
+    }
+  },
+  "accessibleHeldKeyImmediate": true,
+  "accessibleGtkMultiline": "2003\n中文 ",
+  "accessibleGtkMultilineContext": {
+    "enabled": true,
+    "grabs": 3,
+    "pending": false,
+    "applying": false,
+    "generation": 30,
+    "candidates": 0,
+    "lastInput": null,
+    "preedit": false,
+    "panelComposing": false,
+    "panelKnown": true,
+    "snapshot": false,
+    "undo": false,
+    "bindingMode": 1,
+    "actionMode": 1,
+    "hasNativeFocus": false,
+    "accessibleUndo": true,
+    "accessibleToken": "7995fd7a-b6f3-44af-8599-fb9abbd2bc07",
+    "confirms": 14,
+    "nativeExpected": null,
+    "processing": false,
+    "revision": 8,
+    "sensitive": false,
+    "ibusConnected": true,
+    "pasteRequests": 0,
+    "terminalLength": 0
+  },
+  "accessibleGtkMultilineUndo": true,
+  "accessibleGtkImmediateSpaceKeyword": true,
+  "accessibleInFlightSameWindowFocusCancelled": true,
+  "accessibleNewFieldStillExpands": true,
+  "accessibleIbusConnection": {
+    "connected": true,
+    "context": "/org/freedesktop/IBus/InputContext_4",
+    "engine": "xkb:us::eng"
+  },
+  "accessibleImeSource": {
+    "panelState": {
+      "lookupVisible": false,
+      "preeditVisible": false,
+      "context": null
+    },
+    "xDisplay": ":6",
+    "xAuthority": "/tmp/waystroke-desktop-check-u2osej1o/runtime/.mutter-Xwaylandauth.U076W3",
+    "monitors": 1,
+    "stageSize": [
+      1280,
+      800
+    ],
+    "pointer": [
+      924,
+      216,
+      0
+    ],
+    "overview": false,
+    "counts": {
+      "buttons": 0,
+      "keys": 0,
+      "motions": 1
+    },
+    "focus": "Probe A",
+    "ime": {
+      "source": "rime",
+      "engine": "dummy",
+      "hasFocus": false,
+      "preedit": false,
+      "purpose": 0,
+      "hints": 0,
+      "surrounding": [
+        null,
+        null,
+        null
+      ]
+    },
+    "windows": [
+      {
+        "title": "Probe B",
+        "rect": {
+          "x": 585,
+          "y": 392,
+          "width": 210,
+          "height": 149
+        },
+        "clientType": 1
+      },
+      {
+        "title": "Probe A",
+        "rect": {
+          "x": 535,
+          "y": 342,
+          "width": 210,
+          "height": 149
+        },
+        "clientType": 1
+      }
+    ]
+  },
+  "accessibleImePreeditState": {
+    "client": {
+      "f24": 0,
+      "text": "",
+      "second": "2003",
+      "password": "abc ",
+      "multiline": "abc ",
+      "rightPress": 0,
+      "rightRelease": 0,
+      "activate": 1,
+      "activatedText": "2003",
+      "passwordActivate": 0,
+      "passwordActivatedLength": 0,
+      "active": "normal"
+    },
+    "shell": {
+      "panelState": {
+        "lookupVisible": true,
+        "preeditVisible": false,
+        "context": null
+      },
+      "xDisplay": ":6",
+      "xAuthority": "/tmp/waystroke-desktop-check-u2osej1o/runtime/.mutter-Xwaylandauth.U076W3",
+      "monitors": 1,
+      "stageSize": [
+        1280,
+        800
+      ],
+      "pointer": [
+        924,
+        216,
+        0
+      ],
+      "overview": false,
+      "counts": {
+        "buttons": 0,
+        "keys": 0,
+        "motions": 1
+      },
+      "focus": "Probe A",
+      "ime": {
+        "source": "rime",
+        "engine": "dummy",
+        "hasFocus": false,
+        "preedit": false,
+        "purpose": 0,
+        "hints": 0,
+        "surrounding": [
+          null,
+          null,
+          null
+        ]
+      },
+      "windows": [
+        {
+          "title": "Probe B",
+          "rect": {
+            "x": 585,
+            "y": 392,
+            "width": 210,
+            "height": 149
+          },
+          "clientType": 1
+        },
+        {
+          "title": "Probe A",
+          "rect": {
+            "x": 535,
+            "y": 342,
+            "width": 210,
+            "height": 149
+          },
+          "clientType": 1
+        }
+      ]
+    },
+    "text": {
+      "enabled": true,
+      "grabs": 3,
+      "pending": false,
+      "applying": false,
+      "generation": 44,
+      "candidates": 0,
+      "lastInput": null,
+      "preedit": false,
+      "panelComposing": true,
+      "panelKnown": true,
+      "snapshot": false,
+      "undo": false,
+      "bindingMode": 1,
+      "actionMode": 1,
+      "hasNativeFocus": false,
+      "accessibleUndo": false,
+      "confirms": 18,
+      "failure": "焦点、输入法或文本接入状态已变化，取消 AT-SPI 操作",
+      "nativeExpected": null,
+      "processing": false,
+      "revision": 12,
+      "sensitive": false,
+      "ibusConnected": true,
+      "pasteRequests": 0,
+      "terminalLength": 0
+    }
+  },
+  "accessibleImePreeditProtected": true,
+  "accessibleImeAfterConfirm": {
+    "client": {
+      "f24": 0,
+      "text": "你哈哦",
+      "second": "2003",
+      "password": "abc ",
+      "multiline": "abc ",
+      "rightPress": 0,
+      "rightRelease": 0,
+      "activate": 1,
+      "activatedText": "2003",
+      "passwordActivate": 0,
+      "passwordActivatedLength": 0,
+      "active": "normal"
+    },
+    "guard": {
+      "instance": "4fba2bbf-c721-42bb-b0ba-d603583280bc",
+      "generation": 44,
+      "window": {
+        "instance": "4fba2bbf-c721-42bb-b0ba-d603583280bc",
+        "id": "1"
+      },
+      "applicationId": "org.waystroke.ProbeClient",
+      "pid": 2468881,
+      "clientType": 1,
+      "composing": false,
+      "imeKnown": true,
+      "locked": false,
+      "enabled": true
+    },
+    "text": {
+      "enabled": true,
+      "grabs": 3,
+      "pending": false,
+      "applying": false,
+      "generation": 44,
+      "candidates": 0,
+      "lastInput": null,
+      "preedit": false,
+      "panelComposing": false,
+      "panelKnown": true,
+      "snapshot": false,
+      "undo": false,
+      "bindingMode": 1,
+      "actionMode": 1,
+      "hasNativeFocus": false,
+      "accessibleUndo": false,
+      "confirms": 19,
+      "failure": "焦点、输入法或文本接入状态已变化，取消 AT-SPI 操作",
+      "nativeExpected": null,
+      "processing": false,
+      "revision": 12,
+      "sensitive": false,
+      "ibusConnected": true,
+      "pasteRequests": 0,
+      "terminalLength": 0
+    },
+    "shell": {
+      "panelState": {
+        "lookupVisible": false,
+        "preeditVisible": false,
+        "context": null
+      },
+      "xDisplay": ":6",
+      "xAuthority": "/tmp/waystroke-desktop-check-u2osej1o/runtime/.mutter-Xwaylandauth.U076W3",
+      "monitors": 1,
+      "stageSize": [
+        1280,
+        800
+      ],
+      "pointer": [
+        924,
+        216,
+        0
+      ],
+      "overview": false,
+      "counts": {
+        "buttons": 0,
+        "keys": 0,
+        "motions": 1
+      },
+      "focus": "Probe A",
+      "ime": {
+        "source": "rime",
+        "engine": "dummy",
+        "hasFocus": false,
+        "preedit": false,
+        "purpose": 0,
+        "hints": 0,
+        "surrounding": [
+          null,
+          null,
+          null
+        ]
+      },
+      "windows": [
+        {
+          "title": "Probe B",
+          "rect": {
+            "x": 585,
+            "y": 392,
+            "width": 210,
+            "height": 149
+          },
+          "clientType": 1
+        },
+        {
+          "title": "Probe A",
+          "rect": {
+            "x": 535,
+            "y": 342,
+            "width": 210,
+            "height": 149
+          },
+          "clientType": 1
+        }
+      ]
+    }
+  },
+  "accessibleImeCommittedKeyword": "你哈哦",
+  "accessibleImeConfirmedExpansion": true,
+  "accessibleImeImmediateCommit": true,
+  "accessibleImeFinal": {
+    "client": {
+      "f24": 0,
+      "text": "中文",
+      "second": "2003",
+      "password": "abc ",
+      "multiline": "abc ",
+      "rightPress": 0,
+      "rightRelease": 0,
+      "activate": 1,
+      "activatedText": "2003",
+      "passwordActivate": 0,
+      "passwordActivatedLength": 0,
+      "active": "normal"
+    },
+    "text": {
+      "enabled": true,
+      "grabs": 3,
+      "pending": false,
+      "applying": false,
+      "generation": 46,
+      "candidates": 0,
+      "lastInput": null,
+      "preedit": false,
+      "panelComposing": false,
+      "panelKnown": true,
+      "snapshot": false,
+      "undo": false,
+      "bindingMode": 1,
+      "actionMode": 1,
+      "hasNativeFocus": false,
+      "accessibleUndo": true,
+      "accessibleToken": "a9a3ad07-5ac9-47b0-b169-02eab8ae504c",
+      "confirms": 21,
+      "failure": "焦点、输入法或文本接入状态已变化，取消 AT-SPI 操作",
+      "nativeExpected": null,
+      "processing": false,
+      "revision": 14,
+      "sensitive": false,
+      "ibusConnected": true,
+      "pasteRequests": 0,
+      "terminalLength": 0
+    },
+    "shell": {
+      "panelState": {
+        "lookupVisible": false,
+        "preeditVisible": false,
+        "context": null
+      },
+      "xDisplay": ":6",
+      "xAuthority": "/tmp/waystroke-desktop-check-u2osej1o/runtime/.mutter-Xwaylandauth.U076W3",
+      "monitors": 1,
+      "stageSize": [
+        1280,
+        800
+      ],
+      "pointer": [
+        924,
+        216,
+        0
+      ],
+      "overview": false,
+      "counts": {
+        "buttons": 0,
+        "keys": 0,
+        "motions": 1
+      },
+      "focus": "Probe A",
+      "ime": {
+        "source": "rime",
+        "engine": "dummy",
+        "hasFocus": false,
+        "preedit": false,
+        "purpose": 0,
+        "hints": 0,
+        "surrounding": [
+          null,
+          null,
+          null
+        ]
+      },
+      "windows": [
+        {
+          "title": "Probe B",
+          "rect": {
+            "x": 585,
+            "y": 392,
+            "width": 210,
+            "height": 149
+          },
+          "clientType": 1
+        },
+        {
+          "title": "Probe A",
+          "rect": {
+            "x": 535,
+            "y": 342,
+            "width": 210,
+            "height": 149
+          },
+          "clientType": 1
+        }
+      ]
+    }
+  },
+  "registryRootsAfterRestart": [],
+  "accessibleRegistryReconnectRestoresText": true,
+  "complete": true
+}

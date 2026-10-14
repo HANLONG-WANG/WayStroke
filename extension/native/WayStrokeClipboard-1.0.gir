@@ -6,5 +6,20 @@
       <return-value transfer-ownership="full"><type name="GObject.Object" c:type="GObject*"/></return-value>
       <parameters><parameter name="contents" transfer-ownership="none"><type name="GLib.Variant" c:type="GVariant*"/></parameter></parameters>
     </function>
+    <function name="watch_new" c:identifier="waystroke_clipboard_watch_new">
+      <return-value transfer-ownership="full"><type name="GObject.Object" c:type="GObject*"/></return-value>
+    </function>
+    <function name="watch_add_source" c:identifier="waystroke_clipboard_watch_add_source">
+      <return-value transfer-ownership="none"><type name="none" c:type="void"/></return-value>
+      <parameters><parameter name="watch" transfer-ownership="none"><type name="GObject.Object" c:type="GObject*"/></parameter><parameter name="source" transfer-ownership="none"><type name="GObject.Object" c:type="GObject*"/></parameter></parameters>
+    </function>
+    <function name="watch_stop" c:identifier="waystroke_clipboard_watch_stop">
+      <return-value transfer-ownership="none"><type name="none" c:type="void"/></return-value>
+      <parameters><parameter name="watch" transfer-ownership="none"><type name="GObject.Object" c:type="GObject*"/></parameter></parameters>
+    </function>
+    <function name="x11_replay" c:identifier="waystroke_clipboard_x11_replay">
+      <return-value transfer-ownership="none"><type name="none" c:type="void"/></return-value>
+      <parameters><parameter name="source" transfer-ownership="none"><type name="GObject.Object" c:type="GObject*"/></parameter><parameter name="keyval" transfer-ownership="none"><type name="guint" c:type="guint"/></parameter><parameter name="keycode" transfer-ownership="none"><type name="guint" c:type="guint"/></parameter><parameter name="modifiers" transfer-ownership="none"><type name="guint" c:type="guint"/></parameter><parameter name="pressed" transfer-ownership="none"><type name="guint" c:type="guint"/></parameter><parameter name="latched" transfer-ownership="none"><type name="guint" c:type="guint"/></parameter><parameter name="locked" transfer-ownership="none"><type name="guint" c:type="guint"/></parameter></parameters>
+    </function>
   </namespace>
 </repository>

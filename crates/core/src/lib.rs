@@ -1,5 +1,8 @@
 //! Configuration writes are serialized here, never in the desktop webview.
 pub mod gesture;
+pub mod text;
+pub mod atspi;
+mod atspi_input;
 pub mod input;
 pub mod desktop;
 pub mod runtime;

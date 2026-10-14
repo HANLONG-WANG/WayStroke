@@ -5,6 +5,23 @@ pub const CORE_NAME:&str="io.github.waystroke.Core";
 pub const CORE_PATH:&str="/io/github/waystroke/Core";
 pub const CORE_INTERFACE:&str="io.github.waystroke.Core1";
 pub const PROTOCOL_VERSION:u32=1;
+/// Offsets are Unicode scalar indices, matching GNOME and AT-SPI text offsets.
+#[derive(Clone,Debug,Serialize,Deserialize,TS)]
+#[serde(rename_all="camelCase",deny_unknown_fields)]
+pub struct TextMatchRequest {
+    pub application_id:String, pub before_cursor:String,
+    pub trigger:TextInputTrigger, pub composing:bool, pub password:bool,
+    pub terminal:bool,
+}
+#[derive(Clone,Debug,Serialize,Deserialize,TS,PartialEq)]
+#[serde(rename_all="camelCase")]
+pub enum TextInputTrigger { Commit, Space, Enter }
+#[derive(Clone,Debug,Serialize,Deserialize,TS,PartialEq)]
+#[serde(rename_all="camelCase")]
+pub struct TextExpansion {
+    pub rule_id:String, pub delete_chars:u32, pub keyword:String,
+    pub replacement:String, pub confirmation:String, pub preserve:bool,
+}
 #[derive(Clone,Debug,Serialize,Deserialize,TS)]
 #[serde(rename_all="camelCase")]
 pub struct Snapshot { pub revision:u32, pub saved_at:Option<String>, pub config:Config }
@@ -99,9 +116,20 @@ pub struct GestureTiming {
     pub lease_id:String,pub sequence:u32,pub start_device_ms:f64,pub bound_ms:f64,pub release_device_ms:f64,
     pub recognized_ms:f64,pub enqueued_ms:Option<f64>,pub started_ms:Option<f64>,
 }
+#[derive(Clone,Debug,Default,Serialize,Deserialize,TS)]
+#[serde(rename_all="camelCase")]
+pub struct TextStatus {
+    pub connected:bool,pub enabled:bool,pub terminal_enabled:bool,
+    pub adapter:String,pub state:String,pub application_id:Option<String>,pub reason:String,
+    pub undo_available:bool,
+}
+#[derive(Clone,Debug,Serialize,Deserialize,TS)]
+#[serde(rename_all="camelCase")]
+pub struct TextResult {pub adapter:String,pub state:String,pub rule_id:Option<String>,pub reason:Option<String>,pub time:String}
 #[derive(Clone,Debug,Serialize,Deserialize,TS)]
 #[serde(rename_all="camelCase")]
 pub struct RuntimeInfo {
+    #[serde(default)] pub text:TextStatus,#[serde(default)] pub last_text_result:Option<TextResult>,
     pub status:Status,pub devices:Vec<MouseDevice>,pub selected_device_id:Option<String>,
     pub input_armed:bool,pub locked:bool,pub recording:Option<String>,
     pub executions:Vec<waystroke_model::Execution>,pub timings:Vec<GestureTiming>,

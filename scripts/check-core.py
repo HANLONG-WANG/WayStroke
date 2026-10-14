@@ -57,6 +57,13 @@ try:
     saved=call('CommitConfig',request);assert saved['status']=='ok',saved
     assert saved['value']['config']['rules'][0]['feedback'] is True
     config=saved['value']['config']
+    text_context={'applicationId':'org.example.Editor','beforeCursor':'！abc','trigger':'space','composing':False,'password':False,'terminal':False}
+    expansion=call('TestTextRule',text_context);assert expansion['status']=='ok' and expansion['value']['replacement']=='2003\n中文',expansion
+    assert expansion['value']['deleteChars']==3 and expansion['value']['confirmation']==' ' and expansion['value']['preserve']
+    assert call('TestTextRule',dict(text_context,beforeCursor='中文abc'))['value'] is None
+    assert call('TestTextRule',dict(text_context,composing=True))['value'] is None
+    assert call('TestTextRule',dict(text_context,password=True))['value'] is None
+    assert call('TestTextRule',dict(text_context,password=True,terminal=True))['value'] is not None
     for _ in range(30):
         while GLib.MainContext.default().pending():GLib.MainContext.default().iteration(False)
         if signals:break

@@ -1,0 +1,169 @@
+{
+  "hello": {
+    "protocolVersion": 1,
+    "instance": "c9b6e653-8855-4577-aa0c-cc6fdc52aa1f",
+    "locked": false,
+    "shellVersion": "50.5",
+    "capabilities": [
+      "liveRuleName",
+      "bottomFeedback",
+      "quietGestureStart",
+      "declarativeActionsV1",
+      "stableInputFocus"
+    ]
+  },
+  "devkit": {
+    "viewer": true,
+    "privateBusAndConfig": true,
+    "softwareRenderingForced": false,
+    "clipboardForwardingDisabled": [
+      "/org/gnome/Mutter/RemoteDesktop/Session/u1"
+    ]
+  },
+  "windows": [
+    {
+      "handle": {
+        "instance": "c9b6e653-8855-4577-aa0c-cc6fdc52aa1f",
+        "id": "1"
+      },
+      "title": "Probe A",
+      "applicationId": "org.waystroke.ProbeClient",
+      "clientType": 0
+    },
+    {
+      "handle": {
+        "instance": "c9b6e653-8855-4577-aa0c-cc6fdc52aa1f",
+        "id": "2"
+      },
+      "title": "Probe B",
+      "applicationId": "org.waystroke.ProbeClient",
+      "clientType": 0
+    }
+  ],
+  "beforeFirstConfirm": {
+    "shell": {
+      "source": "us",
+      "engine": "xkb:us::eng",
+      "hasFocus": true,
+      "preedit": false,
+      "purpose": 0,
+      "hints": 0,
+      "surrounding": [
+        "abc",
+        3,
+        3
+      ]
+    },
+    "text": {
+      "enabled": true,
+      "grabs": 3,
+      "pending": false,
+      "applying": false,
+      "generation": 12,
+      "candidates": 0,
+      "lastInput": null,
+      "preedit": false,
+      "panelComposing": false,
+      "panelKnown": true,
+      "snapshot": true,
+      "undo": false,
+      "bindingMode": 0,
+      "actionMode": 1,
+      "hasNativeFocus": true,
+      "accessibleUndo": false,
+      "nativeExpected": null,
+      "processing": false,
+      "snapshotText": "abc",
+      "revision": 1,
+      "sensitive": false,
+      "ibusConnected": true,
+      "pasteRequests": 0,
+      "terminalLength": 0
+    }
+  },
+  "firefoxMultilineConfirm": {
+    "composing": false,
+    "normal": "",
+    "multiline": "2003\n中文 ",
+    "editable": "Editable",
+    "passwordLength": 0,
+    "active": "multiline",
+    "events": [
+      {
+        "type": "keydown",
+        "field": "multiline",
+        "key": "a",
+        "code": "KeyA",
+        "ctrl": false,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "input",
+        "field": "multiline"
+      },
+      {
+        "type": "keydown",
+        "field": "multiline",
+        "key": "b",
+        "code": "KeyB",
+        "ctrl": false,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "input",
+        "field": "multiline"
+      },
+      {
+        "type": "keydown",
+        "field": "multiline",
+        "key": "c",
+        "code": "KeyC",
+        "ctrl": false,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "input",
+        "field": "multiline"
+      },
+      {
+        "type": "keydown",
+        "field": "multiline",
+        "key": "Process",
+        "code": "",
+        "ctrl": false,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "input",
+        "field": "multiline"
+      },
+      {
+        "type": "keydown",
+        "field": "multiline",
+        "key": "Process",
+        "code": "",
+        "ctrl": false,
+        "shift": false,
+        "alt": false
+      },
+      {
+        "type": "input",
+        "field": "multiline"
+      }
+    ]
+  },
+  "firefoxAdjacentUndo": true,
+  "firefoxImmediate": true,
+  "firefoxImePreeditProtected": true,
+  "firefoxImeCommittedKeyword": "你哈哦",
+  "firefoxImeConsumedConfirmation": true,
+  "firefoxImeConfirmedExpansion": true,
+  "firefoxImeImmediateCommit": true,
+  "firefoxPasswordSkipped": true,
+  "firefoxContentEditable": true,
+  "complete": true
+}

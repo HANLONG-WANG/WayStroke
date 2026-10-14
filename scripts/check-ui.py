@@ -10,9 +10,15 @@ if '--inside' not in sys.argv:
     ext=root/'data/gnome-shell/extensions/waystroke-probe@local';ext.mkdir(parents=True)
     for name in ['extension.js','metadata.json','terminal-monitor.js']:shutil.copy(REPO/'probes/gnome50'/name,ext/name)
     formal=root/'data/gnome-shell/extensions/waystroke@local';formal.mkdir()
-    for name in ['extension.js','metadata.json','clipboard.js','dialogs.js','system.js']:shutil.copy(REPO/'extension'/name,formal/name)
-    helper=ext/'extension.js';helper.write_text(helper.read_text().replace('clientType:a.meta_window.get_client_type()', 'clientType:a.meta_window.get_client_type(),minimized:a.meta_window.minimized'))
+    for name in ['extension.js','metadata.json','clipboard.js','dialogs.js','system.js','text.js','terminal.js']:shutil.copy(REPO/'extension'/name,formal/name)
+    helper=ext/'extension.js';helper.write_text(helper.read_text().replace('clientType:a.meta_window.get_client_type()', 'clientType:a.meta_window.get_client_type(),minimized:a.meta_window.minimized').replace('return {panelState:', 'return {startingUp:Main.layoutManager._startingUp,actionMode:Main.actionMode,ibusReady:!!IBusManager.getIBusManager()._panelService,panelState:'))
     env=os.environ.copy();env.update(XDG_RUNTIME_DIR=str(root/'runtime'),XDG_CONFIG_HOME=str(root/'config'),XDG_DATA_HOME=str(root/'data'),XDG_CACHE_HOME=str(root/'cache'),GSETTINGS_BACKEND='keyfile',LIBGL_ALWAYS_SOFTWARE='1',GIO_USE_VFS='local',WAYSTROKE_PROBE_DIR=str(root),GDK_BACKEND='wayland',GSK_RENDERER='cairo',WAYLAND_DISPLAY='waystroke-ui-check-0')
+    if '--devkit' in sys.argv:
+        env['WAYSTROKE_OUTER_RUNTIME']=os.environ['XDG_RUNTIME_DIR'];env['WAYSTROKE_OUTER_DISPLAY']=os.environ.get('WAYLAND_DISPLAY','wayland-0')
+        env['PIPEWIRE_RUNTIME_DIR']=os.environ['XDG_RUNTIME_DIR']
+        env.pop('LIBGL_ALWAYS_SOFTWARE',None)
+        schema=Path('/usr/share/glib-2.0/schemas/org.gnome.mutter.devkit.gschema.xml')
+        schemas=root/'schemas';schemas.mkdir();shutil.copy(schema,schemas/schema.name);subprocess.run(['glib-compile-schemas',str(schemas)],check=True);env['GSETTINGS_SCHEMA_DIR']=str(schemas)
     env['GI_TYPELIB_PATH']=str(REPO/'target/native')+':/usr/lib64/mutter-18'
     env['LD_LIBRARY_PATH']=str(REPO/'target/native')+':/usr/lib64/mutter-18:/usr/lib64/gnome-shell'
     for name in ['DISPLAY','IBUS_ADDRESS','AT_SPI_BUS_ADDRESS']:env.pop(name,None)
@@ -72,8 +78,29 @@ def click(selector):
     execute(f'document.querySelector({json.dumps(selector)}).click();return true;')
 try:
     for schema,key,value in [('org.gnome.shell','enabled-extensions',"['waystroke@local','waystroke-probe@local']"),('org.gnome.shell','disable-user-extensions','false'),('org.gnome.desktop.interface','enable-hot-corners','false')]:subprocess.run(['gsettings','set',schema,key,value],check=True)
-    spawn('shell',['gnome-shell','--headless','--wayland','--no-x11','--wayland-display=waystroke-ui-check-0','--virtual-monitor=1440x1000'])
+    if '--phase-d' in sys.argv and '--devkit' not in sys.argv:raise RuntimeError('Phase D UI tests require --devkit')
+    spawn('shell',['gnome-shell','--headless','--wayland','--no-x11','--wayland-display=waystroke-ui-check-0',*(['--devkit'] if '--devkit' in sys.argv else ['--virtual-monitor=1440x1000'])])
     wait(lambda:shell({'action':'snapshot'}))
+    if '--devkit' in sys.argv:
+        viewer_env=os.environ.copy();viewer_env['XDG_RUNTIME_DIR']=viewer_env['WAYSTROKE_OUTER_RUNTIME'];viewer_env['WAYLAND_DISPLAY']=viewer_env['WAYSTROKE_OUTER_DISPLAY']
+        viewer_log=(root/'viewer.log').open('w');viewer=subprocess.Popen(['/usr/libexec/mutter-devkit'],env=viewer_env,stdout=viewer_log,stderr=viewer_log,start_new_session=True);processes.append(viewer)
+        wait(lambda:shell({'action':'snapshot'})['monitors']>0)
+        assert viewer.poll() is None;results['devkit']={'viewer':True,'privateBusAndConfig':True,'softwareRenderingForced':False}
+        # GNOME 50 Devkit forwards clipboard data to the outer desktop.
+        # Disable that bridge on this private bus before any clipboard tests.
+        import xml.etree.ElementTree as ET
+        def disable_viewer_clipboard():
+            base='/org/gnome/Mutter/RemoteDesktop/Session'
+            xml=connection.call_sync('org.gnome.Mutter.RemoteDesktop',base,'org.freedesktop.DBus.Introspectable','Introspect',None,GLib.VariantType('(s)'),Gio.DBusCallFlags.NONE,3000,None).unpack()[0]
+            paths=[base+'/'+node.attrib['name'] for node in ET.fromstring(xml).findall('node')]
+            if not paths:return False
+            for path in paths:connection.call_sync('org.gnome.Mutter.RemoteDesktop',path,'org.gnome.Mutter.RemoteDesktop.Session','DisableClipboard',None,None,Gio.DBusCallFlags.NONE,3000,None)
+            return paths
+        results['devkit']['clipboardForwardingDisabled']=wait(disable_viewer_clipboard)
+    if '--phase-d' in sys.argv:
+        wait(lambda:not shell({'action':'snapshot'})['startingUp'])
+        connection.call_sync('io.github.waystroke.Gnome','/io/github/waystroke/Gnome','io.github.waystroke.Gnome1','Call',GLib.Variant('(s)',(json.dumps({'operation':'desktopOverview','value':'隐藏概览'}),)),GLib.VariantType('(s)'),Gio.DBusCallFlags.NONE,3000,None)
+        wait(lambda:shell({'action':'snapshot'})['actionMode']==1 and shell({'action':'snapshot'})['ibusReady'])
     spawn('core',[str(REPO/'target/debug/waystroke-core')]);wait(lambda:core('GetConfig')['status']=='ok')
     snapshot=core('GetConfig')['value'];snapshot['config']['settings']['setupComplete']=True
     assert core('CommitConfig',{'requestId':'fixture-init','expectedRevision':snapshot['revision'],'config':snapshot['config']})['status']=='ok'
@@ -84,6 +111,83 @@ try:
     wait(lambda:execute('return Boolean(document.querySelector("#main h1"))'))
     results['initial']=execute('return {title:document.querySelector("#main h1").textContent,nav:document.querySelectorAll(".nav").length,reviewTools:document.querySelectorAll(".review-tools").length};')
     assert results['initial']['nav']==8 and results['initial']['reviewTools']==0
+    if '--phase-d' in sys.argv:
+        # Formal saved rule and page-local input use the same Rust matcher.
+        click('.nav[data-page="text"]')
+        click('.text-help summary')
+        results['textHelp']=execute('return document.querySelector(".text-help").textContent;')
+        assert all(term in results['textHelp'] for term in ['组合输入','Ctrl+Z','raw/TUI','密码'])
+        capture('text-help.png')
+        click('.text-help summary');click('#new-snippet')
+        fill('#snippet-form [name="key"]','abc');fill('#snippet-form [name="value"]','2003\n中文')
+        execute('document.querySelector("#snippet-form").requestSubmit();return true;')
+        wait(lambda:len(core('GetConfig')['value']['config']['snippets'])==1)
+        wait(lambda:execute('return document.querySelector("#snippet-list").textContent.includes("abc")&&!document.querySelector("#snippet-dialog").open;'))
+        execute('const e=document.querySelector("#try-text");e.focus();e.value="abc ";e.setSelectionRange(4,4);e.dispatchEvent(new InputEvent("input",{inputType:"insertText",data:" ",bubbles:true}));return true;')
+        wait(lambda:execute('return document.querySelector("#try-text").value;')=='2003\n中文 ')
+        click('#undo-expansion');wait(lambda:execute('return document.querySelector("#try-text").value;')=='abc ')
+        results['pageMatcherMultilineAndUndo']=True
+        snippet_id=core('GetConfig')['value']['config']['snippets'][0]['id']
+        click('#snippet-list [data-edit]');fill('#snippet-form [name="value"]','2003')
+        execute('const f=document.querySelector("#snippet-form");f.elements.trigger.value="immediate";f.elements.caseSensitive.checked=false;f.elements.keepDelimiter.checked=false;f.requestSubmit();return true;')
+        wait(lambda:execute('return !document.querySelector("#snippet-dialog").open && document.querySelector("#snippet-list").textContent.includes("立即替换");'))
+        saved=core('GetConfig')['value']['config']['snippets'][0]
+        assert saved['id']==snippet_id and saved['trigger']=='immediate' and not saved['caseSensitive'] and not saved['preserve']
+        execute('const e=document.querySelector("#try-text");e.value="ABC";e.setSelectionRange(3,3);e.dispatchEvent(new InputEvent("input",{inputType:"insertText",data:"C",bubbles:true}));return true;')
+        wait(lambda:execute('return document.querySelector("#try-text").value;')=='2003')
+        results['existingSnippetEditorPersistsAndMatches']=True
+        click('#snippet-list [data-edit]')
+        execute('const f=document.querySelector("#snippet-form");f.elements.trigger.value="confirm";f.elements.caseSensitive.checked=true;f.elements.keepDelimiter.checked=true;f.requestSubmit();return true;')
+        wait(lambda:execute('return !document.querySelector("#snippet-dialog").open && document.querySelector("#snippet-list").textContent.includes("空格或 Enter 确认");'))
+        client_source=(REPO/'probes/gnome50/client.py').read_text().replace("(root/('client.json' if prefix=='Probe' else prefix+'-client.json')).write_text(json.dumps(state,ensure_ascii=False))", "tmp=root/'client.tmp';tmp.write_text(json.dumps(state,ensure_ascii=False));tmp.replace(root/'client.json')")
+        client_source=client_source.replace("(p if kind=='password' else e).grab_focus();", "(p if kind=='password' else e).grab_focus();e.set_position(-1);e.select_region(-1,-1);")
+        (root/'client.py').write_text(client_source);spawn('client',[sys.executable,str(root/'client.py')])
+        wait(lambda:{'Probe A','Probe B'}.issubset({w['title'] for w in shell({'action':'snapshot'})['windows']}))
+        def focus(kind):
+            shell({'action':'activate','title':'Probe A'})
+            wait(lambda:shell({'action':'snapshot'})['focus']=='Probe A')
+            connection.call_sync('org.waystroke.Client','/org/waystroke/Client','org.waystroke.Client','Focus',GLib.Variant('(s)',('Probe A:'+kind,)),None,Gio.DBusCallFlags.NONE,3000,None)
+        def status():return core('GetRuntime')['value']['text']
+        def key(keyval):
+            shell({'action':'key','keyval':keyval,'pressed':True});shell({'action':'key','keyval':keyval,'pressed':False})
+        connection.call_sync('io.github.waystroke.Gnome','/io/github/waystroke/Gnome','io.github.waystroke.Gnome1','Call',GLib.Variant('(s)',(json.dumps({'operation':'desktopOverview','value':'隐藏概览'}),)),GLib.VariantType('(s)'),Gio.DBusCallFlags.NONE,3000,None)
+        click('.nav[data-page="runtime"]')
+        # Establish a real GTK text-input context for the status subscription.
+        focus('password');wait(lambda:status()['state']=='password')
+        focus('normal')
+        window=next(w for w in shell({'action':'snapshot'})['windows'] if w['title']=='Probe A')['rect']
+        shell({'action':'pointer','x':window['x']+150,'y':window['y']+65});shell({'action':'button','button':1,'pressed':True});shell({'action':'button','button':1,'pressed':False})
+        wait(lambda:shell({'action':'snapshot'})['ime']['hasFocus']);key(ord('x'));key(0xff08);wait(lambda:status()['state']=='ready')
+        wait(lambda:execute('return document.querySelector(".input-capability .chip").textContent;')=='可用')
+        assert not core('GetRuntime')['value']['inputArmed'] and core('GetRuntime')['value']['selectedDeviceId'] is None
+        results['textIndependentOfMouseArming']=status();capture('text-runtime-ready.png')
+        # Reestablish the target field after WebKit inspection and capture.
+        focus('password');focus('normal');key(ord('x'));key(0xff08)
+        wait(lambda:shell({'action':'snapshot'})['ime']['hasFocus'])
+        for char in 'abc':key(ord(char))
+        key(32)
+        wait(lambda:json.loads((root/'client.json').read_text())['Probe A']['text']=='2003 ')
+        last=wait(lambda:core('GetRuntime')['value']['lastTextResult'])
+        assert last['state']=='succeeded' and last['adapter']=='native',last
+        wait(lambda:'最近' in execute('return document.querySelector(".input-capability p").textContent;'))
+        results['nativeExpansionRuntimeResult']=last
+        focus('password');wait(lambda:status()['state']=='password')
+        wait(lambda:execute('return document.querySelector(".input-capability .chip").textContent;')=='已跳过')
+        results['passwordRuntimeState']=status();capture('text-runtime-password.png')
+        snapshot=core('GetConfig')['value'];snapshot['config']['settings']['textEnabled']=False
+        assert core('CommitConfig',{'requestId':'text-off','expectedRevision':snapshot['revision'],'config':snapshot['config']})['status']=='ok'
+        wait(lambda:status()['state']=='disabled')
+        wait(lambda:execute('return document.querySelector(".input-capability .chip").textContent;')=='已暂停')
+        results['disabledRuntimeState']=status()
+        connection.call_sync('org.gnome.ScreenSaver','/org/gnome/ScreenSaver','org.gnome.ScreenSaver','SetActive',GLib.Variant('(b)',(True,)),None,Gio.DBusCallFlags.NONE,3000,None)
+        wait(lambda:core('GetRuntime')['value']['locked'])
+        wait(lambda:execute('return document.querySelector(".input-capability .chip").textContent;')=='锁屏暂停')
+        results['actualLockedTextUI']=status()
+        connection.call_sync('org.gnome.ScreenSaver','/org/gnome/ScreenSaver','org.gnome.ScreenSaver','SetActive',GLib.Variant('(b)',(False,)),None,Gio.DBusCallFlags.NONE,3000,None)
+        wait(lambda:not core('GetRuntime')['value']['locked'])
+        wait(lambda:execute('return document.querySelector(".input-capability .chip").textContent;')=='已暂停')
+        results['unlockTextUIRestored']=True;results['complete']=True
+        sys.exit(0)
     assert len(core('GetActionCapabilities')['value'])==69;results['actionCapabilityRegistry']=True
     windows=wait(lambda:[w for w in shell({'action':'snapshot'})['windows'] if w['title']=='WayStroke'])
     assert all(w['clientType']==0 for w in windows);results['nativeWindows']=windows
@@ -277,9 +381,14 @@ try:
     results['complete']=True
 except Exception as error:
     results['error']=str(error)
+    try:results['runtimeOnFailure']=core('GetRuntime')['value']
+    except Exception:pass
+    try:results['shellOnFailure']=shell({'action':'snapshot'})
+    except Exception:pass
     if session:
         try:
             results['uiError']=execute('return [...document.querySelectorAll("dialog[open],#rule-errors,#composer-errors")].map(e=>e.textContent);')
+            results['textOnFailure']=execute('return {value:document.querySelector("#try-text")?.value,status:document.querySelector("#expand-status")?.textContent};')
             (root/'failure.png').write_bytes(base64.b64decode(http('GET',f'/session/{session}/screenshot')))
         except Exception:pass
     raise

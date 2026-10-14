@@ -1,0 +1,43 @@
+{
+  "command": "python3 scripts/check-gnome.py --devkit --phase-d-terminal",
+  "scope": "Actual private mutter-devkit branch; aggregate completion is documented in README.md",
+  "artifacts": "/tmp/waystroke-desktop-check-p1x74la8",
+  "sourceSha256AtArchive": {
+    "extension/extension.js": "5004d97adcc150bd7b379223c86f0553bd8620196cc45f4eb78afbe4ff08d5ad",
+    "extension/text.js": "720fc59ffc183a7c39d6f4e391fbeabb4a3ec6fae18668bdb724d921b69d17f3",
+    "extension/terminal.js": "938e8d57644755f7a31e89c00dfe80e6171e8ea49460c65fed5e4347f7fa7408",
+    "extension/native/clipboard.c": "c8a8d35873b147d247f91e34f77f6b4a6c3e9fb4cdc844f6f992567020df6dad",
+    "extension/native/WayStrokeClipboard-1.0.gir": "16e97fa3b89e1930774a9942fdba17305fdc280662b4c73647dbf8d86b6e61ed",
+    "crates/core/src/text.rs": "8fc36b4f0836b923a250bdc873cfa701b487d5066942a07fbc01fa8b619af7ae",
+    "crates/core/src/atspi.rs": "6edb4e99d4ca1a00ac25c340fe115120786716e7b0b89352802d99eb1aef7dfa",
+    "crates/core/src/atspi_input.rs": "0b65e55850c3abe3c480a5d03b4341ffe28093d8f2648e7d49c71ccfe1044cc0",
+    "crates/core/src/main.rs": "e0b07ee745167ba435551dfb4a27be5115ec8ba3bab25e7440bfb630450d47e6",
+    "crates/core/src/runtime.rs": "cf560b7520ac938dd4c36c2de6e5d0374c65030aaf643ae0b7eba30d28f70fdd",
+    "crates/protocol/src/lib.rs": "ce327fe35571daa3b3a27785182fcb2616b61a53924a552136621d1d2e7d7d8b",
+    "apps/desktop/src/backend.ts": "3774d7ec7af8c21b91f11968ed5af4c46f3e3bce02f591b464f85d159b362dca",
+    "apps/desktop/src/editor.js": "d0e324faa0f787a170729c675c3167de145fdf987630aa9f924d4cf9505e8b70",
+    "scripts/check-gnome.py": "da3c212d6a6274d393b29ce36d80308930c965af355fb8227c170b3cc28b8af2",
+    "scripts/check-ui.py": "c42895896377fe22159e4a2eaf4212e3f91ba323d2f685f33a209c2ce4631b0f",
+    "scripts/gnome_text_focus.py": "f2505a653823fe32bb96efc237a588564c88afa5b091550a7008f078744a9dca",
+    "scripts/gnome_text_multiline.py": "9f30a5f00317c76fb7cf456e2305659080752d1d19ddd04d46d87fe71c3675c8",
+    "scripts/gnome_text_ime.py": "130dc65bb442c41074035bb6ab73cc57231378bd91ee88d632e012ea2f7724a1",
+    "scripts/gnome_text_browser.py": "3656dfb6f5369b8ed67f3eb156a88e5c15aa792ebc93815bd0d11f4d1d6725f6",
+    "scripts/gnome_text_lifecycle.py": "9f28e7fb6f0e9ba99f16bc30ec2196d293acb4554d546c412b6ec7b8101bfb45",
+    "scripts/build-clipboard-native.sh": "df45a53d3ab51f6a8365ca9797e5f2c93b0b75c65a1d8c52d941591e8043c0ad"
+  },
+  "testedExtensionCopies": {
+    "terminal.js": "3e78778e372afeda730083a6d192fafe3e0d694afe0f7c389569756de933fa98",
+    "text.js": "c3f4eefe5113bbd36a0273615b6d70163c701591ad2e19ec4fe2853e3e8dd62d",
+    "system.js": "768557aeae30ad3a9f7750f7356031487ea25d319065f9b30f43261b14fe8913",
+    "dialogs.js": "fdeaf2262deec22cbbdc7501d3c2bf8c6bc78d975e5651b10eecd6b7dbb5f154",
+    "clipboard.js": "6a0118c76b99e873ff7009f409ecceb417146e84d72ce7c81292bfd64f7ef5a6",
+    "extension.js": "3bd46e6cea08b4254f1b0a882cd2e4344b5f6010ae03eccdd96320b6d1661f91"
+  },
+  "binarySha256AtArchive": {
+    "target/debug/waystroke-core": "985a500a0c9c10cba1d433cc36fbf87e54a8204f8640420b037ee08318872037",
+    "target/debug/waystroke": "d2fba1edd057196dadb3df5340eb4272e1d853d8581fc8ce4dd731255bd25ca6",
+    "target/native/libwaystroke-clipboard.so": "469217a71b3e8b42da1f53d2e23ab9bf63683a3b3af8d69a965c8c32752c367e",
+    "target/native/WayStrokeClipboard-1.0.typelib": "d2d9641307c7491d22da339671105eb5b508d512e494b2c7aad2f614273a45bd"
+  },
+  "hashNote": "Tested copy hashes are exact loaded extension files, including private scheduling/diagnostic hooks. Archive source and binary hashes describe the final worktree; branches were verified as changes landed, not all against one frozen binary."
+}
