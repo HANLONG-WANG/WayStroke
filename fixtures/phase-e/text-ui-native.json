@@ -1,0 +1,76 @@
+{
+  "extensionSourceSha256AtStartup": {
+    "terminal.js": "938e8d57644755f7a31e89c00dfe80e6171e8ea49460c65fed5e4347f7fa7408",
+    "text.js": "720fc59ffc183a7c39d6f4e391fbeabb4a3ec6fae18668bdb724d921b69d17f3",
+    "system.js": "768557aeae30ad3a9f7750f7356031487ea25d319065f9b30f43261b14fe8913",
+    "dialogs.js": "fdeaf2262deec22cbbdc7501d3c2bf8c6bc78d975e5651b10eecd6b7dbb5f154",
+    "clipboard.js": "6a0118c76b99e873ff7009f409ecceb417146e84d72ce7c81292bfd64f7ef5a6",
+    "metadata.json": "d48ac654582703a4cb6473b512bdda55e82a2e1fb8b3be2efbdd0024f31b1484",
+    "extension.js": "5004d97adcc150bd7b379223c86f0553bd8620196cc45f4eb78afbe4ff08d5ad"
+  },
+  "devkit": {
+    "viewer": true,
+    "privateBusAndConfig": true,
+    "softwareRenderingForced": false,
+    "clipboardForwardingDisabled": [
+      "/org/gnome/Mutter/RemoteDesktop/Session/u1"
+    ]
+  },
+  "initial": {
+    "title": "手势规则",
+    "reviewTools": 0,
+    "nav": 8
+  },
+  "textHelp": "输入法、撤销与终端说明组合输入先交给输入法，提交后才按规则匹配。被输入法消费的空格或 Enter 不会同时作为替换确认键。Ctrl+Z 可撤销当前字段中刚发生、范围仍可确认的替换；切换字段、导航或继续编辑后交还应用原生撤销。浏览器只回报部分段落时也使用应用原生撤销。终端仅支持紧邻且未提交换行的替换撤销。已验证 GTK、Firefox、Electron 和 XWayland GTK 的相应编辑区域，以及 Rime 中文提交；其他应用仍以运行状态中的实际能力为准。非终端密码字段跳过。终端普通及密码输入都参与，可在设置中单独关闭。Ptyxis/VTE 的普通行输入、Readline、getpass 已验证；raw/TUI 只显示“已提交”，不能确认程序如何处理编辑字节。导航、快捷键、粘贴及焦点变化会清除短期上下文；要求前边界的规则需重新输入可确认的边界。",
+  "pageMatcherMultilineAndUndo": true,
+  "existingSnippetEditorPersistsAndMatches": true,
+  "textIndependentOfMouseArming": {
+    "connected": true,
+    "enabled": true,
+    "terminalEnabled": true,
+    "adapter": "native",
+    "state": "ready",
+    "applicationId": "org.waystroke.ProbeClient",
+    "reason": "当前应用提供周围文本与编辑上下文，替换前后校验焦点、范围和光标。",
+    "undoAvailable": false
+  },
+  "nativeExpansionRuntimeResult": {
+    "adapter": "native",
+    "state": "succeeded",
+    "ruleId": "db6d8300-2bc7-44b0-99b4-0752194ba774",
+    "reason": null,
+    "time": "2026-10-15T10:30:57.533578804+00:00"
+  },
+  "passwordRuntimeState": {
+    "connected": true,
+    "enabled": true,
+    "terminalEnabled": true,
+    "adapter": "none",
+    "state": "password",
+    "applicationId": "org.waystroke.ProbeClient",
+    "reason": "非终端密码字段已跳过，不读取或编辑密码文本。",
+    "undoAvailable": false
+  },
+  "disabledRuntimeState": {
+    "connected": true,
+    "enabled": false,
+    "terminalEnabled": true,
+    "adapter": "none",
+    "state": "disabled",
+    "applicationId": "org.waystroke.ProbeClient",
+    "reason": "文本替换已关闭，原输入透传。",
+    "undoAvailable": false
+  },
+  "actualLockedTextUI": {
+    "connected": false,
+    "enabled": false,
+    "terminalEnabled": true,
+    "adapter": "",
+    "state": "locked",
+    "applicationId": null,
+    "reason": "桌面已锁定，待处理替换和撤销已清除。",
+    "undoAvailable": false
+  },
+  "unlockTextUIRestored": true,
+  "complete": true
+}

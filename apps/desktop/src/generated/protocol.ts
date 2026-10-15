@@ -1,6 +1,11 @@
 // Generated from waystroke-protocol; do not edit.
 import type {Config,ValidationError,StartContext,Execution} from './model';
 export const PROTOCOL_VERSION = 1;
+export type ConfigurationRequest = { "operation": "export_config" } | { "operation": "inspect_import", content: string, } | { "operation": "apply_import", token: string, mode: ImportMode, expectedRevision: number, } | { "operation": "create_backup" } | { "operation": "list_backups" } | { "operation": "restore_backup", id: string, expectedRevision: number, } | { "operation": "delete_backup", id: string, } | { "operation": "export_backup", id: string, };
+export type ImportMode = "merge" | "replace";
+export type ConfigCounts = { rules: number, gestures: number, workflows: number, snippets: number, applications: number, exclusions: number, };
+export type ImportPreview = { token: string, revision: number, source: ConfigCounts, merge: ConfigCounts, disabledRules: number, skippedSnippets: number, };
+export type BackupSummary = { id: string, createdAt: string, reason: string, rules: number, gestures: number, };
 export type Snapshot = { revision: number, savedAt: string | null, config: Config, };
 export type Commit = { requestId: string, expectedRevision: number, config: Config, };
 export type ErrorKind = "validation" | "conflict" | "permission" | "unavailable" | "targetInvalid" | "timeout" | "canceled" | "io" | "internal";

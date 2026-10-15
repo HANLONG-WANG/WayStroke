@@ -10,8 +10,8 @@
     "build": "tauri build --no-bundle",
     "check": "tsc --noEmit",
     "generate": "cd ../.. && ./scripts/generate-types.sh",
-    "predev": "npm run generate && cargo build -p waystroke-core",
-    "prebuild": "npm run generate && cargo build -p waystroke-core --release",
+    "predev": "npm run generate && cargo build -p waystroke-core -p waystroke-inputd",
+    "prebuild": "npm run generate && cargo build -p waystroke-core -p waystroke-inputd --release",
     "test:adapter": "node --experimental-strip-types tests/adapter.mjs"
   },
   "dependencies": {

@@ -26,6 +26,20 @@ impl Core {
         if let Ok(ref snapshot)=r {self.config_events.send_replace(snapshot.clone());if let Err(e)=Self::config_changed(&emitter,&serde_json::to_string(snapshot).unwrap()).await { eprintln!("config signal failed: {e}"); } }
         reply(r)
     }
+    async fn configuration(&self,request:&str,#[zbus(signal_emitter)] emitter:SignalEmitter<'_>,#[zbus(connection)] connection:&zbus::Connection,#[zbus(header)] header:zbus::message::Header<'_>)->String {
+        if let Err(e)=authorize(connection,&header).await{return reply::<serde_json::Value>(Err(e));}
+        let r=match serde_json::from_str::<serde_json::Value>(request){
+            Ok(q)=>{let mut repository=self.repository.lock().await;let previous=repository.snapshot().revision;let result=repository.configuration(q);if result.is_ok()&&repository.snapshot().revision!=previous{let snapshot=repository.snapshot();self.config_events.send_replace(snapshot.clone());if let Err(e)=Self::config_changed(&emitter,&serde_json::to_string(&snapshot).unwrap()).await{eprintln!("config signal failed: {e}");}}result},
+            Err(e)=>Err(error(ErrorKind::Validation,e.to_string())),
+        };reply(r)
+    }
+    async fn export_diagnostics(&self,#[zbus(connection)] connection:&zbus::Connection,#[zbus(header)] header:zbus::message::Header<'_>)->String {
+        if let Err(e)=authorize(connection,&header).await{return reply::<serde_json::Value>(Err(e));}
+        let info=self.runtime.info().await;
+        // Allowlist component state only: no configuration, window titles, outputs or input text.
+        let capabilities=self.runtime.request(serde_json::json!({"operation":"actionCapabilities"})).await;
+        reply(Ok(serde_json::json!({"content":serde_json::to_string_pretty(&serde_json::json!({"format":"waystroke-diagnostics","version":env!("CARGO_PKG_VERSION"),"protocolVersion":PROTOCOL_VERSION,"createdAt":chrono::Utc::now().to_rfc3339(),"components":info.status,"locked":info.locked,"inputArmed":info.input_armed,"timings":info.timings,"text":{"state":info.text.state,"connected":info.text.connected,"adapter":info.text.adapter},"capabilities":Reply::from_result(capabilities),"executions":info.executions.iter().map(|e|serde_json::json!({"state":e.state,"revision":e.revision,"finishedAt":e.finished_at,"steps":e.steps.iter().map(|s|serde_json::json!({"stepId":s.step_id,"state":s.state})).collect::<Vec<_>>()})).collect::<Vec<_>>()})).unwrap()})))
+    }
     async fn recognize_stroke(&self,request:&str,#[zbus(connection)] connection:&zbus::Connection,#[zbus(header)] header:zbus::message::Header<'_>)->String {
         if let Err(e)=authorize(connection,&header).await{return reply::<RecognitionResult>(Err(e));}
         match serde_json::from_str::<RecognitionRequest>(request){
@@ -102,14 +116,18 @@ impl Core {
 #[tokio::main]
 async fn main()->Result<(),Box<dyn std::error::Error>> {
     let path=match config_path() { Ok(p)=>p,Err(e)=>return Err(e.message.into()) };
-    let repo=Repository::open(path).map_err(|e|e.message)?;
+    let repo=Repository::open(path.clone()).map_err(|e|e.message)?;
     let quit=Arc::new(Notify::new());
     let (config_events,config_receiver)=watch::channel(repo.snapshot());let(runtime,driver)=waystroke_core::runtime::Runtime::new();
     let mut runtime_events=runtime.events.subscribe();
     let atspi=Arc::new(waystroke_core::atspi::Adapter::default());
     // D-Bus grants one owner; a second process cannot replace a running writer.
-    let connection=zbus::connection::Builder::session()?.serve_at(CORE_PATH,Core{atspi:atspi.clone(),repository:Arc::new(Mutex::new(repo)),runtime:runtime.clone(),config_events,quit:quit.clone()})?.build().await?;
+    let repository=Arc::new(Mutex::new(repo));
+    let connection=zbus::connection::Builder::session()?.serve_at(CORE_PATH,Core{atspi:atspi.clone(),repository:repository.clone(),runtime:runtime.clone(),config_events,quit:quit.clone()})?.build().await?;
+    let mut writer=repository.lock().await;
     connection.request_name_with_flags(CORE_NAME,zbus::fdo::RequestNameFlags::DoNotQueue.into()).await?;
+    writer.attach_autostart(waystroke_core::session::Autostart{path:path.parent().unwrap().parent().unwrap().join("autostart/waystroke.desktop"),executable:std::env::current_exe()?}).map_err(|e|e.message)?;
+    drop(writer);
     atspi.launch_input(connection.clone(),config_receiver.clone(),runtime.clone());
     driver.launch(runtime.clone(),connection.clone(),config_receiver);
     let text_runtime=runtime.clone();

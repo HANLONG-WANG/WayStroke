@@ -3,9 +3,10 @@ import { mountEditor } from './editor.js';
 import frame from './frame.html?raw';
 import './style.css';
 import { getCurrentWindow } from '@tauri-apps/api/window';
+import { getVersion } from '@tauri-apps/api/app';
 const backend=new Backend();
 try {
- const initial=await backend.initialize();document.body.innerHTML=frame;const editor=mountEditor(backend,initial);if(!backend.connected)backend.onConnection(false);
+ const initial=await backend.initialize();document.body.innerHTML=frame;document.getElementById('app-version')!.textContent=await getVersion();const editor=mountEditor(backend,initial);if(!backend.connected)backend.onConnection(false);
  const window=getCurrentWindow();
  await window.onCloseRequested(event=>{event.preventDefault();editor.requestClose('close')});
  document.getElementById('window-minimize')!.onclick=()=>backend.windowAction('minimize');

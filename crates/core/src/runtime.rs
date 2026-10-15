@@ -59,7 +59,7 @@ impl Runtime {
         let mut input:Option<InputClient>=None;let mut packets:Option<broadcast::Receiver<InputPacket>>=None;let mut lease:Option<String>=None;let mut selected:Option<String>=None;let mut stroke:Option<Stroke>=None;let mut pending_finish:Option<(Stroke,Vec<[f64;2]>,f64)>=None;
         let (jobs,job_receiver)=mpsc::channel(32);let (cancel,cancel_receiver)=watch::channel(0u32);
         crate::execution::start(self.clone(),desktop.clone(),job_receiver,cancel_receiver);
-        let mut connecting=tokio::task::JoinSet::new();
+        let mut connecting=tokio::task::JoinSet::new();let mut input_error:Option<String>=None;
         let mut interval=tokio::time::interval(std::time::Duration::from_millis(500));interval.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Skip);
         loop {
             enum Wake {Lock(Option<zbus::Result<zbus::Message>>),Tick,Config,Packet(Result<InputPacket,broadcast::error::RecvError>),Desktop(Option<zbus::Result<zbus::Message>>),Command(Option<Command>),Owner(Option<zbus::fdo::NameOwnerChanged>),Connected(Option<Result<Result<InputClient,Error>,tokio::task::JoinError>>)}
@@ -83,8 +83,8 @@ impl Runtime {
                 },
                 Wake::Lock(Some(Err(e)))=>return Err(error(ErrorKind::Unavailable,e.to_string())),
                 Wake::Lock(None)=>return Err(error(ErrorKind::Unavailable,"锁屏状态事件连接中断")),
-                Wake::Connected(Some(Ok(Ok(client))))=>{packets=Some(client.subscribe());input=Some(client);},
-                Wake::Connected(Some(Ok(Err(e))))=>{self.info.lock().await.status.reason=e.message;},
+                Wake::Connected(Some(Ok(Ok(client))))=>{input_error=None;packets=Some(client.subscribe());input=Some(client);},
+                Wake::Connected(Some(Ok(Err(e))))=>{input_error=Some(e.message);},
                 Wake::Connected(Some(Err(e)))=>return Err(error(ErrorKind::Internal,e.to_string())),
                 Wake::Connected(None)=>{},
                 Wake::Owner(Some(message))=>{let args=message.args().map_err(|e|error(ErrorKind::Internal,e.to_string()))?;if recording_owner.as_deref()==Some(args.name.as_str())&&args.new_owner.is_none(){recording_owner=None;self.info.lock().await.recording=None;}},
@@ -227,7 +227,7 @@ impl Runtime {
                         }
                     }}
                     let mut info=self.info.lock().await;info.status.extension_connected=connected;info.status.input_connected=input.is_some();info.status.execution_available=connected&&!locked;info.input_armed=lease.is_some();info.locked=locked;info.selected_device_id=snapshot.config.settings.mouse_device_id;
-                    if locked{info.status.reason="桌面已锁定".into();}else if !connected{info.status.reason="GNOME 扩展未连接".into();}else if input.is_none(){info.status.reason="鼠标服务未连接或未授权".into();}else if !snapshot.config.settings.gestures_enabled{info.status.reason="手势已暂停".into();}else if info.selected_device_id.is_none(){info.status.reason="请选择用于手势的鼠标".into();}else if lease.is_some(){info.status.reason="鼠标手势已接入；具体动作能力见运行状态".into();}drop(info);self.publish().await;
+                    if locked{info.status.reason="桌面已锁定".into();}else if !connected{info.status.reason=hello.as_ref().err().map(|e|e.message.clone()).unwrap_or_else(||"GNOME 扩展未连接".into());}else if input.is_none(){info.status.reason=input_error.clone().unwrap_or_else(||"鼠标服务未连接或未授权".into());}else if !snapshot.config.settings.gestures_enabled{info.status.reason="手势已暂停".into();}else if info.selected_device_id.is_none(){info.status.reason="请选择用于手势的鼠标".into();}else if lease.is_some(){info.status.reason="鼠标手势已接入；具体动作能力见运行状态".into();}drop(info);self.publish().await;
                 }
             }
         }

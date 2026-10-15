@@ -40,6 +40,31 @@ pub enum Reply<T> { Ok { value:T }, Error { error:Error } }
 impl<T> Reply<T> {
     pub fn from_result(r:Result<T,Error>)->Self { match r { Ok(value)=>Self::Ok{value},Err(error)=>Self::Error{error} } }
 }
+/// File inspection and application are separate; application consumes an immutable checked token.
+#[derive(Clone,Debug,Serialize,Deserialize,TS)]
+#[serde(tag="operation",rename_all="snake_case",deny_unknown_fields)]
+pub enum ConfigurationRequest {
+    ExportConfig,
+    InspectImport { content:String },
+    ApplyImport { token:String, mode:ImportMode, #[serde(rename="expectedRevision")] expected_revision:u32 },
+    CreateBackup,
+    ListBackups,
+    RestoreBackup { id:String, #[serde(rename="expectedRevision")] expected_revision:u32 },
+    DeleteBackup { id:String },
+    ExportBackup { id:String },
+}
+#[derive(Clone,Debug,Serialize,Deserialize,TS)]
+#[serde(rename_all="camelCase")]
+pub enum ImportMode { Merge, Replace }
+#[derive(Clone,Debug,Serialize,Deserialize,TS)]
+#[serde(rename_all="camelCase")]
+pub struct ConfigCounts {pub rules:usize,pub gestures:usize,pub workflows:usize,pub snippets:usize,pub applications:usize,pub exclusions:usize}
+#[derive(Clone,Debug,Serialize,Deserialize,TS)]
+#[serde(rename_all="camelCase")]
+pub struct ImportPreview {pub token:String,pub revision:u32,pub source:ConfigCounts,pub merge:ConfigCounts,pub disabled_rules:usize,pub skipped_snippets:usize}
+#[derive(Clone,Debug,Serialize,Deserialize,TS)]
+#[serde(rename_all="camelCase")]
+pub struct BackupSummary {pub id:String,pub created_at:String,pub reason:String,pub rules:usize,pub gestures:usize}
 #[derive(Clone,Debug,Serialize,Deserialize,TS)]
 #[serde(rename_all="camelCase")]
 pub struct Status { pub protocol_version:u32, pub core_version:String, pub extension_connected:bool, pub input_connected:bool, pub execution_available:bool, pub reason:String }

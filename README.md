@@ -2,7 +2,7 @@
 
 面向 Fedora 44、GNOME Shell/Mutter 50.5 Wayland 的鼠标手势与文本替换应用。
 
-正式工程已完成阶段 A 的原生桌面窗口和配置后台、阶段 B 的真实鼠标手势闭环。阶段 C 的声明式执行器、69 项动作和原生编排已完成隔离/Devkit 验收；用户确认测试环境通过即验收通过，不要求主桌面验证。文本自动替换按阶段 D 实施。HTML 保留为视觉基线，probes 仅用于技术验证。
+正式工程已完成阶段 A 的原生桌面窗口和配置后台、阶段 B 的真实鼠标手势闭环。阶段 C 的声明式执行器、69 项动作和原生编排已完成隔离/Devkit 验收；用户确认测试环境通过即验收通过，不要求主桌面验证。阶段 D 的真实文本替换已完成 Devkit 验收；阶段 E 的配置迁移、备份、诊断与全页面闭环已完成 Devkit 验收。HTML 保留为视觉基线，probes 仅用于技术验证。
 
 开发依据：
 
@@ -12,7 +12,7 @@
 - [完整开发计划与验收清单](docs/implementation-plan.md)
 - [界面设计稿预览](design/README.md)
 
-采用 Tauri 2/TypeScript 界面、Rust 普通用户后台、GJS GNOME 扩展与独立特权鼠标服务。完整开发计划已落地，覆盖逐页真实功能、69 项动作、进程接口、任务依赖和发布验收。UI 必须按 HTML 一比一复刻；只有界面或固定样本反馈不算交付。阶段 A 的代码位于 `apps/desktop`、`crates/model`、`crates/protocol` 和 `crates/core`；阶段 B 已完成真实鼠标手势闭环，包含正式识别、录制互斥、实时名称及基本桌面执行器；重插验证由用户明确选择跳过。证据见 [fixtures/phase-b](fixtures/phase-b/README.md)，阶段 C 已完成，其余产品能力继续按 D–F 实施。
+采用 Tauri 2/TypeScript 界面、Rust 普通用户后台、GJS GNOME 扩展与独立特权鼠标服务。完整开发计划已落地，覆盖逐页真实功能、69 项动作、进程接口、任务依赖和发布验收。UI 必须按 HTML 一比一复刻；只有界面或固定样本反馈不算交付。阶段 A 的代码位于 `apps/desktop`、`crates/model`、`crates/protocol` 和 `crates/core`；阶段 B 已完成真实鼠标手势闭环，包含正式识别、录制互斥、实时名称及基本桌面执行器；重插验证由用户明确选择跳过。证据见 [fixtures/phase-b](fixtures/phase-b/README.md)，阶段 C 已完成，配置迁移和备份继续见阶段 E 的实施记录，安装与发布按阶段 F 实施。
 
 设计稿预览：
 
@@ -63,3 +63,15 @@ python3 scripts/check-gnome.py --devkit --phase-c-clipboard --phase-c-composed-i
 ```
 
 该入口使用私有总线和配置，并禁用 Devkit 与宿主的剪贴板转发。检查结束关闭自身测试进程；更新扩展只需重启测试 Shell。最终主桌面部署另行核实实际代码加载。
+
+配置与备份：配置页选择真实 JSON 文件后先显示检查摘要，再确认合并或替换；导入/恢复前自动备份，保留最近 5 份。备份存于 `${XDG_STATE_HOME:-$HOME/.local/state}/waystroke/backups`；配置、所选备份和诊断使用原生文件对话框保存。迁移保留本机接入状态，不携带运行记录或授权；鼠标的稳定身份作为偏好正常导出和恢复。登录启动开关在完成初次设置后控制 `${XDG_CONFIG_HOME:-$HOME/.config}/autostart/waystroke.desktop`。
+
+阶段 E 原生回归：
+
+```sh
+python3 scripts/check-ui.py --devkit --phase-e --phase-c
+```
+
+该入口在私有配置、状态目录与 GNOME/Devkit 会话中验证实际迁移、文件保存、备份重启恢复、全页面/弹窗及登录入口；证据见 [fixtures/phase-e](fixtures/phase-e/README.md)。
+
+接入向导会实际请求启用 GNOME 扩展，首次安装扩展后如实提示重新登录；鼠标安装使用 pkexec 请求管理员授权，取消后可重试。安装仅授权当前桌面用户，选择鼠标并完成初次设置前不会接管输入。系统级安装、RPM 和发布验收继续按阶段 F 执行。

@@ -1,0 +1,15 @@
+{
+  "standardBuild": "passed: ./scripts/build.sh",
+  "rustTests": "passed: 10 core + 4 model + 1 desktop setup resources",
+  "adapterTests": "passed: npm run test:adapter --prefix apps/desktop",
+  "offlineCore": "passed: python3 scripts/check-core.py",
+  "nativeUi": "passed: --devkit --phase-e --phase-c",
+  "textUi": "passed: --devkit --phase-d",
+  "stageStatus": {
+    "E01": "complete",
+    "E02": "complete",
+    "E03": "complete"
+  },
+  "setup": "passed: real private extension enable/first install, authorization denial/retry, actual staged service files; no false connected state",
+  "deferredReleaseScope": "F01-F03: host administrator authorization/system service activation, RPM installation/upgrade/uninstall and release acceptance."
+}

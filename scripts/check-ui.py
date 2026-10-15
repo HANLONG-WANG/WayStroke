@@ -1,30 +1,42 @@
 #!/usr/bin/env python3
 """Native WebKitGTK/Wayland UI check on a disposable GNOME desktop."""
-import ast,base64,json,os,shutil,signal,socket,subprocess,sys,tempfile,time,urllib.request
+import ast,base64,hashlib,json,os,shutil,signal,socket,subprocess,sys,tempfile,time,urllib.request
 from pathlib import Path
 from gi.repository import Gio,GLib
 REPO=Path(__file__).resolve().parents[1]
 if '--inside' not in sys.argv:
     root=Path(tempfile.mkdtemp(prefix='waystroke-ui-check-'))
-    for name in ['runtime','config','data','cache']:(root/name).mkdir(mode=0o700)
+    for name in ['runtime','config','data','cache','state']:(root/name).mkdir(mode=0o700)
     ext=root/'data/gnome-shell/extensions/waystroke-probe@local';ext.mkdir(parents=True)
     for name in ['extension.js','metadata.json','terminal-monitor.js']:shutil.copy(REPO/'probes/gnome50'/name,ext/name)
     formal=root/'data/gnome-shell/extensions/waystroke@local';formal.mkdir()
     for name in ['extension.js','metadata.json','clipboard.js','dialogs.js','system.js','text.js','terminal.js']:shutil.copy(REPO/'extension'/name,formal/name)
     helper=ext/'extension.js';helper.write_text(helper.read_text().replace('clientType:a.meta_window.get_client_type()', 'clientType:a.meta_window.get_client_type(),minimized:a.meta_window.minimized').replace('return {panelState:', 'return {startingUp:Main.layoutManager._startingUp,actionMode:Main.actionMode,ibusReady:!!IBusManager.getIBusManager()._panelService,panelState:'))
-    env=os.environ.copy();env.update(XDG_RUNTIME_DIR=str(root/'runtime'),XDG_CONFIG_HOME=str(root/'config'),XDG_DATA_HOME=str(root/'data'),XDG_CACHE_HOME=str(root/'cache'),GSETTINGS_BACKEND='keyfile',LIBGL_ALWAYS_SOFTWARE='1',GIO_USE_VFS='local',WAYSTROKE_PROBE_DIR=str(root),GDK_BACKEND='wayland',GSK_RENDERER='cairo',WAYLAND_DISPLAY='waystroke-ui-check-0')
+    if '--phase-e' in sys.argv:
+        # Explicit external-command fixture; the application still invokes its fixed pkexec command.
+        # Denial and real unprivileged file installation are tested, never the host service.
+        bins=root/'bin';bins.mkdir()
+        launcher=bins/'pkexec';launcher.write_text('#!/usr/bin/bash\nset -eu\nprintf \'%s\\n\' "$@" >> "$WAYSTROKE_SETUP_TEST_ROOT/auth-args"\nif [[ ! -e "$WAYSTROKE_SETUP_TEST_ROOT/allow" ]]; then exit 126; fi\nexport PKEXEC_UID=$(id -u)\nexec "$@"\n');launcher.chmod(0o755)
+        (root/'installation').mkdir()
+    if '--phase-e' in sys.argv:
+        # Only the test copy can advertise a deliberately incompatible protocol.
+        code=formal/'extension.js';code.write_text(code.read_text().replace('protocolVersion:1,instance:', 'protocolVersion:this._testProtocolVersion??1,instance:'))
+        helper.write_text(helper.read_text().replace('  const now=GLib.get_monotonic_time();', "  if(q.action==='protocol-version'){Main.extensionManager.lookup('waystroke@local').stateObj._testProtocolVersion=q.version;return null;}\n  const now=GLib.get_monotonic_time();"))
+    env=os.environ.copy();env.update(XDG_RUNTIME_DIR=str(root/'runtime'),XDG_CONFIG_HOME=str(root/'config'),XDG_DATA_HOME=str(root/'data'),XDG_CACHE_HOME=str(root/'cache'),XDG_STATE_HOME=str(root/'state'),GSETTINGS_BACKEND='keyfile',LIBGL_ALWAYS_SOFTWARE='1',GIO_USE_VFS='local',WAYSTROKE_PROBE_DIR=str(root),GDK_BACKEND='wayland',GSK_RENDERER='cairo',WAYLAND_DISPLAY='waystroke-ui-check-0')
     if '--devkit' in sys.argv:
         env['WAYSTROKE_OUTER_RUNTIME']=os.environ['XDG_RUNTIME_DIR'];env['WAYSTROKE_OUTER_DISPLAY']=os.environ.get('WAYLAND_DISPLAY','wayland-0')
         env['PIPEWIRE_RUNTIME_DIR']=os.environ['XDG_RUNTIME_DIR']
         env.pop('LIBGL_ALWAYS_SOFTWARE',None)
         schema=Path('/usr/share/glib-2.0/schemas/org.gnome.mutter.devkit.gschema.xml')
         schemas=root/'schemas';schemas.mkdir();shutil.copy(schema,schemas/schema.name);subprocess.run(['glib-compile-schemas',str(schemas)],check=True);env['GSETTINGS_SCHEMA_DIR']=str(schemas)
+    if '--phase-e' in sys.argv:
+        env['PATH']=str(root/'bin')+':'+env['PATH'];env['WAYSTROKE_SETUP_TEST_ROOT']=str(root/'installation')
     env['GI_TYPELIB_PATH']=str(REPO/'target/native')+':/usr/lib64/mutter-18'
     env['LD_LIBRARY_PATH']=str(REPO/'target/native')+':/usr/lib64/mutter-18:/usr/lib64/gnome-shell'
     for name in ['DISPLAY','IBUS_ADDRESS','AT_SPI_BUS_ADDRESS']:env.pop(name,None)
     print('Native UI artifacts:',root,flush=True)
     sys.exit(subprocess.run(['dbus-run-session','--',sys.executable,__file__,'--inside',*sys.argv[1:]],env=env).returncode)
-root=Path(os.environ['WAYSTROKE_PROBE_DIR']);processes=[];results={}
+root=Path(os.environ['WAYSTROKE_PROBE_DIR']);processes=[];results={'extensionSourceSha256AtStartup':{p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in (root/'data/gnome-shell/extensions/waystroke@local').iterdir() if p.is_file()}}
 def spawn(name,args):
     log=(root/(name+'.log')).open('w');p=subprocess.Popen(args,stdout=log,stderr=log,start_new_session=True);processes.append(p);return p
 connection=Gio.bus_get_sync(Gio.BusType.SESSION,None)
@@ -63,10 +75,12 @@ def draw(selector):
     window=[w for w in shell({'action':'snapshot'})['windows'] if w['title']=='WayStroke'][0]['rect']
     shell({'action':'activate','title':'WayStroke'})
     shell({'action':'pointer','x':window['x']+x,'y':window['y']+y})
-    wait(lambda:core('GetRuntime')['value']['recording']=='canvas');time.sleep(.05);shell({'action':'button','button':3,'pressed':True});time.sleep(.05)
+    wait(lambda:core('GetRuntime')['value']['recording']=='canvas')
+    wait(lambda:execute(f'return window.strokeEvents.some(e=>e.type==="pointermove"&&Math.abs(e.x-{x})<1&&Math.abs(e.y-{y})<1);'))
+    shell({'action':'button','button':3,'pressed':True});wait(lambda:execute('return window.strokeEvents.some(e=>e.type==="pointerdown");'))
     for dx,dy in [(25,10),(50,40),(75,20),(100,70)]:
         shell({'action':'pointer','x':window['x']+x+dx,'y':window['y']+y+dy});time.sleep(.08)
-    shell({'action':'button','button':3,'pressed':False});time.sleep(.1)
+    shell({'action':'button','button':3,'pressed':False});wait(lambda:execute('return window.strokeEvents.some(e=>e.type==="pointerup");'))
 
 def capture(name,dialog=None):
     if dialog:assert execute(f'return document.querySelector({json.dumps(dialog)}).open;')
@@ -74,8 +88,7 @@ def capture(name,dialog=None):
     (root/name).write_bytes(base64.b64decode(http('GET',f'/session/{session}/screenshot')))
 
 def click(selector):
-    wait(lambda:execute(f'return Boolean(document.querySelector({json.dumps(selector)}));'))
-    execute(f'document.querySelector({json.dumps(selector)}).click();return true;')
+    wait(lambda:execute(f'const e=document.querySelector({json.dumps(selector)});if(!e||e.disabled)return false;e.click();return true;'))
 try:
     for schema,key,value in [('org.gnome.shell','enabled-extensions',"['waystroke@local','waystroke-probe@local']"),('org.gnome.shell','disable-user-extensions','false'),('org.gnome.desktop.interface','enable-hot-corners','false')]:subprocess.run(['gsettings','set',schema,key,value],check=True)
     if '--phase-d' in sys.argv and '--devkit' not in sys.argv:raise RuntimeError('Phase D UI tests require --devkit')
@@ -188,6 +201,143 @@ try:
         wait(lambda:execute('return document.querySelector(".input-capability .chip").textContent;')=='已暂停')
         results['unlockTextUIRestored']=True;results['complete']=True
         sys.exit(0)
+    if '--phase-e' in sys.argv:
+        assert '--devkit' in sys.argv, 'Phase E extension/UI checks require mutter-devkit'
+        # Re-enable the actual private extension through the setup button.
+        connection.call_sync('org.gnome.Shell.Extensions','/org/gnome/Shell/Extensions','org.gnome.Shell.Extensions','DisableExtension',GLib.Variant('(s)',('waystroke@local',)),GLib.VariantType('(b)'),Gio.DBusCallFlags.NONE,3000,None)
+        wait(lambda:not core('GetRuntime')['value']['status']['extensionConnected'])
+        click('.nav[data-page="runtime"]');click('#reopen-setup');click('#setup-connect')
+        wait(lambda:core('GetRuntime')['value']['status']['extensionConnected'])
+        wait(lambda:execute('return document.querySelector("#setup-connect").textContent;')=='已连接')
+        results['setupEnablesActualExtension']=True
+        click('#close-setup');click('#runtime-reconnect')
+        assert execute('return document.querySelector("#setup-dialog").open&&Boolean(document.querySelector("#setup-permission"));')
+        click('#setup-permission')
+        wait(lambda:execute('return document.querySelector("#setup-result").textContent.includes("取消");'))
+        assert not execute('return document.querySelector("#setup-permission").disabled;')
+        installation=root/'installation';assert not (installation/'etc/waystroke/inputd.conf').exists()
+        results['setupAuthorizationDenialRetryable']=True;capture('setup-authorization-canceled.png','#setup-dialog')
+        (installation/'allow').touch();click('#setup-permission')
+        wait(lambda:(installation/'etc/waystroke/inputd.conf').exists())
+        wait(lambda:execute('return document.querySelector("#setup-result").textContent.includes("已安装");'))
+        assert (installation/'usr/local/libexec/waystroke-inputd').read_bytes()==(REPO/'target/debug/waystroke-inputd').read_bytes()
+        assert (installation/'etc/waystroke/inputd.conf').read_text()==f'WAYSTROKE_INPUT_UID={os.getuid()}\n'
+        assert (installation/'etc/waystroke/inputd.conf').stat().st_mode&0o777==0o600
+        assert (installation/'etc/systemd/system/waystroke-inputd.service').read_bytes()==(REPO/'packaging/systemd/waystroke-inputd.service').read_bytes()
+        assert not core('GetRuntime')['value']['inputArmed'] and not core('GetRuntime')['value']['status']['inputConnected']
+        assert execute('return document.querySelector("#setup-permission").textContent;')=='安装并授权'
+        args=(installation/'auth-args').read_text().splitlines();assert len(args)==4 and args[0]==args[2]=='/usr/bin/bash' and all(args[index].endswith('/install.sh') for index in [1,3])
+        results['setupInstallsRealStagedFilesWithoutClaimingConnection']=True
+        click('#close-setup')
+        click('.nav[data-page="configuration"]')
+        wait(lambda:execute('return document.querySelector("#backup-list").textContent.includes("暂无本地备份");'))
+        capture('configuration-empty.png')
+        source=core('GetConfig')['value']['config']
+        source['snippets']=[{'id':'e-snippet','key':';phase-e','value':'migration content','enabled':True,'applicationId':None,'trigger':'confirm','caseSensitive':False,'boundary':True,'preserve':True}]
+        def text_binding(value):return {'mode':'literal','value':{'kind':'text','value':value}}
+        base_step={'enabled':True,'output':None,'onFailure':'stop','timeoutMs':None,'workflowId':None,'arguments':{},'children':[],'otherwise':[],'loopItem':None,'loopIndex':None}
+        source['gestures']=[{'id':'e-gesture','name':'导入轨迹','mainSampleId':'e-sample','samples':[{'id':'e-sample','points':[[0,0],[50,0],[50,80]]}]}]
+        source['workflows']=[{'id':'e-workflow','name':'导入动作','description':'实际文件效果','inputs':[],'outputs':[],'steps':[dict(base_step,id='e-write',action='file.write',params={key:text_binding(value) for key,value in {'value':str(root/'import-effect.txt'),'content':'imported workflow','mode':'覆盖','encoding':'UTF-8'}.items()})]}]
+        source['rules']=[{'id':'e-rule','name':'导入规则','enabled':True,'feedback':False,'gestureId':'e-gesture','auxiliaryButtons':[],'applicationId':None,'titleMatch':{'operator':'包含','value':''},'steps':[dict(base_step,id='e-call',action='flow.call',params={},workflowId='e-workflow')]}]
+        (root/'import.json').write_text(json.dumps(source,ensure_ascii=False))
+        def select_import(path):
+            content=path.read_text()
+            execute(f'const input=document.querySelector("#import-file"),transfer=new DataTransfer();transfer.items.add(new File([{json.dumps(content)}],{json.dumps(path.name)},{{type:"application/json"}}));input.files=transfer.files;input.dispatchEvent(new Event("change",{{bubbles:true}}));return true;')
+        select_import(root/'import.json')
+        wait(lambda:execute('return !document.querySelector("#apply-import").disabled;'))
+        assert core('GetConfig')['value']['config']['snippets']==[]
+        capture('configuration-inspected.png')
+        click('#apply-import');capture('configuration-confirm.png','#confirm-dialog');click('#cancel-confirm')
+        assert core('GetConfig')['value']['config']['snippets']==[]
+        click('#apply-import');click('#accept-confirm')
+        wait(lambda:len(core('GetConfig')['value']['config']['snippets'])==1)
+        wait(lambda:execute('return document.querySelectorAll("[data-restore-backup]").length;')==1)
+        imported=core('GetConfig')['value'];assert imported['config']['snippets'][0]['value']=='migration content'
+        backups=core('Configuration',{'operation':'list_backups'})['value'];assert len(backups)==1
+        results['configurationImportConfirmAndAutomaticBackup']=True
+        assert core('TestTextRule',{'applicationId':'test.editor','beforeCursor':';phase-e','trigger':'space','composing':False,'password':False,'terminal':False})['value']['replacement']=='migration content'
+        execution_id=core('RunRule',{'ruleId':imported['config']['rules'][0]['id'],'context':core('GetContext')['value']})['value']['executionId']
+        executed=wait(lambda:next((e for e in core('GetRuntime')['value']['executions'] if e['id']==execution_id and e['state'] not in ['queued','running']),None))
+        assert executed['state']=='succeeded',executed
+        assert (root/'import-effect.txt').read_text()=='imported workflow'
+        results['importedRulesWorkflowsAndTextActuallyApply']=True
+
+        # Re-import changed text by merge: the installed same-key entry wins.
+        source['snippets'][0]['value']='must not replace existing'
+        (root/'merge.json').write_text(json.dumps(source));select_import(root/'merge.json')
+        wait(lambda:execute('return !document.querySelector("#apply-import").disabled;'))
+        assert execute('return document.querySelector("#import-summary").textContent.includes("跳过 1 条已有文本");')
+        click('#apply-import');click('#accept-confirm');wait(lambda:core('GetConfig')['value']['revision']==imported['revision']+1)
+        assert core('GetConfig')['value']['config']['snippets'][0]['value']=='migration content'
+        results['configurationMergeKeepsExistingText']=True
+        merged=core('GetConfig')['value']['config'];assert len(merged['rules'])==2 and not merged['rules'][1]['enabled']
+        assert merged['rules'][1]['steps'][0]['workflowId']==merged['workflows'][1]['id'] and merged['workflows'][0]['id']!=merged['workflows'][1]['id']
+        assert merged['rules'][1]['gestureId']==merged['gestures'][1]['id'] and merged['gestures'][0]['id']!=merged['gestures'][1]['id']
+        results['conflictingImportsCopyAndRemapAndDisableRules']=True
+
+        # Restore the original empty document using the actual backup row.
+        backup_id=backups[0]['id'];click(f'[data-restore-backup="{backup_id}"]');click('#accept-confirm')
+        wait(lambda:core('GetConfig')['value']['config']['snippets']==[])
+        wait(lambda:execute('return document.querySelectorAll("[data-restore-backup]").length;')==3)
+        results['configurationRestoreActuallyApplies']=True
+        core('RuntimeControl',{'operation':'clearLog'})
+        click('#manual-backup');wait(lambda:execute('return document.querySelectorAll("[data-restore-backup]").length;')==4)
+        delete_id=core('Configuration',{'operation':'list_backups'})['value'][0]['id']
+        click(f'[data-delete-backup="{delete_id}"]');click('#accept-confirm')
+        wait(lambda:execute('return document.querySelectorAll("[data-restore-backup]").length;')==3)
+        results['configurationManualAndDelete']=True
+        invalid=dict(source,schemaVersion=900);(root/'invalid.json').write_text(json.dumps(invalid));before=core('GetConfig')['value']
+        select_import(root/'invalid.json');wait(lambda:execute('return document.querySelector("#import-error").textContent;'))
+        assert execute('return document.querySelector("#apply-import").disabled;')
+        assert core('GetConfig')['value']==before;capture('configuration-invalid.png')
+        results['configurationInvalidFilePreservesActive']=True
+        # The export command returns portable JSON; native save dialog is verified below.
+        content=core('Configuration',{'operation':'export_config'})['value']['content'];expected=json.loads(json.dumps(before['config']));expected['settings'].update(setupComplete=False);assert json.loads(content)==expected
+        diagnostics=core('ExportDiagnostics')['value']['content'];report=json.loads(diagnostics)
+        assert report['format']=='waystroke-diagnostics' and len(report['capabilities']['value'])==69
+        assert 'migration content' not in diagnostics and 'must not replace existing' not in diagnostics
+        results['diagnosticsAllowlist']=True
+        # Real save chooser cancellation must leave configuration and backups intact.
+        click('#export-config')
+        chooser=wait(lambda:[w for w in shell({'action':'snapshot'})['windows'] if w['title']=='保存 WayStroke 文件'])
+        shell({'action':'normal'});wait(lambda:not shell({'action':'snapshot'})['overview'])
+        shell({'action':'activate','title':'保存 WayStroke 文件'});wait(lambda:shell({'action':'snapshot'})['focus']=='保存 WayStroke 文件')
+        shell({'action':'key','keyval':0xff1b,'pressed':True});shell({'action':'key','keyval':0xff1b,'pressed':False})
+        wait(lambda:not [w for w in shell({'action':'snapshot'})['windows'] if w['title']=='保存 WayStroke 文件'])
+        assert core('GetConfig')['value']==before
+        results['nativeSaveDialogCancel']=True
+        def native_export(selector,filename):
+            destination=root/filename;click(selector)
+            wait(lambda:any(w['title']=='保存 WayStroke 文件' for w in shell({'action':'snapshot'})['windows']))
+            shell({'action':'activate','title':'保存 WayStroke 文件'});wait(lambda:shell({'action':'snapshot'})['focus']=='保存 WayStroke 文件')
+            def key(value):
+                shell({'action':'key','keyval':value,'pressed':True});shell({'action':'key','keyval':value,'pressed':False})
+            shell({'action':'key','keyval':0xffe3,'pressed':True});key(ord('l'));shell({'action':'key','keyval':0xffe3,'pressed':False})
+            time.sleep(.15)
+            shell({'action':'key','keyval':0xffe3,'pressed':True});key(ord('a'));shell({'action':'key','keyval':0xffe3,'pressed':False})
+            for char in str(destination):key(ord(char));time.sleep(.015)
+            time.sleep(.2)
+            key(0xff0d);shell({'action':'screenshot','tag':'save-'+filename});wait(destination.exists)
+            wait(lambda:not any(w['title']=='保存 WayStroke 文件' for w in shell({'action':'snapshot'})['windows']))
+            return json.loads(destination.read_text())
+        assert native_export('#export-config','export-config.json')==expected
+        backup_id=core('Configuration',{'operation':'list_backups'})['value'][0]['id']
+        expected_backup=json.loads(core('Configuration',{'operation':'export_backup','id':backup_id})['value']['content'])
+        assert native_export(f'[data-export-backup="{backup_id}"]','export-backup.json')==expected_backup
+        click('.nav[data-page="runtime"]')
+        report=native_export('#copy-diagnostics','export-diagnostics.json');assert report['format']=='waystroke-diagnostics'
+        results['nativeConfigBackupDiagnosticsExports']=True
+        shell({'action':'protocol-version','version':99})
+        wait(lambda:core('GetRuntime')['value']['status']['reason']=='桌面扩展版本不兼容')
+        wait(lambda:execute('return document.querySelector(".runtime-overview p").textContent;')=='桌面扩展版本不兼容')
+        assert not core('GetRuntime')['value']['status']['executionAvailable']
+        wait(lambda:execute('return document.querySelector(".runtime-components").textContent.includes("当前 0 项可用");'))
+        capture('runtime-incompatible.png')
+        shell({'action':'protocol-version','version':1});wait(lambda:core('GetRuntime')['value']['status']['extensionConnected'])
+        wait(lambda:execute('return document.querySelector(".runtime-overview p").textContent;')!='桌面扩展版本不兼容')
+        results['incompatibleExtensionShowsActualReasonAndRecovers']=True
+
+
     assert len(core('GetActionCapabilities')['value'])==69;results['actionCapabilityRegistry']=True
     windows=wait(lambda:[w for w in shell({'action':'snapshot'})['windows'] if w['title']=='WayStroke'])
     assert all(w['clientType']==0 for w in windows);results['nativeWindows']=windows
@@ -199,6 +349,14 @@ try:
         screenshot=http('GET',f'/session/{session}/screenshot');(root/(page+'.png')).write_bytes(base64.b64decode(screenshot))
     click('#setting-feedback');wait(lambda:core('GetConfig')['value']['config']['settings']['feedback']==False)
     results['settingSaved']=True
+    if '--phase-e' in sys.argv:
+        login_entry=Path(os.environ['XDG_CONFIG_HOME'])/'autostart/waystroke.desktop'
+        assert login_entry.exists();subprocess.run(['desktop-file-validate',str(login_entry)],check=True)
+        click('#setting-autostart');wait(lambda:not login_entry.exists())
+        click('#setting-autostart');wait(login_entry.exists)
+        assert str(REPO/'target/debug/waystroke-core') in login_entry.read_text()
+        results['autostartPreferenceCreatesAndRemovesRealEntry']=True
+
     click('.nav[data-page="text"]');click('#new-snippet')
     results['textDialog']=execute('return document.querySelector("#snippet-dialog").open;')
     assert results['textDialog']
@@ -263,14 +421,14 @@ try:
     snapshot=core('GetConfig')['value'];rule=snapshot['config']['rules'][0];rule['steps'][0].update(action='wait',params={'value':{'mode':'literal','value':{'kind':'number','value':1000}}})
     assert core('CommitConfig',{'requestId':'ui-execution','expectedRevision':snapshot['revision'],'config':snapshot['config']})['status']=='ok'
     wait(lambda:execute('return document.querySelector("#steps")?.textContent.includes("等待");'))
-    click('.nav[data-page="test"]');draw('#canvas')
+    click('.nav[data-page="test"]');execute(f'const e=document.querySelector("#test-scope");e.value={json.dumps(saved["applications"][0]["name"])};e.dispatchEvent(new Event("change",{{bubbles:true}}));return true;');draw('#canvas')
     wait(lambda:execute('return document.querySelector("#test-match").textContent;')=='配置测试')
     assert execute('return document.querySelector("#test-score").textContent;')=='100.0%'
     results['formalRecognitionPage']=True
     assert core('GetRuntime')['value']['recording']=='canvas'
     click('.nav[data-page="rules"]');wait(lambda:core('GetRuntime')['value']['recording'] is None)
     results['recordingModeReleasedOnNavigation']=True
-    click('.nav[data-page="test"]');draw('#canvas');wait(lambda:execute('return Boolean(document.querySelector("#preview-matched-action"));'))
+    click('.nav[data-page="test"]');execute(f'const e=document.querySelector("#test-scope");e.value={json.dumps(saved["applications"][0]["name"])};e.dispatchEvent(new Event("change",{{bubbles:true}}));return true;');draw('#canvas');wait(lambda:execute('return Boolean(document.querySelector("#preview-matched-action"));'))
     click('#preview-matched-action');wait(lambda:execute('return Boolean(document.querySelector("#window-dialog .window-picker button"));'));click('#window-dialog .window-picker button')
     wait(lambda:execute('return document.querySelector("#main h1").textContent;')=='运行状态')
     wait(lambda:len(core('GetRuntime')['value']['executions'])==1 and core('GetRuntime')['value']['executions'][0]['state']=='succeeded')
@@ -318,7 +476,7 @@ try:
     capture('dialog-window.png','#window-dialog');click('#close-window-dialog')
     click('.nav[data-page="runtime"]');click('#reopen-setup')
     capture('dialog-setup.png','#setup-dialog');click('#close-setup')
-    execute('document.dispatchEvent(new CustomEvent("waystroke:execution-details",{detail:{name:"配置测试"}}));return true;')
+    click('#runtime-log [data-execution]')
     wait(lambda:execute('return document.querySelector("#execution-dialog").open;'))
     capture('dialog-execution.png','#execution-dialog');click('#dismiss-execution')
     # Native window API and compositor behavior, rather than hiding the HTML frame.
@@ -329,11 +487,17 @@ try:
     click('#window-maximize');wait(lambda:execute('return document.querySelector("#window-maximize").getAttribute("aria-label");')=='还原窗口')
     click('#window-maximize');wait(lambda:execute('return document.querySelector("#window-maximize").getAttribute("aria-label");')=='最大化窗口')
     results['maximizeRestore']=True
-    before=wait(lambda:next((w['rect'] for w in shell({'action':'snapshot'})['windows'] if w['title']=='WayStroke' and w['rect']['width']==1280),None))
-    execute('window.dragEvents=[];document.addEventListener("mousedown",e=>window.dragEvents.push({button:e.button,detail:e.detail,target:e.target.outerHTML?.slice(0,100),x:e.clientX,y:e.clientY}),true);window.addEventListener("unhandledrejection",e=>window.dragEvents.push({error:String(e.reason)}));return true;')
-    shell({'action':'activate','title':'WayStroke'});shell({'action':'pointer','x':before['x']+650,'y':before['y']+25});time.sleep(.1)
+    http('POST',f'/session/{session}/window/rect',{'width':1000,'height':720})
+    before=wait(lambda:next((w['rect'] for w in shell({'action':'snapshot'})['windows'] if w['title']=='WayStroke' and w['rect']['width']==1000),None))
+    wait(lambda:execute('return innerWidth===1000&&innerHeight===720;'))
+    execute('window.dragEvents=[];window.dragPointer=null;document.addEventListener("pointermove",e=>window.dragPointer={x:e.clientX,y:e.clientY,target:e.target.hasAttribute("data-tauri-drag-region")},true);document.addEventListener("mousedown",e=>window.dragEvents.push({button:e.button,detail:e.detail,target:e.target.outerHTML?.slice(0,100),x:e.clientX,y:e.clientY}),true);window.addEventListener("unhandledrejection",e=>window.dragEvents.push({error:String(e.reason)}));return true;')
+    shell({'action':'activate','title':'WayStroke'});wait(lambda:shell({'action':'snapshot'}).get('focus')=='WayStroke')
+    shell({'action':'pointer','x':before['x']+450,'y':before['y']+25})
+    # Restore animations transform pointer coordinates; require the actual draggable hit target.
+    # The assertion below measures the resulting compositor window movement.
+    wait(lambda:execute('return window.dragPointer?.target;'))
     shell({'action':'button','button':1,'pressed':True});time.sleep(.2)
-    shell({'action':'pointer','x':before['x']+680,'y':before['y']+45});time.sleep(.2);shell({'action':'button','button':1,'pressed':False})
+    shell({'action':'pointer','x':before['x']+480,'y':before['y']+45});time.sleep(.2);shell({'action':'button','button':1,'pressed':False})
     results['dragEvents']=execute('return window.dragEvents;')
     after=wait(lambda:next((w['rect'] for w in shell({'action':'snapshot'})['windows'] if w['title']=='WayStroke' and (w['rect']['x']!=before['x'] or w['rect']['y']!=before['y'])),None))
     results['drag']={'before':before,'after':after}
@@ -363,6 +527,7 @@ try:
     wait(lambda:execute('return Boolean(document.querySelector("#main h1"))'))
     assert execute('return document.querySelector("#rule-name").value;')=='配置测试'
     results['reopenSavedConfiguration']=True
+    if '--phase-e' in sys.argv:backups_before_restart=core('Configuration',{'operation':'list_backups'})['value']
     core('Quit');wait(lambda:execute('return document.querySelector(".environment small").textContent;')=='桌面服务连接中断')
     fill('#rule-name','断连草稿');click('#save-rule')
     wait(lambda:execute('return document.querySelector("#message-dialog").open;'))
@@ -371,9 +536,27 @@ try:
     capture('dialog-message.png','#message-dialog')
     click('#ack-message');click('#revert-rule');assert execute('return document.querySelector("#rule-name").value;')=='配置测试'
     results['failedSaveCancelRestoresActive']=True
-    spawn('core-reconnected',[str(REPO/'target/debug/waystroke-core')]);wait(lambda:core('GetConfig')['status']=='ok')
+    if '--phase-e' in sys.argv:
+        subprocess.run(['gio','launch',str(login_entry)],check=True)
+    else:spawn('core-reconnected',[str(REPO/'target/debug/waystroke-core')])
+    wait(lambda:core('GetConfig')['status']=='ok')
     wait(lambda:execute('return document.querySelector(".environment small").textContent;')!='桌面服务连接中断')
     results['reconnectSnapshot']=True
+    if '--phase-e' in sys.argv:
+        assert core('Configuration',{'operation':'list_backups'})['value']==backups_before_restart
+        click('.nav[data-page="configuration"]');wait(lambda:execute('return document.querySelectorAll("[data-restore-backup]").length;')==len(backups_before_restart))
+        results['backupListSurvivesCoreAndUIRestart']=True
+    if '--phase-e' in sys.argv:
+        # Exercise a genuinely unknown extension: install files, report GNOME's relogin boundary.
+        connection.call_sync('org.gnome.Shell.Extensions','/org/gnome/Shell/Extensions','org.gnome.Shell.Extensions','UninstallExtension',GLib.Variant('(s)',('waystroke@local',)),GLib.VariantType('(b)'),Gio.DBusCallFlags.NONE,3000,None)
+        wait(lambda:not core('GetRuntime')['value']['status']['extensionConnected'])
+        click('.nav[data-page="runtime"]');click('#reopen-setup');click('#setup-connect')
+        wait(lambda:execute('return document.querySelector("#setup-result").textContent.includes("重新登录");'))
+        assert not core('GetRuntime')['value']['status']['extensionConnected']
+        for name in ['metadata.json','extension.js','clipboard.js','dialogs.js','system.js','text.js','terminal.js']:
+            assert (root/'data/gnome-shell/extensions/waystroke@local'/name).read_bytes()==(REPO/'extension'/name).read_bytes()
+        capture('setup-first-install.png','#setup-dialog');results['setupFirstInstallWritesCurrentFilesAndRequiresRelogin']=True
+        click('#close-setup')
     click('.nav[data-page="runtime"]');click('#quit-app')
     wait(lambda:not [w for w in shell({'action':'snapshot'})['windows'] if w['title']=='WayStroke'])
     owned=connection.call_sync('org.freedesktop.DBus','/org/freedesktop/DBus','org.freedesktop.DBus','NameHasOwner',GLib.Variant('(s)',('io.github.waystroke.Core',)),GLib.VariantType('(b)'),Gio.DBusCallFlags.NONE,3000,None).unpack()[0]
@@ -389,6 +572,9 @@ except Exception as error:
         try:
             results['uiError']=execute('return [...document.querySelectorAll("dialog[open],#rule-errors,#composer-errors")].map(e=>e.textContent);')
             results['textOnFailure']=execute('return {value:document.querySelector("#try-text")?.value,status:document.querySelector("#expand-status")?.textContent};')
+            results['dragOnFailure']=execute('return {pointer:window.dragPointer,events:window.dragEvents,focus:document.hasFocus(),pixelRatio:devicePixelRatio,viewport:[innerWidth,innerHeight],target:document.elementFromPoint(450,25)?.outerHTML};')
+            results['gestureOnFailure']=execute('return Object.fromEntries(["#test-scope","#test-title","#test-match","#test-reason","#test-score","#test-path"].map(selector=>{const e=document.querySelector(selector);return [selector,e?.value??e?.textContent];}));')
+            shell({'action':'screenshot','tag':'failure-desktop'})
             (root/'failure.png').write_bytes(base64.b64decode(http('GET',f'/session/{session}/screenshot')))
         except Exception:pass
     raise

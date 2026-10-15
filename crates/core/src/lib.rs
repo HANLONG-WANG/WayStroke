@@ -1,4 +1,6 @@
 //! Configuration writes are serialized here, never in the desktop webview.
+pub mod configuration;
+pub mod session;
 pub mod gesture;
 pub mod text;
 pub mod atspi;
@@ -22,13 +24,18 @@ use std::os::unix::fs::{OpenOptionsExt,PermissionsExt};
 use waystroke_model::validate;
 use waystroke_protocol::{Commit,Snapshot,Error,ErrorKind};
 
-pub struct Repository { path:PathBuf, snapshot:Snapshot }
+pub struct Repository { path:PathBuf, snapshot:Snapshot, backup_path:PathBuf, inspection:Option<configuration::Inspection>, autostart:Option<session::Autostart> }
 impl Repository {
     pub fn open(path:PathBuf)->Result<Self,Error> {
         let snapshot=if path.exists() { serde_json::from_slice(&fs::read(&path).map_err(io_error)?).map_err(|e|error(ErrorKind::Validation,format!("配置无法读取：{e}")))? } else { Snapshot::default() };
         let errors=validate(&snapshot.config);
         if !errors.is_empty() { return Err(Error{kind:ErrorKind::Validation,message:"配置校验失败，原文件保持不变".into(),details:errors}); }
-        Ok(Self{path,snapshot})
+        Ok(Self{path,snapshot,backup_path:configuration::state_path()?,inspection:None,autostart:None})
+    }
+    pub fn attach_autostart(&mut self,autostart:session::Autostart)->Result<(),Error>{
+        let desired=autostart.content(&self.snapshot.config.settings)?;
+        if autostart.read()?!=desired {autostart.write(desired.as_deref())?;}
+        self.autostart=Some(autostart);Ok(())
     }
     pub fn snapshot(&self)->Snapshot { self.snapshot.clone() }
     pub fn commit(&mut self,request:Commit)->Result<Snapshot,Error> {
@@ -37,7 +44,13 @@ impl Repository {
         if !details.is_empty() { return Err(Error{kind:ErrorKind::Validation,message:"配置校验失败".into(),details}); }
         let revision=self.snapshot.revision.checked_add(1).ok_or_else(||error(ErrorKind::Internal,"配置版本计数已耗尽"))?;
         let next=Snapshot{revision,saved_at:Some(chrono::Utc::now().to_rfc3339_opts(chrono::SecondsFormat::Millis,true)),config:request.config};
-        write_atomic(&self.path,&serde_json::to_vec_pretty(&next).map_err(|e|error(ErrorKind::Internal,e.to_string()))?)?;
+        let bytes=serde_json::to_vec_pretty(&next).map_err(|e|error(ErrorKind::Internal,e.to_string()))?;
+        let login_changed=self.snapshot.config.settings.autostart!=next.config.settings.autostart||self.snapshot.config.settings.setup_complete!=next.config.settings.setup_complete;
+        let previous=if login_changed {if let Some(login)=&self.autostart{let previous=login.read()?;login.write(login.content(&next.config.settings)?.as_deref())?;Some(previous)}else{None}}else{None};
+        if let Err(failure)=write_atomic(&self.path,&bytes){
+            if let (Some(login),Some(previous))=(&self.autostart,previous){if let Err(rollback)=login.write(previous.as_deref()){return Err(error(ErrorKind::Io,format!("{}；登录启动恢复失败：{}",failure.message,rollback.message)))}}
+            return Err(failure)
+        }
         self.snapshot=next;
         Ok(self.snapshot())
     }

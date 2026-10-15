@@ -1,0 +1,52 @@
+{
+  "command": "python3 scripts/check-ui.py --devkit --phase-e --phase-c",
+  "artifacts": "/tmp/waystroke-ui-check-fesxv6nd",
+  "sourceSha256AtArchive": {
+    "apps/desktop/package.json": "d0f7f9de339004945b7b7cb06730abd9a10ce0657fef1018aeadf023a5def293",
+    "apps/desktop/src-tauri/src/main.rs": "e94f97a07454ae7226ade59816c74eb231ba4bdc35fae9f279390a53a1a276dc",
+    "apps/desktop/src-tauri/src/setup.rs": "8a9d312c63bd6ee05aecf4a357aa74bfc8b8115cda122a7040066c528025e969",
+    "apps/desktop/src/backend.ts": "13af5a7a04b99330c59bd747045f73bae370d6f0f1617fece72fc69707af8751",
+    "apps/desktop/src/editor.js": "8938863144c0b807c0c44b54051587d02ef1a7adda22b299628c770ac58a236f",
+    "apps/desktop/src/main.ts": "98b55d4474e83cd065f3b95229e776dd3936595aecd2ca970ecd45bc1ef88d9d",
+    "crates/core/src/configuration.rs": "0cdfa5e941261963256cd47b03cf974226c8329f2fe4adc392e658350862e4ff",
+    "crates/core/src/lib.rs": "574dc31cc7f586c1adbc1c8fd7ecd23bd49f891564f3944334826e997bebf354",
+    "crates/core/src/main.rs": "c18b15331e31eed39c90ad6d366a2a0527862b94532eafb813bebaf0ad0885b3",
+    "crates/core/src/runtime.rs": "f4eed7a0a5524be234935954a8565044b487b890df3772ae427adfb5c1494f3f",
+    "crates/core/src/session.rs": "4aaa06e32cb3725d1d22fe661b16d2f29e6956dc7b2cd0ba5f5840a0118d768c",
+    "extension/extension.js": "5004d97adcc150bd7b379223c86f0553bd8620196cc45f4eb78afbe4ff08d5ad",
+    "packaging/setup-input.sh": "c026128afcf992e86e83a12d5e3ee7e6668f984f116e1ecd9a758e017ac4dd89",
+    "packaging/systemd/waystroke-inputd.service": "891d9445bb25aeb4b5669a776351f4890cb0101538f181e1f6af6be0d0b6b5fc",
+    "scripts/check-ui.py": "5b791d261b23d5a5c502ddb0ebfdb826221eb2b86e95f8495f21995b2f1008e4"
+  },
+  "binarySha256": {
+    "target/debug/waystroke-core": "a7c19aca39a36570dd32c24d8f56fb2f81929f37a851edaae267ac3218959232",
+    "target/debug/waystroke": "214901ac17686b64149ff0560e888ffec00bbae2bd567b8db2e080053ef5b8af",
+    "target/native/libwaystroke-clipboard.so": "469217a71b3e8b42da1f53d2e23ab9bf63683a3b3af8d69a965c8c32752c367e",
+    "target/debug/waystroke-inputd": "28c12f3ca03d9568a940874115134ece99c58b52a44701121d78ccacac0eefa5"
+  },
+  "loadedExtensionSha256": {
+    "terminal.js": "938e8d57644755f7a31e89c00dfe80e6171e8ea49460c65fed5e4347f7fa7408",
+    "text.js": "720fc59ffc183a7c39d6f4e391fbeabb4a3ec6fae18668bdb724d921b69d17f3",
+    "system.js": "768557aeae30ad3a9f7750f7356031487ea25d319065f9b30f43261b14fe8913",
+    "dialogs.js": "fdeaf2262deec22cbbdc7501d3c2bf8c6bc78d975e5651b10eecd6b7dbb5f154",
+    "clipboard.js": "6a0118c76b99e873ff7009f409ecceb417146e84d72ce7c81292bfd64f7ef5a6",
+    "metadata.json": "d48ac654582703a4cb6473b512bdda55e82a2e1fb8b3be2efbdd0024f31b1484",
+    "extension.js": "bc9fcb44a894f0968a57203e9caa3e5a4480088ed4ca104c8662ee58540bb924"
+  },
+  "testOnlyInstrumentation": "check-ui.py private extension copy permits protocolVersion 99 then restores 1; official actions, text, config and UI are unchanged. Clipboard forwarding disabled. No physical mouse selected.",
+  "textRegression": {
+    "command": "python3 scripts/check-ui.py --devkit --phase-d",
+    "artifacts": "/tmp/waystroke-ui-check-8s_50din"
+  },
+  "executionEnvironment": "Private mutter-devkit outside Codex filesystem sandbox, temporary XDG directories/private D-Bus; no primary-session extension tests.",
+  "extensionFilesAfterFirstInstallSha256": {
+    "terminal.js": "938e8d57644755f7a31e89c00dfe80e6171e8ea49460c65fed5e4347f7fa7408",
+    "text.js": "720fc59ffc183a7c39d6f4e391fbeabb4a3ec6fae18668bdb724d921b69d17f3",
+    "system.js": "768557aeae30ad3a9f7750f7356031487ea25d319065f9b30f43261b14fe8913",
+    "dialogs.js": "fdeaf2262deec22cbbdc7501d3c2bf8c6bc78d975e5651b10eecd6b7dbb5f154",
+    "clipboard.js": "6a0118c76b99e873ff7009f409ecceb417146e84d72ce7c81292bfd64f7ef5a6",
+    "extension.js": "5004d97adcc150bd7b379223c86f0553bd8620196cc45f4eb78afbe4ff08d5ad",
+    "metadata.json": "d48ac654582703a4cb6473b512bdda55e82a2e1fb8b3be2efbdd0024f31b1484"
+  },
+  "setupTestScope": "Real private GNOME disable/enable/uninstall and first-install resource writes. Explicit pkexec launcher fixture returns 126, then runs the actual installer unprivileged with a temporary installation prefix. Binary/service/config bytes and UID/mode checked; host systemctl and real administrator authentication were not invoked. Root execution rejects the staging override."
+}

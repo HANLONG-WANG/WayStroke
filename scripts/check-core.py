@@ -6,7 +6,7 @@ from gi.repository import Gio,GLib
 REPO=Path(__file__).resolve().parents[1]
 if '--inside' not in sys.argv:
     with tempfile.TemporaryDirectory(prefix='waystroke-core-check-') as root:
-        env=os.environ.copy();env['XDG_CONFIG_HOME']=root
+        env=os.environ.copy();env['XDG_CONFIG_HOME']=root;env['XDG_STATE_HOME']=str(Path(root)/'state')
         runtime=Path(root)/'runtime';runtime.mkdir(mode=0o700);env['XDG_RUNTIME_DIR']=str(runtime)
         result=subprocess.run(['dbus-run-session','--',sys.executable,__file__,'--inside'],env=env)
         sys.exit(result.returncode)
@@ -80,7 +80,18 @@ try:
     recognized=call('RecognizeStroke',{'points':config['gestures'][0]['samples'][0]['points'],'auxiliaryButtons':[],'context':{'sequence':1,'monotonicMs':1,'position':[0,0],'window':None,'applicationId':None,'title':None,'workspace':0,'monitor':0,'locked':False}})
     assert recognized['status']=='ok' and recognized['value']['outcome']=='matched' and recognized['value']['ruleId']=='r'
     assert not call('GetStatus')['value']['executionAvailable']
+    exported=call('Configuration',{'operation':'export_config'})['value']['content']
+    portable=json.loads(exported);assert not portable['settings']['setupComplete'] and portable['settings']['mouseDeviceId'] is None
+    backup_id=call('Configuration',{'operation':'create_backup'})['value']['id']
+    preview=call('Configuration',{'operation':'inspect_import','content':exported})['value']
+    assert preview['source']['rules']==1 and call('GetConfig')['value']['revision']==1
+    applied=call('Configuration',{'operation':'apply_import','token':preview['token'],'mode':'replace','expectedRevision':1})
+    assert applied['status']=='ok' and applied['value']['config']==config
+    restored=call('Configuration',{'operation':'restore_backup','id':backup_id,'expectedRevision':2})
+    assert restored['status']=='ok' and restored['value']['config']==config
+    assert len(call('Configuration',{'operation':'list_backups'})['value'])==3
+
     assert call('Quit')['status']=='ok';process.wait(timeout=5)
-    print('PASS: real D-Bus save/signal; unique owner; all document kinds survive restart; conflict/invalid writes preserve file; graceful quit; formal recognition RPC.')
+    print('PASS: real D-Bus save/signal; unique owner; all document kinds survive restart; conflict/invalid writes preserve file; graceful quit; formal recognition RPC; offline import/export/backup/restore.')
 finally:
     if process.poll() is None:process.terminate();process.wait(timeout=5)

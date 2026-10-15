@@ -1,3 +1,4 @@
+mod setup;
 use futures_util::StreamExt;
 use std::{process::{Command,Stdio},time::Duration};
 use tauri::{Emitter,Manager};
@@ -19,6 +20,8 @@ async fn core_call(method:String,payload:String)->Result<String,String> {
     let connection=CORE_CONNECTION.get_or_try_init(zbus::Connection::session).await.map_err(|e|e.to_string())?;
     let proxy=zbus::Proxy::new(connection,CORE_NAME,CORE_PATH,CORE_INTERFACE).await.map_err(|e|e.to_string())?;
     let result:zbus::Result<String>=match method.as_str() {
+        "configuration"=>proxy.call("Configuration",&(payload,)).await,
+        "export_diagnostics"=>proxy.call("ExportDiagnostics",&()).await,
         "get_config"=>proxy.call("GetConfig",&()).await,
         "validate_document"=>proxy.call("ValidateDocument",&(payload,)).await,
         "commit_config"=>proxy.call("CommitConfig",&(payload,)).await,
@@ -37,6 +40,38 @@ async fn core_call(method:String,payload:String)->Result<String,String> {
         _=>return Err("不支持的本地操作".into()),
     };
     result.map_err(|e|e.to_string())
+}
+/// The desktop owns file selection; the webview cannot select an output path.
+#[tauri::command]
+async fn save_file(app:tauri::AppHandle,content:String,name:String)->Result<bool,String>{
+    let (sender,receiver)=tokio::sync::oneshot::channel();let handle=app.clone();
+    app.run_on_main_thread(move ||{
+        use gtk::prelude::*;
+        let window=match handle.get_webview_window("main").ok_or("设置窗口已关闭".to_string()).and_then(|window|window.gtk_window().map_err(|e|e.to_string())){
+            Ok(window)=>window,Err(error)=>{let _=sender.send(Err(error));return;},
+        };
+        let dialog=gtk::FileChooserDialog::new(Some("保存 WayStroke 文件"),Some(&window),gtk::FileChooserAction::Save);
+        dialog.add_buttons(&[("取消",gtk::ResponseType::Cancel),("保存",gtk::ResponseType::Accept)]);
+        dialog.set_modal(true);dialog.set_destroy_with_parent(true);dialog.set_do_overwrite_confirmation(true);dialog.set_default_response(gtk::ResponseType::Accept);
+        dialog.set_current_name(match name.as_str(){"diagnostics"=>"waystroke-diagnostics.json","backup"=>"waystroke-backup.json",_=>"waystroke-config.json"});
+        let filter=gtk::FileFilter::new();filter.set_name(Some("JSON"));filter.add_pattern("*.json");dialog.add_filter(filter);
+        let sender=std::cell::RefCell::new(Some(sender));
+        dialog.connect_response(move |dialog,response|{
+            let result=if response==gtk::ResponseType::Accept{dialog.filename().map(Some).ok_or("没有选择保存位置".to_string())}else{Ok(None)};
+            let reply=sender.borrow_mut().take();
+            // No child widgets or references escape this main-thread dialog.
+            unsafe{dialog.destroy();}if let Some(reply)=reply{let _=reply.send(result);}
+        });
+        dialog.show_all();
+    }).map_err(|e|e.to_string())?;
+    let Some(path)=receiver.await.map_err(|_|"文件对话框已关闭")?? else{return Ok(false)};
+    tauri::async_runtime::spawn_blocking(move ||{
+        let parent=path.parent().ok_or("保存路径没有父目录")?;
+        use std::io::Write;use std::os::unix::fs::OpenOptionsExt;
+        let temporary=parent.join(format!(".waystroke-export-{}.tmp",std::process::id()));
+        let result=(||{let mut file=std::fs::OpenOptions::new().write(true).create_new(true).mode(0o600).open(&temporary)?;file.write_all(content.as_bytes())?;file.sync_all()?;std::fs::rename(&temporary,&path)?;std::fs::File::open(parent)?.sync_all()})();
+        if result.is_err(){let _=std::fs::remove_file(&temporary);}result.map_err(|e:std::io::Error|e.to_string())?;Ok(true)
+    }).await.map_err(|e|e.to_string())?
 }
 async fn ensure_core()->Result<(),Box<dyn std::error::Error>> {
     let connection=zbus::Connection::session().await?;
@@ -103,6 +138,6 @@ fn main() {
             });
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![core_call,default_config,launch_page])
+        .invoke_handler(tauri::generate_handler![core_call,default_config,launch_page,save_file,setup::setup_operation])
         .run(tauri::generate_context!()).expect("WayStroke desktop startup failed");
 }
