@@ -8,6 +8,8 @@ import {TerminalAdapter} from './terminal.js';
 import * as IBusManager from 'resource:///org/gnome/shell/misc/ibusManager.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
+// GNOME reports the physical Super modifier as MOD4 on native IM events;
+// accept both MOD4 and the virtual SUPER flag when identifying shortcuts.
 // Text never leaves this user's session bus and is never written to a log.
 export class TextBridge {
     constructor(extension) {
@@ -33,12 +35,12 @@ export class TextBridge {
             if(event.type()===Clutter.EventType.KEY_PRESS){
                 this.deliveredPresses.add(code);
                 const key=event.get_key_symbol(),modifiers=event.get_state();
-                if(!handled&&!this.composing()&&(key===Clutter.KEY_z||key===Clutter.KEY_Z)&&modifiers&Clutter.ModifierType.CONTROL_MASK&&!(modifiers&(Clutter.ModifierType.MOD1_MASK|Clutter.ModifierType.SUPER_MASK))&&this.undoLast())return this.originalNotify.call(this.im,event,true);
+                if(!handled&&!this.composing()&&(key===Clutter.KEY_z||key===Clutter.KEY_Z)&&modifiers&Clutter.ModifierType.CONTROL_MASK&&!(modifiers&(Clutter.ModifierType.MOD1_MASK|Clutter.ModifierType.SUPER_MASK|Clutter.ModifierType.MOD4_MASK))&&this.undoLast())return this.originalNotify.call(this.im,event,true);
                 if(![Clutter.KEY_Control_L,Clutter.KEY_Control_R,Clutter.KEY_Shift_L,Clutter.KEY_Shift_R].includes(key))this.undo=null;
                 this.generation++;this.lastInput=null;
-                if(!handled&&(modifiers&(Clutter.ModifierType.CONTROL_MASK|Clutter.ModifierType.MOD1_MASK|Clutter.ModifierType.SUPER_MASK)))this.clearNativeInput();
+                if(!handled&&(modifiers&(Clutter.ModifierType.CONTROL_MASK|Clutter.ModifierType.MOD1_MASK|Clutter.ModifierType.SUPER_MASK|Clutter.ModifierType.MOD4_MASK)))this.clearNativeInput();
                 if(this.terminal.key(event,handled))return this.originalNotify.call(this.im,event,true);
-                if(!handled&&!this.composing()&&!(modifiers&(Clutter.ModifierType.CONTROL_MASK|Clutter.ModifierType.MOD1_MASK|Clutter.ModifierType.SUPER_MASK))){
+                if(!handled&&!this.composing()&&!(modifiers&(Clutter.ModifierType.CONTROL_MASK|Clutter.ModifierType.MOD1_MASK|Clutter.ModifierType.SUPER_MASK|Clutter.ModifierType.MOD4_MASK))){
                     if(key===Clutter.KEY_space||key===Clutter.KEY_Return){
                         const snapshot=this.snapshot();
                         this.candidates.set(event.get_time(),{snapshot});

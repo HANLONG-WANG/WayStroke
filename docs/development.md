@@ -95,8 +95,13 @@ python3 scripts/check-core.py
 
 原生 UI 与桌面集成检查：
 
+快捷键捕获由 Tauri 的 `capture_shortcut` 使用独立会话 D-Bus 连接直接调用 GNOME 扩展，避免占用 core 的动作处理循环。扩展使用模态键盘抓取并临时过滤系统快捷键，松开全部按键后返回现有快捷键字符串；连接消失、锁屏、扩展停止及超时均结束捕获。`--shortcut-capture` 在私有桌面验证捕获、取消、连接退出清理、保存回填及实际发送。
+
 ```bash
 python3 scripts/check-ui.py --application-scope
+python3 scripts/check-ui.py --rule-filter
+python3 scripts/check-ui.py --ime-shortcuts
+python3 scripts/check-ui.py --shortcut-capture
 python3 scripts/check-ui.py --devkit --release --phase-e --phase-c
 python3 scripts/check-gnome.py --devkit --release --phase-c-clipboard --phase-c-composed-input
 ```
@@ -140,3 +145,5 @@ python3 -m http.server 8765 --bind 127.0.0.1 --directory design
 应用范围选择器位于 `apps/desktop/src/applications.js`。已安装应用由桌面端 `list_applications` 命令通过 GIO 读取，窗口标识由 GNOME 桥接提供；保存与匹配继续使用原有配置中的应用 ID，不更改配置格式。`--application-scope` 使用临时同名应用条目验证首次选择、按 ID 保存与重开、文本作用范围及手势标题条件，不安装应用或改动主桌面配置。原生测试的私有 D-Bus 激活文件指向被测构建，避免误用系统已安装的 core。
 
 应用候选历史与隐藏项仅为界面偏好，保存在 WebView 的 `localStorage`（`waystroke.applicationCandidates`）中；完整已安装目录不加入候选。删除候选不移除配置中的应用名称映射，也不改写规则。应用范围专项检查覆盖目录不污染候选、四处删除控件、关闭重开后的隐藏状态与重新选取恢复。
+
+原生输入事件可能只携带物理 `MOD4` 而不携带虚拟 `SUPER` 标志。文本与终端接入都将二者视为 Super 修饰键，避免把 `Super+Space` 拦截为替换确认。`--ime-shortcuts` 在私有 GNOME 会话中用两种输入源验证空白焦点、单行输入框、多行文本框的正反向输入源切换及普通空格；测试复制的扩展只记录空格事件的修饰位和上下文可用性，不记录输入文本。

@@ -54,7 +54,7 @@ export class TerminalAdapter {
         if(!this.focused())return false;
         const key=event.get_key_symbol(),state=event.get_state();
         if([Clutter.KEY_Shift_L,Clutter.KEY_Shift_R,Clutter.KEY_Control_L,Clutter.KEY_Control_R].includes(key))return false;
-        if(state&(Clutter.ModifierType.CONTROL_MASK|Clutter.ModifierType.MOD1_MASK|Clutter.ModifierType.SUPER_MASK)){
+        if(state&(Clutter.ModifierType.CONTROL_MASK|Clutter.ModifierType.MOD1_MASK|Clutter.ModifierType.SUPER_MASK|Clutter.ModifierType.MOD4_MASK)){
             // Ctrl+U is a line kill in the supported canonical/Readline modes.
             this.clear(!(state&Clutter.ModifierType.CONTROL_MASK&&key===Clutter.KEY_u));return false;
         }

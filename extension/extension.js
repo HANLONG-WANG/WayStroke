@@ -5,7 +5,7 @@ import Meta from 'gi://Meta';
 import Shell from 'gi://Shell';
 import St from 'gi://St';
 import {ClipboardBridge,clipboardCapability} from './clipboard.js';
-import {PromptBridge} from './dialogs.js';
+import {PromptBridge,ShortcutCapture} from './dialogs.js';
 import {SystemBridge} from './system.js';
 import {TextBridge} from './text.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
@@ -28,6 +28,7 @@ export default class WayStroke extends Extension {
         this.object.export(Gio.DBus.session,'/io/github/waystroke/Gnome');
         this.clipboard=new ClipboardBridge(global.display.get_selection(),value=>this.changed(value));
         this.prompts=new PromptBridge(value=>this.changed(value));
+        this.shortcutCapture=new ShortcutCapture(value=>this.changed(value));
         this.system=new SystemBridge(this.clipboard,handle=>this.target(handle));
         this.text=new TextBridge(this);
         this.deviceSignal=this.seat.connect('device-added',(_seat,device)=>this.changed({event:'deviceAdded',name:device.get_device_name()}));
@@ -42,7 +43,10 @@ export default class WayStroke extends Extension {
         try {
             const uid=await new Promise((resolve,reject)=>Gio.DBus.session.call('org.freedesktop.DBus','/org/freedesktop/DBus','org.freedesktop.DBus','GetConnectionUnixUser',new GLib.Variant('(s)',[invocation.get_sender()]),new GLib.VariantType('(u)'),Gio.DBusCallFlags.NONE,1000,null,(connection,result)=>{try{resolve(connection.call_finish(result).deep_unpack()[0])}catch(e){reject(e)}}));
             if(uid!==Gio.Credentials.new().get_unix_user())throw Object.assign(Error('仅允许同一用户会话访问'),{kind:'permission'});
-            const value=await this.call(JSON.parse(text));invocation.return_value(new GLib.Variant('(s)',[JSON.stringify({status:'ok',value})]));
+            const request=JSON.parse(text);
+            if(request.operation==='captureShortcut'&&this.locked())throw Error('锁屏时不能捕获快捷键');
+            const value=request.operation==='captureShortcut'?await this.shortcutCapture.show(invocation.get_sender()):await this.call(request);
+            invocation.return_value(new GLib.Variant('(s)',[JSON.stringify({status:'ok',value})]));
         }catch(e){invocation.return_value(new GLib.Variant('(s)',[JSON.stringify({status:'error',error:{kind:e.kind||'unavailable',message:e.message,details:[]}})]))}
     }
     async call(q) {
@@ -430,7 +434,7 @@ export default class WayStroke extends Extension {
     releaseKey(key) {if(this.heldKeys.delete(key))this.keyboard.notify_keyval(GLib.get_monotonic_time(),key,Clutter.KeyState.RELEASED)}
     releaseInputs() {
         for(const cancel of [...this.overviewWaiters])cancel();
-        this.system?.cancel();this.clipboard?.cancel();this.prompts?.cancel();
+        this.system?.cancel();this.clipboard?.cancel();this.prompts?.cancel();this.shortcutCapture?.cancel();
         for(const key of [...this.heldKeys].reverse())this.releaseKey(key);
         for(const button of this.heldButtons)this.pointer.notify_button(GLib.get_monotonic_time(),button,Clutter.ButtonState.RELEASED);
         this.heldButtons.clear();

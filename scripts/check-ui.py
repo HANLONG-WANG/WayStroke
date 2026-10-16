@@ -20,6 +20,11 @@ if '--inside' not in sys.argv:
     formal=root/'data/gnome-shell/extensions/waystroke@local';formal.mkdir()
     for name in ['extension.js','metadata.json','clipboard.js','dialogs.js','system.js','text.js','terminal.js']:shutil.copy(REPO/'extension'/name,formal/name)
     helper=ext/'extension.js';helper.write_text(helper.read_text().replace('clientType:a.meta_window.get_client_type()', 'clientType:a.meta_window.get_client_type(),minimized:a.meta_window.minimized').replace('return {panelState:', 'return {startingUp:Main.layoutManager._startingUp,actionMode:Main.actionMode,ibusReady:!!IBusManager.getIBusManager()._panelService,panelState:'))
+    if '--shortcut-capture' in sys.argv:
+        helper.write_text(helper.read_text().replace('return {startingUp:', 'return {shortcutCaptureOpen:!!Main.extensionManager.lookup("waystroke@local")?.stateObj?.shortcutCapture?.active,captureCancelRect:(()=>{const button=Main.extensionManager.lookup("waystroke@local")?.stateObj?.shortcutCapture?.active?.dialog.buttonLayout.get_children()[0];if(!button)return null;const [x,y]=button.get_transformed_position();return {x,y,width:button.width,height:button.height};})(),startingUp:'))
+    if '--ime-shortcuts' in sys.argv:
+        # Trace only the shortcut's modifier bits in this disposable extension copy.
+        code=formal/'text.js';code.write_text(code.read_text().replace('this.notify=(event,handled)=>{', 'this.notify=(event,handled)=>{if(event.type()===Clutter.EventType.KEY_PRESS&&event.get_key_symbol()===Clutter.KEY_space)console.log("IME_SHORTCUT state="+event.get_state()+" handled="+handled+" snapshot="+!!this.snapshot());'))
     if '--phase-e' in sys.argv:
         # Explicit external-command fixture; the application still invokes its fixed pkexec command.
         # Denial and real unprivileged file installation are tested, never the host service.
@@ -99,6 +104,8 @@ def click(selector):
     wait(lambda:execute(f'const e=document.querySelector({json.dumps(selector)});if(!e||e.disabled)return false;e.click();return true;'))
 try:
     for schema,key,value in [('org.gnome.shell','enabled-extensions',"['waystroke@local','waystroke-probe@local']"),('org.gnome.shell','disable-user-extensions','false'),('org.gnome.desktop.interface','enable-hot-corners','false')]:subprocess.run(['gsettings','set',schema,key,value],check=True)
+    if '--ime-shortcuts' in sys.argv or '--shortcut-capture' in sys.argv:
+        for schema,key,value in [('org.gnome.desktop.input-sources','sources',"[('xkb', 'us'), ('xkb', 'fr')]"),('org.gnome.desktop.wm.keybindings','switch-input-source',"['<Super>space']"),('org.gnome.desktop.wm.keybindings','switch-input-source-backward',"['<Shift><Super>space']")]:subprocess.run(['gsettings','set',schema,key,value],check=True)
     if '--phase-d' in sys.argv and '--devkit' not in sys.argv:raise RuntimeError('Phase D UI tests require --devkit')
     spawn('shell',['gnome-shell','--headless','--wayland','--no-x11','--wayland-display=waystroke-ui-check-0',*(['--devkit'] if '--devkit' in sys.argv else ['--virtual-monitor=1440x1000'])])
     wait(lambda:shell({'action':'snapshot'}))
@@ -132,6 +139,139 @@ try:
     wait(lambda:execute('return Boolean(document.querySelector("#main h1"))'))
     results['initial']=execute('return {title:document.querySelector("#main h1").textContent,nav:document.querySelectorAll(".nav").length,reviewTools:document.querySelectorAll(".review-tools").length};')
     assert results['initial']['nav']==8 and results['initial']['reviewTools']==0
+    if '--shortcut-capture' in sys.argv:
+        wait(lambda:shell({'action':'snapshot'})['ibusReady'] and not shell({'action':'snapshot'})['startingUp'])
+        shell({'action':'normal'});shell({'action':'activate','title':'WayStroke'})
+        click('#new-rule');fill('#rule-name','快捷键捕获测试')
+        field='#steps [data-param-key="value"]'
+        click(field+' [data-shortcut-mode="manual"]');fill(field+' input','${起点应用}')
+        click(field+' [data-shortcut-mode="capture"]');click(field+' [data-shortcut-mode="manual"]')
+        assert execute(f'return document.querySelector({json.dumps(field+" input")}).value;')=='${起点应用}'
+        click(field+' [data-shortcut-mode="manual"]');fill(field+' input','Ctrl + A')
+        click(field+' [data-shortcut-mode="capture"]')
+        assert execute(f'return document.querySelector({json.dumps(field+" input")}).value;')=='Ctrl + A'
+        def key_event(value,pressed):shell({'action':'key','keyval':value,'pressed':pressed})
+        def record(keys,expected,root_selector=field):
+            click(root_selector+' .shortcut-capture-button')
+            wait(lambda:shell({'action':'snapshot'})['shortcutCaptureOpen'])
+            for value in keys:key_event(value,True)
+            if expected=='Ctrl + Shift + T':
+                key_event(keys[-1],False)
+                assert shell({'action':'snapshot'})['shortcutCaptureOpen']
+                time.sleep(.15)
+                shell({'action':'screenshot','tag':'shortcut-capture-modal'})
+                wait(lambda:(root/'shortcut-capture-modal.png').exists() and (root/'shortcut-capture-modal.png').stat().st_size>0)
+                keys=keys[:-1]
+            for value in reversed(keys):key_event(value,False)
+            wait(lambda:not shell({'action':'snapshot'})['shortcutCaptureOpen'])
+            wait(lambda:execute(f'return document.querySelector({json.dumps(root_selector+" input")}).value;')==expected)
+        record([0xffe3,0xffe1,ord('t')],'Ctrl + Shift + T')
+        results['nativeChordCaptured']=True
+        shell({'action':'source','id':'us'})
+        record([0xffeb,32],'Super + Space')
+        assert shell({'action':'snapshot'})['ime']['source']=='us'
+        record([0xffe9,0xff09],'Alt + Tab')
+        for keys,value in [([0xff1b],'Esc'),([0xff09],'Tab'),([0xff0d],'Enter'),([0xffc2],'F5'),([0xffe3,ord('+')],'Ctrl + Shift + plus')]:record(keys,value)
+        results['systemAndStandaloneKeysCaptured']=True
+        record([0xffe3,ord('a')],'Ctrl + A')
+        click(field+' .shortcut-capture-button');wait(lambda:shell({'action':'snapshot'})['shortcutCaptureOpen'])
+        rect=shell({'action':'snapshot'})['captureCancelRect'];shell({'action':'pointer','x':rect['x']+rect['width']/2,'y':rect['y']+rect['height']/2})
+        shell({'action':'button','button':1,'pressed':True});shell({'action':'button','button':1,'pressed':False})
+        wait(lambda:not shell({'action':'snapshot'})['shortcutCaptureOpen'])
+        wait(lambda:execute(f'return document.querySelector({json.dumps(field+" .shortcut-capture-status")}).textContent.includes("已取消");'))
+        assert execute(f'return document.querySelector({json.dumps(field+" input")}).value;')=='Ctrl + A'
+        results['captureCancelPreservesPreviousValue']=True
+        client=spawn('capture-owner',['gdbus','call','--session','--dest','io.github.waystroke.Gnome','--object-path','/io/github/waystroke/Gnome','--method','io.github.waystroke.Gnome1.Call',json.dumps({'operation':'captureShortcut'})])
+        wait(lambda:shell({'action':'snapshot'})['shortcutCaptureOpen']);client.terminate();client.wait(timeout=3)
+        wait(lambda:not shell({'action':'snapshot'})['shortcutCaptureOpen'])
+        for value in [0xffeb,32]:key_event(value,True)
+        for value in [32,0xffeb]:key_event(value,False)
+        wait(lambda:shell({'action':'snapshot'})['ime']['source']=='fr')
+        shell({'action':'source','id':'us'})
+        results['ownerExitReleasesCaptureAndSystemShortcutRestored']=True
+        execute(f'document.querySelector({json.dumps(field)}).scrollIntoView({{block:"center"}});return true;');capture('shortcut-capture-editor.png')
+        click('#open-composer')
+        record([0xffe3,ord('a')],'Ctrl + A','#composer-fields [data-param-key="value"]')
+        capture('shortcut-capture-composer.png')
+        click('#composer-save');wait(lambda:execute('return Boolean(document.querySelector("#record-canvas"));'));draw('#record-canvas');click('#save-rule')
+        wait(lambda:len(core('GetConfig')['value']['config']['rules'])==1)
+        config=core('GetConfig')['value']['config'];rule=config['rules'][0]
+        assert rule['steps'][0]['params']['value']=={'mode':'literal','value':{'kind':'text','value':'Ctrl + A'}}
+        click('.nav[data-page="text"]');click('.nav[data-page="rules"]')
+        assert execute(f'return document.querySelector({json.dumps(field+" input")}).value;')=='Ctrl + A'
+        results['captureSharedWithComposerAndSavedReopened']=True
+        click('.nav[data-page="text"]');execute('const e=document.querySelector("#try-text");e.focus();e.value="hello";e.setSelectionRange(5,5);return true;')
+        context=core('GetContext')['value'];execution=core('RunRule',{'ruleId':rule['id'],'context':context})['value']['executionId']
+        wait(lambda:next((e for e in core('GetRuntime')['value']['executions'] if e['id']==execution and e['state']=='succeeded'),None))
+        wait(lambda:execute('const e=document.querySelector("#try-text");return e.selectionStart===0&&e.selectionEnd===5;'))
+        results['capturedShortcutActuallySends']=True
+        raise SystemExit(0)
+    if '--ime-shortcuts' in sys.argv:
+        wait(lambda:shell({'action':'snapshot'})['ibusReady'])
+        wait(lambda:not shell({'action':'snapshot'})['startingUp'])
+        shell({'action':'normal'});shell({'action':'activate','title':'WayStroke'})
+        snapshot=core('GetConfig')['value'];config=snapshot['config']
+        config['snippets']=[{'id':'shortcut-test','key':'abc','value':'expanded','enabled':True,'applicationId':None,'trigger':'confirm','caseSensitive':True,'boundary':True,'preserve':True}]
+        assert core('CommitConfig',{'requestId':'shortcut-fixture','expectedRevision':snapshot['revision'],'config':config})['status']=='ok'
+        click('.nav[data-page="text"]')
+        def key_event(key,pressed):shell({'action':'key','keyval':key,'pressed':pressed})
+        def switch_source(expected,backwards=False):
+            if backwards:key_event(0xffe1,True)
+            key_event(0xffeb,True);key_event(32,True);key_event(32,False);key_event(0xffeb,False)
+            if backwards:key_event(0xffe1,False)
+            wait(lambda:shell({'action':'snapshot'})['ime']['source']==expected)
+        shell({'action':'source','id':'us'})
+        execute('document.querySelector("#clear-text").focus();return true;')
+        wait(lambda:not shell({'action':'snapshot'})['ime']['hasFocus'])
+        switch_source('fr');switch_source('us',True)
+        results['inputSourceShortcutOutsideTextField']=True
+        execute('document.querySelector("#try-text").focus();return true;')
+        wait(lambda:shell({'action':'snapshot'})['ime']['hasFocus'])
+        key_event(ord('x'),True);key_event(ord('x'),False)
+        wait(lambda:execute('return document.querySelector("#try-text").value;')=='x')
+        switch_source('fr');switch_source('us',True)
+        assert execute('return document.querySelector("#try-text").value;')=='x'
+        results['inputSourceShortcutsInsideTextFieldPreserveText']=True
+        key_event(32,True);key_event(32,False)
+        wait(lambda:execute('return document.querySelector("#try-text").value;')=='x ')
+        execute('document.querySelector("#snippet-search").focus();return true;')
+        wait(lambda:shell({'action':'snapshot'})['ime']['hasFocus'])
+        key_event(ord('x'),True);key_event(ord('x'),False)
+        wait(lambda:execute('return document.querySelector("#snippet-search").value;')=='x')
+        switch_source('fr');switch_source('us',True)
+        assert execute('return document.querySelector("#snippet-search").value;')=='x'
+        results['inputSourceShortcutsWorkInSingleLineInput']=True
+        results['ordinarySpaceStillDelivered']=True
+        capture('input-source-shortcuts.png')
+        raise SystemExit(0)
+    if '--rule-filter' in sys.argv:
+        click('#new-rule');fill('#rule-name','全局筛选测试');draw('#record-canvas');click('#save-rule')
+        wait(lambda:len(core('GetConfig')['value']['config']['rules'])==1)
+        snapshot=core('GetConfig')['value'];config=snapshot['config'];global_id=config['rules'][0]['id']
+        config['applications']=[{'id':'filter.app','name':'应用规则测试'},{'id':'org.waystroke.ProbeClient','name':'probe'},{'id':'text.only','name':'文本专属应用'}]
+        app_rule=json.loads(json.dumps(config['rules'][0]));app_rule.update(id='filter-app-rule',name='应用筛选测试',applicationId='filter.app')
+        app_rule['steps'][0]['id']='filter-app-step';config['rules'].append(app_rule)
+        config['snippets'].append({'id':'text-only','key':';text','value':'text','enabled':True,'applicationId':'text.only','trigger':'confirm','caseSensitive':True,'boundary':True,'preserve':True})
+        assert core('CommitConfig',{'requestId':'filter-fixture','expectedRevision':snapshot['revision'],'config':config})['status']=='ok'
+        wait(lambda:execute('return document.querySelectorAll("#rule-list [data-id]").length;')==2)
+        def scope_options():return execute('return [...document.querySelector("#scope").options].map(option=>({value:option.value,label:option.textContent}));')
+        def filter_scope(value):
+            execute(f'const e=document.querySelector("#scope");e.value={json.dumps(value)};e.dispatchEvent(new Event("change",{{bubbles:true}}));return true;')
+            return execute('return [...document.querySelectorAll("#rule-list [data-id]")].map(row=>row.dataset.id);')
+        results['gestureScopeOptions']=scope_options()
+        assert [option['value'] for option in results['gestureScopeOptions']]==['全部','','filter.app']
+        assert [option['label'] for option in results['gestureScopeOptions']][:2]==['全部范围','所有应用']
+        assert filter_scope('')==[global_id]
+        assert filter_scope('filter.app')==['filter-app-rule']
+        assert len(filter_scope('全部'))==2
+        filter_scope('filter.app');click('[data-id="filter-app-rule"]');click('#delete-rule');click('#accept-confirm')
+        wait(lambda:len(core('GetConfig')['value']['config']['rules'])==1)
+        wait(lambda:[option['value'] for option in scope_options()]==['全部',''])
+        assert execute('return document.querySelector("#scope").value;')=='全部'
+        results['gestureFilterGlobalAllAndApplicationScopesWork']=True
+        results['deletingLastApplicationRuleRemovesItsFilter']=True
+        capture('scope-rule-filters.png')
+        raise SystemExit(0)
     if '--application-scope' in sys.argv:
         alpha='io.waystroke.ScopeCheck.alpha.desktop';beta='io.waystroke.ScopeCheck.beta.desktop'
         assert core('GetConfig')['value']['config']['applications']==[]

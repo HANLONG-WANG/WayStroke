@@ -16,6 +16,18 @@ fn requested_page(args:&[String])->Option<String> {
 fn launch_page()->Option<String> {requested_page(&std::env::args().collect::<Vec<_>>())}
 
 #[tauri::command]
+async fn capture_shortcut()->Result<Option<String>,String> {
+    // Keep the caller connection alive for the modal's lifetime. GNOME cancels
+    // capture if this settings process disconnects, including window closure.
+    let connection=zbus::Connection::session().await.map_err(|e|e.to_string())?;
+    let proxy=zbus::Proxy::new(&connection,"io.github.waystroke.Gnome","/io/github/waystroke/Gnome","io.github.waystroke.Gnome1").await.map_err(|e|e.to_string())?;
+    let raw:String=proxy.call("Call",&("{\"operation\":\"captureShortcut\"}",)).await.map_err(|e|e.to_string())?;
+    let reply:serde_json::Value=serde_json::from_str(&raw).map_err(|e|e.to_string())?;
+    if reply["status"]!="ok" {return Err(reply["error"]["message"].as_str().unwrap_or("无法捕获快捷键，请确认已加载新版 GNOME 扩展").to_string())}
+    if reply["value"].is_null(){Ok(None)}else{reply["value"].as_str().map(|value|Some(value.to_owned())).ok_or_else(||"扩展返回了无效的快捷键".into())}
+}
+
+#[tauri::command]
 fn list_applications()->Vec<serde_json::Value> {
     use gtk::gio::prelude::*;
     let mut apps=gtk::gio::AppInfo::all().into_iter().filter(|app|app.should_show())
@@ -155,6 +167,6 @@ fn main() {
             });
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![core_call,default_config,launch_page,list_applications,save_file,setup::setup_operation])
+        .invoke_handler(tauri::generate_handler![core_call,default_config,launch_page,list_applications,capture_shortcut,save_file,setup::setup_operation])
         .run(tauri::generate_context!()).expect("WayStroke desktop startup failed");
 }
