@@ -12,9 +12,13 @@ async function source(contents,onRead=null){
     if(onRead)value.connect('read',(_source,mimetype)=>onRead(mimetype));return value;
 }
 export const clipboardSource=source;
+// X11 advertises selection-management targets alongside data formats. These
+// are queries/commands, not content to back up (some even change the source).
+const selectionTargets=new Set(['TARGETS','TIMESTAMP','MULTIPLE','SAVE_TARGETS','DELETE','INSERT_SELECTION','INSERT_PROPERTY']);
 export async function snapshot(selection,cancellable){
     const contents=new Map();
     for(const mimetype of selection.get_mimetypes(Meta.SelectionType.SELECTION_CLIPBOARD)||[]){
+        if(selectionTargets.has(mimetype))continue;
         const stream=Gio.MemoryOutputStream.new_resizable();
         await new Promise((resolve,reject)=>selection.transfer_async(Meta.SelectionType.SELECTION_CLIPBOARD,mimetype,-1,stream,cancellable,(object,result)=>{try{object.transfer_finish(result);resolve()}catch(error){reject(error)}}));
         stream.close(null);contents.set(mimetype,stream.steal_as_bytes());

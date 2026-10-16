@@ -5,6 +5,7 @@ from pathlib import Path
 from gi.repository import Gio,GLib
 REPO=Path(__file__).resolve().parents[1]
 BINDIR=REPO/('target/release' if '--release' in sys.argv else 'target/debug')
+X11_CLIENT='--phase-d-atspi' in sys.argv or '--x11-clipboard' in sys.argv
 if '--inside' not in sys.argv:
     root=Path(tempfile.mkdtemp(prefix='waystroke-desktop-check-'))
     for directory in ['runtime','config','data','cache','state']:(root/directory).mkdir(mode=0o700)
@@ -18,6 +19,8 @@ if '--inside' not in sys.argv:
         dest=root/'data/gnome-shell/extensions'/uuid;dest.mkdir(parents=True)
         for file in files:shutil.copy(source/file,dest/file)
         if uuid=='waystroke@local':
+            if '--x11-clipboard' in sys.argv:
+                extension=dest/'extension.js';extension.write_text(extension.read_text().replace("case 'windows':","case 'fixtureClipboardTargets':return global.display.get_selection().get_mimetypes(Meta.SelectionType.SELECTION_CLIPBOARD);case 'windows':",1))
             if '--focus-race' in sys.argv:
                 text=dest/'text.js';text.write_text(text.read_text().replace('    async rpc(method,payload) {',"    async rpc(method,payload) {if(this.fixtureHold===method){this.fixtureHold=null;await new Promise(resolve=>this.fixtureRelease=resolve);this.fixtureRelease=null}"))
                 ext=dest/'extension.js';ext.write_text(ext.read_text().replace("case 'windows':","case 'fixtureHoldText':this.text.fixtureHold=q.method;return true;case 'fixtureReleaseText':this.text.fixtureRelease?.();return true;case 'fixtureHeldText':return !!this.text.fixtureRelease;case 'windows':",1))
@@ -99,7 +102,7 @@ try:
         subprocess.run(['gsettings','set','org.gnome.mutter','dynamic-workspaces','false'],check=True)
         subprocess.run(['gsettings','set','org.gnome.desktop.wm.preferences','num-workspaces','2'],check=True)
     if '--phase-d-terminal' in sys.argv or '--phase-d-browser' in sys.argv or '--ime' in sys.argv:subprocess.run(['gsettings','set','org.gnome.desktop.input-sources','sources',"[('xkb', 'us'), ('ibus', 'rime')]"],check=True)
-    spawn('shell',['gnome-shell','--headless','--wayland',*([] if '--phase-d-atspi' in sys.argv else ['--no-x11']),'--wayland-display=waystroke-desktop-check-0',*(['--devkit',*(['--virtual-monitor=1440x1000'] if '--multi-monitor' in sys.argv else [])] if '--devkit' in sys.argv else ['--virtual-monitor=1440x1000',*(['--virtual-monitor=1280x900'] if '--multi-monitor' in sys.argv else [])])])
+    spawn('shell',['gnome-shell','--headless','--wayland',*([] if X11_CLIENT else ['--no-x11']),'--wayland-display=waystroke-desktop-check-0',*(['--devkit',*(['--virtual-monitor=1440x1000'] if '--multi-monitor' in sys.argv else [])] if '--devkit' in sys.argv else ['--virtual-monitor=1440x1000',*(['--virtual-monitor=1280x900'] if '--multi-monitor' in sys.argv else [])])])
     results['hello']=wait(lambda:call({'operation':'hello'}));assert results['hello']['shellVersion']=='50.5'
     if '--devkit' in sys.argv:
         viewer_env=os.environ.copy();viewer_env['XDG_RUNTIME_DIR']=viewer_env['WAYSTROKE_OUTER_RUNTIME'];viewer_env['WAYLAND_DISPLAY']=viewer_env['WAYSTROKE_OUTER_DISPLAY']
@@ -178,8 +181,9 @@ try:
     if '--text-failopen' in sys.argv:
         client_source=client_source.replace('def update():', "def update():\n for w,e,p in windows:state[w.get_title()]['active']=w.is_active()")
     (root/'client.py').write_text(client_source)
-    if '--phase-d-atspi' in sys.argv:
+    if X11_CLIENT:
         snapshot=call({'action':'snapshot'},False);os.environ.update(GDK_BACKEND='x11',DISPLAY=snapshot['xDisplay'],XAUTHORITY=snapshot['xAuthority'])
+    if '--phase-d-atspi' in sys.argv:
         if '--ime' in sys.argv:
             os.environ['GTK_IM_MODULE']='ibus'
             # The daemon was started for private Wayland; X11 discovery uses a different filename.
@@ -192,8 +196,8 @@ try:
         registry=spawn('a11y-registry',['/usr/libexec/at-spi2-registryd'])
     spawn('client',[sys.executable,str(root/'client.py')])
     windows=wait(lambda:(lambda ws:ws if {'Probe A','Probe B'}.issubset({w['title'] for w in ws}) else None)(call({'operation':'windows'})));a=next(w for w in windows if w['title']=='Probe A');b=next(w for w in windows if w['title']=='Probe B')
-    assert a['clientType']==(1 if '--phase-d-atspi' in sys.argv else 0);results['windows']=windows
-    if '--phase-d-atspi' in sys.argv:wait(lambda:not call({'action':'snapshot'},False)['startingUp'])
+    assert a['clientType']==(1 if X11_CLIENT else 0);results['windows']=windows
+    if X11_CLIENT:wait(lambda:not call({'action':'snapshot'},False)['startingUp'])
     call({'operation':'desktopOverview','value':'隐藏概览'})
     if '--phase-f-installed' in sys.argv:
         def has_core():return connection.call_sync('org.freedesktop.DBus','/org/freedesktop/DBus','org.freedesktop.DBus','NameHasOwner',GLib.Variant('(s)',('io.github.waystroke.Core',)),None,Gio.DBusCallFlags.NONE,3000,None).unpack()[0]
@@ -850,6 +854,8 @@ try:
         call({'operation':'windowAction','window':a['handle'],'action':'activate'});focus()
         original={'text/plain;charset=utf-8':list('original 中文'.encode()),'text/html':list(b'<b>original</b>'),'application/x-waystroke-fixture':[0,255,42]}
         clipboard({'operation':'write','formats':original});wait(lambda:call({'operation':'clipboardRead'})=='original 中文')
+        if '--x11-clipboard' in sys.argv:
+            results['x11ClipboardTargets']=call({'operation':'fixtureClipboardTargets'});assert 'SAVE_TARGETS' in results['x11ClipboardTargets']
         before=json.loads((root/'client.json').read_text())['Probe A']['text']
         paste=step('paste',value='追加🙂中文',target='起点窗口',restore='恢复原内容')
         execution=execute_clipboard([paste]);wait(lambda:json.loads((root/'client.json').read_text())['Probe A']['text']==before+'追加🙂中文')
@@ -877,6 +883,7 @@ try:
         for mime,content in original.items():assert clipboard({'operation':'read','mime':mime})['bytes']==content
         results['phaseCCanceledPasteRestoresAllMime']=True
         focus()
+        if '--x11-clipboard' in sys.argv:results['complete']=True;raise SystemExit(0)
     if '--phase-c-system' in sys.argv:
         snapshot=core('GetConfig');config=snapshot['config'];config['settings']['feedback']=False
         config['rules'].append({'id':'system','name':'system','enabled':False,'feedback':False,'gestureId':'g','auxiliaryButtons':[],'applicationId':None,'titleMatch':{'operator':'包含','value':''},'steps':[step('wait',value=0)]})

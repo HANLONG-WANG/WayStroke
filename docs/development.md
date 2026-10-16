@@ -105,7 +105,10 @@ python3 scripts/check-ui.py --shortcut-capture
 python3 scripts/check-ui.py --editor-layout
 python3 scripts/check-ui.py --devkit --release --phase-e --phase-c
 python3 scripts/check-gnome.py --devkit --release --phase-c-clipboard --phase-c-composed-input
+python3 scripts/check-gnome.py --devkit --release --phase-c-clipboard --x11-clipboard
 ```
+
+剪贴板备份跳过 X11 的 `SAVE_TARGETS`、`TARGETS`、`TIMESTAMP`、`MULTIPLE` 及插入/删除控制目标；仍保留真实数据格式（含 `UTF8_STRING`）并传播读取错误。`--x11-clipboard` 使用真实 XWayland GTK 剪贴板来源验证粘贴与多格式恢复。独立回归检查可运行 `GI_TYPELIB_PATH=/usr/lib64/mutter-18 LD_LIBRARY_PATH=/usr/lib64/mutter-18:/usr/lib64/gnome-shell gjs -m scripts/check-clipboard.js`。
 
 `--editor-layout` 检查规则/模板卡片填满工作区、独立滚动、规则取消及文本暂停保留草稿。XWayland 超时透传的故障测试为 `scripts/check-gnome.py --devkit --phase-d-atspi --ime --text-failopen`：暂停测试应用进程以阻塞真实 AT-SPI 响应，检查首次空格/Enter 恢复、后续原键直通和切换窗口后重新替换。NVIDIA 的独立测试桌面如遇 EGL 崩溃，可仅对测试命令设置 `__EGL_VENDOR_LIBRARY_FILENAMES=/usr/share/glvnd/egl_vendor.d/50_mesa.json XWAYLAND_NO_GLAMOR=1 GALLIUM_DRIVER=llvmpipe`；无需更改主会话。
 
