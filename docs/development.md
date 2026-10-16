@@ -102,9 +102,12 @@ python3 scripts/check-ui.py --application-scope
 python3 scripts/check-ui.py --rule-filter
 python3 scripts/check-ui.py --ime-shortcuts
 python3 scripts/check-ui.py --shortcut-capture
+python3 scripts/check-ui.py --editor-layout
 python3 scripts/check-ui.py --devkit --release --phase-e --phase-c
 python3 scripts/check-gnome.py --devkit --release --phase-c-clipboard --phase-c-composed-input
 ```
+
+`--editor-layout` 检查规则/模板卡片填满工作区、独立滚动、规则取消及文本暂停保留草稿。XWayland 超时透传的故障测试为 `scripts/check-gnome.py --devkit --phase-d-atspi --ime --text-failopen`：暂停测试应用进程以阻塞真实 AT-SPI 响应，检查首次空格/Enter 恢复、后续原键直通和切换窗口后重新替换。NVIDIA 的独立测试桌面如遇 EGL 崩溃，可仅对测试命令设置 `__EGL_VENDOR_LIBRARY_FILENAMES=/usr/share/glvnd/egl_vendor.d/50_mesa.json XWAYLAND_NO_GLAMOR=1 GALLIUM_DRIVER=llvmpipe`；无需更改主会话。
 
 检查需要 `mutter-devkit`、`python3-gobject`、`WebKitWebDriver` 和 `tauri-driver`。后者可以安装到独立工具目录：
 

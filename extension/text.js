@@ -79,7 +79,7 @@ export class TextBridge {
         this.fullReset=(...args)=>{this.reset();return this.originalReset.apply(this.im,args)};
         this.im._fullReset=this.fullReset;
         this.connect(this.im,'surrounding-text-set',()=>this.surroundingChanged());
-        this.connect(global.display,'notify::focus-window',()=>{this.reset();for(const grab of this.grabs.values())Main.wm.allowKeybinding(grab.binding,this.bindingMode())});
+        this.connect(global.display,'notify::focus-window',()=>{this.accessibleBlockedWindow=null;this.reset();if(this.calibration)this.later(0,()=>this.sendCalibration());for(const grab of this.grabs.values())Main.wm.allowKeybinding(grab.binding,this.bindingMode())});
         this.connect(Main.sessionMode,'updated',()=>{this.reset();this.updateGrabs()});
         this.connect(global.display,'accelerator-activated',(_display,id,device,time)=>{
             if(id===this.calibration){this.keyboardKnown(device);return}
@@ -98,8 +98,14 @@ export class TextBridge {
         for(const name of ['F23','F22','F21']){const id=global.display.grab_accelerator(name,Meta.KeyBindingFlags.NONE);if(id){this.calibration=id;this.calibrationKey=Clutter['KEY_'+name];break}}
         if(!this.calibration){this.extension.changed({event:'textCapability',adapter:'atspi',state:'limited',reason:'本程序合成输入身份确认键不可用'});return}
         Main.wm.allowKeybinding('external-grab-'+this.calibration,Shell.ActionMode.NORMAL);
-        const send=()=>{const now=GLib.get_monotonic_time();this.extension.keyboard.notify_keyval(now,this.calibrationKey,Clutter.KeyState.PRESSED);this.extension.keyboard.notify_keyval(now+1,this.calibrationKey,Clutter.KeyState.RELEASED)};
+        const send=()=>this.sendCalibration();
         if(Main.layoutManager._startingUp)this.connect(Main.layoutManager,'startup-complete',send);else this.later(0,send);
+    }
+    sendCalibration(){
+        // The first startup attempt can run in the overview before NORMAL
+        // bindings are allowed. Retry when an application gains focus.
+        if(!this.calibration||Main.actionMode!==Shell.ActionMode.NORMAL)return;
+        const now=GLib.get_monotonic_time();this.extension.keyboard.notify_keyval(now,this.calibrationKey,Clutter.KeyState.PRESSED);this.extension.keyboard.notify_keyval(now+1,this.calibrationKey,Clutter.KeyState.RELEASED);
     }
     keyboardKnown(device){
         this.ownedKeyboard=device;global.display.ungrab_accelerator(this.calibration);this.calibration=0;this.updateGrabs();
@@ -126,6 +132,7 @@ export class TextBridge {
         if(this.excludedApplications?.has(applicationId))return {...status,state:'excluded',reason:'此应用已排除文本替换，原输入透传。',undoAvailable:false};
         if(this.composing()||this.panelComposing)return {...status,state:'composing',reason:'输入法组合期间暂缓替换，不重放已消费的确认键。',undoAvailable:false};
         if(window?.get_client_type()===Meta.WindowClientType.X11){
+            if(this.accessibleBlockedWindow===window)return {...status,adapter:'atspi',state:'unavailable',reason:'此窗口的编辑接口未可靠响应，已暂缓文本替换；空格、回车等原键正常输入。切换窗口后重试。',undoAvailable:false};
             if(!this.terminal.native?.x11_replay)return {...status,adapter:'atspi',reason:'XWayland 确认转发组件尚未就绪，原输入透传。',undoAvailable:false};
             return {...status,adapter:'atspi',state:'partial',reason:this.ownedKeyboard&&this.panel?'XWayland 编辑范围由当前焦点的 Text/EditableText 接口确认；不代表所有应用可编辑。':'XWayland 输入来源或组合状态尚不可确认。'};
         }
@@ -205,6 +212,7 @@ export class TextBridge {
     configure(snapshot){
         if(!this.alive||this.configRevision!==undefined&&snapshot.revision<=this.configRevision)return;
         this.configRevision=snapshot.revision;
+        this.accessibleBlockedWindow=null;
         this.preferenceEnabled=snapshot.config.settings.textEnabled;this.hasRules=snapshot.config.snippets.some(rule=>rule.enabled);
         this.enabled=this.preferenceEnabled&&this.hasRules;
         this.excludedApplications=new Set(snapshot.config.exclusions.filter(entry=>entry.text).map(entry=>entry.applicationId));
@@ -306,7 +314,10 @@ export class TextBridge {
         return true;
     }
     generated(callback){this.reset();this.applying=true;try{return callback()}finally{this.applying=false}}
-    bindingMode(){return this.ownedKeyboard&&this.panel&&this.terminal.native?.x11_replay&&global.display.focus_window?.get_client_type()===Meta.WindowClientType.X11?Shell.ActionMode.NORMAL:Shell.ActionMode.NONE}
+    bindingMode(){
+        const window=global.display.focus_window;
+        return this.enabled&&window&&window!==this.accessibleBlockedWindow&&window.get_client_type()===Meta.WindowClientType.X11&&!this.excludedApplications?.has(this.extension.windowInfo(window).applicationId)&&this.ownedKeyboard&&this.panel&&this.terminal.native?.x11_replay?Shell.ActionMode.NORMAL:Shell.ActionMode.NONE;
+    }
     updateGrabs(){
         for(const id of this.grabs.keys())global.display.ungrab_accelerator(id);
         this.grabs.clear();
@@ -337,7 +348,16 @@ export class TextBridge {
         const focus=this.im.currentFocus,window=global.display.focus_window,generation=this.generation;
         const candidate=this.candidates.get(time),snapshot=candidate?.snapshot;this.candidates.delete(time);
         let result;
-        try{if(grab.trigger==='literal'){const guard=this.guard();if(guard?.enabled&&!guard.composing)await this.rpc('NoteAccessibleInput',{guard,text:grab.text})}else if(grab.trigger==='undo'){const undo=this.accessibleUndo;this.accessibleUndo=null;if(undo)result=await this.rpc('UndoAccessibleText',{guard:this.guard(),token:undo.token})}else if(snapshot)result=await this.expand(snapshot,grab.trigger);else if(!focus&&this.guard()?.clientType===1){const guard=this.guard();if(guard.enabled&&guard.imeKnown){if(guard.composing&&this.immediateCharacters.length)await this.rpc('NoteAccessibleInput',{guard,text:null});else if(!guard.composing){result=await this.rpc('ExpandAccessibleText',{guard,trigger:grab.trigger});const text=grab.trigger==='space'?' ':'\n';if(result?.matched===false&&this.immediateCharacters.includes(text))await this.rpc('NoteAccessibleInput',{guard,text})}}}}catch(e){this.failure(e,window?.get_client_type()===1?'atspi':'native');if(window?.get_client_type()===1&&(e.kind==='targetInvalid'||e.kind==='timeout'||e.details?.some(detail=>detail.path==='text.partialEdit')))result={stale:true}}
+        try{if(grab.trigger==='literal'){const guard=this.guard();if(guard?.enabled&&!guard.composing)await this.rpc('NoteAccessibleInput',{guard,text:grab.text})}else if(grab.trigger==='undo'){const undo=this.accessibleUndo;this.accessibleUndo=null;if(undo)result=await this.rpc('UndoAccessibleText',{guard:this.guard(),token:undo.token})}else if(snapshot)result=await this.expand(snapshot,grab.trigger);else if(!focus&&window!==this.accessibleBlockedWindow&&this.guard()?.clientType===1){const guard=this.guard();if(guard.enabled&&guard.imeKnown){if(guard.composing&&this.immediateCharacters.length)await this.rpc('NoteAccessibleInput',{guard,text:null});else if(!guard.composing){result=await this.rpc('ExpandAccessibleText',{guard,trigger:grab.trigger});const text=grab.trigger==='space'?' ':'\n';if(result?.matched===false&&this.immediateCharacters.includes(text))await this.rpc('NoteAccessibleInput',{guard,text})}}}}catch(e){
+            this.failure(e,window?.get_client_type()===1?'atspi':'native');
+            if(window?.get_client_type()===1){
+                // Stop intercepting this window after an unreliable accessible
+                // call. Only a proven pre-edit failure permits key replay.
+                this.accessibleBlockedWindow=window;this.accessibleUndo=null;
+                for(const binding of this.grabs.values())Main.wm.allowKeybinding(binding.binding,this.bindingMode());
+                if(grab.trigger!=='literal'&&result?.matched!==false&&!e.details?.some(detail=>detail.path==='text.unmodified'))result={stale:true};
+            }
+        }
         if(!this.alive||this.extension.locked()||generation!==this.generation||window!==global.display.focus_window||focus!==this.im.currentFocus||result?.stale)return;
         if(result?.undoToken)this.accessibleUndo={token:result.undoToken};
         if(grab.trigger==='undo'&&result?.matched)return;

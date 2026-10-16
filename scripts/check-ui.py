@@ -139,6 +139,39 @@ try:
     wait(lambda:execute('return Boolean(document.querySelector("#main h1"))'))
     results['initial']=execute('return {title:document.querySelector("#main h1").textContent,nav:document.querySelectorAll(".nav").length,reviewTools:document.querySelectorAll(".review-tools").length};')
     assert results['initial']['nav']==8 and results['initial']['reviewTools']==0
+    if '--editor-layout' in sys.argv:
+        click('#new-rule');fill('#rule-name','布局测试')
+        click('#steps [data-param-key="value"] [data-shortcut-mode="manual"]');fill('#steps [data-param-key="value"] input','Ctrl + A')
+        draw('#record-canvas');click('#save-rule')
+        wait(lambda:len(core('GetConfig')['value']['config']['rules'])==1)
+        snapshot=core('GetConfig')['value'];config=snapshot['config'];original=config['rules'][0]
+        for i in range(30):
+            rule=json.loads(json.dumps(original));rule.update(id='layout-'+str(i),name='规则 '+str(i),enabled=False);rule['steps'][0]['id']='layout-step-'+str(i);config['rules'].append(rule)
+        assert core('CommitConfig',{'requestId':'layout-fixture','expectedRevision':snapshot['revision'],'config':config})['status']=='ok'
+        wait(lambda:execute('return document.querySelectorAll(".rule-row").length;')==31)
+        click('.rule-row')
+        def geometry(grid,editor):
+            return execute(f'const grid=document.querySelector({json.dumps(grid)}),e=document.querySelector({json.dumps(editor)}),a=grid.getBoundingClientRect(),b=e.getBoundingClientRect(),m=document.querySelector("main").getBoundingClientRect(),l=grid.firstElementChild;return {{top:b.top,bottom:b.bottom,height:b.height,gridBottom:a.bottom,mainBottom:m.bottom,leftScroll:l.scrollTop,leftOverflow:l.scrollHeight-l.clientHeight,bodyOverflow:e.querySelector(".editor-body").scrollHeight-e.querySelector(".editor-body").clientHeight}};')
+        before=geometry('.rule-layout','#editor');assert abs(before['bottom']-before['gridBottom'])<2 and before['mainBottom']-before['bottom']<35 and before['leftOverflow']>0
+        execute('document.querySelector(".rule-layout>section").scrollTop=600;return true;')
+        after=geometry('.rule-layout','#editor');assert after['leftScroll']>0 and after['top']==before['top'] and after['bottom']==before['bottom']
+        execute('document.querySelector("#editor .editor-body").scrollTop=900;return true;');capture('rule-editor-height.png')
+        fill('#rule-name','不会保存的修改');click('#pause-text')
+        wait(lambda:core('GetConfig')['value']['config']['settings']['textEnabled']==False)
+        assert core('GetConfig')['value']['config']['settings']['gesturesEnabled']==config['settings']['gesturesEnabled']
+        assert execute('return document.querySelector("#rule-name").value;')=='不会保存的修改'
+        assert execute('return document.querySelector("#pause-text").textContent.includes("恢复文本替换");')
+        click('#pause-text');wait(lambda:core('GetConfig')['value']['config']['settings']['textEnabled'])
+        click('#revert-rule');assert execute('return !document.querySelector("#rule-name")&&!document.querySelector(".rule-row.selected");')
+        click('.rule-row');assert execute('return document.querySelector("#rule-name").value;')=='布局测试'
+        click('#new-rule');click('#revert-rule');assert execute('return !document.querySelector("#rule-name");')
+        click('.nav[data-page="gestures"]');click('[data-edit-gesture]')
+        sample=geometry('.gesture-library-grid','#template-editor');assert abs(sample['bottom']-sample['gridBottom'])<2 and sample['mainBottom']-sample['bottom']<35
+        capture('template-editor-height.png')
+        results['editorPanelsFillRemainingHeightAndScrollIndependently']=True
+        results['textPauseIndependentAndDraftPreserved']=True
+        results['ruleCancelClosesAndDiscardsDraft']=True
+        raise SystemExit(0)
     if '--shortcut-capture' in sys.argv:
         wait(lambda:shell({'action':'snapshot'})['ibusReady'] and not shell({'action':'snapshot'})['startingUp'])
         shell({'action':'normal'});shell({'action':'activate','title':'WayStroke'})

@@ -63,9 +63,7 @@ impl Core {
         if let Err(e)=authorize(connection,&header).await{return reply::<serde_json::Value>(Err(e));}
         let request=match serde_json::from_str::<waystroke_core::atspi::Request>(request){Ok(request)=>request,Err(e)=>return reply::<serde_json::Value>(Err(error(ErrorKind::Validation,e.to_string())))};
         let config=self.repository.lock().await.snapshot().config;
-        match tokio::time::timeout(std::time::Duration::from_millis(400),self.atspi.clone().expand(connection,&config,request)).await {
-            Ok(result)=>reply(result),Err(_)=>reply::<serde_json::Value>(Err(error(ErrorKind::Timeout,"AT-SPI 编辑超时"))),
-        }
+        reply(self.atspi.clone().expand(connection,&config,request).await)
     }
     async fn note_accessible_input(&self,request:&str,#[zbus(connection)] connection:&zbus::Connection,#[zbus(header)] header:zbus::message::Header<'_>)->String {
         if let Err(e)=authorize(connection,&header).await{return reply::<bool>(Err(e));}
@@ -79,7 +77,7 @@ impl Core {
     async fn undo_accessible_text(&self,request:&str,#[zbus(connection)] connection:&zbus::Connection,#[zbus(header)] header:zbus::message::Header<'_>)->String {
         if let Err(e)=authorize(connection,&header).await{return reply::<serde_json::Value>(Err(e));}
         let request=match serde_json::from_str::<waystroke_core::atspi::UndoRequest>(request){Ok(request)=>request,Err(e)=>return reply::<serde_json::Value>(Err(error(ErrorKind::Validation,e.to_string())))};
-        match tokio::time::timeout(std::time::Duration::from_millis(400),self.atspi.undo(connection,request)).await {Ok(result)=>reply(result),Err(_)=>reply::<serde_json::Value>(Err(error(ErrorKind::Timeout,"AT-SPI 撤销超时")))}
+        reply(self.atspi.undo(connection,request).await)
     }
     async fn clear_accessible_text(&self,token:&str,#[zbus(connection)] connection:&zbus::Connection,#[zbus(header)] header:zbus::message::Header<'_>)->String {
         if let Err(e)=authorize(connection,&header).await{return reply::<()>(Err(e));}

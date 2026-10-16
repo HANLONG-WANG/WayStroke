@@ -32,6 +32,18 @@ pub(super) fn bus_error(e:impl std::fmt::Display)->Error {error(ErrorKind::Unava
 fn partial_error(mut error:Error)->Error {
     error.details.push(waystroke_model::ValidationError{path:"text.partialEdit".into(),message:"文本可能已改变；停止重放确认键".into()});error
 }
+// A timed-out read must not be confused with a timed-out write. Once a write
+// was sent, its result is uncertain even if its D-Bus future was canceled.
+async fn checked_edit(edited:&AtomicBool,operation:impl std::future::Future<Output=Result<serde_json::Value,Error>>)->Result<serde_json::Value,Error>{
+    let result=tokio::time::timeout(std::time::Duration::from_millis(350),operation).await
+        .unwrap_or_else(|_|Err(error(ErrorKind::Timeout,"AT-SPI 编辑超时")));
+    result.map_err(|mut error|{
+        if edited.load(Ordering::Relaxed){
+            if !error.details.iter().any(|detail|detail.path=="text.partialEdit"){error=partial_error(error)}
+        }else{error.details.push(waystroke_model::ValidationError{path:"text.unmodified".into(),message:"尚未发出编辑请求，可恢复原确认键".into()})}
+        error
+    })
+}
 impl Adapter {
     pub async fn status(&self)->serde_json::Value {json!({"immediateReady":self.input_ready.load(Ordering::Relaxed),"undoAvailable":self.undo.lock().await.is_some(),"inputError":self.input_error.lock().await.clone(),"inputKeys":self.input_keys.load(Ordering::Relaxed)})}
     pub(super) async fn input_error(&self,error:Option<String>){*self.input_error.lock().await=error;}
@@ -145,6 +157,10 @@ impl Adapter {
     }
     pub async fn clear(&self,token:&str){let mut undo=self.undo.lock().await;if undo.as_ref().is_some_and(|entry|entry.token==token){*undo=None;}}
     pub async fn undo(&self,session:&zbus::Connection,request:UndoRequest)->Result<serde_json::Value,Error>{
+        let edited=AtomicBool::new(false);
+        checked_edit(&edited,self.undo_inner(session,request,&edited)).await
+    }
+    async fn undo_inner(&self,session:&zbus::Connection,request:UndoRequest,edited:&AtomicBool)->Result<serde_json::Value,Error>{
         let _editing=self.editing.lock().await;
         let mut slot=self.undo.lock().await;
         if !slot.as_ref().is_some_and(|entry|entry.token==request.token){return Ok(json!({"matched":false}))}
@@ -160,6 +176,7 @@ impl Adapter {
         };
         Self::guard(&desktop,&request.guard).await?;
         let editable=Self::proxy(&bus,&actual.node,EDITABLE).await?;
+        edited.store(true,Ordering::Relaxed);
         let deleted:bool=editable.call("DeleteText",&(entry.start,actual.cursor)).await.map_err(bus_error).map_err(partial_error)?;
         if !deleted{return Err(partial_error(error(ErrorKind::Unavailable,"应用拒绝撤销替换的删除操作")))}
         Self::guard(&desktop,&request.guard).await.map_err(partial_error)?;
@@ -176,6 +193,10 @@ impl Adapter {
         Ok(json!({"matched":true,"adapter":"atspi"}))
     }
     pub async fn expand(self:Arc<Self>,session:&zbus::Connection,config:&Config,request:Request)->Result<serde_json::Value,Error>{
+        let edited=AtomicBool::new(false);
+        checked_edit(&edited,self.expand_inner(session,config,request,&edited)).await
+    }
+    async fn expand_inner(&self,session:&zbus::Connection,config:&Config,request:Request,edited:&AtomicBool)->Result<serde_json::Value,Error>{
         let _editing=self.editing.lock().await;
         let desktop=Desktop::new(session.clone());
         Self::guard(&desktop,&request.guard).await?;
@@ -189,6 +210,7 @@ impl Adapter {
         if Self::read(&bus,&context.node).await?.as_ref()!=Some(&context){return Err(error(ErrorKind::TargetInvalid,"AT-SPI 焦点或文本范围已变化"))}
         let start=context.cursor-expansion.delete_chars as i32;
         let editable=Self::proxy(&bus,&context.node,EDITABLE).await?;
+        edited.store(true,Ordering::Relaxed);
         let deleted:bool=editable.call("DeleteText",&(start,context.cursor)).await.map_err(bus_error).map_err(partial_error)?;
         if !deleted{return Err(partial_error(error(ErrorKind::Unavailable,"应用拒绝删除关键词")))}
         Self::guard(&desktop,&request.guard).await.map_err(partial_error)?;
@@ -205,5 +227,20 @@ impl Adapter {
         let token=uuid::Uuid::new_v4().to_string();
         *self.undo.lock().await=Some(Undo{token:token.clone(),guard:request.guard,before:context.clone(),after,start,confirmation:if expansion.preserve{expansion.confirmation}else{String::new()},confirmed:false});
         Ok(json!({"matched":true,"preserve":expansion.preserve,"ruleId":expansion.rule_id,"adapter":"atspi","undoToken":token}))
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[tokio::test]
+    async fn timeout_reports_whether_an_edit_was_sent(){
+        let edited=AtomicBool::new(false);
+        let before=checked_edit(&edited,std::future::pending()).await.unwrap_err();
+        assert!(matches!(before.kind,ErrorKind::Timeout));
+        assert!(before.details.iter().any(|detail|detail.path=="text.unmodified"));
+        let after=checked_edit(&edited,async{edited.store(true,Ordering::Relaxed);std::future::pending().await}).await.unwrap_err();
+        assert!(after.details.iter().any(|detail|detail.path=="text.partialEdit"));
+        assert!(!after.details.iter().any(|detail|detail.path=="text.unmodified"));
     }
 }
