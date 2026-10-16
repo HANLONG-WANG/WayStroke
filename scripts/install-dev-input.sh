@@ -38,6 +38,7 @@ fi
 install -d -o root -g root -m 0755 /usr/local/libexec /etc/waystroke
 install -o root -g root -m 0755 "$repo/target/debug/waystroke-inputd" /usr/local/libexec/waystroke-inputd
 install -o root -g root -m 0644 "$repo/packaging/systemd/waystroke-inputd.service" /etc/systemd/system/waystroke-inputd.service
+sed -i 's|/usr/bin/waystroke-inputd|/usr/local/libexec/waystroke-inputd|' /etc/systemd/system/waystroke-inputd.service
 printf 'WAYSTROKE_INPUT_UID=%s\n' "$stroke_uid" > /etc/waystroke/inputd.conf
 chown root:root /etc/waystroke/inputd.conf
 chmod 0600 /etc/waystroke/inputd.conf

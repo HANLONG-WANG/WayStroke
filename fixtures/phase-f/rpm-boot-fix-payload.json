@@ -1,0 +1,20 @@
+{
+  "rpm": "target/rpm/RPMS/x86_64/waystroke-0.1.0-2.fc44.x86_64.rpm",
+  "sha256": "e396d24329ca6d5da4cf95157d578367ff669c945fda36ada4465e4211a3e119",
+  "matchesVerifiedFiles": {
+    "/usr/bin/waystroke": "90f608e57ea15e863cc3a3edbd546cb3b670674d94f4bf8dc5504fff63b4cba5",
+    "/usr/bin/waystroke-core": "ea02d117e55570c2990eedb08120c3422875deac8e20626e63848a0be9569b89",
+    "/usr/bin/waystroke-inputd": "bfd76a3bdbf3d3b57e9d5b172103964a3b68cf2832a4ab03774b7c2754e95598",
+    "/usr/share/gnome-shell/extensions/waystroke@local/metadata.json": "d48ac654582703a4cb6473b512bdda55e82a2e1fb8b3be2efbdd0024f31b1484",
+    "/usr/share/gnome-shell/extensions/waystroke@local/extension.js": "8a2224caf256068e12f3c2c8f27bc80289189eae81c9c7f953201d0fd75183bd",
+    "/usr/share/gnome-shell/extensions/waystroke@local/clipboard.js": "6a0118c76b99e873ff7009f409ecceb417146e84d72ce7c81292bfd64f7ef5a6",
+    "/usr/share/gnome-shell/extensions/waystroke@local/dialogs.js": "fdeaf2262deec22cbbdc7501d3c2bf8c6bc78d975e5651b10eecd6b7dbb5f154",
+    "/usr/share/gnome-shell/extensions/waystroke@local/system.js": "768557aeae30ad3a9f7750f7356031487ea25d319065f9b30f43261b14fe8913",
+    "/usr/share/gnome-shell/extensions/waystroke@local/text.js": "ddca0296c23ea7bd56b6d149b29ad711bfbe2ab16beb909a3ac43a676840b4c2",
+    "/usr/share/gnome-shell/extensions/waystroke@local/terminal.js": "938e8d57644755f7a31e89c00dfe80e6171e8ea49460c65fed5e4347f7fa7408",
+    "/usr/libexec/waystroke/authorize-input": "06c5375cc7eaaf4262a753c316773f6fe079a5c8b866e0d361abbd5912ebefe4",
+    "/usr/libexec/waystroke/stop-sessions": "17986db8335fcecea0249471f7a316340fc4a362c99e67235e162d3573d4cf9c",
+    "/usr/lib64/libwaystroke-clipboard.so": "469217a71b3e8b42da1f53d2e23ab9bf63683a3b3af8d69a965c8c32752c367e",
+    "/usr/lib64/girepository-1.0/WayStrokeClipboard-1.0.typelib": "d2d9641307c7491d22da339671105eb5b508d512e494b2c7aad2f614273a45bd"
+  }
+}

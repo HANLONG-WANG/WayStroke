@@ -1,0 +1,61 @@
+{
+  "hello": {
+    "protocolVersion": 1,
+    "instance": "e07d9b4d-72fd-429f-9875-d43c54056941",
+    "locked": false,
+    "shellVersion": "50.5",
+    "capabilities": [
+      "liveRuleName",
+      "bottomFeedback",
+      "quietGestureStart",
+      "declarativeActionsV1",
+      "stableInputFocus"
+    ]
+  },
+  "devkit": {
+    "viewer": true,
+    "privateBusAndConfig": true,
+    "softwareRenderingForced": false,
+    "clipboardForwardingDisabled": [
+      "/org/gnome/Mutter/RemoteDesktop/Session/u1"
+    ]
+  },
+  "windows": [
+    {
+      "handle": {
+        "instance": "e07d9b4d-72fd-429f-9875-d43c54056941",
+        "id": "1"
+      },
+      "title": "Probe A",
+      "applicationId": "org.waystroke.ProbeClient",
+      "clientType": 0
+    },
+    {
+      "handle": {
+        "instance": "e07d9b4d-72fd-429f-9875-d43c54056941",
+        "id": "2"
+      },
+      "title": "Probe B",
+      "applicationId": "org.waystroke.ProbeClient",
+      "clientType": 0
+    }
+  ],
+  "installedRpmDesktop": {
+    "nativeWayland": true,
+    "sessionBusActivation": true,
+    "closePreservesCore": true,
+    "reopenUsesSameCore": true,
+    "packagedNativeClipboard": true,
+    "coreQuit": true
+  },
+  "complete": true,
+  "environment": {
+    "kind": "RPM payload extracted unchanged and mounted read-only at /usr in a private mount namespace",
+    "desktop": "mutter-devkit",
+    "hostUsrChanged": false,
+    "privateDev": true,
+    "hostDeviceBindings": false,
+    "developmentLibraryPaths": false,
+    "screenshotVisuallyVerified": true
+  }
+}

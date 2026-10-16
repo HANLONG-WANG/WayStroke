@@ -1,0 +1,43 @@
+{
+  "hello": {
+    "protocolVersion": 1,
+    "instance": "601a1b1c-7035-4386-9b6e-b0731eb3ea2a",
+    "locked": false,
+    "shellVersion": "50.5",
+    "capabilities": [
+      "liveRuleName",
+      "bottomFeedback",
+      "quietGestureStart",
+      "declarativeActionsV1",
+      "stableInputFocus"
+    ]
+  },
+  "windows": [
+    {
+      "handle": {
+        "instance": "601a1b1c-7035-4386-9b6e-b0731eb3ea2a",
+        "id": "1"
+      },
+      "title": "Probe A",
+      "applicationId": "org.waystroke.ProbeClient",
+      "clientType": 0
+    },
+    {
+      "handle": {
+        "instance": "601a1b1c-7035-4386-9b6e-b0731eb3ea2a",
+        "id": "2"
+      },
+      "title": "Probe B",
+      "applicationId": "org.waystroke.ProbeClient",
+      "clientType": 0
+    }
+  ],
+  "phaseFActualInputdDisconnect": {
+    "runningCanceled": true,
+    "queuedNeverStarted": true,
+    "reconnected": true,
+    "heldShiftReleased": true,
+    "physicalGrab": false
+  },
+  "complete": true
+}

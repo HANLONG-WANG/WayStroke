@@ -440,8 +440,16 @@ export default class WayStroke extends Extension {
         this.feedbackActor=new St.Label({text,reactive:false,style:'background:#262633;color:white;padding:12px 20px;border-radius:12px;font-size:13px;'});Main.layoutManager.addTopChrome(this.feedbackActor);
         const [px,py]=global.get_pointer();
         const monitor=Main.layoutManager.monitors[monitorIndex]||Main.layoutManager.monitors.find(m=>px>=m.x&&px<m.x+m.width&&py>=m.y&&py<m.y+m.height)||Main.layoutManager.primaryMonitor;
-        const width=this.feedbackActor.get_preferred_width(-1)[1],height=this.feedbackActor.get_preferred_height(width)[1];
-        this.feedbackActor.set_position(Math.round(monitor.x+(monitor.width-width)/2),Math.round(monitor.y+monitor.height-height-64));
+        const actor=this.feedbackActor;
+        const position=()=>{
+            const width=actor.get_preferred_width(-1)[1],height=actor.get_preferred_height(width)[1];
+            actor.set_position(Math.round(monitor.x+(monitor.width-width)/2),Math.round(monitor.y+monitor.height-height-64));
+        };
+        // Font metrics and resource scale can settle after the first layout on mixed-scale monitors.
+        actor.connect('style-changed',position);
+        actor.connect('notify::width',position);
+        actor.connect('notify::height',position);
+        position();
         this.feedbackTimer=GLib.timeout_add(GLib.PRIORITY_DEFAULT,1500,()=>{this.feedbackActor?.destroy();this.feedbackActor=null;this.feedbackTimer=0;return GLib.SOURCE_REMOVE});
     }
     disable() {

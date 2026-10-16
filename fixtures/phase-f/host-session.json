@@ -1,0 +1,95 @@
+{
+  "time": "2026-10-15T14:54:58.840100+00:00",
+  "rpmVersion": "0.1.0-1.fc44",
+  "originalGesturesEnabled": true,
+  "restoreGesturePreferencePending": false,
+  "identityDigestBefore": "708a93bfe69de0f42b320a37f33239db70c6fa41164510fe9224f9aac4d7145f",
+  "entityCountsBefore": {
+    "rules": 3,
+    "gestures": 1,
+    "workflows": 0,
+    "snippets": 0
+  },
+  "installedBinarySha256": {
+    "waystroke": "90f608e57ea15e863cc3a3edbd546cb3b670674d94f4bf8dc5504fff63b4cba5",
+    "waystroke-core": "ea02d117e55570c2990eedb08120c3422875deac8e20626e63848a0be9569b89",
+    "waystroke-inputd": "bfd76a3bdbf3d3b57e9d5b172103964a3b68cf2832a4ab03774b7c2754e95598"
+  },
+  "complete": true,
+  "pausedRevision": 29,
+  "inputArmed": true,
+  "oldUserExtensionBackup": "/home/hubery-fedora/.local/state/waystroke/deployment/extension-before-phase-f-1792076102597008642",
+  "systemExtensionFilesMatchSource": true,
+  "newGnomeSessionRequired": false,
+  "autostartUsesInstalledUserService": true,
+  "autostartTryExec": true,
+  "nativeFilesMatch": {
+    "library": true,
+    "typelib": true
+  },
+  "coreUserUnit": "ActiveState=active\nFragmentPath=/usr/lib/systemd/user/waystroke-core.service",
+  "mouseServiceAtCheck": "active",
+  "polkitAuthorizationPending": false,
+  "userIdentitiesPreserved": true,
+  "revision": 32,
+  "authorizationExecSessionId": 2954,
+  "windowExecSessionId": 44214,
+  "blockedOnUserAuthenticationAndNewSession": false,
+  "consecutiveResumedGoalTurnsBlocked": 3,
+  "systemExtensionTextInterfaceLoaded": true,
+  "authorizationConfirmedByJournal": "2026-10-16 00:09:54: inputd started successfully; root 0600 authorization file retained",
+  "hostRestartRevealedDisabledInputService": true,
+  "bootFixRpmRequired": "0.1.0-2.fc44",
+  "rpmVersionAfterBootFix": "waystroke-0.1.0-2.fc44.x86_64",
+  "bootServiceEnabled": true,
+  "upgrade2Verified": true,
+  "upgradeExecSessionId": 71630,
+  "selectedDeviceMatches": 1,
+  "preLiveConfigSha256": "dc3c947039077cafa4dea182a97eb4a3028c12bf34377063791fd3bcc2c75ba0",
+  "liveTestDirectory": "/tmp/waystroke-phase-f-live-4kvlg0pu",
+  "temporaryRuleId": "phase-f-hotplug-dcb13dd5-d432-4bc6-a417-a16744d987fb",
+  "temporaryRuleCleanupPending": false,
+  "testRuleRevision": 30,
+  "liveArmedRevision": 31,
+  "liveBaselineRuntime": {
+    "text": {
+      "connected": true,
+      "enabled": true,
+      "terminalEnabled": true,
+      "adapter": "none",
+      "state": "empty",
+      "applicationId": "com.microsoft.VSCode.desktop",
+      "reason": "尚无已启用的文本规则；可新建规则后使用。",
+      "undoAvailable": false
+    },
+    "lastTextResult": null,
+    "status": {
+      "protocolVersion": 1,
+      "coreVersion": "0.1.0",
+      "extensionConnected": true,
+      "inputConnected": true,
+      "executionAvailable": true,
+      "reason": "鼠标手势已接入；具体动作能力见运行状态"
+    },
+    "devices": [
+      {
+        "id": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+        "name": "Logitech G304",
+        "path": "/dev/input/event17",
+        "physicalPath": "pci-0000:00:14.0-usb-0:11.2:1.2"
+      }
+    ],
+    "selectedDeviceId": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+    "inputArmed": true,
+    "locked": false,
+    "recording": null,
+    "executions": [],
+    "timings": []
+  },
+  "liveGestureSucceeded": true,
+  "liveWindowMaximized": true,
+  "physicalReplugStillPending": false,
+  "physicalReplugPerformed": false,
+  "physicalReplugDisposition": "User explicitly skipped: inconvenient to unplug receiver",
+  "originalConfigurationRestored": true
+}

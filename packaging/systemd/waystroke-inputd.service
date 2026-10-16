@@ -1,11 +1,13 @@
 [Unit]
 Description=WayStroke authorized mouse input service
 After=systemd-udevd.service
+Conflicts=waystroke-input-probe.service
+ConditionPathExists=/etc/waystroke/inputd.conf
 
 [Service]
 Type=simple
 EnvironmentFile=/etc/waystroke/inputd.conf
-ExecStart=/usr/local/libexec/waystroke-inputd --uid ${WAYSTROKE_INPUT_UID}
+ExecStart=/usr/bin/waystroke-inputd --uid ${WAYSTROKE_INPUT_UID}
 Restart=on-failure
 RuntimeDirectory=waystroke
 RuntimeDirectoryMode=0711

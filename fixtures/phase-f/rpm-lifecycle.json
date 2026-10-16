@@ -1,0 +1,15 @@
+{
+  "physicalInput": false,
+  "installIdle": true,
+  "sessionBusActivation": true,
+  "sigtermCleanExit": true,
+  "fixedRootAuthorizationAndProbeSwitch": {
+    "idleService": true,
+    "invalidUidRejected": true,
+    "actualUinput": false
+  },
+  "upgradePreservesConfigAndAuthorization": true,
+  "uninstallStopsAndRetainsUserData": true,
+  "configSha256": "cf49817526e4a8d873df7ccc00c90bd220776952eb6d9acb2d6e5276b93e8379",
+  "complete": true
+}

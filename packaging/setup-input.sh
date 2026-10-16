@@ -20,11 +20,13 @@ if [[ -z $stage ]]; then
     command -v restorecon >/dev/null
     command -v udevadm >/dev/null
     if [[ ! -c /dev/uinput ]]; then modprobe uinput; fi
+    if systemctl cat waystroke-input-probe.service >/dev/null 2>&1; then systemctl disable --now waystroke-input-probe.service; fi
     if systemctl cat waystroke-inputd.service >/dev/null 2>&1; then systemctl stop waystroke-inputd.service; fi
 fi
 install -d -m 0755 "$stage/usr/local/libexec" "$stage/etc/waystroke" "$stage/etc/systemd/system"
 install -m 0755 "$payload/waystroke-inputd" "$stage/usr/local/libexec/waystroke-inputd"
 install -m 0644 "$payload/waystroke-inputd.service" "$stage/etc/systemd/system/waystroke-inputd.service"
+sed -i 's|/usr/bin/waystroke-inputd|/usr/local/libexec/waystroke-inputd|' "$stage/etc/systemd/system/waystroke-inputd.service"
 printf 'WAYSTROKE_INPUT_UID=%s\n' "$stroke_uid" > "$stage/etc/waystroke/inputd.conf"
 chmod 0600 "$stage/etc/waystroke/inputd.conf"
 if [[ -z $stage ]]; then

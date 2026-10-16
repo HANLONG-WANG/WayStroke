@@ -1,0 +1,929 @@
+{
+  "extensionSourceSha256AtStartup": {
+    "terminal.js": "938e8d57644755f7a31e89c00dfe80e6171e8ea49460c65fed5e4347f7fa7408",
+    "text.js": "ddca0296c23ea7bd56b6d149b29ad711bfbe2ab16beb909a3ac43a676840b4c2",
+    "system.js": "768557aeae30ad3a9f7750f7356031487ea25d319065f9b30f43261b14fe8913",
+    "dialogs.js": "fdeaf2262deec22cbbdc7501d3c2bf8c6bc78d975e5651b10eecd6b7dbb5f154",
+    "clipboard.js": "6a0118c76b99e873ff7009f409ecceb417146e84d72ce7c81292bfd64f7ef5a6",
+    "metadata.json": "d48ac654582703a4cb6473b512bdda55e82a2e1fb8b3be2efbdd0024f31b1484",
+    "extension.js": "8f11c4e3b12476d31a11e51d11c978ec7bd692be571477f263a97fde553d2a60"
+  },
+  "devkit": {
+    "viewer": true,
+    "privateBusAndConfig": true,
+    "softwareRenderingForced": false,
+    "clipboardForwardingDisabled": [
+      "/org/gnome/Mutter/RemoteDesktop/Session/u1"
+    ]
+  },
+  "initial": {
+    "title": "手势规则",
+    "reviewTools": 0,
+    "nav": 8
+  },
+  "setupEnablesActualExtension": true,
+  "setupAuthorizationDenialRetryable": true,
+  "setupInstallsRealStagedFilesWithoutClaimingConnection": true,
+  "configurationImportConfirmAndAutomaticBackup": true,
+  "importedRulesWorkflowsAndTextActuallyApply": true,
+  "configurationMergeKeepsExistingText": true,
+  "conflictingImportsCopyAndRemapAndDisableRules": true,
+  "configurationRestoreActuallyApplies": true,
+  "configurationManualAndDelete": true,
+  "configurationInvalidFilePreservesActive": true,
+  "diagnosticsAllowlist": true,
+  "nativeSaveDialogCancel": true,
+  "nativeConfigBackupDiagnosticsExports": true,
+  "incompatibleExtensionShowsActualReasonAndRecovers": true,
+  "actionCapabilityRegistry": true,
+  "nativeWindows": [
+    {
+      "title": "WayStroke",
+      "rect": {
+        "x": 0,
+        "y": 32,
+        "width": 1280,
+        "height": 768
+      },
+      "clientType": 0,
+      "minimized": false
+    }
+  ],
+  "rules": {
+    "heading": "手势规则",
+    "active": 1,
+    "metrics": {
+      ".runtime-grid": null,
+      ".appbar": {
+        "x": 215,
+        "height": 57,
+        "gap": "normal",
+        "lineHeight": "normal",
+        "width": 1064,
+        "fontSize": "12px",
+        "padding": "0px 30px",
+        "y": 1
+      },
+      ".page-heading": {
+        "x": 241,
+        "height": 65.796875,
+        "gap": "normal",
+        "lineHeight": "normal",
+        "width": 1012,
+        "fontSize": "13px",
+        "padding": "0px",
+        "y": 170.796875
+      },
+      ".settings-page": null,
+      ".sidebar": {
+        "x": 1,
+        "height": 766,
+        "gap": "normal",
+        "lineHeight": "normal",
+        "width": 214,
+        "fontSize": "13px",
+        "padding": "19px 14px 12px",
+        "y": 1
+      },
+      "#mouse-access-settings": null,
+      ".rule-layout": {
+        "x": 241,
+        "height": 436.390625,
+        "gap": "22px",
+        "lineHeight": "normal",
+        "width": 1012,
+        "fontSize": "13px",
+        "padding": "0px",
+        "y": 263.59375
+      },
+      ".setting-row": null,
+      "#setting-mouse": null,
+      "#main": {
+        "x": 215,
+        "height": 709,
+        "gap": "normal",
+        "lineHeight": "normal",
+        "width": 1064,
+        "fontSize": "13px",
+        "padding": "26px",
+        "y": 58
+      },
+      ".desktop-state-banner": {
+        "x": 241,
+        "height": 68.796875,
+        "gap": "15px",
+        "lineHeight": "normal",
+        "width": 1012,
+        "fontSize": "11px",
+        "padding": "13px 16px",
+        "y": 84
+      }
+    }
+  },
+  "gestures": {
+    "heading": "手势模板",
+    "active": 1,
+    "metrics": {
+      ".runtime-grid": null,
+      ".appbar": {
+        "x": 215,
+        "height": 57,
+        "gap": "normal",
+        "lineHeight": "normal",
+        "width": 1064,
+        "fontSize": "12px",
+        "padding": "0px 30px",
+        "y": 1
+      },
+      ".page-heading": {
+        "x": 241,
+        "height": 65.796875,
+        "gap": "normal",
+        "lineHeight": "normal",
+        "width": 1012,
+        "fontSize": "13px",
+        "padding": "0px",
+        "y": 170.796875
+      },
+      ".settings-page": null,
+      ".sidebar": {
+        "x": 1,
+        "height": 766,
+        "gap": "normal",
+        "lineHeight": "normal",
+        "width": 214,
+        "fontSize": "13px",
+        "padding": "19px 14px 12px",
+        "y": 1
+      },
+      "#mouse-access-settings": null,
+      ".rule-layout": null,
+      ".setting-row": null,
+      "#setting-mouse": null,
+      "#main": {
+        "x": 215,
+        "height": 709,
+        "gap": "normal",
+        "lineHeight": "normal",
+        "width": 1064,
+        "fontSize": "13px",
+        "padding": "26px",
+        "y": 58
+      },
+      ".desktop-state-banner": {
+        "x": 241,
+        "height": 68.796875,
+        "gap": "15px",
+        "lineHeight": "normal",
+        "width": 1012,
+        "fontSize": "11px",
+        "padding": "13px 16px",
+        "y": 84
+      }
+    }
+  },
+  "actions": {
+    "heading": "可复用动作",
+    "active": 1,
+    "metrics": {
+      ".runtime-grid": null,
+      ".appbar": {
+        "x": 215,
+        "height": 57,
+        "gap": "normal",
+        "lineHeight": "normal",
+        "width": 1064,
+        "fontSize": "12px",
+        "padding": "0px 30px",
+        "y": 1
+      },
+      ".page-heading": {
+        "x": 241,
+        "height": 65.796875,
+        "gap": "normal",
+        "lineHeight": "normal",
+        "width": 1012,
+        "fontSize": "13px",
+        "padding": "0px",
+        "y": 170.796875
+      },
+      ".settings-page": null,
+      ".sidebar": {
+        "x": 1,
+        "height": 766,
+        "gap": "normal",
+        "lineHeight": "normal",
+        "width": 214,
+        "fontSize": "13px",
+        "padding": "19px 14px 12px",
+        "y": 1
+      },
+      "#mouse-access-settings": null,
+      ".rule-layout": null,
+      ".setting-row": null,
+      "#setting-mouse": null,
+      "#main": {
+        "x": 215,
+        "height": 709,
+        "gap": "normal",
+        "lineHeight": "normal",
+        "width": 1064,
+        "fontSize": "13px",
+        "padding": "26px",
+        "y": 58
+      },
+      ".desktop-state-banner": {
+        "x": 241,
+        "height": 68.796875,
+        "gap": "15px",
+        "lineHeight": "normal",
+        "width": 1012,
+        "fontSize": "11px",
+        "padding": "13px 16px",
+        "y": 84
+      }
+    }
+  },
+  "text": {
+    "heading": "文本替换",
+    "active": 1,
+    "metrics": {
+      ".runtime-grid": null,
+      ".appbar": {
+        "x": 215,
+        "height": 57,
+        "gap": "normal",
+        "lineHeight": "normal",
+        "width": 1064,
+        "fontSize": "12px",
+        "padding": "0px 30px",
+        "y": 1
+      },
+      ".page-heading": {
+        "x": 241,
+        "height": 65.796875,
+        "gap": "normal",
+        "lineHeight": "normal",
+        "width": 1012,
+        "fontSize": "13px",
+        "padding": "0px",
+        "y": 170.796875
+      },
+      ".settings-page": null,
+      ".sidebar": {
+        "x": 1,
+        "height": 766,
+        "gap": "normal",
+        "lineHeight": "normal",
+        "width": 214,
+        "fontSize": "13px",
+        "padding": "19px 14px 12px",
+        "y": 1
+      },
+      "#mouse-access-settings": null,
+      ".rule-layout": null,
+      ".setting-row": null,
+      "#setting-mouse": null,
+      "#main": {
+        "x": 215,
+        "height": 709,
+        "gap": "normal",
+        "lineHeight": "normal",
+        "width": 1064,
+        "fontSize": "13px",
+        "padding": "26px",
+        "y": 58
+      },
+      ".desktop-state-banner": {
+        "x": 241,
+        "height": 68.796875,
+        "gap": "15px",
+        "lineHeight": "normal",
+        "width": 1012,
+        "fontSize": "11px",
+        "padding": "13px 16px",
+        "y": 84
+      }
+    }
+  },
+  "test": {
+    "heading": "手势测试",
+    "active": 1,
+    "metrics": {
+      ".runtime-grid": null,
+      ".appbar": {
+        "x": 215,
+        "height": 57,
+        "gap": "normal",
+        "lineHeight": "normal",
+        "width": 1064,
+        "fontSize": "12px",
+        "padding": "0px 30px",
+        "y": 1
+      },
+      ".page-heading": {
+        "x": 241,
+        "height": 65.796875,
+        "gap": "normal",
+        "lineHeight": "normal",
+        "width": 1012,
+        "fontSize": "13px",
+        "padding": "0px",
+        "y": 170.796875
+      },
+      ".settings-page": null,
+      ".sidebar": {
+        "x": 1,
+        "height": 766,
+        "gap": "normal",
+        "lineHeight": "normal",
+        "width": 214,
+        "fontSize": "13px",
+        "padding": "19px 14px 12px",
+        "y": 1
+      },
+      "#mouse-access-settings": null,
+      ".rule-layout": null,
+      ".setting-row": null,
+      "#setting-mouse": null,
+      "#main": {
+        "x": 215,
+        "height": 709,
+        "gap": "normal",
+        "lineHeight": "normal",
+        "width": 1064,
+        "fontSize": "13px",
+        "padding": "26px",
+        "y": 58
+      },
+      ".desktop-state-banner": {
+        "x": 241,
+        "height": 68.796875,
+        "gap": "15px",
+        "lineHeight": "normal",
+        "width": 1012,
+        "fontSize": "11px",
+        "padding": "13px 16px",
+        "y": 84
+      }
+    }
+  },
+  "runtime": {
+    "heading": "运行状态",
+    "active": 1,
+    "metrics": {
+      ".runtime-grid": {
+        "x": 241,
+        "height": 987.578125,
+        "gap": "22px",
+        "lineHeight": "normal",
+        "width": 1012,
+        "fontSize": "13px",
+        "padding": "0px",
+        "y": 263.59375
+      },
+      ".appbar": {
+        "x": 215,
+        "height": 57,
+        "gap": "normal",
+        "lineHeight": "normal",
+        "width": 1064,
+        "fontSize": "12px",
+        "padding": "0px 30px",
+        "y": 1
+      },
+      ".page-heading": {
+        "x": 241,
+        "height": 65.796875,
+        "gap": "normal",
+        "lineHeight": "normal",
+        "width": 1012,
+        "fontSize": "13px",
+        "padding": "0px",
+        "y": 170.796875
+      },
+      ".settings-page": null,
+      ".sidebar": {
+        "x": 1,
+        "height": 766,
+        "gap": "normal",
+        "lineHeight": "normal",
+        "width": 214,
+        "fontSize": "13px",
+        "padding": "19px 14px 12px",
+        "y": 1
+      },
+      "#mouse-access-settings": null,
+      ".rule-layout": null,
+      ".setting-row": null,
+      "#setting-mouse": null,
+      "#main": {
+        "x": 215,
+        "height": 709,
+        "gap": "normal",
+        "lineHeight": "normal",
+        "width": 1064,
+        "fontSize": "13px",
+        "padding": "26px",
+        "y": 58
+      },
+      ".desktop-state-banner": {
+        "x": 241,
+        "height": 68.796875,
+        "gap": "15px",
+        "lineHeight": "normal",
+        "width": 1012,
+        "fontSize": "11px",
+        "padding": "13px 16px",
+        "y": 84
+      }
+    }
+  },
+  "configuration": {
+    "heading": "配置与备份",
+    "active": 1,
+    "metrics": {
+      ".runtime-grid": null,
+      ".appbar": {
+        "x": 215,
+        "height": 57,
+        "gap": "normal",
+        "lineHeight": "normal",
+        "width": 1064,
+        "fontSize": "12px",
+        "padding": "0px 30px",
+        "y": 1
+      },
+      ".page-heading": {
+        "x": 241,
+        "height": 65.796875,
+        "gap": "normal",
+        "lineHeight": "normal",
+        "width": 1012,
+        "fontSize": "13px",
+        "padding": "0px",
+        "y": 170.796875
+      },
+      ".settings-page": null,
+      ".sidebar": {
+        "x": 1,
+        "height": 766,
+        "gap": "normal",
+        "lineHeight": "normal",
+        "width": 214,
+        "fontSize": "13px",
+        "padding": "19px 14px 12px",
+        "y": 1
+      },
+      "#mouse-access-settings": null,
+      ".rule-layout": null,
+      ".setting-row": null,
+      "#setting-mouse": null,
+      "#main": {
+        "x": 215,
+        "height": 709,
+        "gap": "normal",
+        "lineHeight": "normal",
+        "width": 1064,
+        "fontSize": "13px",
+        "padding": "26px",
+        "y": 58
+      },
+      ".desktop-state-banner": {
+        "x": 241,
+        "height": 68.796875,
+        "gap": "15px",
+        "lineHeight": "normal",
+        "width": 1012,
+        "fontSize": "11px",
+        "padding": "13px 16px",
+        "y": 84
+      }
+    }
+  },
+  "settings": {
+    "heading": "设置",
+    "active": 1,
+    "metrics": {
+      ".runtime-grid": null,
+      ".appbar": {
+        "x": 215,
+        "height": 57,
+        "gap": "normal",
+        "lineHeight": "normal",
+        "width": 1064,
+        "fontSize": "12px",
+        "padding": "0px 30px",
+        "y": 1
+      },
+      ".page-heading": {
+        "x": 357,
+        "height": 65.796875,
+        "gap": "normal",
+        "lineHeight": "normal",
+        "width": 780,
+        "fontSize": "13px",
+        "padding": "0px",
+        "y": 170.796875
+      },
+      ".settings-page": {
+        "x": 357,
+        "height": 1895.5,
+        "gap": "normal",
+        "lineHeight": "normal",
+        "width": 780,
+        "fontSize": "13px",
+        "padding": "0px",
+        "y": 170.796875
+      },
+      ".sidebar": {
+        "x": 1,
+        "height": 766,
+        "gap": "normal",
+        "lineHeight": "normal",
+        "width": 214,
+        "fontSize": "13px",
+        "padding": "19px 14px 12px",
+        "y": 1
+      },
+      "#mouse-access-settings": {
+        "x": 1008.984375,
+        "height": 39,
+        "gap": "normal",
+        "lineHeight": "normal",
+        "width": 106.015625,
+        "fontSize": "13px",
+        "padding": "9px 13px",
+        "y": 464.1875
+      },
+      ".rule-layout": null,
+      ".setting-row": {
+        "x": 358,
+        "height": 80,
+        "gap": "25px",
+        "lineHeight": "normal",
+        "width": 778,
+        "fontSize": "13px",
+        "padding": "18px 21px",
+        "y": 364.390625
+      },
+      "#setting-mouse": {
+        "x": 895,
+        "height": 43,
+        "gap": "normal",
+        "lineHeight": "21px",
+        "width": 220,
+        "fontSize": "13px",
+        "padding": "10px 28px 10px 12px",
+        "y": 382.390625
+      },
+      "#main": {
+        "x": 215,
+        "height": 709,
+        "gap": "normal",
+        "lineHeight": "normal",
+        "width": 1064,
+        "fontSize": "13px",
+        "padding": "26px",
+        "y": 58
+      },
+      ".desktop-state-banner": {
+        "x": 241,
+        "height": 68.796875,
+        "gap": "15px",
+        "lineHeight": "normal",
+        "width": 1012,
+        "fontSize": "11px",
+        "padding": "13px 16px",
+        "y": 84
+      }
+    }
+  },
+  "settingSaved": true,
+  "autostartPreferenceCreatesAndRemovesRealEntry": true,
+  "textDialog": true,
+  "drawing": {
+    "events": [
+      {
+        "type": "pointermove",
+        "x": 856,
+        "button": -1,
+        "y": 409
+      },
+      {
+        "type": "pointermove",
+        "x": 856,
+        "button": -1,
+        "y": 409
+      },
+      {
+        "type": "pointerdown",
+        "x": 856,
+        "button": 2,
+        "y": 409
+      },
+      {
+        "type": "pointermove",
+        "x": 881,
+        "button": -1,
+        "y": 419
+      },
+      {
+        "type": "pointermove",
+        "x": 906,
+        "button": -1,
+        "y": 449
+      },
+      {
+        "type": "pointermove",
+        "x": 931,
+        "button": -1,
+        "y": 429
+      },
+      {
+        "type": "pointermove",
+        "x": 956,
+        "button": -1,
+        "y": 479
+      },
+      {
+        "type": "pointerup",
+        "x": 956,
+        "button": 2,
+        "y": 479
+      }
+    ],
+    "status": "样本已录制 · 未保存"
+  },
+  "illegalLoopExitLocated": "退出当前重复：只能放在重复或遍历内部",
+  "missingVariableLocated": "Error: 引用值不可用：未定义",
+  "automaticResultTypedReferenceSaved": {
+    "id": "workflow-1792072380654",
+    "name": "等待测试",
+    "description": "",
+    "inputs": [],
+    "outputs": [],
+    "steps": [
+      {
+        "id": "step-1792072380716-1",
+        "action": "wait",
+        "enabled": true,
+        "params": {
+          "value": {
+            "mode": "literal",
+            "value": {
+              "kind": "number",
+              "value": 150.0
+            }
+          }
+        },
+        "output": null,
+        "onFailure": "stop",
+        "timeoutMs": 300,
+        "workflowId": null,
+        "arguments": {},
+        "children": [],
+        "otherwise": [],
+        "loopItem": null,
+        "loopIndex": null
+      },
+      {
+        "id": "step-1792072381212-4",
+        "action": "json.parse",
+        "enabled": true,
+        "params": {
+          "resultKind": {
+            "mode": "literal",
+            "value": {
+              "kind": "text",
+              "value": "自动"
+            }
+          },
+          "value": {
+            "mode": "literal",
+            "value": {
+              "kind": "text",
+              "value": "8"
+            }
+          }
+        },
+        "output": {
+          "id": "step-1792072381212-4:output",
+          "name": "自动数值",
+          "kind": "any"
+        },
+        "onFailure": "stop",
+        "timeoutMs": null,
+        "workflowId": null,
+        "arguments": {},
+        "children": [],
+        "otherwise": [],
+        "loopItem": null,
+        "loopIndex": null
+      },
+      {
+        "id": "step-1792072381238-5",
+        "action": "number.calculate",
+        "enabled": true,
+        "params": {
+          "left": {
+            "mode": "reference",
+            "value": {
+              "symbolId": "step-1792072381212-4:output",
+              "path": [],
+              "kind": "any"
+            }
+          },
+          "right": {
+            "mode": "literal",
+            "value": {
+              "kind": "number",
+              "value": 1.0
+            }
+          },
+          "value": {
+            "mode": "literal",
+            "value": {
+              "kind": "text",
+              "value": "加"
+            }
+          }
+        },
+        "output": {
+          "id": "step-1792072381238-5:output",
+          "name": "计算结果",
+          "kind": "number"
+        },
+        "onFailure": "stop",
+        "timeoutMs": null,
+        "workflowId": null,
+        "arguments": {},
+        "children": [],
+        "otherwise": [],
+        "loopItem": null,
+        "loopIndex": null
+      }
+    ]
+  },
+  "recursiveCallLocated": "调用可复用动作：禁止直接或间接递归调用",
+  "stepTimeoutSaved": true,
+  "stableReferenceRename": true,
+  "ruleFeedbackSaved": true,
+  "pickedApplicationSavesWithName": true,
+  "formalRecognitionPage": true,
+  "recordingModeReleasedOnNavigation": true,
+  "realExecutionFromInspector": true,
+  "continuousRuleScroll": {
+    "scrollable": true,
+    "after": 710.5625,
+    "position": "sticky",
+    "before": 710.578125
+  },
+  "createdDocuments": {
+    "gestures": 1,
+    "workflows": 1,
+    "rules": 1,
+    "snippets": 1
+  },
+  "copiedReturnReferences": true,
+  "copyDelete": true,
+  "saveAsAndExecuteReusableWorkflow": {
+    "id": "635884d2-0f99-4614-9e40-3a2c5630a495",
+    "name": "配置测试",
+    "revision": 18,
+    "context": {
+      "sequence": 0,
+      "monotonicMs": 20406706.711,
+      "position": [
+        392.0,
+        405.0
+      ],
+      "window": {
+        "instance": "b6949b92-d5e4-4a5e-95ea-7d7e29ac5a63",
+        "id": "1"
+      },
+      "applicationId": "io.github.waystroke.Desktop",
+      "title": "WayStroke",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    },
+    "state": "succeeded",
+    "startedAt": "2026-10-15T13:53:05.779910761+00:00",
+    "finishedAt": "2026-10-15T13:53:06.782842392+00:00",
+    "reason": null,
+    "steps": [
+      {
+        "stepId": "step-1792072385746-14",
+        "state": "succeeded",
+        "startedAt": "2026-10-15T13:53:05.780120790+00:00",
+        "finishedAt": "2026-10-15T13:53:06.781960599+00:00",
+        "reason": null,
+        "summary": "调用可复用动作",
+        "output": {
+          "kind": "data",
+          "value": {}
+        }
+      },
+      {
+        "stepId": "step-1792072385744-13",
+        "state": "succeeded",
+        "startedAt": "2026-10-15T13:53:05.780161798+00:00",
+        "finishedAt": "2026-10-15T13:53:06.781939981+00:00",
+        "reason": null,
+        "summary": "等待时长",
+        "output": null
+      }
+    ]
+  },
+  "realWayStrokeOpenAction": {
+    "id": "f27366d1-57ff-4643-ab99-9850b8707fd3",
+    "name": "配置测试",
+    "revision": 19,
+    "context": {
+      "sequence": 0,
+      "monotonicMs": 20406706.711,
+      "position": [
+        392.0,
+        405.0
+      ],
+      "window": {
+        "instance": "b6949b92-d5e4-4a5e-95ea-7d7e29ac5a63",
+        "id": "1"
+      },
+      "applicationId": "io.github.waystroke.Desktop",
+      "title": "WayStroke",
+      "workspace": 0,
+      "monitor": 0,
+      "locked": false
+    },
+    "state": "succeeded",
+    "startedAt": "2026-10-15T13:53:06.793573037+00:00",
+    "finishedAt": "2026-10-15T13:53:06.800638060+00:00",
+    "reason": null,
+    "steps": [
+      {
+        "stepId": "ui-open-page",
+        "state": "succeeded",
+        "startedAt": "2026-10-15T13:53:06.793698923+00:00",
+        "finishedAt": "2026-10-15T13:53:06.800022104+00:00",
+        "reason": null,
+        "summary": "打开 WayStroke 页面",
+        "output": null
+      }
+    ]
+  },
+  "nativeRequestedPage": true,
+  "narrow": {
+    "width": 1000,
+    "height": 720,
+    "frame": 1000
+  },
+  "maximizeRestore": true,
+  "dragEvents": [
+    {
+      "target": "<header class=\"appbar\" data-tauri-drag-region=\"\"><span data-tauri-drag-region=\"\">WayStroke</span><di",
+      "detail": 1,
+      "x": 444,
+      "button": 0,
+      "y": 24
+    }
+  ],
+  "drag": {
+    "before": {
+      "x": 0,
+      "y": 32,
+      "width": 1000,
+      "height": 720
+    },
+    "after": {
+      "x": 30,
+      "y": 52,
+      "width": 1000,
+      "height": 720
+    }
+  },
+  "desktopSingleInstance": true,
+  "minimizedSnapshot": {
+    "title": "WayStroke",
+    "rect": {
+      "x": 140,
+      "y": 56,
+      "width": 1000,
+      "height": 720
+    },
+    "clientType": 0,
+    "minimized": true
+  },
+  "minimizeReopen": true,
+  "dirtyCloseCancel": true,
+  "backgroundSurvivesClose": true,
+  "reopenSavedConfiguration": true,
+  "disconnectRetainsDraft": true,
+  "failedSaveCancelRestoresActive": true,
+  "reconnectSnapshot": true,
+  "backupListSurvivesCoreAndUIRestart": true,
+  "setupFirstInstallWritesCurrentFilesAndRequiresRelogin": true,
+  "quitStopsCoreAndDesktop": true,
+  "complete": true
+}

@@ -1,0 +1,113 @@
+{
+  "complete": true,
+  "reason": "Phase F completed with explicit user waiver of physical USB receiver unplug/replug validation on 2026-10-16. Physical hotplug is unverified, not passed.",
+  "releaseContainsCurrentTextCorrection": true,
+  "sha256": {
+    "extension/extension.js": "8a2224caf256068e12f3c2c8f27bc80289189eae81c9c7f953201d0fd75183bd",
+    "extension/text.js": "ddca0296c23ea7bd56b6d149b29ad711bfbe2ab16beb909a3ac43a676840b4c2",
+    "crates/core/src/main.rs": "ae70eb49cd1be98cbaebba033385f91e081c33a20715457ef91e8333d803ee8a",
+    "crates/core/src/runtime.rs": "b28f59e39ebed9acd4854e848c9b8b7110c22347d905d109976fd1e2d114b1f4",
+    "crates/core/src/session.rs": "df97e93d2a93161da1ae09e6ad045d35a1945229c526f58f3e92eb8f9421fd8a",
+    "apps/desktop/src/editor.js": "9046867f889f5922d5650992222f5fc5356c2f6769c13ae131988d2bf3711205",
+    "apps/desktop/src-tauri/src/main.rs": "ee20bcfac988853fb89199ea386fa775000a471026b2ec8d50ceb03d98c7544a",
+    "apps/desktop/src-tauri/src/setup.rs": "a38a208f07663cb253144602df1b5528d812253d496c78c599096fffebf6eeff",
+    "packaging/rpm/waystroke.spec": "4d26520227188f3e95091e1123a656bffbf32a57de53f6025fc150a77df25790",
+    "packaging/authorize-input.sh": "06c5375cc7eaaf4262a753c316773f6fe079a5c8b866e0d361abbd5912ebefe4",
+    "packaging/stop-sessions.sh": "17986db8335fcecea0249471f7a316340fc4a362c99e67235e162d3573d4cf9c",
+    "packaging/systemd/waystroke-inputd.service": "53764831786aca86055916824b7fd144c5e04ad77a8a45305eeb69daeaee9375",
+    "packaging/systemd/waystroke-core.service": "85d73f8b13d5f28c6d7af00c4f6080bb40179557292adca7d4cabf5eaafe8bc6",
+    "target/release/waystroke": "90f608e57ea15e863cc3a3edbd546cb3b670674d94f4bf8dc5504fff63b4cba5",
+    "target/release/waystroke-core": "ea02d117e55570c2990eedb08120c3422875deac8e20626e63848a0be9569b89",
+    "target/release/waystroke-inputd": "bfd76a3bdbf3d3b57e9d5b172103964a3b68cf2832a4ab03774b7c2754e95598",
+    "target/rpm/RPMS/x86_64/waystroke-0.1.0-1.fc44.x86_64.rpm": "8a464e646236caa9a1805c29db903fedb4724b34c478d82c2af87184101bc59c",
+    "target/rpm/RPMS/x86_64/waystroke-0.1.0-2.fc44.x86_64.rpm": "e396d24329ca6d5da4cf95157d578367ff669c945fda36ada4465e4211a3e119"
+  },
+  "tests": {
+    "devkit-desktop-final.json": "passed",
+    "native-ui-release.json": "passed",
+    "text-lifecycle-final.json": "passed",
+    "terminal-final.json": "passed",
+    "atspi-final.json": "passed",
+    "rpm-lifecycle-final.json": "passed",
+    "inputd-disconnect.json": "passed",
+    "installed-desktop.json": "passed",
+    "rpmPayloadDigestMatch": "passed",
+    "rpm-boot-recovery.json": "passed",
+    "rpm-boot-fix-payload.json": "passed",
+    "hostSelectedMouseGesture": "passed: physical selected G304 capture, match and own native window maximize",
+    "physicalHotplug": "skipped_by_user; unverified"
+  },
+  "unitTests": {
+    "core": 10,
+    "model": 4,
+    "inputd": 4,
+    "result": "passed"
+  },
+  "adapterTests": "passed",
+  "typeCheck": "passed",
+  "hostDeploymentPerformed": true,
+  "physicalReplugPerformed": false,
+  "finalGates": {
+    "1_ui": "current native release UI plus unchanged design/CSS and A–E visual evidence",
+    "2_actions": "69 registered actions and unchanged C action-by-action execution evidence",
+    "3_gestures": "B physical/recognition and current UI evidence; host physical gesture matched and own window maximized; physical hotplug explicitly waived by user",
+    "4_workflows": "C execution evidence and current native composer regression",
+    "5_text": "D browser/IME evidence plus current native/terminal/AT-SPI regressions",
+    "6_configuration": "current native import/export/backup/restart regression",
+    "7_lifecycle": "Desktop/inputd/installed-window lifecycle passes; physical hotplug validation explicitly waived by user",
+    "8_formal_startup": "formal source audit and actual RPM-prefix startup pass",
+    "9_release_rpm": "Fedora44 release2 installed, rpm-V clean; real RPM lifecycle and authorized service coldboot verified; physical hotplug validation explicitly waived by user"
+  },
+  "hostReadOnlyCheck": {
+    "rpmInstalled": true,
+    "rpmVerify": "passed",
+    "installedBinariesMatchVerifiedRelease": true,
+    "coreUserService": "active",
+    "inputService": "active",
+    "inputArmed": true,
+    "gesturesTemporarilyPaused": false,
+    "oldUserOverrideBackedUp": true,
+    "newGnomeSessionRequired": false,
+    "polkitAuthorizationPending": false,
+    "rpmVersion": "0.1.0-2.fc44",
+    "inputServiceEnabled": true,
+    "currentTextInterfaceLoaded": true
+  },
+  "remaining": [],
+  "blockingCondition": null,
+  "blockedAuditBeforeRpmInstallation": {
+    "condition": "Administrator installation/authorization and real mouse unplug/replug/recovery require user participation",
+    "consecutiveGoalTurns": 3,
+    "rpmInstalled": false,
+    "sudoRequiresPassword": true,
+    "inputService": "inactive",
+    "coreRunning": false,
+    "liveTestContainers": [],
+    "sourceAndArtifactHashesMatch": true
+  },
+  "resumedAfterRpmInstallation": true,
+  "blockedAudit": {
+    "checkedAt": "2026-10-15T15:04:12.005759+00:00",
+    "consecutiveResumedGoalTurns": 3,
+    "condition": "Desktop administrator authentication and a new GNOME session require user participation",
+    "rpmInstalled": true,
+    "authorizationExecSessionId": 2954,
+    "authorizationStillRunning": true,
+    "mouseService": "inactive",
+    "currentTextInterfaceLoaded": false,
+    "inputArmed": false,
+    "gesturesTemporarilyPaused": true,
+    "independentWorkRemaining": false
+  },
+  "completedWithUserWaiver": true,
+  "userWaivers": [
+    {
+      "requirement": "F02 physical USB receiver unplug/replug and post-hotplug recovery validation",
+      "status": "skipped_by_user",
+      "instruction": "跳过重插接收器的测试。我不方便插拔",
+      "physicalResult": "unverified"
+    }
+  ],
+  "originalConfigurationRestored": true,
+  "temporaryTestRuleRemoved": true
+}

@@ -33,3 +33,18 @@ def check(call,core,wait,connection,key,state,results,native):
     assert state()['text']==original,state()
     results['nativeNewFieldStillExpands' if native else 'accessibleNewFieldStillExpands']=True
     focus('normal');control(ord('a'));key(0xff08);wait(lambda:state()['text']=='')
+    if native:
+        for char in 'ab':key(ord(char))
+        wait(lambda:state()['text']=='ab')
+        call({'operation':'fixtureHoldText','method':'TestTextRule'})
+        key(ord('c'))
+        try:wait(lambda:call({'operation':'fixtureHeldText'}))
+        except Exception:
+            results['configInputFailure']={'client':state(),'text':call({'operation':'textInfo'})};raise
+        for char in 'xyz':key(ord(char))
+        snapshot=core('GetConfig');config=snapshot['config'];config['settings']['textEnabled']=False
+        committed=core('CommitConfig',{'requestId':'config-queued-input','expectedRevision':snapshot['revision'],'config':config})
+        wait(lambda:call({'operation':'textInfo'})['revision']==committed['revision'])
+        call({'operation':'fixtureReleaseText'})
+        wait(lambda:state()['text']=='abcxyz' and not call({'operation':'textInfo'})['processing'])
+        results['nativeConfigChangePreservesQueuedRealInput']=True

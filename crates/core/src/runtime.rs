@@ -87,7 +87,16 @@ impl Runtime {
                 Wake::Connected(Some(Ok(Err(e))))=>{input_error=Some(e.message);},
                 Wake::Connected(Some(Err(e)))=>return Err(error(ErrorKind::Internal,e.to_string())),
                 Wake::Connected(None)=>{},
-                Wake::Owner(Some(message))=>{let args=message.args().map_err(|e|error(ErrorKind::Internal,e.to_string()))?;if recording_owner.as_deref()==Some(args.name.as_str())&&args.new_owner.is_none(){recording_owner=None;self.info.lock().await.recording=None;}},
+                Wake::Owner(Some(message))=>{
+                    let args=message.args().map_err(|e|error(ErrorKind::Internal,e.to_string()))?;
+                    if recording_owner.as_deref()==Some(args.name.as_str())&&args.new_owner.is_none(){recording_owner=None;self.info.lock().await.recording=None;}
+                    if args.name.as_str()=="io.github.waystroke.Gnome"&&args.old_owner.is_some(){
+                        Self::release(&input,&mut lease,&desktop).await;stroke=None;pending_finish=None;
+                        cancel.send_modify(|generation|*generation+=1);
+                        let mut info=self.info.lock().await;info.input_armed=false;info.status.extension_connected=false;info.status.execution_available=false;info.status.reason=if info.locked{"桌面已锁定"}else{"GNOME 扩展已断开"}.into();info.text.state=if info.locked{"locked"}else{"unavailable"}.into();info.text.undo_available=false;
+                        drop(info);self.publish().await;
+                    }
+                },
                 Wake::Owner(None)=>return Err(error(ErrorKind::Unavailable,"会话身份事件连接中断")),
                 Wake::Command(Some(command))=>{
                     let result=match command.operation["operation"].as_str(){
@@ -191,10 +200,10 @@ impl Runtime {
                     }
                 },
                 Wake::Packet(Ok(InputPacket::Notice{notice:InputNotice::Released{reason},..}))=>{
-                    Self::release(&input,&mut lease,&desktop).await;stroke=None;pending_finish=None;input=None;packets=None;self.info.lock().await.status.reason=reason;
+                    Self::release(&input,&mut lease,&desktop).await;stroke=None;pending_finish=None;input=None;packets=None;cancel.send_modify(|generation|*generation+=1);let mut info=self.info.lock().await;info.devices.clear();info.status.reason=reason;
                 },
-                Wake::Packet(Err(broadcast::error::RecvError::Lagged(_)))=>{Self::release(&input,&mut lease,&desktop).await;stroke=None;pending_finish=None;input=None;packets=None;self.info.lock().await.status.reason="输入事件消费过慢，鼠标已释放".into();},
-                Wake::Packet(Err(broadcast::error::RecvError::Closed))=>{input=None;packets=None;lease=None;stroke=None;},
+                Wake::Packet(Err(broadcast::error::RecvError::Lagged(_)))=>{Self::release(&input,&mut lease,&desktop).await;stroke=None;pending_finish=None;input=None;packets=None;cancel.send_modify(|generation|*generation+=1);let mut info=self.info.lock().await;info.devices.clear();info.status.reason="输入事件消费过慢，鼠标已释放".into();},
+                Wake::Packet(Err(broadcast::error::RecvError::Closed))=>{Self::release(&input,&mut lease,&desktop).await;input=None;packets=None;stroke=None;pending_finish=None;cancel.send_modify(|generation|*generation+=1);self.info.lock().await.devices.clear();},
                 Wake::Packet(_)=>{},
                 Wake::Tick|Wake::Config=>{
                     let snapshot=config.borrow().clone();let hello=desktop.hello().await;
@@ -208,6 +217,10 @@ impl Runtime {
                     if locked{text.state="locked".into();text.reason="桌面已锁定，待处理替换和撤销已清除。".into();text.undo_available=false;}
                     self.info.lock().await.text=text;
                     let desired=if connected&&!locked&&snapshot.config.settings.setup_complete&&snapshot.config.settings.gestures_enabled{snapshot.config.settings.mouse_device_id.clone()}else{None};
+                    if !connected&&self.info.lock().await.status.extension_connected {
+                        cancel.send_modify(|generation|*generation+=1);
+                        Self::release(&input,&mut lease,&desktop).await;stroke=None;pending_finish=None;
+                    }
                     if lease.is_some()&&(desired!=selected||!connected||locked){Self::release(&input,&mut lease,&desktop).await;stroke=None;pending_finish=None;if !connected||locked{cancel.send_modify(|generation|*generation+=1);}}
                     if input.is_none()&&connecting.is_empty(){connecting.spawn(InputClient::connect());}
                     if let Some(client)=input.as_ref(){

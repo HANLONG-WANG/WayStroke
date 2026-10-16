@@ -1,0 +1,11 @@
+[Unit]
+Description=WayStroke session core
+PartOf=graphical-session.target
+After=graphical-session.target
+
+[Service]
+Type=dbus
+BusName=io.github.waystroke.Core
+ExecStart=/usr/bin/waystroke-core
+Restart=on-failure
+TimeoutStopSec=5

@@ -4,6 +4,7 @@ import ast,base64,hashlib,json,os,shutil,signal,socket,subprocess,sys,tempfile,t
 from pathlib import Path
 from gi.repository import Gio,GLib
 REPO=Path(__file__).resolve().parents[1]
+BINDIR=REPO/('target/release' if '--release' in sys.argv else 'target/debug')
 if '--inside' not in sys.argv:
     root=Path(tempfile.mkdtemp(prefix='waystroke-ui-check-'))
     for name in ['runtime','config','data','cache','state']:(root/name).mkdir(mode=0o700)
@@ -114,13 +115,13 @@ try:
         wait(lambda:not shell({'action':'snapshot'})['startingUp'])
         connection.call_sync('io.github.waystroke.Gnome','/io/github/waystroke/Gnome','io.github.waystroke.Gnome1','Call',GLib.Variant('(s)',(json.dumps({'operation':'desktopOverview','value':'隐藏概览'}),)),GLib.VariantType('(s)'),Gio.DBusCallFlags.NONE,3000,None)
         wait(lambda:shell({'action':'snapshot'})['actionMode']==1 and shell({'action':'snapshot'})['ibusReady'])
-    spawn('core',[str(REPO/'target/debug/waystroke-core')]);wait(lambda:core('GetConfig')['status']=='ok')
+    spawn('core',[str(BINDIR/'waystroke-core')]);wait(lambda:core('GetConfig')['status']=='ok')
     snapshot=core('GetConfig')['value'];snapshot['config']['settings']['setupComplete']=True
     assert core('CommitConfig',{'requestId':'fixture-init','expectedRevision':snapshot['revision'],'config':snapshot['config']})['status']=='ok'
     driver=Path(os.environ.get('WAYSTROKE_TAURI_DRIVER',shutil.which('tauri-driver') or '/tmp/waystroke-tools/bin/tauri-driver'))
     spawn('driver',[str(driver),'--port',str(port),'--native-port',str(native_port),'--native-driver','/usr/bin/WebKitWebDriver'])
     wait(lambda:http('GET','/status'))
-    session=http('POST','/session',{'capabilities':{'alwaysMatch':{'tauri:options':{'application':str(REPO/'target/debug/waystroke')}}}})['sessionId']
+    session=http('POST','/session',{'capabilities':{'alwaysMatch':{'tauri:options':{'application':str(BINDIR/'waystroke')}}}})['sessionId']
     wait(lambda:execute('return Boolean(document.querySelector("#main h1"))'))
     results['initial']=execute('return {title:document.querySelector("#main h1").textContent,nav:document.querySelectorAll(".nav").length,reviewTools:document.querySelectorAll(".review-tools").length};')
     assert results['initial']['nav']==8 and results['initial']['reviewTools']==0
@@ -220,10 +221,10 @@ try:
         (installation/'allow').touch();click('#setup-permission')
         wait(lambda:(installation/'etc/waystroke/inputd.conf').exists())
         wait(lambda:execute('return document.querySelector("#setup-result").textContent.includes("已安装");'))
-        assert (installation/'usr/local/libexec/waystroke-inputd').read_bytes()==(REPO/'target/debug/waystroke-inputd').read_bytes()
+        assert (installation/'usr/local/libexec/waystroke-inputd').read_bytes()==(BINDIR/'waystroke-inputd').read_bytes()
         assert (installation/'etc/waystroke/inputd.conf').read_text()==f'WAYSTROKE_INPUT_UID={os.getuid()}\n'
         assert (installation/'etc/waystroke/inputd.conf').stat().st_mode&0o777==0o600
-        assert (installation/'etc/systemd/system/waystroke-inputd.service').read_bytes()==(REPO/'packaging/systemd/waystroke-inputd.service').read_bytes()
+        assert (installation/'etc/systemd/system/waystroke-inputd.service').read_bytes()==(REPO/'packaging/systemd/waystroke-inputd.service').read_bytes().replace(b'/usr/bin/waystroke-inputd',b'/usr/local/libexec/waystroke-inputd')
         assert not core('GetRuntime')['value']['inputArmed'] and not core('GetRuntime')['value']['status']['inputConnected']
         assert execute('return document.querySelector("#setup-permission").textContent;')=='安装并授权'
         args=(installation/'auth-args').read_text().splitlines();assert len(args)==4 and args[0]==args[2]=='/usr/bin/bash' and all(args[index].endswith('/install.sh') for index in [1,3])
@@ -346,7 +347,7 @@ try:
         results[page]=execute('return {heading:document.querySelector("#main h1").textContent,active:document.querySelectorAll(".nav.active").length};')
         results[page]['metrics']=execute('const shell=document.querySelector(".shell").getBoundingClientRect();return Object.fromEntries([".sidebar",".appbar","#main",".page-heading",".settings-page",".runtime-grid",".rule-layout","#setting-mouse","#mouse-access-settings",".setting-row",".desktop-state-banner"].map(selector=>{const e=document.querySelector(selector);if(!e)return [selector,null];const r=e.getBoundingClientRect(),s=getComputedStyle(e);return [selector,{x:r.x-shell.x,y:r.y-shell.y,width:r.width,height:r.height,fontSize:s.fontSize,lineHeight:s.lineHeight,padding:s.padding,gap:s.gap}];}));')
         assert results[page]['active']==1
-        screenshot=http('GET',f'/session/{session}/screenshot');(root/(page+'.png')).write_bytes(base64.b64decode(screenshot))
+        capture(page+'.png')
     click('#setting-feedback');wait(lambda:core('GetConfig')['value']['config']['settings']['feedback']==False)
     results['settingSaved']=True
     if '--phase-e' in sys.argv:
@@ -354,7 +355,7 @@ try:
         assert login_entry.exists();subprocess.run(['desktop-file-validate',str(login_entry)],check=True)
         click('#setting-autostart');wait(lambda:not login_entry.exists())
         click('#setting-autostart');wait(login_entry.exists)
-        assert str(REPO/'target/debug/waystroke-core') in login_entry.read_text()
+        assert str(BINDIR/'waystroke-core') in login_entry.read_text()
         results['autostartPreferenceCreatesAndRemovesRealEntry']=True
 
     click('.nav[data-page="text"]');click('#new-snippet')
@@ -502,7 +503,7 @@ try:
     after=wait(lambda:next((w['rect'] for w in shell({'action':'snapshot'})['windows'] if w['title']=='WayStroke' and (w['rect']['x']!=before['x'] or w['rect']['y']!=before['y'])),None))
     results['drag']={'before':before,'after':after}
     # A second settings process must focus this window, not spawn another one.
-    duplicate=subprocess.run([str(REPO/'target/debug/waystroke')],capture_output=True,timeout=5)
+    duplicate=subprocess.run([str(BINDIR/'waystroke')],capture_output=True,timeout=5)
     assert duplicate.returncode==0
     assert len([w for w in shell({'action':'snapshot'})['windows'] if w['title']=='WayStroke'])==1
     results['desktopSingleInstance']=True
@@ -510,7 +511,7 @@ try:
     minimized=next(w for w in shell({'action':'snapshot'})['windows'] if w['title']=='WayStroke')
     results['minimizedSnapshot']=minimized
     assert minimized['minimized']
-    subprocess.run([str(REPO/'target/debug/waystroke')],check=True,timeout=5)
+    subprocess.run([str(BINDIR/'waystroke')],check=True,timeout=5)
     wait(lambda:not next(w for w in shell({'action':'snapshot'})['windows'] if w['title']=='WayStroke')['minimized'])
     results['minimizeReopen']=True
     click('.nav[data-page="rules"]');fill('#rule-name','未保存草稿');click('#window-close')
@@ -523,7 +524,7 @@ try:
     wait(lambda:not [w for w in shell({'action':'snapshot'})['windows'] if w['title']=='WayStroke'])
     assert core('GetConfig')['status']=='ok';results['backgroundSurvivesClose']=True
     http('DELETE',f'/session/{session}');session=None
-    session=http('POST','/session',{'capabilities':{'alwaysMatch':{'tauri:options':{'application':str(REPO/'target/debug/waystroke')}}}})['sessionId']
+    session=http('POST','/session',{'capabilities':{'alwaysMatch':{'tauri:options':{'application':str(BINDIR/'waystroke')}}}})['sessionId']
     wait(lambda:execute('return Boolean(document.querySelector("#main h1"))'))
     assert execute('return document.querySelector("#rule-name").value;')=='配置测试'
     results['reopenSavedConfiguration']=True
@@ -538,7 +539,7 @@ try:
     results['failedSaveCancelRestoresActive']=True
     if '--phase-e' in sys.argv:
         subprocess.run(['gio','launch',str(login_entry)],check=True)
-    else:spawn('core-reconnected',[str(REPO/'target/debug/waystroke-core')])
+    else:spawn('core-reconnected',[str(BINDIR/'waystroke-core')])
     wait(lambda:core('GetConfig')['status']=='ok')
     wait(lambda:execute('return document.querySelector(".environment small").textContent;')!='桌面服务连接中断')
     results['reconnectSnapshot']=True

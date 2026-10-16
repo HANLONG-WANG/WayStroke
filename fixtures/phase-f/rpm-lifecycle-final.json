@@ -1,0 +1,17 @@
+{
+  "physicalInput": false,
+  "installIdle": true,
+  "inactivePolkitDeniedWithoutSideEffects": true,
+  "sessionBusActivation": true,
+  "sigtermCleanExit": true,
+  "fixedRootAuthorizationAndProbeSwitch": {
+    "idleService": true,
+    "invalidUidRejected": true,
+    "actualUinput": false
+  },
+  "upgradePreservesConfigAndAuthorization": true,
+  "uninstallStopsAndRetainsUserData": true,
+  "configSha256": "48e14437a850ed59e604cb76d4a0170bd6d62ccd9381a5574340a475e8935e3d",
+  "complete": true,
+  "polkitContainerExecution": "Actual polkitd run as polkitd UID directly; Fedora systemd confinement requires CAP_SYS_ADMIN unavailable in the rootless container. Host unit unchanged."
+}

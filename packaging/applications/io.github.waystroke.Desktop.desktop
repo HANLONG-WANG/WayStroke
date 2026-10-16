@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=WayStroke
+Comment=Mouse gestures and text expansion
+Exec=waystroke
+Icon=io.github.waystroke.Desktop
+Terminal=false
+Categories=Utility;Settings;
+StartupNotify=true
+StartupWMClass=io.github.waystroke.Desktop

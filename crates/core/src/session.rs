@@ -13,7 +13,10 @@ impl Autostart {
         // https://specifications.freedesktop.org/desktop-entry-spec/latest/exec-variables.html
         let quoted=executable.replace('\\',"\\\\").replace('"',"\\\"").replace('`',"\\`").replace('$',"\\$").replace('%',"%%");
         let quoted=quoted.replace('\\',"\\\\");
-        Ok(Some(format!("[Desktop Entry]\nType=Application\nName=WayStroke\nExec=\"{quoted}\"\nOnlyShowIn=GNOME;\nTerminal=false\nNoDisplay=true\nX-GNOME-Autostart-enabled=true\n").into_bytes()))
+        let launch=if self.executable == std::path::Path::new("/usr/bin/waystroke-core") {
+            "/usr/bin/systemctl --user start waystroke-core.service".to_string()
+        } else {format!("\"{quoted}\"")};
+        Ok(Some(format!("[Desktop Entry]\nType=Application\nName=WayStroke\nExec={launch}\nTryExec={quoted}\nOnlyShowIn=GNOME;\nTerminal=false\nNoDisplay=true\nX-GNOME-Autostart-enabled=true\n").into_bytes()))
     }
     pub fn read(&self)->Result<Option<Vec<u8>>,Error>{match fs::read(&self.path){Ok(bytes)=>Ok(Some(bytes)),Err(e) if e.kind()==std::io::ErrorKind::NotFound=>Ok(None),Err(e)=>Err(io_error(e))}}
     pub fn write(&self,content:Option<&[u8]>)->Result<(),Error>{
@@ -32,7 +35,7 @@ mod tests {
         let login=root.join("autostart/waystroke.desktop");let mut repo=Repository::open(path.clone()).unwrap();
         repo.attach_autostart(Autostart{path:login.clone(),executable:PathBuf::from("/usr/bin/waystroke-core")}).unwrap();assert!(!login.exists());
         let mut config=repo.snapshot().config;config.settings.setup_complete=true;
-        repo.commit(Commit{request_id:"setup".into(),expected_revision:0,config:config.clone()}).unwrap();assert!(fs::read_to_string(&login).unwrap().contains("Exec=\"/usr/bin/waystroke-core\""));
+        repo.commit(Commit{request_id:"setup".into(),expected_revision:0,config:config.clone()}).unwrap();assert!(fs::read_to_string(&login).unwrap().contains("Exec=/usr/bin/systemctl --user start waystroke-core.service"));
         config.settings.autostart=false;repo.commit(Commit{request_id:"off".into(),expected_revision:1,config:config.clone()}).unwrap();assert!(!login.exists());let before=fs::read(&path).unwrap();
         let blocked=root.join(format!("waystroke/.config-{}.tmp",std::process::id()));fs::create_dir(&blocked).unwrap();
         config.settings.autostart=true;assert!(repo.commit(Commit{request_id:"failure".into(),expected_revision:2,config:config.clone()}).is_err());assert!(!login.exists());assert_eq!(fs::read(&path).unwrap(),before);assert_eq!(repo.snapshot().revision,2);fs::remove_dir(&blocked).unwrap();

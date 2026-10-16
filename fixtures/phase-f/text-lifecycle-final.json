@@ -1,0 +1,114 @@
+{
+  "hello": {
+    "protocolVersion": 1,
+    "instance": "840fe9ae-044f-48fd-8f55-d1177185af95",
+    "locked": false,
+    "shellVersion": "50.5",
+    "capabilities": [
+      "liveRuleName",
+      "bottomFeedback",
+      "quietGestureStart",
+      "declarativeActionsV1",
+      "stableInputFocus"
+    ]
+  },
+  "devkit": {
+    "viewer": true,
+    "privateBusAndConfig": true,
+    "softwareRenderingForced": false,
+    "clipboardForwardingDisabled": [
+      "/org/gnome/Mutter/RemoteDesktop/Session/u1"
+    ]
+  },
+  "windows": [
+    {
+      "handle": {
+        "instance": "840fe9ae-044f-48fd-8f55-d1177185af95",
+        "id": "1"
+      },
+      "title": "Probe A",
+      "applicationId": "org.waystroke.ProbeClient",
+      "clientType": 0
+    },
+    {
+      "handle": {
+        "instance": "840fe9ae-044f-48fd-8f55-d1177185af95",
+        "id": "2"
+      },
+      "title": "Probe B",
+      "applicationId": "org.waystroke.ProbeClient",
+      "clientType": 0
+    }
+  ],
+  "nativeConfirmSpace": {
+    "text": "2003 ",
+    "mouseAuthorized": false
+  },
+  "nativeAdjacentUndoPreservesSpace": true,
+  "nativeConfirmEnter": {
+    "text": "2003",
+    "activationCount": 1
+  },
+  "nativeConsumeEnter": true,
+  "nativeImmediate": "2003",
+  "nativeNavigationInvalidatesUndo": true,
+  "nativeActionInputSuppressed": true,
+  "nativeGeneratedExpansionNotRecursive": true,
+  "nativeOwnKeyboardState": {
+    "client": {
+      "f24": 0,
+      "text": "abc",
+      "second": "",
+      "password": "",
+      "rightPress": 0,
+      "rightRelease": 0,
+      "activate": 1,
+      "activatedText": "2003",
+      "passwordActivate": 0,
+      "passwordActivatedLength": 0,
+      "active": "normal"
+    },
+    "text": {
+      "enabled": true,
+      "grabs": 6,
+      "pending": false,
+      "applying": false,
+      "generation": 54,
+      "candidates": 0,
+      "lastInput": null,
+      "preedit": false,
+      "panelComposing": false,
+      "panelKnown": true,
+      "snapshot": true,
+      "undo": false,
+      "bindingMode": 0,
+      "actionMode": 1,
+      "hasNativeFocus": true,
+      "accessibleUndo": false,
+      "confirms": 3,
+      "nativeExpected": null,
+      "processing": false,
+      "snapshotText": "abc",
+      "revision": 4,
+      "sensitive": false,
+      "ibusConnected": true,
+      "pasteRequests": 0,
+      "terminalLength": 0
+    }
+  },
+  "nativeOwnKeyboardInputSuppressed": true,
+  "nativePasswordSkipped": true,
+  "nativeApplicationExclusion": true,
+  "nativeDisabledPassThrough": true,
+  "nativeInFlightSameWindowFocusCancelled": true,
+  "nativeNewFieldStillExpands": true,
+  "nativeConfigChangePreservesQueuedRealInput": true,
+  "coreDisconnectClearsText": true,
+  "coreReconnectRestoresText": true,
+  "ibusDisconnectPreservesPasswordProtection": true,
+  "ibusReconnectRestoresText": true,
+  "actualPrivateLockDisablesText": true,
+  "actualPrivateLockClearsText": true,
+  "privateUnlockRestoresText": true,
+  "complete": true
+}

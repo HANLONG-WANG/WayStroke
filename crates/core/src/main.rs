@@ -133,7 +133,8 @@ async fn main()->Result<(),Box<dyn std::error::Error>> {
     let text_runtime=runtime.clone();
     let event_connection=connection.clone();tokio::spawn(async move{let emitter=SignalEmitter::new(&event_connection,CORE_PATH).expect("core path");while let Ok(event)=runtime_events.recv().await{text_runtime.observe_text(&event).await;if let Err(e)=Core::runtime_changed(&emitter,&event.to_string()).await{eprintln!("runtime signal: {e}");}}});
     eprintln!("WayStroke core ready ({})",env!("CARGO_PKG_VERSION"));
-    tokio::select! { _=quit.notified()=>{}, _=tokio::signal::ctrl_c()=>{} }
+    let mut terminate=tokio::signal::unix::signal(tokio::signal::unix::SignalKind::terminate())?;
+    tokio::select! { _=quit.notified()=>{}, _=tokio::signal::ctrl_c()=>{}, _=terminate.recv()=>{} }
     if let Err(e)=runtime.request(serde_json::json!({"operation":"stop"})).await{eprintln!("runtime shutdown: {}",e.message);}
     connection.close().await?;
     Ok(())

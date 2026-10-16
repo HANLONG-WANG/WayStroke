@@ -188,7 +188,10 @@ export class TextBridge {
             global.stage.disconnect(id);this.frames.delete(id);
             this.later(0,callback,GLib.PRIORITY_DEFAULT_IDLE);
         });
-        this.frames.add(id);global.stage.schedule_update();
+        this.frames.add(id);
+        // A pending key release need not damage any actor. Request a frame,
+        // otherwise an idle Devkit stage can leave this input fence unserviced.
+        global.stage.queue_redraw();
     }
     connect(object,name,callback){this.signals.push([object,object.connect(name,callback)])}
     async rpc(method,payload) {
@@ -204,9 +207,16 @@ export class TextBridge {
         this.enabled=this.preferenceEnabled&&this.hasRules;
         this.excludedApplications=new Set(snapshot.config.exclusions.filter(entry=>entry.text).map(entry=>entry.applicationId));
         this.immediateCharacters=[...new Set(snapshot.config.snippets.filter(rule=>rule.enabled&&rule.trigger==='immediate').flatMap(rule=>{const char=[...rule.key].at(-1);return !char?[]:rule.caseSensitive?[char]:[char.toLowerCase(),char.toUpperCase()]}))];
-        this.terminal.configure(snapshot.config);this.reset();this.updateGrabs();
+        this.terminal.configure(snapshot.config);this.reset(true);this.updateGrabs();
     }
-    reset(){for(const id of this.frames)global.stage.disconnect(id);this.frames.clear();this.deliveredPresses.clear();this.clearAccessibleUndo();this.clearNativeInput();for(const item of this.keyQueue)item.cancel?.();this.keyQueue=[];this.processing=false;this.transaction++;this.pendingEdit?.resolve(false);this.generation++;this.lastInput=null;this.candidates.clear();this.pendingEdit=null;this.applying=false;this.undo=null;this.terminal.clear(true)}
+    reset(preserveInput=false){
+        // Configuration changes invalidate edits, but ordinary input already
+        // intercepted for the same focus must still reach the application.
+        const input=preserveInput?this.keyQueue.filter(item=>!item.cancel):[];
+        for(const id of this.frames)global.stage.disconnect(id);this.frames.clear();this.deliveredPresses.clear();this.clearAccessibleUndo();this.clearNativeInput();
+        for(const item of this.keyQueue)item.cancel?.();this.keyQueue=input;this.processing=false;this.transaction++;this.pendingEdit?.resolve(false);this.generation++;this.lastInput=null;this.candidates.clear();this.pendingEdit=null;this.applying=false;this.undo=null;this.terminal.clear(true);
+        if(preserveInput)this.drain();
+    }
     composing(){return this.im.hasPreedit()}
     sensitive(){return this.im.content_purpose===Clutter.InputContentPurpose.PASSWORD||!!(this.im.content_hints&(Clutter.InputContentHintFlags.HIDDEN_TEXT|Clutter.InputContentHintFlags.SENSITIVE_DATA))}
     snapshot(allowComposition=false,allowSelection=false){

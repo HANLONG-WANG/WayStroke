@@ -37,6 +37,13 @@ async fn extension()->Result<Value,String>{
     Ok(json!({"message":"已请求 GNOME 启用 WayStroke 扩展，正在读取实际连接状态。","restartRequired":false}))
 }
 fn input()->Result<Value,String>{
+    // RPM installations authorize the root-owned payload without copying executable code.
+    if std::env::current_exe().map_err(|e|e.to_string())? == Path::new("/usr/bin/waystroke") {
+        let output=Command::new("pkexec").arg("/usr/libexec/waystroke/authorize-input").output().map_err(|e|format!("无法请求管理员授权：{e}"))?;
+        if !output.status.success(){return Err(match output.status.code(){Some(126)=>"管理员授权已取消，可以重试。".into(),_=>format!("鼠标授权失败，可以重试：{}",String::from_utf8_lossy(&output.stderr).trim())})}
+        return Ok(json!({"message":String::from_utf8_lossy(&output.stdout).trim(),"restartRequired":false}));
+    }
+
     let binary=std::env::current_exe().map_err(|e|e.to_string())?.with_file_name("waystroke-inputd");
     if !binary.is_file(){return Err("缺少配套 waystroke-inputd，请安装完整应用或先构建鼠标服务。".into())}
     let stage=std::env::temp_dir().join(format!("waystroke-setup-{}-{}",std::process::id(),std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).map_err(|e|e.to_string())?.as_nanos()));

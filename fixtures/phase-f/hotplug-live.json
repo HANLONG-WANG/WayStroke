@@ -1,0 +1,3490 @@
+{
+  "startedAt": "2026-10-16T09:51:13+0900",
+  "events": [
+    {
+      "elapsedMs": 5365.9,
+      "event": "capability",
+      "inputArmed": false,
+      "locked": false,
+      "selectedDeviceId": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+      "devices": [
+        {
+          "id": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+          "name": "Logitech G304",
+          "path": "/dev/input/event17",
+          "physicalPath": "pci-0000:00:14.0-usb-0:11.2:1.2"
+        }
+      ],
+      "reason": "手势已暂停",
+      "selectedNodePresent": true
+    },
+    {
+      "elapsedMs": 52865.3,
+      "event": "capability",
+      "inputArmed": false,
+      "locked": false,
+      "selectedDeviceId": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+      "devices": [
+        {
+          "id": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+          "name": "Logitech G304",
+          "path": "/dev/input/event17",
+          "physicalPath": "pci-0000:00:14.0-usb-0:11.2:1.2"
+        }
+      ],
+      "reason": "手势已暂停",
+      "selectedNodePresent": true
+    },
+    {
+      "elapsedMs": 81865.0,
+      "event": "capability",
+      "inputArmed": false,
+      "locked": false,
+      "selectedDeviceId": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+      "devices": [
+        {
+          "id": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+          "name": "Logitech G304",
+          "path": "/dev/input/event17",
+          "physicalPath": "pci-0000:00:14.0-usb-0:11.2:1.2"
+        }
+      ],
+      "reason": "手势已暂停",
+      "selectedNodePresent": true
+    },
+    {
+      "elapsedMs": 111865.6,
+      "event": "capability",
+      "inputArmed": false,
+      "locked": false,
+      "selectedDeviceId": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+      "devices": [
+        {
+          "id": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+          "name": "Logitech G304",
+          "path": "/dev/input/event17",
+          "physicalPath": "pci-0000:00:14.0-usb-0:11.2:1.2"
+        }
+      ],
+      "reason": "手势已暂停",
+      "selectedNodePresent": true
+    },
+    {
+      "elapsedMs": 121365.8,
+      "event": "capability",
+      "inputArmed": false,
+      "locked": false,
+      "selectedDeviceId": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+      "devices": [
+        {
+          "id": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+          "name": "Logitech G304",
+          "path": "/dev/input/event17",
+          "physicalPath": "pci-0000:00:14.0-usb-0:11.2:1.2"
+        }
+      ],
+      "reason": "手势已暂停",
+      "selectedNodePresent": true
+    },
+    {
+      "elapsedMs": 125366.4,
+      "event": "capability",
+      "inputArmed": false,
+      "locked": false,
+      "selectedDeviceId": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+      "devices": [
+        {
+          "id": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+          "name": "Logitech G304",
+          "path": "/dev/input/event17",
+          "physicalPath": "pci-0000:00:14.0-usb-0:11.2:1.2"
+        }
+      ],
+      "reason": "手势已暂停",
+      "selectedNodePresent": true
+    },
+    {
+      "elapsedMs": 133965.8,
+      "event": "capability",
+      "inputArmed": true,
+      "locked": false,
+      "selectedDeviceId": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+      "devices": [
+        {
+          "id": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+          "name": "Logitech G304",
+          "path": "/dev/input/event17",
+          "physicalPath": "pci-0000:00:14.0-usb-0:11.2:1.2"
+        }
+      ],
+      "reason": "鼠标手势已接入；具体动作能力见运行状态",
+      "selectedNodePresent": true
+    },
+    {
+      "elapsedMs": 145865.4,
+      "event": "capability",
+      "inputArmed": true,
+      "locked": false,
+      "selectedDeviceId": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+      "devices": [
+        {
+          "id": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+          "name": "Logitech G304",
+          "path": "/dev/input/event17",
+          "physicalPath": "pci-0000:00:14.0-usb-0:11.2:1.2"
+        }
+      ],
+      "reason": "鼠标手势已接入；具体动作能力见运行状态",
+      "selectedNodePresent": true
+    },
+    {
+      "elapsedMs": 148644.6,
+      "context": {
+        "applicationId": "io.github.waystroke.PhaseF",
+        "locked": false,
+        "monitor": 0,
+        "monotonicMs": 1721341.651,
+        "position": [
+          775.0,
+          434.0
+        ],
+        "sequence": 1,
+        "title": "WayStroke F 鼠标恢复验收",
+        "window": {
+          "id": "11",
+          "instance": "070c02b5-511f-47e0-8b9a-06b645b3fc1c"
+        },
+        "workspace": 0
+      },
+      "event": "gestureStarted",
+      "sequence": 1
+    },
+    {
+      "elapsedMs": 151905.6,
+      "endContext": {
+        "applicationId": "io.github.waystroke.PhaseF",
+        "locked": false,
+        "monitor": 0,
+        "monotonicMs": 1724602.795,
+        "position": [
+          1282,
+          791
+        ],
+        "sequence": 0,
+        "title": "WayStroke F 鼠标恢复验收",
+        "window": {
+          "id": "11",
+          "instance": "070c02b5-511f-47e0-8b9a-06b645b3fc1c"
+        },
+        "workspace": 0
+      },
+      "event": "strokeReady",
+      "points": [
+        [
+          775.0,
+          434.0
+        ],
+        [
+          776.0,
+          437.0
+        ],
+        [
+          776.0,
+          438.0
+        ],
+        [
+          776.0,
+          440.0
+        ],
+        [
+          777.0,
+          441.0
+        ],
+        [
+          777.0,
+          443.0
+        ],
+        [
+          777.0,
+          445.0
+        ],
+        [
+          777.0,
+          446.0
+        ],
+        [
+          777.0,
+          448.0
+        ],
+        [
+          777.0,
+          450.0
+        ],
+        [
+          779.0,
+          452.0
+        ],
+        [
+          779.0,
+          455.0
+        ],
+        [
+          779.0,
+          457.0
+        ],
+        [
+          780.0,
+          461.0
+        ],
+        [
+          780.0,
+          463.0
+        ],
+        [
+          780.0,
+          466.0
+        ],
+        [
+          781.0,
+          469.0
+        ],
+        [
+          781.0,
+          472.0
+        ],
+        [
+          781.0,
+          475.0
+        ],
+        [
+          781.0,
+          478.0
+        ],
+        [
+          781.0,
+          482.0
+        ],
+        [
+          781.0,
+          485.0
+        ],
+        [
+          781.0,
+          490.0
+        ],
+        [
+          781.0,
+          493.0
+        ],
+        [
+          781.0,
+          497.0
+        ],
+        [
+          782.0,
+          503.0
+        ],
+        [
+          782.0,
+          509.0
+        ],
+        [
+          782.0,
+          514.0
+        ],
+        [
+          782.0,
+          518.0
+        ],
+        [
+          782.0,
+          523.0
+        ],
+        [
+          782.0,
+          526.0
+        ],
+        [
+          782.0,
+          529.0
+        ],
+        [
+          782.0,
+          534.0
+        ],
+        [
+          782.0,
+          537.0
+        ],
+        [
+          782.0,
+          540.0
+        ],
+        [
+          782.0,
+          543.0
+        ],
+        [
+          782.0,
+          546.0
+        ],
+        [
+          782.0,
+          549.0
+        ],
+        [
+          782.0,
+          552.0
+        ],
+        [
+          782.0,
+          556.0
+        ],
+        [
+          781.0,
+          560.0
+        ],
+        [
+          781.0,
+          563.0
+        ],
+        [
+          780.0,
+          566.0
+        ],
+        [
+          780.0,
+          570.0
+        ],
+        [
+          780.0,
+          572.0
+        ],
+        [
+          780.0,
+          574.0
+        ],
+        [
+          779.0,
+          577.0
+        ],
+        [
+          779.0,
+          579.0
+        ],
+        [
+          779.0,
+          580.0
+        ],
+        [
+          779.0,
+          582.0
+        ],
+        [
+          779.0,
+          584.0
+        ],
+        [
+          779.0,
+          586.0
+        ],
+        [
+          778.0,
+          589.0
+        ],
+        [
+          778.0,
+          591.0
+        ],
+        [
+          777.0,
+          594.0
+        ],
+        [
+          777.0,
+          597.0
+        ],
+        [
+          777.0,
+          600.0
+        ],
+        [
+          776.0,
+          603.0
+        ],
+        [
+          776.0,
+          606.0
+        ],
+        [
+          776.0,
+          608.0
+        ],
+        [
+          775.0,
+          611.0
+        ],
+        [
+          775.0,
+          613.0
+        ],
+        [
+          775.0,
+          616.0
+        ],
+        [
+          774.0,
+          618.0
+        ],
+        [
+          774.0,
+          621.0
+        ],
+        [
+          773.0,
+          625.0
+        ],
+        [
+          773.0,
+          627.0
+        ],
+        [
+          772.0,
+          630.0
+        ],
+        [
+          772.0,
+          635.0
+        ],
+        [
+          770.0,
+          638.0
+        ],
+        [
+          770.0,
+          642.0
+        ],
+        [
+          770.0,
+          645.0
+        ],
+        [
+          769.0,
+          649.0
+        ],
+        [
+          769.0,
+          653.0
+        ],
+        [
+          769.0,
+          656.0
+        ],
+        [
+          768.0,
+          658.0
+        ],
+        [
+          768.0,
+          660.0
+        ],
+        [
+          767.0,
+          662.0
+        ],
+        [
+          767.0,
+          665.0
+        ],
+        [
+          767.0,
+          667.0
+        ],
+        [
+          766.0,
+          670.0
+        ],
+        [
+          766.0,
+          672.0
+        ],
+        [
+          764.0,
+          675.0
+        ],
+        [
+          764.0,
+          677.0
+        ],
+        [
+          763.0,
+          680.0
+        ],
+        [
+          763.0,
+          683.0
+        ],
+        [
+          762.0,
+          686.0
+        ],
+        [
+          762.0,
+          688.0
+        ],
+        [
+          762.0,
+          691.0
+        ],
+        [
+          761.0,
+          693.0
+        ],
+        [
+          761.0,
+          695.0
+        ],
+        [
+          761.0,
+          697.0
+        ],
+        [
+          761.0,
+          700.0
+        ],
+        [
+          760.0,
+          703.0
+        ],
+        [
+          760.0,
+          706.0
+        ],
+        [
+          760.0,
+          709.0
+        ],
+        [
+          760.0,
+          711.0
+        ],
+        [
+          759.0,
+          714.0
+        ],
+        [
+          759.0,
+          716.0
+        ],
+        [
+          759.0,
+          718.0
+        ],
+        [
+          759.0,
+          720.0
+        ],
+        [
+          758.0,
+          722.0
+        ],
+        [
+          758.0,
+          724.0
+        ],
+        [
+          758.0,
+          728.0
+        ],
+        [
+          758.0,
+          730.0
+        ],
+        [
+          758.0,
+          732.0
+        ],
+        [
+          758.0,
+          734.0
+        ],
+        [
+          758.0,
+          736.0
+        ],
+        [
+          758.0,
+          737.0
+        ],
+        [
+          758.0,
+          739.0
+        ],
+        [
+          758.0,
+          741.0
+        ],
+        [
+          758.0,
+          743.0
+        ],
+        [
+          758.0,
+          744.0
+        ],
+        [
+          758.0,
+          746.0
+        ],
+        [
+          758.0,
+          748.0
+        ],
+        [
+          758.0,
+          749.0
+        ],
+        [
+          758.0,
+          752.0
+        ],
+        [
+          758.0,
+          754.0
+        ],
+        [
+          758.0,
+          756.0
+        ],
+        [
+          758.0,
+          758.0
+        ],
+        [
+          758.0,
+          760.0
+        ],
+        [
+          758.0,
+          762.0
+        ],
+        [
+          758.0,
+          763.0
+        ],
+        [
+          758.0,
+          764.0
+        ],
+        [
+          758.0,
+          766.0
+        ],
+        [
+          758.0,
+          767.0
+        ],
+        [
+          758.0,
+          769.0
+        ],
+        [
+          758.0,
+          770.0
+        ],
+        [
+          758.0,
+          772.0
+        ],
+        [
+          758.0,
+          774.0
+        ],
+        [
+          758.0,
+          775.0
+        ],
+        [
+          758.0,
+          777.0
+        ],
+        [
+          758.0,
+          778.0
+        ],
+        [
+          758.0,
+          779.0
+        ],
+        [
+          758.0,
+          780.0
+        ],
+        [
+          759.0,
+          780.0
+        ],
+        [
+          760.0,
+          780.0
+        ],
+        [
+          762.0,
+          780.0
+        ],
+        [
+          763.0,
+          780.0
+        ],
+        [
+          765.0,
+          780.0
+        ],
+        [
+          767.0,
+          780.0
+        ],
+        [
+          769.0,
+          780.0
+        ],
+        [
+          771.0,
+          779.0
+        ],
+        [
+          773.0,
+          779.0
+        ],
+        [
+          775.0,
+          779.0
+        ],
+        [
+          777.0,
+          779.0
+        ],
+        [
+          779.0,
+          779.0
+        ],
+        [
+          781.0,
+          779.0
+        ],
+        [
+          784.0,
+          779.0
+        ],
+        [
+          786.0,
+          779.0
+        ],
+        [
+          789.0,
+          779.0
+        ],
+        [
+          792.0,
+          779.0
+        ],
+        [
+          795.0,
+          779.0
+        ],
+        [
+          799.0,
+          779.0
+        ],
+        [
+          803.0,
+          781.0
+        ],
+        [
+          806.0,
+          781.0
+        ],
+        [
+          810.0,
+          781.0
+        ],
+        [
+          814.0,
+          781.0
+        ],
+        [
+          817.0,
+          781.0
+        ],
+        [
+          821.0,
+          782.0
+        ],
+        [
+          825.0,
+          783.0
+        ],
+        [
+          829.0,
+          785.0
+        ],
+        [
+          833.0,
+          786.0
+        ],
+        [
+          837.0,
+          787.0
+        ],
+        [
+          842.0,
+          788.0
+        ],
+        [
+          847.0,
+          788.0
+        ],
+        [
+          851.0,
+          790.0
+        ],
+        [
+          855.0,
+          790.0
+        ],
+        [
+          859.0,
+          791.0
+        ],
+        [
+          863.0,
+          791.0
+        ],
+        [
+          867.0,
+          791.0
+        ],
+        [
+          871.0,
+          792.0
+        ],
+        [
+          875.0,
+          792.0
+        ],
+        [
+          879.0,
+          792.0
+        ],
+        [
+          882.0,
+          792.0
+        ],
+        [
+          884.0,
+          792.0
+        ],
+        [
+          887.0,
+          792.0
+        ],
+        [
+          890.0,
+          792.0
+        ],
+        [
+          893.0,
+          792.0
+        ],
+        [
+          896.0,
+          792.0
+        ],
+        [
+          899.0,
+          792.0
+        ],
+        [
+          903.0,
+          792.0
+        ],
+        [
+          908.0,
+          792.0
+        ],
+        [
+          911.0,
+          792.0
+        ],
+        [
+          916.0,
+          792.0
+        ],
+        [
+          920.0,
+          791.0
+        ],
+        [
+          925.0,
+          791.0
+        ],
+        [
+          929.0,
+          791.0
+        ],
+        [
+          932.0,
+          791.0
+        ],
+        [
+          937.0,
+          791.0
+        ],
+        [
+          940.0,
+          791.0
+        ],
+        [
+          944.0,
+          791.0
+        ],
+        [
+          948.0,
+          791.0
+        ],
+        [
+          953.0,
+          791.0
+        ],
+        [
+          958.0,
+          791.0
+        ],
+        [
+          962.0,
+          791.0
+        ],
+        [
+          966.0,
+          791.0
+        ],
+        [
+          971.0,
+          791.0
+        ],
+        [
+          974.0,
+          791.0
+        ],
+        [
+          979.0,
+          791.0
+        ],
+        [
+          984.0,
+          791.0
+        ],
+        [
+          989.0,
+          791.0
+        ],
+        [
+          994.0,
+          791.0
+        ],
+        [
+          999.0,
+          791.0
+        ],
+        [
+          1002.0,
+          791.0
+        ],
+        [
+          1007.0,
+          791.0
+        ],
+        [
+          1010.0,
+          791.0
+        ],
+        [
+          1013.0,
+          791.0
+        ],
+        [
+          1017.0,
+          791.0
+        ],
+        [
+          1020.0,
+          791.0
+        ],
+        [
+          1023.0,
+          791.0
+        ],
+        [
+          1027.0,
+          792.0
+        ],
+        [
+          1032.0,
+          792.0
+        ],
+        [
+          1035.0,
+          792.0
+        ],
+        [
+          1038.0,
+          792.0
+        ],
+        [
+          1043.0,
+          792.0
+        ],
+        [
+          1050.0,
+          792.0
+        ],
+        [
+          1053.0,
+          792.0
+        ],
+        [
+          1059.0,
+          792.0
+        ],
+        [
+          1062.0,
+          792.0
+        ],
+        [
+          1066.0,
+          792.0
+        ],
+        [
+          1070.0,
+          792.0
+        ],
+        [
+          1074.0,
+          792.0
+        ],
+        [
+          1079.0,
+          792.0
+        ],
+        [
+          1084.0,
+          792.0
+        ],
+        [
+          1089.0,
+          793.0
+        ],
+        [
+          1096.0,
+          793.0
+        ],
+        [
+          1102.0,
+          793.0
+        ],
+        [
+          1106.0,
+          793.0
+        ],
+        [
+          1112.0,
+          793.0
+        ],
+        [
+          1117.0,
+          795.0
+        ],
+        [
+          1122.0,
+          795.0
+        ],
+        [
+          1128.0,
+          795.0
+        ],
+        [
+          1133.0,
+          795.0
+        ],
+        [
+          1137.0,
+          795.0
+        ],
+        [
+          1141.0,
+          795.0
+        ],
+        [
+          1146.0,
+          795.0
+        ],
+        [
+          1149.0,
+          795.0
+        ],
+        [
+          1153.0,
+          795.0
+        ],
+        [
+          1158.0,
+          795.0
+        ],
+        [
+          1163.0,
+          796.0
+        ],
+        [
+          1167.0,
+          796.0
+        ],
+        [
+          1172.0,
+          796.0
+        ],
+        [
+          1176.0,
+          797.0
+        ],
+        [
+          1181.0,
+          797.0
+        ],
+        [
+          1184.0,
+          797.0
+        ],
+        [
+          1187.0,
+          798.0
+        ],
+        [
+          1190.0,
+          798.0
+        ],
+        [
+          1192.0,
+          798.0
+        ],
+        [
+          1194.0,
+          798.0
+        ],
+        [
+          1196.0,
+          798.0
+        ],
+        [
+          1198.0,
+          798.0
+        ],
+        [
+          1199.0,
+          798.0
+        ],
+        [
+          1201.0,
+          798.0
+        ],
+        [
+          1202.0,
+          798.0
+        ],
+        [
+          1204.0,
+          798.0
+        ],
+        [
+          1205.0,
+          797.0
+        ],
+        [
+          1206.0,
+          797.0
+        ],
+        [
+          1207.0,
+          797.0
+        ],
+        [
+          1208.0,
+          797.0
+        ],
+        [
+          1209.0,
+          796.0
+        ],
+        [
+          1211.0,
+          796.0
+        ],
+        [
+          1212.0,
+          796.0
+        ],
+        [
+          1213.0,
+          795.0
+        ],
+        [
+          1214.0,
+          795.0
+        ],
+        [
+          1215.0,
+          794.0
+        ],
+        [
+          1216.0,
+          794.0
+        ],
+        [
+          1217.0,
+          793.0
+        ],
+        [
+          1218.0,
+          793.0
+        ],
+        [
+          1219.0,
+          793.0
+        ],
+        [
+          1220.0,
+          792.0
+        ],
+        [
+          1221.0,
+          792.0
+        ],
+        [
+          1222.0,
+          792.0
+        ],
+        [
+          1223.0,
+          792.0
+        ],
+        [
+          1224.0,
+          791.0
+        ],
+        [
+          1225.0,
+          791.0
+        ],
+        [
+          1226.0,
+          791.0
+        ],
+        [
+          1228.0,
+          791.0
+        ],
+        [
+          1230.0,
+          791.0
+        ],
+        [
+          1232.0,
+          791.0
+        ],
+        [
+          1234.0,
+          791.0
+        ],
+        [
+          1236.0,
+          791.0
+        ],
+        [
+          1238.0,
+          791.0
+        ],
+        [
+          1239.0,
+          791.0
+        ],
+        [
+          1240.0,
+          791.0
+        ],
+        [
+          1241.0,
+          791.0
+        ],
+        [
+          1242.0,
+          791.0
+        ],
+        [
+          1244.0,
+          791.0
+        ],
+        [
+          1246.0,
+          791.0
+        ],
+        [
+          1247.0,
+          791.0
+        ],
+        [
+          1248.0,
+          791.0
+        ],
+        [
+          1249.0,
+          791.0
+        ],
+        [
+          1250.0,
+          791.0
+        ],
+        [
+          1251.0,
+          791.0
+        ],
+        [
+          1252.0,
+          791.0
+        ],
+        [
+          1253.0,
+          791.0
+        ],
+        [
+          1254.0,
+          791.0
+        ],
+        [
+          1255.0,
+          791.0
+        ],
+        [
+          1256.0,
+          791.0
+        ],
+        [
+          1257.0,
+          791.0
+        ],
+        [
+          1258.0,
+          791.0
+        ],
+        [
+          1259.0,
+          791.0
+        ],
+        [
+          1260.0,
+          791.0
+        ],
+        [
+          1261.0,
+          791.0
+        ],
+        [
+          1262.0,
+          791.0
+        ],
+        [
+          1263.0,
+          791.0
+        ],
+        [
+          1264.0,
+          791.0
+        ],
+        [
+          1265.0,
+          791.0
+        ],
+        [
+          1266.0,
+          791.0
+        ],
+        [
+          1268.0,
+          791.0
+        ],
+        [
+          1270.0,
+          791.0
+        ],
+        [
+          1272.0,
+          791.0
+        ],
+        [
+          1275.0,
+          791.0
+        ],
+        [
+          1276.0,
+          791.0
+        ],
+        [
+          1277.0,
+          791.0
+        ],
+        [
+          1278.0,
+          791.0
+        ],
+        [
+          1279.0,
+          791.0
+        ],
+        [
+          1280.0,
+          791.0
+        ],
+        [
+          1281.0,
+          791.0
+        ],
+        [
+          1282.0,
+          791.0
+        ]
+      ],
+      "sequence": 1
+    },
+    {
+      "elapsedMs": 151906.4,
+      "event": "executionQueued",
+      "execution": {
+        "context": {
+          "applicationId": "io.github.waystroke.PhaseF",
+          "locked": false,
+          "monitor": 0,
+          "monotonicMs": 1721341.651,
+          "position": [
+            775.0,
+            434.0
+          ],
+          "sequence": 1,
+          "title": "WayStroke F 鼠标恢复验收",
+          "window": {
+            "id": "11",
+            "instance": "070c02b5-511f-47e0-8b9a-06b645b3fc1c"
+          },
+          "workspace": 0
+        },
+        "finishedAt": null,
+        "id": "d5080d55-f593-4138-933c-11180a7709d0",
+        "name": "阶段 F 鼠标恢复验收",
+        "reason": null,
+        "revision": 31,
+        "startedAt": null,
+        "state": "queued",
+        "steps": []
+      }
+    },
+    {
+      "elapsedMs": 151907.0,
+      "event": "recognition",
+      "result": {
+        "candidates": [
+          {
+            "gestureId": "gesture-1791886088768",
+            "priority": 2,
+            "ruleId": "phase-f-hotplug-dcb13dd5-d432-4bc6-a417-a16744d987fb",
+            "ruleName": "阶段 F 鼠标恢复验收",
+            "sampleId": "gesture-1791886088768:sample-1",
+            "score": 92.23361435774304
+          },
+          {
+            "gestureId": "gesture-1791886088768",
+            "priority": 0,
+            "ruleId": "0ead8411-b772-47fc-a393-758763a83098",
+            "ruleName": "实机最大化",
+            "sampleId": "gesture-1791886088768:sample-1",
+            "score": 92.23361435774304
+          }
+        ],
+        "length": 882.9855778184228,
+        "outcome": "matched",
+        "reason": "已按起点窗口范围和辅助键匹配",
+        "ruleId": "phase-f-hotplug-dcb13dd5-d432-4bc6-a417-a16744d987fb"
+      },
+      "timing": {
+        "boundMs": 1721343.616458,
+        "enqueuedMs": 1724604.698034,
+        "leaseId": "2d77b777-3d43-4dc0-8847-d0591cb54ea3",
+        "recognizedMs": 1724604.591806,
+        "releaseDeviceMs": 1724602.369,
+        "sequence": 1,
+        "startDeviceMs": 1721341.365,
+        "startedMs": null
+      }
+    },
+    {
+      "elapsedMs": 151907.5,
+      "event": "executionStarted",
+      "execution": {
+        "context": {
+          "applicationId": "io.github.waystroke.PhaseF",
+          "locked": false,
+          "monitor": 0,
+          "monotonicMs": 1721341.651,
+          "position": [
+            775.0,
+            434.0
+          ],
+          "sequence": 1,
+          "title": "WayStroke F 鼠标恢复验收",
+          "window": {
+            "id": "11",
+            "instance": "070c02b5-511f-47e0-8b9a-06b645b3fc1c"
+          },
+          "workspace": 0
+        },
+        "finishedAt": null,
+        "id": "d5080d55-f593-4138-933c-11180a7709d0",
+        "name": "阶段 F 鼠标恢复验收",
+        "reason": null,
+        "revision": 31,
+        "startedAt": "2026-10-16T00:53:45.672109707+00:00",
+        "state": "running",
+        "steps": []
+      },
+      "timing": {
+        "boundMs": 1721343.616458,
+        "enqueuedMs": 1724604.698034,
+        "leaseId": "2d77b777-3d43-4dc0-8847-d0591cb54ea3",
+        "recognizedMs": 1724604.591806,
+        "releaseDeviceMs": 1724602.369,
+        "sequence": 1,
+        "startDeviceMs": 1721341.365,
+        "startedMs": 1724604.739058
+      }
+    },
+    {
+      "elapsedMs": 151908.4,
+      "event": "executionFinished",
+      "execution": {
+        "context": {
+          "applicationId": "io.github.waystroke.PhaseF",
+          "locked": false,
+          "monitor": 0,
+          "monotonicMs": 1721341.651,
+          "position": [
+            775.0,
+            434.0
+          ],
+          "sequence": 1,
+          "title": "WayStroke F 鼠标恢复验收",
+          "window": {
+            "id": "11",
+            "instance": "070c02b5-511f-47e0-8b9a-06b645b3fc1c"
+          },
+          "workspace": 0
+        },
+        "finishedAt": "2026-10-16T00:53:45.674944012+00:00",
+        "id": "d5080d55-f593-4138-933c-11180a7709d0",
+        "name": "阶段 F 鼠标恢复验收",
+        "reason": null,
+        "revision": 31,
+        "startedAt": "2026-10-16T00:53:45.672109707+00:00",
+        "state": "succeeded",
+        "steps": [
+          {
+            "finishedAt": "2026-10-16T00:53:45.674048687+00:00",
+            "output": null,
+            "reason": null,
+            "startedAt": "2026-10-16T00:53:45.672338716+00:00",
+            "state": "succeeded",
+            "stepId": "phase-f-hotplug-dcb13dd5-d432-4bc6-a417-a16744d987fb-maximize",
+            "summary": "窗口操作"
+          }
+        ]
+      }
+    },
+    {
+      "elapsedMs": 152366.1,
+      "event": "capability",
+      "inputArmed": true,
+      "locked": false,
+      "selectedDeviceId": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+      "devices": [
+        {
+          "id": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+          "name": "Logitech G304",
+          "path": "/dev/input/event17",
+          "physicalPath": "pci-0000:00:14.0-usb-0:11.2:1.2"
+        }
+      ],
+      "reason": "鼠标手势已接入；具体动作能力见运行状态",
+      "selectedNodePresent": true
+    },
+    {
+      "elapsedMs": 154365.3,
+      "event": "capability",
+      "inputArmed": true,
+      "locked": false,
+      "selectedDeviceId": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+      "devices": [
+        {
+          "id": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+          "name": "Logitech G304",
+          "path": "/dev/input/event17",
+          "physicalPath": "pci-0000:00:14.0-usb-0:11.2:1.2"
+        }
+      ],
+      "reason": "鼠标手势已接入；具体动作能力见运行状态",
+      "selectedNodePresent": true
+    },
+    {
+      "elapsedMs": 289365.9,
+      "event": "capability",
+      "inputArmed": true,
+      "locked": false,
+      "selectedDeviceId": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+      "devices": [
+        {
+          "id": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+          "name": "Logitech G304",
+          "path": "/dev/input/event17",
+          "physicalPath": "pci-0000:00:14.0-usb-0:11.2:1.2"
+        }
+      ],
+      "reason": "鼠标手势已接入；具体动作能力见运行状态",
+      "selectedNodePresent": true
+    },
+    {
+      "elapsedMs": 289496.5,
+      "context": {
+        "applicationId": "io.github.waystroke.PhaseF",
+        "locked": false,
+        "monitor": 0,
+        "monotonicMs": 1862193.872,
+        "position": [
+          1075.0,
+          737.0
+        ],
+        "sequence": 2,
+        "title": "WayStroke F 鼠标恢复验收",
+        "window": {
+          "id": "11",
+          "instance": "070c02b5-511f-47e0-8b9a-06b645b3fc1c"
+        },
+        "workspace": 0
+      },
+      "event": "gestureStarted",
+      "sequence": 2
+    },
+    {
+      "elapsedMs": 289567.6,
+      "endContext": {
+        "applicationId": "io.github.waystroke.PhaseF",
+        "locked": false,
+        "monitor": 0,
+        "monotonicMs": 1862265.834,
+        "position": [
+          1075,
+          737
+        ],
+        "sequence": 0,
+        "title": "WayStroke F 鼠标恢复验收",
+        "window": {
+          "id": "11",
+          "instance": "070c02b5-511f-47e0-8b9a-06b645b3fc1c"
+        },
+        "workspace": 0
+      },
+      "event": "strokeReady",
+      "points": [
+        [
+          1075.0,
+          737.0
+        ]
+      ],
+      "sequence": 2
+    },
+    {
+      "elapsedMs": 289568.5,
+      "event": "recognition",
+      "result": {
+        "candidates": [],
+        "length": -0.0,
+        "outcome": "tooShort",
+        "reason": "未达到最小逻辑像素长度",
+        "ruleId": null
+      },
+      "timing": {
+        "boundMs": 1862195.588247,
+        "enqueuedMs": null,
+        "leaseId": "2d77b777-3d43-4dc0-8847-d0591cb54ea3",
+        "recognizedMs": 1862266.753033,
+        "releaseDeviceMs": 1862265.535,
+        "sequence": 2,
+        "startDeviceMs": 1862193.515,
+        "startedMs": null
+      }
+    },
+    {
+      "elapsedMs": 289865.3,
+      "event": "capability",
+      "inputArmed": true,
+      "locked": false,
+      "selectedDeviceId": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+      "devices": [
+        {
+          "id": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+          "name": "Logitech G304",
+          "path": "/dev/input/event17",
+          "physicalPath": "pci-0000:00:14.0-usb-0:11.2:1.2"
+        }
+      ],
+      "reason": "鼠标手势已接入；具体动作能力见运行状态",
+      "selectedNodePresent": true
+    },
+    {
+      "elapsedMs": 290368.0,
+      "context": {
+        "applicationId": "io.github.waystroke.PhaseF",
+        "locked": false,
+        "monitor": 0,
+        "monotonicMs": 1863065.822,
+        "position": [
+          1080.0,
+          740.0
+        ],
+        "sequence": 3,
+        "title": "WayStroke F 鼠标恢复验收",
+        "window": {
+          "id": "11",
+          "instance": "070c02b5-511f-47e0-8b9a-06b645b3fc1c"
+        },
+        "workspace": 0
+      },
+      "event": "gestureStarted",
+      "sequence": 3
+    },
+    {
+      "elapsedMs": 290428.2,
+      "endContext": {
+        "applicationId": "io.github.waystroke.PhaseF",
+        "locked": false,
+        "monitor": 0,
+        "monotonicMs": 1863125.902,
+        "position": [
+          1080,
+          740
+        ],
+        "sequence": 0,
+        "title": "WayStroke F 鼠标恢复验收",
+        "window": {
+          "id": "11",
+          "instance": "070c02b5-511f-47e0-8b9a-06b645b3fc1c"
+        },
+        "workspace": 0
+      },
+      "event": "strokeReady",
+      "points": [
+        [
+          1080.0,
+          740.0
+        ]
+      ],
+      "sequence": 3
+    },
+    {
+      "elapsedMs": 290428.9,
+      "event": "recognition",
+      "result": {
+        "candidates": [],
+        "length": -0.0,
+        "outcome": "tooShort",
+        "reason": "未达到最小逻辑像素长度",
+        "ruleId": null
+      },
+      "timing": {
+        "boundMs": 1863067.045201,
+        "enqueuedMs": null,
+        "leaseId": "2d77b777-3d43-4dc0-8847-d0591cb54ea3",
+        "recognizedMs": 1863127.182914,
+        "releaseDeviceMs": 1863125.519,
+        "sequence": 3,
+        "startDeviceMs": 1863065.519,
+        "startedMs": null
+      }
+    },
+    {
+      "elapsedMs": 290865.9,
+      "event": "capability",
+      "inputArmed": true,
+      "locked": false,
+      "selectedDeviceId": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+      "devices": [
+        {
+          "id": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+          "name": "Logitech G304",
+          "path": "/dev/input/event17",
+          "physicalPath": "pci-0000:00:14.0-usb-0:11.2:1.2"
+        }
+      ],
+      "reason": "鼠标手势已接入；具体动作能力见运行状态",
+      "selectedNodePresent": true
+    },
+    {
+      "elapsedMs": 292366.1,
+      "event": "capability",
+      "inputArmed": true,
+      "locked": false,
+      "selectedDeviceId": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+      "devices": [
+        {
+          "id": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+          "name": "Logitech G304",
+          "path": "/dev/input/event17",
+          "physicalPath": "pci-0000:00:14.0-usb-0:11.2:1.2"
+        }
+      ],
+      "reason": "鼠标手势已接入；具体动作能力见运行状态",
+      "selectedNodePresent": true
+    },
+    {
+      "elapsedMs": 353365.2,
+      "event": "capability",
+      "inputArmed": true,
+      "locked": false,
+      "selectedDeviceId": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+      "devices": [
+        {
+          "id": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+          "name": "Logitech G304",
+          "path": "/dev/input/event17",
+          "physicalPath": "pci-0000:00:14.0-usb-0:11.2:1.2"
+        }
+      ],
+      "reason": "鼠标手势已接入；具体动作能力见运行状态",
+      "selectedNodePresent": true
+    },
+    {
+      "elapsedMs": 367865.4,
+      "event": "capability",
+      "inputArmed": true,
+      "locked": false,
+      "selectedDeviceId": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+      "devices": [
+        {
+          "id": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+          "name": "Logitech G304",
+          "path": "/dev/input/event17",
+          "physicalPath": "pci-0000:00:14.0-usb-0:11.2:1.2"
+        }
+      ],
+      "reason": "鼠标手势已接入；具体动作能力见运行状态",
+      "selectedNodePresent": true
+    },
+    {
+      "elapsedMs": 369366.4,
+      "event": "capability",
+      "inputArmed": true,
+      "locked": false,
+      "selectedDeviceId": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+      "devices": [
+        {
+          "id": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+          "name": "Logitech G304",
+          "path": "/dev/input/event17",
+          "physicalPath": "pci-0000:00:14.0-usb-0:11.2:1.2"
+        }
+      ],
+      "reason": "鼠标手势已接入；具体动作能力见运行状态",
+      "selectedNodePresent": true
+    },
+    {
+      "elapsedMs": 375869.2,
+      "event": "capability",
+      "inputArmed": true,
+      "locked": false,
+      "selectedDeviceId": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+      "devices": [
+        {
+          "id": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+          "name": "Logitech G304",
+          "path": "/dev/input/event17",
+          "physicalPath": "pci-0000:00:14.0-usb-0:11.2:1.2"
+        }
+      ],
+      "reason": "鼠标手势已接入；具体动作能力见运行状态",
+      "selectedNodePresent": true
+    },
+    {
+      "elapsedMs": 376365.3,
+      "event": "capability",
+      "inputArmed": true,
+      "locked": false,
+      "selectedDeviceId": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+      "devices": [
+        {
+          "id": "mouse:Logitech_USB_Receiver:02:usb-0000:00:14.0-11.2/input2:1",
+          "name": "Logitech G304",
+          "path": "/dev/input/event17",
+          "physicalPath": "pci-0000:00:14.0-usb-0:11.2:1.2"
+        }
+      ],
+      "reason": "鼠标手势已接入；具体动作能力见运行状态",
+      "selectedNodePresent": true
+    }
+  ],
+  "shellCpuSamples": [
+    {
+      "elapsedMs": 2005.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 3006.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 4007.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 5007.8,
+      "oneCorePercent": 12.0
+    },
+    {
+      "elapsedMs": 6008.2,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 7008.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 8009.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 9010.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 10011.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 11012.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 12013.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 13014.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 14015.7,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 15016.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 16017.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 17018.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 18019.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 19020.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 20021.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 21022.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 22023.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 23024.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 24025.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 25026.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 26027.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 27028.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 28029.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 29030.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 30031.9,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 31032.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 32033.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 33034.7,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 34035.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 35036.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 36037.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 37038.7,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 38039.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 39040.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 40041.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 41042.7,
+      "oneCorePercent": 2.0
+    },
+    {
+      "elapsedMs": 42043.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 43044.8,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 44045.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 45046.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 46047.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 47048.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 48049.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 49050.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 50051.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 51052.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 52053.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 53053.9,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 54054.7,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 55055.7,
+      "oneCorePercent": 11.0
+    },
+    {
+      "elapsedMs": 56056.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 57057.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 58058.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 59059.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 60060.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 61061.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 62062.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 63063.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 64064.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 65065.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 66066.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 67067.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 68068.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 69069.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 70070.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 71071.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 72072.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 73073.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 74074.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 75075.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 76076.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 77077.7,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 78078.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 79079.7,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 80080.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 81081.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 82081.9,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 83082.7,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 84083.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 85084.7,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 86085.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 87086.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 88087.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 89088.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 90089.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 91090.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 92091.9,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 93092.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 94093.7,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 95094.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 96095.7,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 97096.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 98097.7,
+      "oneCorePercent": 11.0
+    },
+    {
+      "elapsedMs": 99098.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 100099.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 101100.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 102101.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 103102.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 104103.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 105104.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 106105.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 107106.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 108107.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 109108.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 110109.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 111110.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 112111.0,
+      "oneCorePercent": 13.0
+    },
+    {
+      "elapsedMs": 113111.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 114112.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 115113.7,
+      "oneCorePercent": 11.0
+    },
+    {
+      "elapsedMs": 116115.3,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 117115.7,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 118116.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 119117.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 120118.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 121119.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 122120.5,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 123120.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 124121.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 125122.7,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 126123.5,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 127123.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 128124.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 129125.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 130126.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 131127.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 132128.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 133129.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 134130.6,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 135131.2,
+      "oneCorePercent": 12.0
+    },
+    {
+      "elapsedMs": 136132.3,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 137132.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 138133.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 139134.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 140135.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 141136.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 142137.9,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 143138.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 144139.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 145140.4,
+      "oneCorePercent": 11.0
+    },
+    {
+      "elapsedMs": 146140.7,
+      "oneCorePercent": 14.0
+    },
+    {
+      "elapsedMs": 147140.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 148141.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 149142.2,
+      "oneCorePercent": 16.0
+    },
+    {
+      "elapsedMs": 150143.2,
+      "oneCorePercent": 22.0
+    },
+    {
+      "elapsedMs": 151143.7,
+      "oneCorePercent": 22.0
+    },
+    {
+      "elapsedMs": 152144.0,
+      "oneCorePercent": 13.0
+    },
+    {
+      "elapsedMs": 153144.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 154145.8,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 155146.5,
+      "oneCorePercent": 13.0
+    },
+    {
+      "elapsedMs": 156146.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 157147.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 158148.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 159149.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 160150.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 161151.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 162152.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 163153.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 164154.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 165155.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 166156.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 167157.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 168158.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 169159.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 170160.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 171161.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 172162.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 173163.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 174164.7,
+      "oneCorePercent": 3.0
+    },
+    {
+      "elapsedMs": 175165.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 176166.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 177167.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 178168.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 179169.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 180170.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 181171.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 182172.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 183173.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 184174.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 185175.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 186176.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 187177.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 188178.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 189179.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 190180.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 191181.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 192182.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 193183.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 194184.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 195185.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 196188.4,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 197188.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 198189.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 199190.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 200191.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 201192.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 202193.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 203194.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 204195.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 205196.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 206197.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 207198.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 208199.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 209200.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 210201.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 211202.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 212203.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 213204.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 214205.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 215206.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 216207.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 217208.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 218209.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 219210.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 220211.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 221212.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 222213.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 223214.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 224215.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 225216.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 226217.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 227218.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 228219.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 229220.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 230221.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 231222.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 232223.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 233223.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 234224.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 235225.7,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 236226.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 237227.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 238228.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 239229.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 240230.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 241231.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 242232.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 243233.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 244234.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 245235.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 246236.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 247237.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 248238.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 249239.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 250240.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 251241.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 252242.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 253243.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 254244.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 255245.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 256246.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 257247.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 258248.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 259249.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 260250.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 261251.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 262252.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 263253.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 264254.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 265255.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 266256.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 267257.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 268258.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 269259.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 270260.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 271261.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 272262.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 273263.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 274264.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 275265.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 276266.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 277267.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 278268.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 279269.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 280270.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 281271.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 282272.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 283273.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 284274.8,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 285275.7,
+      "oneCorePercent": 12.0
+    },
+    {
+      "elapsedMs": 286276.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 287277.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 288278.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 289279.7,
+      "oneCorePercent": 11.0
+    },
+    {
+      "elapsedMs": 290280.1,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 291280.6,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 292280.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 293281.6,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 294281.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 295282.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 296283.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 297284.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 298285.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 299286.7,
+      "oneCorePercent": 18.0
+    },
+    {
+      "elapsedMs": 300287.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 301288.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 302289.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 303290.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 304291.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 305292.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 306293.7,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 307294.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 308295.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 309296.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 310297.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 311298.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 312299.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 313300.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 314301.7,
+      "oneCorePercent": 11.0
+    },
+    {
+      "elapsedMs": 315302.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 316303.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 317304.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 318305.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 319306.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 320307.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 321308.8,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 322309.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 323310.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 324311.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 325312.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 326313.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 327314.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 328315.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 329316.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 330317.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 331318.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 332319.7,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 333320.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 334321.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 335322.8,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 336323.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 337324.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 338325.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 339326.8,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 340327.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 341328.7,
+      "oneCorePercent": 13.0
+    },
+    {
+      "elapsedMs": 342329.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 343330.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 344331.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 345332.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 346333.7,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 347334.7,
+      "oneCorePercent": 11.0
+    },
+    {
+      "elapsedMs": 348335.8,
+      "oneCorePercent": 4.0
+    },
+    {
+      "elapsedMs": 349336.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 350337.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 351338.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 352339.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 353340.8,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 354341.7,
+      "oneCorePercent": 11.0
+    },
+    {
+      "elapsedMs": 355342.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 356343.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 357344.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 358345.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 359346.8,
+      "oneCorePercent": 6.0
+    },
+    {
+      "elapsedMs": 360347.7,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 361348.7,
+      "oneCorePercent": 11.0
+    },
+    {
+      "elapsedMs": 362349.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 363350.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 364351.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 365352.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 366353.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 367354.7,
+      "oneCorePercent": 5.0
+    },
+    {
+      "elapsedMs": 368355.2,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 369355.8,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 370356.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 371357.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 372358.7,
+      "oneCorePercent": 8.0
+    },
+    {
+      "elapsedMs": 373359.7,
+      "oneCorePercent": 7.0
+    },
+    {
+      "elapsedMs": 374360.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 375361.7,
+      "oneCorePercent": 49.0
+    },
+    {
+      "elapsedMs": 376361.9,
+      "oneCorePercent": 47.0
+    },
+    {
+      "elapsedMs": 377362.7,
+      "oneCorePercent": 19.0
+    },
+    {
+      "elapsedMs": 378363.7,
+      "oneCorePercent": 12.0
+    },
+    {
+      "elapsedMs": 379364.8,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 380365.7,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 381366.7,
+      "oneCorePercent": 10.0
+    },
+    {
+      "elapsedMs": 382367.7,
+      "oneCorePercent": 9.0
+    },
+    {
+      "elapsedMs": 383368.7,
+      "oneCorePercent": 17.0
+    },
+    {
+      "elapsedMs": 384369.7,
+      "oneCorePercent": 19.0
+    },
+    {
+      "elapsedMs": 385370.7,
+      "oneCorePercent": 15.0
+    },
+    {
+      "elapsedMs": 386371.7,
+      "oneCorePercent": 17.0
+    }
+  ],
+  "scope": "Own io.github.waystroke.PhaseF windows only; no keyboard contents or input control"
+}

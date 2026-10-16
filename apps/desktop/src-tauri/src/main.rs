@@ -79,7 +79,11 @@ async fn ensure_core()->Result<(),Box<dyn std::error::Error>> {
     let name=OwnedBusName::try_from(CORE_NAME)?;
     if dbus.name_has_owner(name.clone().into()).await? { return Ok(()) }
     let path=std::env::current_exe()?.with_file_name("waystroke-core");
+    if path == std::path::Path::new("/usr/bin/waystroke-core") {
+        dbus.start_service_by_name(zbus::names::WellKnownName::try_from(CORE_NAME)?, 0).await?;
+    } else {
     Command::new(path).stdin(Stdio::null()).stdout(Stdio::null()).stderr(Stdio::inherit()).spawn()?;
+    }
     for _ in 0..30 { if dbus.name_has_owner(name.clone().into()).await? { return Ok(()) } tokio::time::sleep(Duration::from_millis(100)).await; }
     Err("后台未能启动，请查看启动错误".into())
 }

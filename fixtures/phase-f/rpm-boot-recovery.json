@@ -1,0 +1,19 @@
+{
+  "physicalInput": false,
+  "installIdle": true,
+  "inactivePolkitDeniedWithoutSideEffects": true,
+  "sessionBusActivation": true,
+  "sigtermCleanExit": true,
+  "fixedRootAuthorizationAndProbeSwitch": {
+    "idleService": true,
+    "invalidUidRejected": true,
+    "actualUinput": false
+  },
+  "upgradePreservesConfigAndAuthorization": true,
+  "upgradeMigratesExistingAuthorizationToBootService": true,
+  "authorizationEnablesIdleBootService": true,
+  "authorizedServiceRestartsIdle": true,
+  "uninstallStopsAndRetainsUserData": true,
+  "configSha256": "1ef55c2f7d1972400ff19f35c827e0ffee7d89c021dd729cf2bbb430ca5a015a",
+  "complete": true
+}

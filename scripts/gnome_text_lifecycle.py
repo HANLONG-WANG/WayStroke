@@ -10,13 +10,17 @@ def check(repo,root,processes,spawn,call,core,wait,connection,focus,reset_field,
     wait(lambda:call({'operation':'textInfo'})['revision']==saved['revision'])
     def expand():
         focus();reset_field()
-        for char in 'abc':key(ord(char))
-        wait(lambda:state()['text']=='2003' and call({'operation':'textInfo'})['undo'])
+        for index,char in enumerate('abc'):
+            key(ord(char))
+            if index<2:wait(lambda:state()['text']=='abc'[:index+1])
+        try:wait(lambda:state()['text']=='2003' and call({'operation':'textInfo'})['undo'])
+        except Exception:
+            results['lifecycleFailure']={'client':state(),'text':call({'operation':'textInfo'}),'ime':call({'action':'snapshot'},False)['ime']};raise
     expand()
-    worker=next(p for p in processes if p.args==[str(repo/'target/debug/waystroke-core')]);worker.terminate();worker.wait(timeout=5)
+    worker=next(p for p in processes if Path(p.args[0]).name=='waystroke-core');binary=worker.args[0];worker.terminate();worker.wait(timeout=5)
     wait(lambda:not call({'operation':'textInfo'})['enabled'])
     info=call({'operation':'textInfo'});assert not info['undo'] and not info['pending'] and not info['nativeExpected'];results['coreDisconnectClearsText']=True
-    spawn('core-restarted',[str(repo/'target/debug/waystroke-core')]);wait(lambda:core('GetConfig'))
+    spawn('core-restarted',[binary]);wait(lambda:core('GetConfig'))
     wait(lambda:call({'operation':'textInfo'})['enabled']);expand();results['coreReconnectRestoresText']=True
     focus('password');wait(lambda:call({'operation':'textInfo'})['sensitive'])
     candidates=[]

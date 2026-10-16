@@ -4,6 +4,7 @@ import json,os,shutil,signal,subprocess,sys,tempfile,time,shlex
 from pathlib import Path
 from gi.repository import Gio,GLib
 REPO=Path(__file__).resolve().parents[1]
+BINDIR=REPO/('target/release' if '--release' in sys.argv else 'target/debug')
 if '--inside' not in sys.argv:
     root=Path(tempfile.mkdtemp(prefix='waystroke-desktop-check-'))
     for directory in ['runtime','config','data','cache','state']:(root/directory).mkdir(mode=0o700)
@@ -40,6 +41,9 @@ if '--inside' not in sys.argv:
     if '--phase-c-system' in sys.argv:env['PULSE_SERVER']='unix:'+str(root/('runtime/pulse/native' if '--phase-c-audio' in sys.argv else 'runtime/unavailable-pulse'))
     env['GI_TYPELIB_PATH']=str(REPO/'target/native')+':/usr/lib64/mutter-18'
     env['LD_LIBRARY_PATH']=str(REPO/'target/native')+':/usr/lib64/mutter-18:/usr/lib64/gnome-shell'
+    if '--phase-f-installed' in sys.argv:
+        assert Path('/run/.containerenv').exists() or os.environ.get('WAYSTROKE_INSTALLED_NAMESPACE')=='1','Installed-package checks require an isolated package prefix'
+        env.pop('GI_TYPELIB_PATH',None);env.pop('LD_LIBRARY_PATH',None)
     for name in ['DISPLAY','IBUS_ADDRESS','AT_SPI_BUS_ADDRESS']:env.pop(name,None)
     print('Desktop extension artifacts:',root,flush=True)
     sys.exit(subprocess.run(['dbus-run-session','--',sys.executable,__file__,'--inside',*sys.argv[1:]],env=env).returncode)
@@ -69,6 +73,8 @@ def wait(fn):
         time.sleep(.1)
     raise RuntimeError('Desktop condition timed out')
 try:
+    if '--phase-f-installed' in sys.argv:
+        subprocess.run(['gsettings','set','org.gnome.shell','welcome-dialog-last-shown-version',"'50.5'"],check=True)
     if '--phase-d-atspi' in sys.argv:
         spawn('a11y-bus',['/usr/libexec/at-spi-bus-launcher','--launch-immediately','--a11y=1','--screen-reader=1'])
         def a11y_address():return connection.call_sync('org.a11y.Bus','/org/a11y/bus','org.a11y.Bus','GetAddress',None,GLib.VariantType('(s)'),Gio.DBusCallFlags.NONE,1000,None).unpack()[0]
@@ -89,7 +95,7 @@ try:
         subprocess.run(['gsettings','set','org.gnome.mutter','dynamic-workspaces','false'],check=True)
         subprocess.run(['gsettings','set','org.gnome.desktop.wm.preferences','num-workspaces','2'],check=True)
     if '--phase-d-terminal' in sys.argv or '--phase-d-browser' in sys.argv or '--ime' in sys.argv:subprocess.run(['gsettings','set','org.gnome.desktop.input-sources','sources',"[('xkb', 'us'), ('ibus', 'rime')]"],check=True)
-    spawn('shell',['gnome-shell','--headless','--wayland',*([] if '--phase-d-atspi' in sys.argv else ['--no-x11']),'--wayland-display=waystroke-desktop-check-0',*(['--devkit'] if '--devkit' in sys.argv else ['--virtual-monitor=1440x1000',*(['--virtual-monitor=1280x900'] if '--multi-monitor' in sys.argv else [])])])
+    spawn('shell',['gnome-shell','--headless','--wayland',*([] if '--phase-d-atspi' in sys.argv else ['--no-x11']),'--wayland-display=waystroke-desktop-check-0',*(['--devkit',*(['--virtual-monitor=1440x1000'] if '--multi-monitor' in sys.argv else [])] if '--devkit' in sys.argv else ['--virtual-monitor=1440x1000',*(['--virtual-monitor=1280x900'] if '--multi-monitor' in sys.argv else [])])])
     results['hello']=wait(lambda:call({'operation':'hello'}));assert results['hello']['shellVersion']=='50.5'
     if '--devkit' in sys.argv:
         viewer_env=os.environ.copy();viewer_env['XDG_RUNTIME_DIR']=viewer_env['WAYSTROKE_OUTER_RUNTIME'];viewer_env['WAYLAND_DISPLAY']=viewer_env['WAYSTROKE_OUTER_DISPLAY']
@@ -107,6 +113,15 @@ try:
             for path in paths:connection.call_sync('org.gnome.Mutter.RemoteDesktop',path,'org.gnome.Mutter.RemoteDesktop.Session','DisableClipboard',None,None,Gio.DBusCallFlags.NONE,3000,None)
             return paths
         results['devkit']['clipboardForwardingDisabled']=wait(disable_viewer_clipboard)
+        if '--multi-monitor' in sys.argv:
+            wait(lambda:call({'action':'snapshot'},False)['monitors']==2)
+            results['devkit']['clipboardForwardingDisabled']=wait(disable_viewer_clipboard)
+        if '--phase-f' in sys.argv:
+            display=connection.call_sync('org.gnome.Mutter.DisplayConfig','/org/gnome/Mutter/DisplayConfig','org.gnome.Mutter.DisplayConfig','GetCurrentState',None,None,Gio.DBusCallFlags.NONE,3000,None)
+            (root/'display-state.json').write_text(json.dumps(display.unpack(),default=str,indent=2))
+            xml=connection.call_sync('org.gnome.Mutter.DisplayConfig','/org/gnome/Mutter/DisplayConfig','org.freedesktop.DBus.Introspectable','Introspect',None,None,Gio.DBusCallFlags.NONE,3000,None).unpack()[0]
+            (root/'display-interface.xml').write_text(xml)
+
     client_source=(REPO/'probes/gnome50/client.py').read_text()
     client_source=client_source.replace(" (root/('client.json' if prefix=='Probe' else prefix+'-client.json')).write_text(json.dumps(state,ensure_ascii=False));return True"," path=root/('client.json' if prefix=='Probe' else prefix+'-client.json');temporary=path.with_suffix('.tmp');temporary.write_text(json.dumps(state,ensure_ascii=False));temporary.replace(path);return True")
     client_source=client_source.replace("  state[name]={'text'", "  keys=Gtk.EventControllerKey();keys.set_propagation_phase(Gtk.PropagationPhase.CAPTURE)\n  keys.connect('key-pressed',lambda controller,keyval,*args,n=name:state[n].update(f24=state[n]['f24']+1) if keyval==Gdk.KEY_F24 else False)\n  win.add_controller(keys)\n  state[name]={'f24':0,'text'")
@@ -172,13 +187,60 @@ try:
     spawn('client',[sys.executable,str(root/'client.py')])
     windows=wait(lambda:(lambda ws:ws if {'Probe A','Probe B'}.issubset({w['title'] for w in ws}) else None)(call({'operation':'windows'})));a=next(w for w in windows if w['title']=='Probe A');b=next(w for w in windows if w['title']=='Probe B')
     assert a['clientType']==(1 if '--phase-d-atspi' in sys.argv else 0);results['windows']=windows
-    if '--devkit' in sys.argv:call({'operation':'desktopOverview','value':'隐藏概览'})
+    call({'operation':'desktopOverview','value':'隐藏概览'})
+    if '--phase-f-installed' in sys.argv:
+        def has_core():return connection.call_sync('org.freedesktop.DBus','/org/freedesktop/DBus','org.freedesktop.DBus','NameHasOwner',GLib.Variant('(s)',('io.github.waystroke.Core',)),None,Gio.DBusCallFlags.NONE,3000,None).unpack()[0]
+        def core_pid():return connection.call_sync('org.freedesktop.DBus','/org/freedesktop/DBus','org.freedesktop.DBus','GetConnectionUnixProcessID',GLib.Variant('(s)',('io.github.waystroke.Core',)),None,Gio.DBusCallFlags.NONE,3000,None).unpack()[0]
+        assert not has_core()
+        ui=spawn('installed-desktop',['/usr/bin/waystroke'])
+        window=wait(lambda:next((w for w in call({'operation':'windows'}) if w['title']=='WayStroke'),None))
+        assert window['clientType']==0
+        wait(lambda:core('GetRuntime')['status']['extensionConnected']);pid=core_pid()
+        assert next(c for c in core('GetActionCapabilities') if c['actionId']=='paste')['state']=='available'
+        call({'operation':'windowAction','window':window['handle'],'action':'activate'})
+        wait(lambda:call({'action':'snapshot'},False)['focus']=='WayStroke')
+        time.sleep(2) # Cold software WebKit startup in the installed-package container.
+        call({'action':'screenshot','tag':'installed-desktop'},False)
+        wait(lambda:(root/'installed-desktop.png').exists() and (root/'installed-desktop.png').stat().st_size>1000)
+        call({'operation':'windowAction','window':window['handle'],'action':'close'})
+        wait(lambda:ui.poll() is not None);assert ui.returncode==0;assert has_core() and core_pid()==pid
+        reopened=spawn('installed-desktop-reopened',['/usr/bin/waystroke'])
+        window=wait(lambda:next((w for w in call({'operation':'windows'}) if w['title']=='WayStroke'),None))
+        assert core_pid()==pid
+        call({'operation':'windowAction','window':window['handle'],'action':'close'});wait(lambda:reopened.poll() is not None);assert reopened.returncode==0
+        core('Quit');wait(lambda:not has_core())
+        results['installedRpmDesktop']={'nativeWayland':True,'sessionBusActivation':True,'closePreservesCore':True,'reopenUsesSameCore':True,'packagedNativeClipboard':True,'coreQuit':True}
+        results['complete']=True;sys.exit(0)
+    if '--phase-f-inputd' in sys.argv:
+        # Other desktop scenarios are checked in Devkit; this container checks
+        # only real inputd loss/reconnection without selecting a mouse.
+        spawn('core',[str(BINDIR/'waystroke-core')]);snapshot=wait(lambda:core('GetConfig'));config=snapshot['config']
+        config['settings']['gesturesEnabled']=False;config['settings']['feedback']=False
+        config['gestures']=[{'id':'g','name':'Lifecycle','mainSampleId':'s','samples':[{'id':'s','points':[[0,0],[100,0]]}]}]
+        action={'id':'wait','action':'wait','enabled':True,'params':{'value':{'mode':'literal','value':{'kind':'number','value':60000}}},'output':None,'onFailure':'stop','timeoutMs':None,'workflowId':None,'arguments':{},'children':[],'otherwise':[],'loopItem':None,'loopIndex':None}
+        config['rules']=[{'id':'lifecycle','name':'Lifecycle','enabled':False,'gestureId':'g','feedback':False,'auxiliaryButtons':[],'applicationId':None,'titleMatch':{'operator':'包含','value':''},'steps':[action]}]
+        core('CommitConfig',{'requestId':'inputd-fixture','expectedRevision':snapshot['revision'],'config':config})
+        wait(lambda:core('GetRuntime')['status']['inputConnected'])
+        context=call({'operation':'getContext'})
+        running=core('RunRule',{'ruleId':'lifecycle','context':context})['executionId']
+        wait(lambda:any(e['id']==running and e['state']=='running' for e in core('GetRuntime')['executions']))
+        queued=core('RunRule',{'ruleId':'lifecycle','context':context})['executionId']
+        call({'operation':'keyInput','window':a['handle'],'key':'Shift','value':'按下'})
+        wait(lambda:call({'action':'snapshot'},False)['pointer'][2]&1)
+        control=Path(os.environ['WAYSTROKE_INPUTD_TEST_CONTROL']);control.write_text('stop')
+        wait(lambda:not core('GetRuntime')['status']['inputConnected'])
+        canceled=wait(lambda:(lambda items:items if len(items)==2 and all(e['state']=='canceled' for e in items) else None)([e for e in core('GetRuntime')['executions'] if e['id'] in [running,queued]]))
+        assert next(e for e in canceled if e['id']==queued)['startedAt'] is None
+        wait(lambda:not call({'action':'snapshot'},False)['pointer'][2]&1)
+        control.write_text('start');wait(lambda:core('GetRuntime')['status']['inputConnected'])
+        results['phaseFActualInputdDisconnect']={'runningCanceled':True,'queuedNeverStarted':True,'reconnected':True,'heldShiftReleased':True,'physicalGrab':False}
+        results['complete']=True;sys.exit(0)
     if '--phase-d-atspi' in sys.argv:
         if '--devkit' not in sys.argv:raise RuntimeError('Phase D extension tests require --devkit')
         a11y=Gio.DBusConnection.new_for_address_sync(os.environ['AT_SPI_BUS_ADDRESS'],Gio.DBusConnectionFlags.AUTHENTICATION_CLIENT|Gio.DBusConnectionFlags.MESSAGE_BUS_CONNECTION,None,None)
         xml=a11y.call_sync('org.a11y.atspi.Registry','/org/a11y/atspi/registry/deviceeventcontroller','org.freedesktop.DBus.Introspectable','Introspect',None,GLib.VariantType('(s)'),Gio.DBusCallFlags.NONE,3000,None).unpack()[0]
         (root/'device-event-controller.xml').write_text(xml)
-        spawn('core',[str(REPO/'target/debug/waystroke-core')]);snapshot=wait(lambda:core('GetConfig'));config=snapshot['config']
+        spawn('core',[str(BINDIR/'waystroke-core')]);snapshot=wait(lambda:core('GetConfig'));config=snapshot['config']
         config['snippets']=[{'id':'accessible','key':'abc','value':'2003','enabled':True,'applicationId':None,'trigger':'confirm','caseSensitive':True,'boundary':True,'preserve':True}]
         core('CommitConfig',{'requestId':'accessible','expectedRevision':snapshot['revision'],'config':config})
         wait(lambda:call({'operation':'textInfo'})['enabled'])
@@ -361,7 +423,7 @@ try:
         if '--devkit' not in sys.argv:raise RuntimeError('Phase D extension tests require --devkit')
         # GNOME 50 defaults primary paste off; enable it only in this private session.
         Gio.Settings.new('org.gnome.desktop.interface').set_boolean('gtk-enable-primary-paste',True)
-        spawn('core',[str(REPO/'target/debug/waystroke-core')]);snapshot=wait(lambda:core('GetConfig'));config=snapshot['config']
+        spawn('core',[str(BINDIR/'waystroke-core')]);snapshot=wait(lambda:core('GetConfig'));config=snapshot['config']
         config['snippets']=[{'id':'terminal','key':'abc','value':'2003','enabled':True,'applicationId':None,'trigger':'confirm','caseSensitive':True,'boundary':True,'preserve':True}]
         core('CommitConfig',{'requestId':'terminal','expectedRevision':snapshot['revision'],'config':config})
         wait(lambda:call({'operation':'textInfo'})['enabled'])
@@ -445,7 +507,7 @@ try:
         results['complete']=True;sys.exit(0)
     if '--phase-d-text' in sys.argv:
         if '--devkit' not in sys.argv:raise RuntimeError('Phase D extension tests require --devkit')
-        spawn('core',[str(REPO/'target/debug/waystroke-core')]);snapshot=wait(lambda:core('GetConfig'));config=snapshot['config']
+        spawn('core',[str(BINDIR/'waystroke-core')]);snapshot=wait(lambda:core('GetConfig'));config=snapshot['config']
         config['snippets']=[{'id':'native','key':'abc','value':'2003','enabled':True,'applicationId':None,'trigger':'confirm','caseSensitive':True,'boundary':True,'preserve':True}]
         core('CommitConfig',{'requestId':'text','expectedRevision':snapshot['revision'],'config':config})
         wait(lambda:call({'operation':'textInfo'})['grabs']>=3)
@@ -462,8 +524,11 @@ try:
             call({'action':'key','keyval':0xffe3,'pressed':True},False);key(ord('a'));call({'action':'key','keyval':0xffe3,'pressed':False},False);key(0xff08)
             wait(lambda:state()['text']=='')
         def type_word():
-            for char in 'abc':key(ord(char))
-            wait(lambda:state()['text']=='abc')
+            for index,char in enumerate('abc'):
+                key(ord(char))
+                try:wait(lambda:state()['text']=='abc'[:index+1])
+                except Exception:
+                    results['inputFailure']={'client':state(),'text':call({'operation':'textInfo'})};raise
         focus();type_word();key(32)
         try:wait(lambda:state()['text']=='2003 ')
         except Exception:
@@ -547,6 +612,23 @@ try:
     origin=wait(lambda:(lambda c:c if c['window']==a['handle'] else None)(call({'operation':'getContext'})));results['origin']=origin;assert call({'action':'snapshot'},False)['focus']=='Probe B'
     call({'action':'pointer','x':600,'y':300},False)
     end=wait(lambda:(lambda c:c if c['window']==b['handle'] else None)(call({'operation':'getContext'})));assert origin['window']==a['handle'];results['pointWindowDiffersFromFocus']={'start':origin,'end':end}
+    if '--phase-f' in sys.argv:
+        call({'action':'pointer','x':20,'y':900},False)
+        desktop_origin=wait(lambda:(lambda c:c if c['window'] is None else None)(call({'operation':'getContext'})))
+        modal_script=root/'modal.py'
+        modal_script.write_text("import gi;gi.require_version('Gtk','4.0');from gi.repository import Gtk\napp=Gtk.Application(application_id='org.waystroke.PhaseFDialog')\ndef activate(app):\n parent=Gtk.ApplicationWindow(application=app,title='Phase F parent');parent.set_default_size(400,250);parent.present()\n dialog=Gtk.Window(application=app,title='Phase F dialog',transient_for=parent,modal=True);dialog.set_default_size(320,180);dialog.set_child(Gtk.Label(label='Real transient window'));dialog.present()\napp.connect('activate',activate);app.run(None)\n")
+        spawn('modal-client',[sys.executable,str(modal_script)])
+        modal=wait(lambda:next((w for w in call({'operation':'windows'}) if w['title']=='Phase F dialog'),None))
+        call({'action':'position','title':'Phase F dialog','x':80,'y':160,'focus':True},False)
+        info=call({'operation':'windowInfo','window':modal['handle']});rect=info['geometry']
+        call({'action':'pointer','x':rect['x']+rect['width']//2,'y':rect['y']+rect['height']//2},False)
+        modal_origin=wait(lambda:(lambda c:c if c['window']==modal['handle'] else None)(call({'operation':'getContext'})))
+        assert modal_origin['applicationId']=='org.waystroke.PhaseFDialog'
+        results['phaseFDesktopAndTransientOrigins']={'desktop':desktop_origin,'transient':modal_origin}
+        call({'operation':'windowAction','window':modal['handle'],'action':'close'})
+        parent=next(w for w in call({'operation':'windows'}) if w['title']=='Phase F parent')
+        call({'operation':'windowAction','window':parent['handle'],'action':'close'})
+        call({'action':'position','title':'Probe B','x':550,'y':200,'focus':True},False)
     if '--multi-monitor' in sys.argv:
         call({'action':'position','title':'Probe B','x':1590,'y':200,'focus':True},False)
         call({'action':'pointer','x':1800,'y':300},False)
@@ -558,7 +640,7 @@ try:
     call({'operation':'shortcut','window':a['handle'],'keys':'Return'})
     wait(lambda:json.loads((root/'client.json').read_text())['Probe A']['activate']==1)
     assert json.loads((root/'client.json').read_text())['Probe B']['activate']==0;results['shortcutTargetsOriginalHandle']=True
-    spawn('core',[str(REPO/'target/debug/waystroke-core')]);snapshot=wait(lambda:core('GetConfig'));config=snapshot['config'];config['settings']['setupComplete']=True
+    spawn('core',[str(BINDIR/'waystroke-core')]);snapshot=wait(lambda:core('GetConfig'));config=snapshot['config'];config['settings']['setupComplete']=True
     capabilities=core('GetActionCapabilities');assert len(capabilities)==69 and all(item['executor'] for item in capabilities),capabilities
     assert next(item for item in capabilities if item['actionId']=='brightness')['state']=='unavailable'
     assert next(item for item in capabilities if item['actionId']=='paste')['state']=='available'
@@ -581,7 +663,8 @@ try:
     results['coreLaunch']=run_rule('launch');wait(lambda:any(window['applicationId']=='org.waystroke.LaunchedClient.desktop' for window in call({'operation':'windows'})))
     feedback=wait(lambda:(lambda value:value if value and value['text']=='launch · 已执行' else None)(call({'operation':'feedbackInfo'})))
     m=feedback['monitors'][origin['monitor']];x,y=feedback['position']
-    assert abs(x+feedback['width']/2-(m['x']+m['width']/2))<=1
+    results['feedbackBeforeLayoutCheck']=feedback
+    assert abs(x+feedback['width']/2-(m['x']+m['width']/2))<=1,feedback
     assert abs(y+feedback['height']-(m['y']+m['height']-64))<=1
     results['feedbackBottomCentered']=feedback
     if '--phase-c-window' in sys.argv:
@@ -920,8 +1003,41 @@ try:
         try:core('RunRule',{'ruleId':'session','context':end})
         except RuntimeError as error:assert '桌面已锁定' in str(error);results['lockedRunRejected']=True
         else:raise AssertionError('RunRule accepted while locked')
+    if '--phase-f' in sys.argv:
+        old_instance=call({'operation':'hello'})['instance']
+        snapshot=core('GetConfig');config=snapshot['config']
+        config['settings']['gesturesEnabled']=False;config['settings']['textEnabled']=True
+        core('CommitConfig',{'requestId':'f-independent','expectedRevision':snapshot['revision'],'config':config})
+        wait(lambda:core('GetRuntime')['text']['enabled'] and not core('GetRuntime')['inputArmed'])
+        active=core('RunRule',{'ruleId':'shortcut','context':end})['executionId']
+        wait(lambda:any(e['id']==active and e['state']=='running' for e in core('GetRuntime')['executions']))
+        queued=core('RunRule',{'ruleId':'shortcut','context':end})['executionId']
+        def toggle_extension(enabled):
+            return connection.call_sync('org.gnome.Shell.Extensions','/org/gnome/Shell/Extensions','org.gnome.Shell.Extensions','EnableExtension' if enabled else 'DisableExtension',GLib.Variant('(s)',('waystroke@local',)),None,Gio.DBusCallFlags.NONE,3000,None)
+        toggle_extension(False)
+        wait(lambda:not core('GetRuntime')['status']['extensionConnected'])
+        canceled=wait(lambda:(lambda items:items if len(items)==2 and all(e['state']=='canceled' for e in items) else None)([e for e in core('GetRuntime')['executions'] if e['id'] in [active,queued]]))
+        assert next(e for e in canceled if e['id']==queued)['startedAt'] is None
+        toggle_extension(True)
+        wait(lambda:core('GetRuntime')['status']['executionAvailable'])
+        new_instance=call({'operation':'hello'})['instance'];assert new_instance!=old_instance
+        try:call({'operation':'windowInfo','window':b['handle']})
+        except RuntimeError:pass
+        else:raise AssertionError('Restarted extension accepted an old window handle')
+        results['phaseFExtensionRestart']={'oldInstance':old_instance,'newInstance':new_instance,'queuedNeverStarted':True,'staleHandleRejected':True,'gestureDisabledTextEnabled':True}
+        core_process=next(p for p in processes if p.args==[str(BINDIR/'waystroke-core')])
+        core_process.terminate();assert core_process.wait(timeout=5)==0
+        assert not call({'operation':'gestureInfo'})['active']
+        spawn('core-restarted',[str(BINDIR/'waystroke-core')])
+        recovered=wait(lambda:core('GetRuntime') if core('GetRuntime')['status']['executionAvailable'] else None)
+        assert not recovered['executions'];assert core('GetConfig')['config']==config
+        results['phaseFCoreSigterm']={'cleanExit':True,'configRetained':True,'noReplayedJobs':True,'reconnected':True}
     results['complete']=True
 finally:
+    if '--phase-f-installed' in sys.argv:
+        try:
+            if has_core():core('Quit')
+        except GLib.Error as error:print('Installed core cleanup:',error,flush=True)
     for p in reversed(processes):
         if p.poll() is None:os.killpg(p.pid,signal.SIGTERM);p.wait(timeout=5)
     (root/'results.json').write_text(json.dumps(results,ensure_ascii=False,indent=2));print(json.dumps(results,ensure_ascii=False,indent=2),flush=True)
