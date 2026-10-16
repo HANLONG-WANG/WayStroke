@@ -93,3 +93,7 @@ Additional documentation is available for specialized tasks:
 These references are available when their additional details are useful.
 
 <!-- gitnexus:end -->
+
+# 其他注意事项
+
+任务完成后请检查各种文档和README。如果有因为本次做出的修改而导致过时的信息，请更新它们。
