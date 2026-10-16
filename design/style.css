@@ -86,3 +86,6 @@ body{padding-top:58px}.review-tools{position:absolute;top:12px;left:36px;right:3
 @media(max-width:700px){.appbar{padding:0 12px}.appbar>div{gap:4px}.window-controls{gap:0;margin-left:3px;padding-left:4px}.window-button{width:27px}.review-more-panel{right:-20px}}
 .setup-mouse{margin-top:22px}.setup-mouse small{color:var(--muted);font-size:11px;line-height:1.8;margin-top:6px}
 .current-execution{padding:18px 20px;margin-top:16px}.current-execution h2{font-size:14px;margin:0}.current-execution>strong{display:block;font-size:12px;margin-top:14px}.current-execution p{font-size:11px;line-height:1.9;color:var(--muted);margin:10px 0}.current-execution .row button{font-size:11px}
+
+/* Keep the action separate from the candidate list. */
+.test-result>#preview-matched-action{margin-top:20px}

@@ -13,6 +13,7 @@ Requires:       policycoreutils
 Requires:       udev
 Requires:       python3-gobject
 Requires:       xdg-utils
+Requires:       webkit2gtk4.1 >= 2.46
 # Rust and WebKit are built before packaging; do not mutate the verified payload.
 %global debug_package %{nil}
 %global __brp_strip %{nil}
@@ -72,6 +73,7 @@ systemctl daemon-reload >/dev/null 2>&1 || :
 /usr/share/polkit-1/actions/io.github.waystroke.configure-input.policy
 /usr/share/applications/io.github.waystroke.Desktop.desktop
 /usr/share/icons/hicolor/64x64/apps/io.github.waystroke.Desktop.png
+/usr/share/icons/hicolor/scalable/apps/io.github.waystroke.Desktop.svg
 /usr/share/gnome-shell/extensions/waystroke@local
 /usr/lib64/libwaystroke-clipboard.so
 /usr/lib64/girepository-1.0/WayStrokeClipboard-1.0.typelib

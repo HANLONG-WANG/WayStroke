@@ -97,3 +97,7 @@ These references are available when their additional details are useful.
 # 其他注意事项
 
 任务完成后请检查各种文档和README。如果有因为本次做出的修改而导致过时的信息，请更新它们。
+
+如果需要测试，请使用mutter-devkit在隔离的测试环境中进行，不要在我的主环境中进行。如果必须在主环境中验证，请征得我的同意。
+
+对UI做出修改后，请进行视觉验证。

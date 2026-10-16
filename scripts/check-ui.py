@@ -8,6 +8,13 @@ BINDIR=REPO/('target/release' if '--release' in sys.argv else 'target/debug')
 if '--inside' not in sys.argv:
     root=Path(tempfile.mkdtemp(prefix='waystroke-ui-check-'))
     for name in ['runtime','config','data','cache','state']:(root/name).mkdir(mode=0o700)
+    # D-Bus activation must use the build under test, not /usr/bin/waystroke-core.
+    services=root/'data/dbus-1/services';services.mkdir(parents=True)
+    (services/'io.github.waystroke.Core.service').write_text(f'[D-BUS Service]\nName=io.github.waystroke.Core\nExec={BINDIR / "waystroke-core"}\n')
+    if '--application-scope' in sys.argv:
+        apps=root/'data/applications';apps.mkdir()
+        for suffix in ['alpha','beta','unused']:
+            (apps/f'io.waystroke.ScopeCheck.{suffix}.desktop').write_text('[Desktop Entry]\nType=Application\nName='+('Unselected Candidate' if suffix=='unused' else 'WayStroke Scope Check')+'\nExec=/usr/bin/true\n')
     ext=root/'data/gnome-shell/extensions/waystroke-probe@local';ext.mkdir(parents=True)
     for name in ['extension.js','metadata.json','terminal-monitor.js']:shutil.copy(REPO/'probes/gnome50'/name,ext/name)
     formal=root/'data/gnome-shell/extensions/waystroke@local';formal.mkdir()
@@ -125,6 +132,135 @@ try:
     wait(lambda:execute('return Boolean(document.querySelector("#main h1"))'))
     results['initial']=execute('return {title:document.querySelector("#main h1").textContent,nav:document.querySelectorAll(".nav").length,reviewTools:document.querySelectorAll(".review-tools").length};')
     assert results['initial']['nav']==8 and results['initial']['reviewTools']==0
+    if '--application-scope' in sys.argv:
+        alpha='io.waystroke.ScopeCheck.alpha.desktop';beta='io.waystroke.ScopeCheck.beta.desktop'
+        assert core('GetConfig')['value']['config']['applications']==[]
+        click('.nav[data-page="runtime"]');click('#runtime-text-settings')
+        assert execute('return document.querySelector("#main h1").textContent;')=='文本替换'
+        results['runtimeTextLinkOpensTextRules']=True
+        click('.text-help summary')
+        results['textHelpWidth']=execute('const e=document.querySelector(".text-help"),p=e.querySelector("p");return {available:e.clientWidth,paragraph:p.getBoundingClientRect().width};')
+        assert abs(results['textHelpWidth']['available']-results['textHelpWidth']['paragraph'])<2
+        capture('text-help-full-width.png');click('.text-help summary')
+        click('#new-snippet')
+        results['snippetSelectAlignment']=execute('const a=document.querySelector("#snippet-scope").getBoundingClientRect(),b=document.querySelector("#snippet-form [name=trigger]").getBoundingClientRect();return {scopeTop:a.top,triggerTop:b.top,scopeHeight:a.height,triggerHeight:b.height};')
+        assert abs(results['snippetSelectAlignment']['scopeTop']-results['snippetSelectAlignment']['triggerTop'])<1
+        assert results['snippetSelectAlignment']['scopeHeight']==results['snippetSelectAlignment']['triggerHeight']
+        capture('snippet-aligned-selects.png','#snippet-dialog')
+        click('#snippet-application .choose-application')
+        wait(lambda:execute('return document.querySelectorAll("#application-dialog [data-app-index]").length>0;'))
+        fill('.application-search','WayStroke Scope Check')
+        assert execute('return document.querySelectorAll("#application-dialog [data-app-index]").length;')==2
+        capture('scope-installed-same-name.png','#application-dialog')
+        execute(f'const buttons=[...document.querySelectorAll("#application-dialog [data-app-index]")];buttons.find(b=>b.textContent.includes({json.dumps(alpha)})).click();return true;')
+        assert execute('return [...document.querySelector("#snippet-scope").options].map(option=>option.value);')==['',alpha]
+        fill('#snippet-form [name="key"]',';scope');fill('#snippet-form [name="value"]','alpha')
+        execute('document.querySelector("#snippet-form").requestSubmit();return true;')
+        wait(lambda:len(core('GetConfig')['value']['config']['snippets'])==1)
+        for app,value in [(beta,'beta'),('','global')]:
+            click('#new-snippet')
+            if app:
+                click('#snippet-application .choose-application');wait(lambda:execute('return document.querySelectorAll("#application-dialog [data-app-index]").length>0;'))
+                fill('.application-search',app);click('#application-dialog [data-app-index]')
+            fill('#snippet-form [name="key"]',';scope');fill('#snippet-form [name="value"]',value)
+            execute('document.querySelector("#snippet-form").requestSubmit();return true;')
+            wait(lambda:not execute('return document.querySelector("#snippet-dialog").open;'))
+        config=core('GetConfig')['value']['config'];assert {r['applicationId'] for r in config['snippets']}=={alpha,beta,None}
+        first=config['snippets'][0];click(f'[data-edit="{first["id"]}"]')
+        assert execute('return document.querySelector("#snippet-scope").value;')==alpha
+        click('#cancel-dialog')
+        def simulate_text(app,expected):
+            execute(f'const select=document.querySelector("#snippet-test-scope");select.value={json.dumps(app)};select.dispatchEvent(new Event("change",{{bubbles:true}}));const e=document.querySelector("#try-text");e.focus();e.value=";scope ";e.setSelectionRange(7,7);e.dispatchEvent(new InputEvent("input",{{inputType:"insertText",data:" ",bubbles:true}}));return true;')
+            wait(lambda:execute('return document.querySelector("#try-text").value;')==expected+' ')
+        simulate_text(alpha,'alpha');simulate_text(beta,'beta');simulate_text('','global')
+        results['sameNameScopesSaveReopenAndMatchById']=True
+        click('#new-snippet');click('#snippet-application .choose-application')
+        click('.manual-application summary');fill('#manual-application-form [name="applicationId"]','io.waystroke.manual')
+        fill('#manual-application-form [name="applicationName"]','Manual Scope')
+        execute('document.querySelector("#manual-application-form").requestSubmit();return true;')
+        fill('#snippet-form [name="key"]',';scope');fill('#snippet-form [name="value"]','manual')
+        execute('document.querySelector("#snippet-form").requestSubmit();return true;')
+        wait(lambda:len(core('GetConfig')['value']['config']['snippets'])==4)
+        simulate_text('io.waystroke.manual','manual');results['manualScopeSavedAndMatched']=True
+        capture('scope-text-test.png')
+        click('.nav[data-page="rules"]');click('#new-rule');fill('#rule-name','范围与标题测试')
+        click('#rule-application .choose-application')
+        wait(lambda:execute('return Boolean(document.querySelector("#application-dialog [data-window-index]"));'))
+        click('#application-dialog [data-window-index]')
+        assert execute('return document.querySelector("#rule-scope").value;')
+        assert execute('return document.querySelector("#rule-title-op").value;')=='不限标题'
+        click('#rule-application .choose-application')
+        wait(lambda:execute('return Boolean(document.querySelector("#application-dialog [data-window-index]"));'))
+        click('#application-use-title');click('#application-dialog [data-window-index]')
+        assert execute('return document.querySelector("#rule-title-value").value;')=='WayStroke'
+        results['windowApplicationAndExplicitTitleSelection']=True
+        execute(f'const e=document.querySelector("#rule-scope");e.value={json.dumps(alpha)};e.dispatchEvent(new Event("change",{{bubbles:true}}));return true;')
+        fill('#rule-title-value','Document');draw('#record-canvas');click('#save-rule')
+        wait(lambda:len(core('GetConfig')['value']['config']['rules'])==1)
+        saved=core('GetConfig')['value']['config']['rules'][0]
+        assert saved['applicationId']==alpha and saved['titleMatch']=={'operator':'包含','value':'Document'}
+        click('.nav[data-page="text"]');click('.nav[data-page="rules"]')
+        assert execute('return document.querySelector("#rule-scope").value;')==alpha
+        assert execute('return document.querySelector("#rule-title-value").value;')=='Document'
+        execute('document.querySelector("#rule-application").scrollIntoView({block:"center"});return true;');capture('scope-gesture-conditions.png')
+        click('.nav[data-page="test"]')
+        execute(f'const e=document.querySelector("#test-scope");e.value={json.dumps(alpha)};e.dispatchEvent(new Event("change",{{bubbles:true}}));return true;')
+        fill('#test-title','Other');draw('#canvas')
+        wait(lambda:execute('return document.querySelector("#test-match").textContent;')=='未匹配到规则')
+        fill('#test-title','Document - Editor')
+        wait(lambda:execute('return document.querySelector("#test-match").textContent;')=='范围与标题测试')
+        execute(f'const e=document.querySelector("#test-scope");e.value={json.dumps(beta)};e.dispatchEvent(new Event("change",{{bubbles:true}}));return true;')
+        wait(lambda:execute('return document.querySelector("#test-match").textContent;')=='未匹配到规则')
+        results['gestureScopeAndTitlePersistAndMatch']=True
+        capture('scope-gesture-test.png')
+        original=core('GetConfig')['value']['config']
+        def candidates(selector):return execute(f'return [...document.querySelector({json.dumps(selector)}).options].map(option=>option.value);')
+        def pick_candidate(root_selector,app_id):
+            click(root_selector+' .choose-application')
+            wait(lambda:execute('return document.querySelectorAll("#application-dialog [data-app-index]").length>0;'))
+            fill('.application-search',app_id);click('#application-dialog [data-app-index]')
+        # Gesture simulation and text simulation share the same candidate history.
+        click('#test-application .remove-application')
+        assert beta not in candidates('#test-scope')
+        assert execute('return document.querySelector("#test-scope").value;')==''
+        click('.nav[data-page="text"]')
+        assert beta not in candidates('#snippet-test-scope')
+        pick_candidate('#snippet-test-application',beta)
+        assert 'io.waystroke.ScopeCheck.unused.desktop' not in candidates('#snippet-test-scope')
+        click('#snippet-test-application .remove-application')
+        assert beta not in candidates('#snippet-test-scope')
+        click('#new-snippet');assert beta not in candidates('#snippet-scope')
+        pick_candidate('#snippet-application',beta);click('#snippet-application .remove-application')
+        assert beta not in candidates('#snippet-scope') and beta not in candidates('#snippet-test-scope')
+        assert execute('return document.querySelector("#snippet-scope").value;')==''
+        results['candidateButtonAlignment']=execute('const root=document.querySelector("#snippet-application"),a=root.querySelector(".choose-application").getBoundingClientRect(),b=root.querySelector(".remove-application").getBoundingClientRect(),r=root.getBoundingClientRect();return {topGap:Math.abs(a.top-b.top),rightGap:Math.abs(r.right-b.right)};')
+        assert results['candidateButtonAlignment']['topGap']<1 and results['candidateButtonAlignment']['rightGap']<1
+        capture('scope-remove-candidate.png','#snippet-dialog');click('#cancel-dialog')
+        click('.nav[data-page="rules"]');pick_candidate('#rule-application',beta)
+        click('#rule-application .remove-application');assert beta not in candidates('#rule-scope')
+        assert execute('return document.querySelector("#rule-scope").value;')==''
+        click('#revert-rule');assert execute('return document.querySelector("#rule-scope").value;')==alpha
+        assert core('GetConfig')['value']['config']==original
+        # Reopen the actual WebView to verify the deletion survives application close.
+        click('#window-close')
+        wait(lambda:not [w for w in shell({'action':'snapshot'})['windows'] if w['title']=='WayStroke'])
+        http('DELETE',f'/session/{session}');session=None
+        session=http('POST','/session',{'capabilities':{'alwaysMatch':{'tauri:options':{'application':str(BINDIR/'waystroke')}}}})['sessionId']
+        wait(lambda:execute('return Boolean(document.querySelector("#main h1"))'))
+        click('.nav[data-page="text"]');assert beta not in candidates('#snippet-test-scope')
+        # A hidden candidate must never erase an existing rule's condition.
+        snippet=next(rule for rule in original['snippets'] if rule['applicationId']==beta)
+        click(f'[data-edit="{snippet["id"]}"]')
+        assert execute('return document.querySelector("#snippet-scope").value;')==beta
+        click('#cancel-dialog');assert core('GetConfig')['value']['config']==original
+        pick_candidate('#snippet-test-application',beta)
+        assert beta in candidates('#snippet-test-scope')
+        capture('scope-candidate-restored.png')
+        results['catalogDoesNotPolluteDropdownCandidates']=True
+        results['candidateRemovalWorksAcrossAllFourControls']=True
+        results['candidateRemovalPersistsWithoutChangingRules']=True
+        results['explicitSelectionRestoresHiddenCandidate']=True
+        raise SystemExit(0)
     if '--phase-d' in sys.argv:
         # Formal saved rule and page-local input use the same Rust matcher.
         click('.nav[data-page="text"]')
@@ -400,7 +536,7 @@ try:
     capture('dialog-variable.png','#variable-dialog')
     click('[data-variable="读到的文本"]')
     click('#add-workflow-output');fill('#workflow-outputs [data-declaration-key="name"]','返回文本');fill('#workflow-outputs [data-declaration-key="value"]','${读到的文本}')
-    click('#composer-save');wait(lambda:any(s['action']=='clipboard.read' for s in core('GetConfig')['value']['config']['workflows'][0]['steps']))
+    click('#composer-save');wait(lambda:any(step['action']=='clipboard.read' for workflow in core('GetConfig')['value']['config']['workflows'] for step in workflow['steps']))
     workflow=core('GetConfig')['value']['config']['workflows'][0]
     assert workflow['steps'][0]['timeoutMs']==300;results['stepTimeoutSaved']=True
     stable_output=workflow['steps'][1]['output']['id'];assert workflow['steps'][2]['params']['value']['value']['symbolId']==stable_output
@@ -413,23 +549,25 @@ try:
     click('.nav[data-page="rules"]');click('#new-rule');fill('#rule-name','配置测试')
     gesture=core('GetConfig')['value']['config']['gestures'][0]['id']
     execute(f'const e=document.querySelector("#rule-gesture");e.value={json.dumps(gesture)};e.dispatchEvent(new Event("change",{{bubbles:true}}));return true;')
-    click('#pick-rule-window');wait(lambda:execute('return Boolean(document.querySelector("#window-dialog .window-picker button"));'));click('#window-dialog .window-picker button')
+    click('#rule-application .choose-application');wait(lambda:execute('return Boolean(document.querySelector("#application-dialog [data-window-index]"));'));click('#application-dialog [data-window-index]')
     click('#rule-feedback');click('#save-rule');wait(lambda:len(core('GetConfig')['value']['config']['rules'])==1)
-    saved=core('GetConfig')['value']['config'];assert saved['rules'][0]['applicationId'];assert saved['applications'][0]['name']==saved['rules'][0]['applicationId']
+    saved=core('GetConfig')['value']['config'];assert saved['rules'][0]['applicationId'];assert any(app['id']==saved['rules'][0]['applicationId'] and app['name'] for app in saved['applications'])
     assert saved['rules'][0]['feedback'] is False
     results['ruleFeedbackSaved']=True
     results['pickedApplicationSavesWithName']=True
     snapshot=core('GetConfig')['value'];rule=snapshot['config']['rules'][0];rule['steps'][0].update(action='wait',params={'value':{'mode':'literal','value':{'kind':'number','value':1000}}})
     assert core('CommitConfig',{'requestId':'ui-execution','expectedRevision':snapshot['revision'],'config':snapshot['config']})['status']=='ok'
     wait(lambda:execute('return document.querySelector("#steps")?.textContent.includes("等待");'))
-    click('.nav[data-page="test"]');execute(f'const e=document.querySelector("#test-scope");e.value={json.dumps(saved["applications"][0]["name"])};e.dispatchEvent(new Event("change",{{bubbles:true}}));return true;');draw('#canvas')
+    click('.nav[data-page="test"]');execute(f'const e=document.querySelector("#test-scope");e.value={json.dumps(saved["applications"][0]["id"])};e.dispatchEvent(new Event("change",{{bubbles:true}}));return true;');draw('#canvas')
     wait(lambda:execute('return document.querySelector("#test-match").textContent;')=='配置测试')
     assert execute('return document.querySelector("#test-score").textContent;')=='100.0%'
     results['formalRecognitionPage']=True
     assert core('GetRuntime')['value']['recording']=='canvas'
     click('.nav[data-page="rules"]');wait(lambda:core('GetRuntime')['value']['recording'] is None)
     results['recordingModeReleasedOnNavigation']=True
-    click('.nav[data-page="test"]');execute(f'const e=document.querySelector("#test-scope");e.value={json.dumps(saved["applications"][0]["name"])};e.dispatchEvent(new Event("change",{{bubbles:true}}));return true;');draw('#canvas');wait(lambda:execute('return Boolean(document.querySelector("#preview-matched-action"));'))
+    click('.nav[data-page="test"]');execute(f'const e=document.querySelector("#test-scope");e.value={json.dumps(saved["applications"][0]["id"])};e.dispatchEvent(new Event("change",{{bubbles:true}}));return true;');draw('#canvas');wait(lambda:execute('return Boolean(document.querySelector("#preview-matched-action"));'))
+    results['inspectorActionGap']=execute('return document.querySelector("#preview-matched-action").getBoundingClientRect().top-document.querySelector("#test-candidates").getBoundingClientRect().bottom;')
+    assert results['inspectorActionGap']>=20
     click('#preview-matched-action');wait(lambda:execute('return Boolean(document.querySelector("#window-dialog .window-picker button"));'));click('#window-dialog .window-picker button')
     wait(lambda:execute('return document.querySelector("#main h1").textContent;')=='运行状态')
     wait(lambda:len(core('GetRuntime')['value']['executions'])==1 and core('GetRuntime')['value']['executions'][0]['state']=='succeeded')

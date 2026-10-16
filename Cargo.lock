@@ -4698,6 +4698,7 @@ dependencies = [
  "tauri-plugin-single-instance",
  "tokio",
  "waystroke-protocol",
+ "webkit2gtk",
  "zbus",
 ]
 

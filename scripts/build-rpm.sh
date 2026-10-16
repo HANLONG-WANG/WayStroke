@@ -8,7 +8,7 @@ fi
 rpm_work="$PWD/target/rpm"
 payload="$rpm_work/payload"
 rm -rf "$payload"
-mkdir -p "$payload/usr/bin" "$payload/usr/libexec/waystroke" "$payload/usr/lib/systemd/"{system,user} "$payload/usr/share/"{applications,dbus-1/services,polkit-1/actions,icons/hicolor/64x64/apps,gnome-shell/extensions/waystroke@local} "$payload/usr/lib64/girepository-1.0"
+mkdir -p "$payload/usr/bin" "$payload/usr/libexec/waystroke" "$payload/usr/lib/systemd/"{system,user} "$payload/usr/share/"{applications,dbus-1/services,polkit-1/actions,icons/hicolor/64x64/apps,icons/hicolor/scalable/apps,gnome-shell/extensions/waystroke@local} "$payload/usr/lib64/girepository-1.0"
 for binary in waystroke waystroke-core waystroke-inputd; do
     install -m 0755 "target/release/$binary" "$payload/usr/bin/$binary"
 done
@@ -19,6 +19,7 @@ install -m 0644 packaging/systemd/waystroke-core.service "$payload/usr/lib/syste
 install -m 0644 packaging/polkit/*.policy "$payload/usr/share/polkit-1/actions/"
 install -m 0644 packaging/dbus/*.service "$payload/usr/share/dbus-1/services/"
 install -m 0644 packaging/applications/*.desktop "$payload/usr/share/applications/"
+install -m 0644 apps/desktop/src-tauri/icons/icon.svg "$payload/usr/share/icons/hicolor/scalable/apps/io.github.waystroke.Desktop.svg"
 install -m 0644 apps/desktop/src-tauri/icons/icon.png "$payload/usr/share/icons/hicolor/64x64/apps/io.github.waystroke.Desktop.png"
 for resource in metadata.json extension.js clipboard.js dialogs.js system.js text.js terminal.js; do
     install -m 0644 "extension/$resource" "$payload/usr/share/gnome-shell/extensions/waystroke@local/"

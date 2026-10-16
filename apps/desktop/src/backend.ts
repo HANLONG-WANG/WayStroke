@@ -56,6 +56,7 @@ export class Backend {
  async getRuntime(){this.runtime=await this.call<RuntimeInfo>('get_runtime');this.onRuntime({event:'capability',runtime:this.runtime});return this.runtime;}
  async listDevices(){return this.call<MouseDevice[]>('list_devices');}
  async listWindows(){return this.call<{handle:{instance:string,id:string},title:string,applicationId:string}[]>('list_windows');}
+ async listApplications(){return invoke<{id:string,name:string}[]>('list_applications');}
  async getStatus(){return this.call<Status>('get_status');}
  async reconnect(){const snapshot=await this.snapshot();if(snapshot.revision!==this.revision&&this.onConfig(fromConfig(snapshot.config)))this.revision=snapshot.revision;this.connected=true;this.lastError='';await this.getRuntime();await this.getCapabilities().catch(()=>{});this.onConnection(true);}
  async flush(){if(this.pendingWrites>0)await this.tail;}

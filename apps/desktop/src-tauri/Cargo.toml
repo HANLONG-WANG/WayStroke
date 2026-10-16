@@ -19,6 +19,7 @@ serde_json.workspace = true
 waystroke-protocol.workspace = true
 futures-util = "0.3"
 gtk = "0.18"
+webkit2gtk = "2"
 
 [features]
 custom-protocol = ["tauri/custom-protocol"]

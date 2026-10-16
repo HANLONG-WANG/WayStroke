@@ -6,7 +6,7 @@
 
 ## 构建准备
 
-需要 Rust／Cargo、Node.js／npm、C 编译器和 `pkg-config`，以及 Tauri/WebKitGTK、Mutter 原生组件的开发依赖。相关开发包包括：
+需要 Rust／Cargo、Node.js／npm、C 编译器和 `pkg-config`，以及 Tauri/WebKitGTK（≥ 2.46）、Mutter 原生组件的开发依赖。相关开发包包括：
 
 ```bash
 sudo dnf install webkit2gtk4.1-devel gtk3-devel librsvg2-devel \
@@ -96,6 +96,7 @@ python3 scripts/check-core.py
 原生 UI 与桌面集成检查：
 
 ```bash
+python3 scripts/check-ui.py --application-scope
 python3 scripts/check-ui.py --devkit --release --phase-e --phase-c
 python3 scripts/check-gnome.py --devkit --release --phase-c-clipboard --phase-c-composed-input
 ```
@@ -127,3 +128,15 @@ python3 -m http.server 8765 --bind 127.0.0.1 --directory design
 ```
 
 浏览 `http://127.0.0.1:8765`；窗口外的评审控件不属于正式软件。
+
+## 图标与高刷新率
+
+系统图标的矢量源为 `apps/desktop/src-tauri/icons/icon.svg`，圆角比例与应用内品牌图标一致。RPM 同时安装 scalable SVG 与 64×64 PNG；修改图标后用 `rsvg-convert apps/desktop/src-tauri/icons/icon.svg -o apps/desktop/src-tauri/icons/icon.png` 同步 Tauri 的 PNG。构建不会更新主系统已安装的图标。
+
+桌面 WebView 启动时通过 WebKitGTK feature API 关闭 `PreferPageRenderingUpdatesNear60FPS`，让页面动画和 `requestAnimationFrame` 跟随显示器刷新率，并启用平滑滚动。实际帧率仍取决于合成器、显示器和渲染负载；没有设置固定 120/144 Hz 或空闲重绘循环。
+
+本机 NVIDIA / WebKitGTK 2.54.1 仍有底层限制：120 Hz 显示器上 `drmWaitVBlank` 返回 `Operation not permitted`，WebKitGTK 回退到 60 Hz 定时器。关闭上述页面策略后的独立 WebView 实测仍约 59 FPS，因此此配置不能视为本机高刷新率已修复；需要 WebKitGTK 的同步实现或驱动侧修复。没有更改系统权限、驱动或全局渲染设置。
+
+应用范围选择器位于 `apps/desktop/src/applications.js`。已安装应用由桌面端 `list_applications` 命令通过 GIO 读取，窗口标识由 GNOME 桥接提供；保存与匹配继续使用原有配置中的应用 ID，不更改配置格式。`--application-scope` 使用临时同名应用条目验证首次选择、按 ID 保存与重开、文本作用范围及手势标题条件，不安装应用或改动主桌面配置。原生测试的私有 D-Bus 激活文件指向被测构建，避免误用系统已安装的 core。
+
+应用候选历史与隐藏项仅为界面偏好，保存在 WebView 的 `localStorage`（`waystroke.applicationCandidates`）中；完整已安装目录不加入候选。删除候选不移除配置中的应用名称映射，也不改写规则。应用范围专项检查覆盖目录不污染候选、四处删除控件、关闭重开后的隐藏状态与重新选取恢复。

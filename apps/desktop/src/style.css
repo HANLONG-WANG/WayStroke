@@ -95,3 +95,21 @@ select:disabled{color:var(--muted)}
 input[type=range]{appearance:none;-webkit-appearance:none;height:16px;border:0;background:transparent}
 input[type=range]::-webkit-slider-runnable-track{height:6px;border:1px solid #b9b9c3;border-radius:4px;background:linear-gradient(to right,var(--accent) 0%,var(--accent) var(--range-progress,58%),#dedede var(--range-progress,58%),#dedede 100%)}
 input[type=range]::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:14px;height:14px;margin-top:-5px;border:0;border-radius:50%;background:var(--accent)}
+
+/* Keep the action separate from the candidate list. */
+.test-result>#preview-matched-action{margin-top:20px}
+/* Secondary guidance belongs to the page, without a full-width white card. */
+.text-help{background:transparent;border:0;border-radius:0;padding:0;margin:0 0 18px}
+.text-help summary{display:flex;align-items:center;gap:8px;list-style:none;color:var(--muted);font-size:11px;padding:6px 0;width:fit-content}
+.text-help summary::-webkit-details-marker{display:none}
+.text-help summary::before{content:"";width:6px;height:6px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(-45deg);margin:0 4px 0 2px}
+.text-help[open] summary::before{transform:rotate(45deg)}
+.text-help summary:hover{color:var(--accent)}
+.text-help summary:focus-visible{outline:3px solid #a8a8f0;outline-offset:3px;border-radius:4px}
+.text-help[open]{padding-bottom:4px;border-bottom:1px solid var(--line)}
+.text-help p{margin:10px 0;line-height:1.9}
+
+/* Shared application selection, identified by application ID. */
+.application-control{position:relative;margin-bottom:16px;min-width:0}.application-control .field{margin:0 0 6px}.application-control select{width:100%;min-width:0}.application-controls{display:flex;align-items:center;justify-content:space-between;gap:10px}.application-controls>.link-button{padding:3px 0;font-size:11px}.application-controls>.remove-application{color:var(--muted)}.application-controls>.remove-application:not(:disabled):hover{color:#b45164}.application-identity{display:block;font-size:10px;overflow-wrap:anywhere;line-height:1.7;margin-top:4px}.application-results{max-height:340px;overflow:auto;margin:16px 0}.application-results h3{margin:15px 0 9px;color:var(--muted);font-size:11px}.application-results>button{display:block;text-align:left;width:100%;margin-bottom:6px;padding:10px 12px}.application-results strong{display:block;font-size:12px}.application-results small{display:block;margin-top:5px;overflow-wrap:anywhere;font-size:10px}.application-search{margin-bottom:5px}.application-title-option{display:flex;align-items:flex-start;gap:8px;font-size:11px;line-height:1.7}.application-title-option input{flex-shrink:0}.manual-application{border-top:1px solid var(--line);padding-top:14px}.manual-application summary{cursor:pointer;font-size:12px;color:var(--muted);margin-bottom:14px}.test-toolbar{align-items:flex-start}.test-toolbar>#test-application{flex:1;min-width:0;margin:0}.test-toolbar .application-control select{width:100%}.test-toolbar>#test-modifier,.test-toolbar>#clear-canvas{margin-top:24px}#rule-title-field[hidden]{display:none}#application-dialog{width:570px}#application-dialog .application-loading:empty{display:none}
+
+.two-fields>.application-control{margin:12px 0}

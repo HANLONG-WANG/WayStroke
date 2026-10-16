@@ -1,4 +1,5 @@
 mod setup;
+mod rendering;
 use futures_util::StreamExt;
 use std::{process::{Command,Stdio},time::Duration};
 use tauri::{Emitter,Manager};
@@ -13,6 +14,16 @@ fn requested_page(args:&[String])->Option<String> {
 }
 #[tauri::command]
 fn launch_page()->Option<String> {requested_page(&std::env::args().collect::<Vec<_>>())}
+
+#[tauri::command]
+fn list_applications()->Vec<serde_json::Value> {
+    use gtk::gio::prelude::*;
+    let mut apps=gtk::gio::AppInfo::all().into_iter().filter(|app|app.should_show())
+        .filter_map(|app|app.id().map(|id|serde_json::json!({"id":id.as_str(),"name":app.display_name().as_str()}))).collect::<Vec<_>>();
+    apps.sort_by(|a,b|a["id"].as_str().cmp(&b["id"].as_str()));
+    apps.dedup_by(|a,b|a["id"]==b["id"]);
+    apps
+}
 
 static CORE_CONNECTION:tokio::sync::OnceCell<zbus::Connection>=tokio::sync::OnceCell::const_new();
 #[tauri::command]
@@ -109,6 +120,8 @@ fn main() {
             }
         }))
         .setup(|app| {
+            app.get_webview_window("main").expect("main window")
+                .with_webview(|webview| rendering::configure(&webview.inner()))?;
             if let Err(e)=tauri::async_runtime::block_on(ensure_core()) { eprintln!("WayStroke: {e}"); }
             let handle=app.handle().clone();
             tauri::async_runtime::spawn(async move {
@@ -142,6 +155,6 @@ fn main() {
             });
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![core_call,default_config,launch_page,save_file,setup::setup_operation])
+        .invoke_handler(tauri::generate_handler![core_call,default_config,launch_page,list_applications,save_file,setup::setup_operation])
         .run(tauri::generate_context!()).expect("WayStroke desktop startup failed");
 }
