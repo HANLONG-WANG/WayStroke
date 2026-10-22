@@ -35,6 +35,15 @@ struct Undo {token:String,guard:Guard,before:Context,after:Context,start:i32,con
 #[serde(rename_all="camelCase",deny_unknown_fields)]
 pub struct UndoRequest {pub guard:Guard,pub token:String}
 pub(super) fn bus_error(e:impl std::fmt::Display)->Error {error(ErrorKind::Unavailable,format!("AT-SPI 接入失败：{e}"))}
+/// zbus stops reading the whole connection while any stream's queue is full,
+/// so a consumer that awaits replies on the same bus must not drain the stream
+/// itself: a burst of events would leave the reply unread forever.
+pub(super) async fn events(bus:&zbus::Connection,rule:zbus::MatchRule<'static>)->Result<tokio::sync::mpsc::UnboundedReceiver<zbus::Result<zbus::Message>>,Error>{
+    let mut stream=zbus::MessageStream::for_match_rule(rule,bus,Some(64)).await.map_err(bus_error)?;
+    let (sender,receiver)=tokio::sync::mpsc::unbounded_channel();
+    tokio::spawn(async move{while let Some(message)=stream.next().await{if sender.send(message).is_err(){return}}});
+    Ok(receiver)
+}
 fn partial_error(mut error:Error)->Error {
     error.details.push(waystroke_model::ValidationError{path:"text.partialEdit".into(),message:"文本可能已改变；停止重放确认键".into()});error
 }
@@ -64,12 +73,12 @@ impl Adapter {
     }
     async fn watch_undo(&self,bus:&zbus::Connection,session:&zbus::Connection)->Result<(),Error>{
         let rule=zbus::MatchRule::builder().msg_type(zbus::message::Type::Signal).interface("org.a11y.atspi.Event.Object").map_err(bus_error)?.build();
-        let mut events=zbus::MessageStream::for_match_rule(rule,bus,Some(64)).await.map_err(bus_error)?;
+        let mut events=events(bus,rule).await?;
         let registry=zbus::Proxy::new(bus,"org.a11y.atspi.Registry","/org/a11y/atspi/registry","org.a11y.atspi.Registry").await.map_err(bus_error)?;
         for event in ["object:text-caret-moved","object:state-changed:focused"]{let _:()=registry.call("RegisterEvent",&(event,Vec::<String>::new(),"")).await.map_err(bus_error)?;}
         let undo=self.undo.clone();let bus=bus.clone();let desktop=Desktop::new(session.clone());
         tokio::spawn(async move{
-            while let Some(message)=events.next().await{
+            while let Some(message)=events.recv().await{
                 let message=match message{Ok(message)=>message,Err(error)=>{eprintln!("AT-SPI 撤销事件连接中断：{error}");*undo.lock().await=None;return}};
                 let header=message.header();let member=header.member().map(|m|m.as_str());
                 if !matches!(member,Some("TextCaretMoved"|"StateChanged")){continue}
@@ -105,7 +114,11 @@ impl Adapter {
         });Ok(())
     }
     async fn proxy<'a>(bus:&'a zbus::Connection,node:&'a Reference,interface:&'static str)->Result<zbus::Proxy<'a>,Error>{zbus::Proxy::new(bus,node.0.as_str(),node.1.as_str(),interface).await.map_err(bus_error)}
-    async fn children(bus:&zbus::Connection,node:&Reference)->Result<Vec<Reference>,Error>{Self::proxy(bus,node,ACCESSIBLE).await?.call("GetChildren",&()).await.map_err(bus_error)}
+    // Chromium lists children it has not created yet as the AT-SPI null reference.
+    async fn children(bus:&zbus::Connection,node:&Reference)->Result<Vec<Reference>,Error>{
+        let children:Vec<Reference>=Self::proxy(bus,node,ACCESSIBLE).await?.call("GetChildren",&()).await.map_err(bus_error)?;
+        Ok(children.into_iter().filter(|child|child.1.as_str()!="/org/a11y/atspi/null").collect())
+    }
     pub(super) async fn read(bus:&zbus::Connection,node:&Reference)->Result<Option<Context>,Error>{
         let accessible=Self::proxy(bus,node,ACCESSIBLE).await?;
         let role:u32=accessible.call("GetRole",&()).await.map_err(bus_error)?;

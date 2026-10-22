@@ -35,7 +35,7 @@ impl Adapter {
     async fn monitor(self:&Arc<Self>,session:&zbus::Connection,config:&mut watch::Receiver<Snapshot>,runtime:&Runtime)->Result<(),Error>{
         let bus=self.connect(session).await?;
         let rule=zbus::MatchRule::builder().msg_type(zbus::message::Type::Signal).interface("org.a11y.atspi.Event.Object").map_err(bus_error)?.member("TextChanged").map_err(bus_error)?.build();
-        let mut events=zbus::MessageStream::for_match_rule(rule,&bus,Some(64)).await.map_err(bus_error)?;
+        let mut events=crate::atspi::events(&bus,rule).await?;
         let owner_rule=zbus::MatchRule::builder().msg_type(zbus::message::Type::Signal).sender("org.freedesktop.DBus").map_err(bus_error)?.interface("org.freedesktop.DBus").map_err(bus_error)?.member("NameOwnerChanged").map_err(bus_error)?.arg(0,"org.a11y.atspi.Registry").map_err(bus_error)?.build();
         let mut owners=zbus::MessageStream::for_match_rule(owner_rule,&bus,Some(8)).await.map_err(bus_error)?;
         let registry=zbus::Proxy::new(&bus,"org.a11y.atspi.Registry","/org/a11y/atspi/registry","org.a11y.atspi.Registry").await.map_err(bus_error)?;
@@ -56,7 +56,7 @@ impl Adapter {
                         if !previous.is_empty(){self.input_ready(false);bus.clone().close().await.map_err(bus_error)?;return Err(crate::error(ErrorKind::Unavailable,"AT-SPI 注册服务已重启，正在重新连接"))}
                     },
                     key=keys.recv()=>{intent=key;if intent.is_none(){return Err(crate::error(ErrorKind::Unavailable,"AT-SPI 输入来源连接中断"))}},
-                    event=events.next()=>{
+                    event=events.recv()=>{
                         let message=match event{Some(Ok(message))=>message,Some(Err(error))=>return Err(bus_error(error)),None=>return Err(crate::error(ErrorKind::Unavailable,"AT-SPI 文本事件连接中断"))};
                         // Notes were queued before Shell released the original input.
                         while let Ok(note)=keys.try_recv(){intent=Some(note);}

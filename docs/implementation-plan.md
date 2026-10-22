@@ -501,6 +501,7 @@ A–E 已完成，具体证据见本计划及 `fixtures/phase-b`、`fixtures/pha
 - 扩展：`textKeys` 只向 core 校验过的窗口发送按键；立即规则的末字符在没有 AT-SPI 输入来源时交给兼容替换；状态说明区分兼容替换、已停用与 X11 终端。
 - 配置：`Exclusion.compatibility`（旧配置默认 false）；运行结果增加应用标识，运行状态页对“不导出选区”的应用提供停用按钮，设置页排除行增加“停用兼容替换”。
 - 验证：`check-gnome.py --devkit --release --phase-d-atspi --selection` 与 `check-ui.py --devkit --release --selection-ui` 通过，证据见 `fixtures/xwayland-selection/`；`--phase-d-atspi --ime --lifecycle`、`--phase-d-text` 回归通过。默认 `check-ui.py --devkit --release` 在手势画布录制步骤超时，同一命令在改动前的 HEAD 上同样失败（私有会话取不到鼠标服务），与本项无关。
+- 实机修复：Chrome（XWayland）在 `GetChildren` 中以 AT-SPI 空引用 `/org/a11y/atspi/null` 占位未创建的子节点，遍历时对其调用 `GetState` 失败，整次替换报错并暂缓该窗口；现跳过空引用。另一个实机问题是 core 的 AT-SPI 连接在事件高峰后永久卡死，之后每次替换都在 350ms 处报“AT-SPI 编辑超时”：zbus 的消息流队列（64 条）满时会停止读取整条连接，而撤销/焦点监听与立即输入监听在排空队列的同一个循环里等待本连接的方法回复，形成死锁。现由独立任务把事件转入无界队列，消费者不再阻塞连接读取。devkit 中用 GTK4 在一次回调内连续切换焦点并移动光标 300 次复现：修复前替换超时并暂缓窗口，修复后替换成功；Chrome 在辅助功能开启/关闭及 3000 元素页面下均经兼容替换成功。
 
 ## 阶段 A 实施记录（2026-10-13，已完成）
 
