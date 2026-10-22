@@ -112,7 +112,7 @@ python3 scripts/check-gnome.py --devkit --release --phase-c-clipboard --x11-clip
 
 剪贴板备份跳过 X11 的 `SAVE_TARGETS`、`TARGETS`、`TIMESTAMP`、`MULTIPLE` 及插入/删除控制目标；仍保留真实数据格式（含 `UTF8_STRING`）并传播读取错误。`--x11-clipboard` 使用真实 XWayland GTK 剪贴板来源验证粘贴与多格式恢复。独立回归检查可运行 `GI_TYPELIB_PATH=/usr/lib64/mutter-18 LD_LIBRARY_PATH=/usr/lib64/mutter-18:/usr/lib64/gnome-shell gjs -m scripts/check-clipboard.js`。
 
-`--selection` 用 `probes/xwayland-fallback` 的 Tk/Swing 夹具（需要 PySide6/Tk、JDK、xterm）检查 XWayland 兼容替换：确认、撤销、粘贴、词边界、密码、立即规则、应用排除、终端名单、不导出选区窗口的探测上限与替换期间插入的按键。`--selection-ui` 在私有会话中启动辅助功能总线和 XWayland，用不导出选区的 xterm 触发真实的“兼容替换不可用”结果，检查运行状态页的停用按钮和设置页排除选项。check-gnome 结束时还会停止在私有总线上被 D-Bus 激活、而非由脚本启动的 core。2026-10-22 在本机观察到：启用 XWayland 的 devkit 运行有时在共用准备步骤“隐藏概览”超时，或 Shell 输入帧数秒才到达，未启用 XWayland 的检查同时通过；遇到时重跑，不要放宽断言。
+`--selection` 用 `probes/xwayland-fallback` 的 Tk/Swing/复制选区夹具（需要 PySide6/Tk、JDK、xterm）检查 XWayland 兼容替换：确认、撤销、粘贴、词边界、密码、立即规则、应用排除、终端名单、不导出选区窗口的探测上限与替换期间插入的按键，也检查 Shift 确认键透传和复制选区时文本/HTML/二进制剪贴板格式恢复。`--selection-ui` 在私有会话中启动辅助功能总线和 XWayland，用不导出选区的 xterm 触发真实的“兼容替换不可用”结果，检查运行状态页的停用按钮和设置页排除选项。check-gnome 结束时还会停止在私有总线上被 D-Bus 激活、而非由脚本启动的 core。2026-10-22 在本机观察到：启用 XWayland 的 devkit 运行有时在共用准备步骤“隐藏概览”超时，或 Shell 输入帧数秒才到达，未启用 XWayland 的检查同时通过；遇到时重跑，不要放宽断言。
 
 `--editor-layout` 检查规则/模板卡片填满工作区、独立滚动、规则取消及文本暂停保留草稿。XWayland 超时透传的故障测试为 `scripts/check-gnome.py --devkit --phase-d-atspi --ime --text-failopen`：暂停测试应用进程以阻塞真实 AT-SPI 响应，检查首次空格/Enter 恢复、后续原键直通和切换窗口后重新替换。NVIDIA 的独立测试桌面如遇 EGL 崩溃，可仅对测试命令设置 `__EGL_VENDOR_LIBRARY_FILENAMES=/usr/share/glvnd/egl_vendor.d/50_mesa.json XWAYLAND_NO_GLAMOR=1 GALLIUM_DRIVER=llvmpipe`；无需更改主会话。
 
@@ -157,3 +157,15 @@ python3 -m http.server 8765 --bind 127.0.0.1 --directory design
 应用候选历史与隐藏项仅为界面偏好，保存在 WebView 的 `localStorage`（`waystroke.applicationCandidates`）中；完整已安装目录不加入候选。删除候选不移除配置中的应用名称映射，也不改写规则。应用范围专项检查覆盖目录不污染候选、四处删除控件、关闭重开后的隐藏状态与重新选取恢复。
 
 原生输入事件可能只携带物理 `MOD4` 而不携带虚拟 `SUPER` 标志。文本与终端接入都将二者视为 Super 修饰键，避免把 `Super+Space` 拦截为替换确认。`--ime-shortcuts` 在私有 GNOME 会话中用两种输入源验证空白焦点、单行输入框、多行文本框的正反向输入源切换及普通空格；测试复制的扩展只记录空格事件的修饰位和上下文可用性，不记录输入文本。
+
+
+2026-10-22 修饰确认键与微信选区回归（全部在 devkit 内）：
+
+```sh
+python3 scripts/check-gnome.py --devkit --multi-monitor --release --phase-d-text --modifiers
+python3 scripts/check-gnome.py --devkit --release --phase-d-text --modifiers --terminal-modifiers
+python3 scripts/check-gnome.py --devkit --release --phase-d-atspi --selection
+python3 probes/xwayland-fallback/run.py --only=wechat
+```
+
+`--modifiers` 在客户端记录 Enter/Space 的修饰，并检查匹配/不匹配输入均不触发确认和 Super+Space 切换输入法；`--terminal-modifiers` 用声明 TERMINAL 用途的 GTK 字段经过真实 TerminalAdapter 验证同一路径。GTK4 不公开 Mod5，因此 AltGr 同时核对 Shell 实际收到的状态。私有输入源设置启用右 Alt 的 Level3 映射，并关闭该测试会话的动画。`--selection` 的复制选区夹具还断言一次替换只有两次剪贴板所有者变化（复制与恢复）。`check-gnome.py` 不要整体设置 `__EGL_VENDOR_LIBRARY_FILENAMES=.../50_mesa.json`：devkit 里的 Shell 会因 NVIDIA 设备没有 EGL 显示而无法启动。锁屏、显示器关闭或 devkit 停止出帧时，检查会停在 Shell 输入帧等待，先用未改动的 HEAD 对照再判断。微信探针仅启动隔离 HOME 的未登录实例，不操作主桌面账号。证据与限制见 `fixtures/text-compatibility/README.md`。

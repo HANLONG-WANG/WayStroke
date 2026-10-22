@@ -1,0 +1,16 @@
+{
+ "command": "同上；临时副本只保留 xterm 与不导出选区窗口用例",
+ "selectionTerminalSkipped": "abc abc ",
+ "selectionNonExporting": {
+  "bytes": "abc\u001b[1;2D\u001b[1;2C abc\u001b[1;2D\u001b[1;2C abc\u001b[1;2D\u001b[1;2C abc ",
+  "last": {
+   "adapter": "selection",
+   "state": "unsupported",
+   "ruleId": null,
+   "reason": "此窗口没有导出选区，未编辑",
+   "time": "2026-10-22T13:32:12.280693057+00:00",
+   "applicationId": "xterm.desktop"
+  }
+ },
+ "complete": true
+}

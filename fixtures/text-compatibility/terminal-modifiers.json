@@ -1,0 +1,91 @@
+{
+ "command": "python3 scripts/check-gnome.py --devkit --release --phase-d-text --modifiers --terminal-modifiers",
+ "modifierAdapterPurpose": 10,
+ "modifiedConfirmations": [
+  {
+   "word": "",
+   "modifier": 65505,
+   "received": [
+    [
+     65293,
+     1
+    ]
+   ],
+   "shell": {
+    "key": 65293,
+    "modifiers": 1
+   }
+  },
+  {
+   "word": "",
+   "modifier": 65505,
+   "received": [
+    [
+     32,
+     1
+    ]
+   ],
+   "shell": {
+    "key": 32,
+    "modifiers": 1
+   }
+  },
+  {
+   "word": "",
+   "modifier": 65027,
+   "received": [
+    [
+     65293,
+     0
+    ]
+   ],
+   "shell": {
+    "key": 65293,
+    "modifiers": 128
+   }
+  },
+  {
+   "word": "",
+   "modifier": 65027,
+   "received": [
+    [
+     32,
+     0
+    ]
+   ],
+   "shell": {
+    "key": 32,
+    "modifiers": 128
+   }
+  },
+  {
+   "word": "",
+   "modifier": 65507,
+   "received": [
+    [
+     65293,
+     4
+    ]
+   ],
+   "shell": {
+    "key": 65293,
+    "modifiers": 4
+   }
+  },
+  {
+   "word": "",
+   "modifier": 65507,
+   "received": [
+    [
+     32,
+     4
+    ]
+   ],
+   "shell": {
+    "key": 32,
+    "modifiers": 4
+   }
+  }
+ ],
+ "complete": true
+}

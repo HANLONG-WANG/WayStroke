@@ -30,11 +30,20 @@ if kind=='qt':
         state['focus']=next((key for key,field in fields.items() if field.hasFocus()),None)
     timer=QTimer();timer.timeout.connect(lambda:tick(apply,snapshot));timer.start(30)
     window.resize(420,140);window.show();app.exec()
-elif kind=='tk':
+elif kind in ['tk','copy-only']:
     import tkinter as tk
-    window=tk.Tk();window.title(name)
+    window=tk.Tk(className='WeChat' if kind=='copy-only' else 'Tk');window.title(name)
+    state['confirmKeys']=[]
+    window.bind('<KeyPress>',lambda event:state['confirmKeys'].append([event.keysym,event.state]) if event.keysym in ['Return','space'] else None)
     fields={'normal':tk.Entry(window,width=40),'password':tk.Entry(window,width=40,show='*')}
     for field in fields.values():field.pack(padx=12,pady=10)
+    if kind=='copy-only':
+        for field in fields.values():field.configure(exportselection=False)
+        def copy(event):
+            if event.widget is fields['normal'] and event.widget.selection_present():
+                window.clipboard_clear();window.clipboard_append(event.widget.get()[event.widget.index('sel.first'):event.widget.index('sel.last')])
+            return 'break'
+        fields['normal'].bind('<Control-c>',copy);fields['password'].bind('<Control-c>',lambda event:'break')
     fields['normal'].bind('<Return>',lambda event:state['activated'].append(fields['normal'].get()))
     def apply(q):
         for key,value in q['set'].items():

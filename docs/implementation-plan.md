@@ -497,6 +497,7 @@ A–E 已完成，具体证据见本计划及 `fixtures/phase-b`、`fixtures/pha
 
 依据技术验证第五阶段实现选区校验替换，默认对所有没有 AT-SPI 文本接口的 XWayland 应用启用，可按应用停用：
 
+- 2026-10-22 兼容修复：原生与终端的带修饰确认键（Shift、AltGr 等）直接透传，XWayland 确认键绑定同样放行。微信输入框经主桌面只读观察确认从不导出 PRIMARY，改为每次替换只复制一次读回（完整备份/恢复剪贴板），同时完成关键词与边界校验；仅限窗口类 wechat/weixin，保留三次停用。证据见 `fixtures/text-compatibility/`。
 - core `xselection.rs`：x11rb 连接 XWayland（扩展在 X11 窗口获得焦点时传入 Shell 的 DISPLAY 与认证文件，失焦即断开）；XI2 raw 按键维护输入尾部并按送达顺序识别用户插入的按键；XFixes 选区通知与 PRIMARY 读写；探测、逐字校验、词边界与字段开头判断、粘贴、修正与撤销。`atspi.rs` 区分可编辑、密码/不可用与没有文本接口三种焦点，只有最后一种回退。
 - 扩展：`textKeys` 只向 core 校验过的窗口发送按键；立即规则的末字符在没有 AT-SPI 输入来源时交给兼容替换；状态说明区分兼容替换、已停用与 X11 终端。
 - 配置：`Exclusion.compatibility`（旧配置默认 false）；运行结果增加应用标识，运行状态页对“不导出选区”的应用提供停用按钮，设置页排除行增加“停用兼容替换”。

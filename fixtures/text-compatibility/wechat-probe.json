@@ -1,0 +1,182 @@
+{
+ "clipboardForwardingDisabled": [
+  "/org/gnome/Mutter/RemoteDesktop/Session/u1"
+ ],
+ "xinput": [
+  2,
+  0
+ ],
+ "wechat": {
+  "windows": [
+   {
+    "title": "Weixin",
+    "rect": {
+     "x": 570,
+     "y": 288,
+     "width": 140,
+     "height": 190
+    },
+    "clientType": 1
+   }
+  ],
+  "exit": null,
+  "xWindows": [
+   {
+    "id": 6291459,
+    "pid": 227,
+    "wmClass": [
+     "mutter-x11-frames",
+     "mutter-x11-frames"
+    ],
+    "name": "mutter-x11-frames",
+    "windowType": []
+   },
+   {
+    "id": 4194305,
+    "pid": 388,
+    "wmClass": [
+     "ibus-x11",
+     ""
+    ],
+    "name": "ibus-x11",
+    "windowType": []
+   },
+   {
+    "id": 4194308,
+    "pid": 388,
+    "wmClass": null,
+    "name": "ibus-xim",
+    "windowType": []
+   },
+   {
+    "id": 14680065,
+    "pid": 1580,
+    "wmClass": [
+     "WeChatAppEx",
+     "WeChatAppEx"
+    ],
+    "name": "WeChatAppEx",
+    "windowType": []
+   },
+   {
+    "id": 14680067,
+    "pid": 1580,
+    "wmClass": [
+     "WeChatAppEx",
+     "WeChatAppEx"
+    ],
+    "name": "WeChatAppEx",
+    "windowType": [
+     "_NET_WM_WINDOW_TYPE_NORMAL"
+    ]
+   },
+   {
+    "id": 10485766,
+    "pid": 1515,
+    "wmClass": [
+     "wechat",
+     "wechat"
+    ],
+    "name": "Weixin",
+    "windowType": [
+     "_KDE_NET_WM_WINDOW_TYPE_OVERRIDE",
+     "_NET_WM_WINDOW_TYPE_NORMAL"
+    ]
+   }
+  ],
+  "chatEditorTested": false,
+  "qt": {
+   "keyboard": {
+    "0.15": {
+     "owners": [
+      [
+       6222.997965351,
+       25165829,
+       1
+      ],
+      [
+       6222.998572977,
+       25165829,
+       1
+      ],
+      [
+       6222.998837817,
+       25165829,
+       1
+      ]
+     ],
+     "primary": {
+      "text": "abc"
+     },
+     "clipboard": {
+      "text": "clipboard-before"
+     }
+    },
+    "0.85": {
+     "owners": [
+      [
+       6222.997965351,
+       25165829,
+       1
+      ],
+      [
+       6222.998572977,
+       25165829,
+       1
+      ],
+      [
+       6222.998837817,
+       25165829,
+       1
+      ]
+     ],
+     "primary": {
+      "text": "abc"
+     },
+     "clipboard": {
+      "text": "clipboard-before"
+     }
+    }
+   },
+   "copy": {
+    "primary": {
+     "text": "abc"
+    },
+    "clipboard": {
+     "text": "abc"
+    }
+   }
+  },
+  "copy-only": {
+   "keyboard": {
+    "0.15": {
+     "owners": [],
+     "primary": {
+      "text": "primary-before"
+     },
+     "clipboard": {
+      "text": "clipboard-before"
+     }
+    },
+    "0.85": {
+     "owners": [],
+     "primary": {
+      "text": "primary-before"
+     },
+     "clipboard": {
+      "text": "clipboard-before"
+     }
+    }
+   },
+   "copy": {
+    "primary": {
+     "text": "primary-before"
+    },
+    "clipboard": {
+     "text": "abc"
+    }
+   }
+  }
+ },
+ "complete": true
+}

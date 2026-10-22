@@ -70,7 +70,7 @@ export class TerminalAdapter {
         const snapshot=this.snapshot();if(!snapshot)return false;
         if(key===Clutter.KEY_space||key===Clutter.KEY_Return){
             this.bridge.candidates.set(event.get_time(),{snapshot});
-            this.bridge.run(()=>this.bridge.confirm({key,code:event.get_key_code(),trigger:key===Clutter.KEY_space?'space':'enter'},event.get_time())).catch(error=>this.bridge.failure(error));
+            this.bridge.run(()=>this.bridge.confirm({key,code:event.get_key_code(),modifiers:state,trigger:key===Clutter.KEY_space?'space':'enter'},event.get_time())).catch(error=>this.bridge.failure(error));
             return true;
         }
         if(key===Clutter.KEY_BackSpace){this.token=[...this.token].slice(0,-1).join('');return false}

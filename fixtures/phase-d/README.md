@@ -28,3 +28,5 @@ python3 scripts/check-ui.py --devkit --phase-d
 支持边界：Firefox/GTK 多行可能只回报当前段落；完整范围不可确认时不进行受控撤销，交还应用原生撤销，并明确报告范围受限。终端普通及密码输入均允许，开关停用整个终端路径；含换行/已提交行不能紧邻撤销。raw/TUI 只能报告编辑字节已提交，不能宣称文档已修改；不把 VTE 结果推广成所有终端程序保证。导航、快捷键、粘贴和焦点变化清除短期上下文，未知前边界不按空文档猜测。
 
 `terminal-paste-pending.json` 与 DeviceEventController XML 是历史实验记录，不是当前未完成门槛；中键粘贴已由最新两种真实 source 的通过结果替代。无效的客户端 Clutter 鼠标过滤器、DeviceEventController 键盘监听以及 XTEST/XSendEvent 实验均未保留为支持路径。最终 XWayland 重放使用固定 GNOME 50.5 的 Clutter 导出事件构造器，保留原键码和修饰状态，并标记自身来源。
+
+2026-10-22 原生/TERMINAL 修饰确认键回归见 [text-compatibility](../text-compatibility/README.md)，包含 Shift、AltGr、Ctrl 透传与 Super+Space 输入源切换。该次 TERMINAL 回归使用明确声明终端用途的 GTK 输入字段；此前真实 VTE 常规替换证据仍保留在本目录。

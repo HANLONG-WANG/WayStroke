@@ -1,5 +1,5 @@
 //! XWayland text without an accessible editor. The keyword is selected with
-//! Shift+Left and replaced only after PRIMARY returns exactly that text.
+//! Shift+Left and replaced only after reading back exactly that text.
 //! Keys come from the extension's virtual keyboard; XWayland raw events give
 //! their delivery order. Only a short tail of typed text is kept, in memory.
 use std::{collections::{HashMap,VecDeque},sync::{Arc,Mutex as Shared},time::{Duration,Instant}};
@@ -13,6 +13,7 @@ use crate::{atspi::Guard,desktop::Desktop,error};
 
 /// Predefined atom XA_PRIMARY.
 const PRIMARY:Atom=1;
+const COPY:u32=0x63;
 const SHIFT:u32=0xffe1;const LEFT:u32=0xff51;const RIGHT:u32=0xff53;const BACKSPACE:u32=0xff08;const PASTE:u32=0x76;
 /// Owner change after the first selection key; a frozen or non-exporting
 /// client costs at most this long.
@@ -287,12 +288,25 @@ impl Adapter {
     async fn send(desktop:&Desktop,guard:&Guard,events:&[(u32,bool)])->Result<(),Error>{
         desktop.call(json!({"operation":"textKeys","guard":guard,"keys":events.iter().map(|(keyval,pressed)|json!([keyval,pressed])).collect::<Vec<_>>()})).await.map(|_|())
     }
+    /// WeChat sets neither PRIMARY nor any other selection for keyboard or
+    /// mouse selections, only CLIPBOARD on Ctrl+C. Copy shortcuts are never
+    /// sent to other clients (a raw terminal would get an interrupt).
+    fn copy_only(guard:&Guard)->bool{matches!(guard.wm_class.to_lowercase().as_str(),"wechat"|"weixin")}
     /// Claim PRIMARY so any exporting widget must take it again, then select
     /// back `count` positions and read until PRIMARY equals `expected`. A
     /// probe sends one key first and stops if the client exports nothing.
-    async fn select(x:&X,desktop:&Desktop,guard:&Guard,expected:&str,count:usize,probe:bool)->Result<Selection,Error>{
+    /// A copy-only editor selects `extra` more and is read by a single copy,
+    /// which Shell restores with every clipboard format; Ctrl+C follows the
+    /// Shift+Left presses through the same keyboard, so it sees all of them.
+    async fn select(x:&X,desktop:&Desktop,guard:&Guard,expected:&str,count:usize,probe:bool,extra:usize)->Result<Selection,Error>{
         let start=Instant::now();x.own(String::new())?;
         let (owners,first)={let state=x.state.lock().unwrap();(state.owners,state.total)};
+        if Self::copy_only(guard){
+            let mut sent=vec![LEFT;count+extra];Self::send(desktop,guard,&keys(LEFT,count+extra,true)).await?;sent.push(COPY);
+            let text=desktop.call(json!({"operation":"clipboardReadSelection","guard":guard})).await?.as_str().map(String::from);
+            crate::atspi::Adapter::guard(desktop,guard).await?;
+            return Ok(Selection{first,exported:text.is_some(),text,sent});
+        }
         let first_batch=if probe{1}else{count};
         Self::send(desktop,guard,&keys(LEFT,first_batch,true)).await?;
         if x.until(start+PROBE,|state|(state.owners>owners).then_some(())).await.is_none(){return Ok(Selection{first,exported:false,text:None,sent:vec![LEFT;first_batch]})}
@@ -404,22 +418,31 @@ impl Adapter {
     #[allow(clippy::too_many_arguments)]
     async fn replace(&self,x:&X,desktop:&Desktop,guard:&Guard,held:&str,unknown_start:bool,expansion:&waystroke_protocol::TextExpansion,trigger:TextInputTrigger,literal:bool)->Result<Value,Error>{
         let count=held.chars().count();
-        let selection=Self::select(x,desktop,guard,held,count,true).await.map_err(partial)?;
+        let extra=usize::from(unknown_start&&Self::copy_only(guard));
+        let selection=Self::select(x,desktop,guard,held,count,true,extra).await.map_err(partial)?;
         let mut sent=selection.sent.clone();
         let restore=|sent:&Vec<u32>|sent.iter().filter(|&&sym|sym==LEFT).count()-sent.iter().filter(|&&sym|sym==RIGHT).count();
         if !selection.exported{
-            Self::send(desktop,guard,&keys(RIGHT,sent.len(),true)).await.map_err(partial)?;x.state.lock().unwrap().reset();
+            Self::send(desktop,guard,&keys(RIGHT,restore(&sent),true)).await.map_err(partial)?;x.state.lock().unwrap().reset();
             return Ok(json!({"matched":false,"exported":false,"reason":"此窗口没有导出选区，未编辑"}));
         }
-        if selection.text.as_deref()!=Some(held){
+        // A copy with one extra character also shows what precedes the
+        // keyword; exactly the keyword means the field start stopped it.
+        let word=selection.text.as_deref().filter(|text|extra==1&&text.chars().count()==count+1&&text.ends_with(held)).map(|text|text.chars().next().is_some_and(|c|c.is_alphanumeric()||c=='_'));
+        if word.is_none()&&selection.text.as_deref()!=Some(held){
             x.state.lock().unwrap().reset();
             // A key typed into an unverified selection replaced text we never
             // confirmed; Shift+Right would now select the user's other text.
             if !align(&x.state.lock().unwrap().since(selection.first),&sent).1.is_empty(){return Ok(json!({"matched":false,"failed":"替换校验期间检测到其他输入，未编辑；关键词可能已被该输入覆盖"}))}
-            Self::unselect(desktop,guard,count,selection.text.as_deref()).await.map_err(partial)?;
+            Self::unselect(desktop,guard,count+extra,selection.text.as_deref()).await.map_err(partial)?;
             return Ok(json!({"matched":false,"reason":"选中的文字与关键词不一致，已还原"}));
         }
-        if unknown_start {
+        match word {
+            Some(true)=>{Self::send(desktop,guard,&keys(RIGHT,restore(&sent),true)).await.map_err(partial)?;return Ok(json!({"matched":false}))},
+            Some(false)=>Self::shift(desktop,guard,RIGHT,1,&mut sent).await.map_err(partial)?,
+            None=>{},
+        }
+        if unknown_start&&extra==0 {
             match Self::boundary(x,desktop,guard,held,&mut sent).await.map_err(partial)? {
                 Boundary::Separated|Boundary::FieldStart=>{},
                 Boundary::Word=>{Self::send(desktop,guard,&keys(RIGHT,restore(&sent),true)).await.map_err(partial)?;return Ok(json!({"matched":false}))},
@@ -445,9 +468,9 @@ impl Adapter {
             let repairable=matches!(edit,Edit::Type(_))&&trigger!=TextInputTrigger::Enter&&harmful.iter().all(|(position,press)|*position>=selected&&press.char.is_some());
             let Some(held)=interleave(selected,&text,&harmful).filter(|_|repairable) else{result["failed"]=json!("替换过程中检测到其他输入，结果可能与输入顺序不同");return Ok(result)};
             let typed:String=harmful.iter().filter_map(|(_,press)|press.char).collect();
-            let fixed=Self::select(x,desktop,guard,&held,held.chars().count(),false).await.map_err(partial)?;
+            let fixed=Self::select(x,desktop,guard,&held,held.chars().count(),false,0).await.map_err(partial)?;
             if fixed.text.as_deref()!=Some(held.as_str()){
-                if align(&x.state.lock().unwrap().since(fixed.first),&fixed.sent).1.is_empty(){Self::unselect(desktop,guard,fixed.sent.len(),fixed.text.as_deref()).await.map_err(partial)?}
+                if align(&x.state.lock().unwrap().since(fixed.first),&fixed.sent).1.is_empty(){Self::unselect(desktop,guard,fixed.sent.iter().filter(|&&key|key==LEFT).count(),fixed.text.as_deref()).await.map_err(partial)?}
                 result["failed"]=json!("替换过程中检测到其他输入，未能校验修正范围");return Ok(result);
             }
             let edit=Self::edit(x,&format!("{text}{typed}"));let mut ours=fixed.sent.clone();ours.extend(Self::apply(desktop,guard,&edit).await.map_err(partial)?);
@@ -479,8 +502,8 @@ impl Adapter {
         let _busy=Busy::new(&x);
         let result:Result<Value,Error>=async {
             let count=entry.held.chars().count();
-            let selection=Self::select(&x,&desktop,&guard,&entry.held,count,false).await.map_err(partial)?;
-            if selection.text.as_deref()!=Some(entry.held.as_str()){Self::unselect(&desktop,&guard,selection.sent.len(),selection.text.as_deref()).await.map_err(partial)?;return Ok(json!({"matched":false}))}
+            let selection=Self::select(&x,&desktop,&guard,&entry.held,count,false,0).await.map_err(partial)?;
+            if selection.text.as_deref()!=Some(entry.held.as_str()){Self::unselect(&desktop,&guard,selection.sent.iter().filter(|&&key|key==LEFT).count(),selection.text.as_deref()).await.map_err(partial)?;return Ok(json!({"matched":false}))}
             let edit=Self::edit(&x,&entry.restore);let mut ours=selection.sent.clone();ours.extend(Self::apply(&desktop,&guard,&edit).await.map_err(partial)?);
             if x.until(Instant::now()+DELIVERY,|state|(align(&state.since(selection.first),&ours).0==ours.len()).then_some(())).await.is_none(){return Err(partial(error(ErrorKind::Timeout,"撤销按键未被 XWayland 确认送达")))}
             x.state.lock().unwrap().reset();

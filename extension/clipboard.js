@@ -38,7 +38,8 @@ export class ClipboardBridge {
         const cancel=new Gio.Cancellable();this.pending.add(cancel);
         try{return await operation(cancel)}catch(error){if(cancel.is_cancelled())throw canceled();throw error}finally{this.pending.delete(cancel)}
     }
-    async read(){return this.task(async cancel=>{
+    async read(){return this.task(cancel=>this.readText(cancel))}
+    async readText(cancel){
         const types=this.selection.get_mimetypes(TYPE)||[];
         if(!types.length)return '';
         const mime=['text/plain;charset=utf-8','text/plain','UTF8_STRING'].find(type=>types.includes(type));
@@ -46,6 +47,35 @@ export class ClipboardBridge {
         const stream=Gio.MemoryOutputStream.new_resizable();
         await new Promise((resolve,reject)=>this.selection.transfer_async(TYPE,mime,-1,stream,cancel,(selection,result)=>{try{selection.transfer_finish(result);resolve()}catch(error){reject(error)}}));
         stream.close(null);return new TextDecoder('utf-8',{fatal:true}).decode(stream.steal_as_bytes().toArray());
+    }
+    async readSelection(send){return this.task(async cancel=>{
+        if(this.paste||this.copy)throw Object.assign(Error('已有临时剪贴板操作'),{kind:'conflict'});
+        const copy={owner:null};this.copy=copy;
+        let original,empty,signal=0,canceledSignal=0,timeout=0;
+        try{
+            const version=this.version,contents=await snapshot(this.selection,cancel);
+            original=await clipboardSource(contents);empty=contents.size===0;
+            if(this.version!==version)throw Object.assign(Error('剪贴板在准备读取选区时发生变化'),{kind:'conflict'});
+            // Only the client's copy is bounded; a slow backup of the user's
+            // clipboard must not count as a window that exports nothing.
+            timeout=GLib.timeout_add(GLib.PRIORITY_DEFAULT,300,()=>{timeout=0;cancel.cancel();return GLib.SOURCE_REMOVE});
+            const changed=new Promise((resolve,reject)=>{
+                signal=this.selection.connect('owner-changed',(_selection,type,owner)=>{if(type===TYPE&&owner&&!copy.owner){copy.owner=owner;resolve()}});
+                canceledSignal=cancel.connect(()=>reject(canceled()));
+            });
+            await Promise.all([send(),changed]);
+            const text=await this.readText(cancel);
+            return this.owner===copy.owner?text:null;
+        }catch(error){if(cancel.is_cancelled())return null;throw error}
+        finally{
+            if(signal)this.selection.disconnect(signal);
+            if(canceledSignal)cancel.disconnect(canceledSignal);
+            // Restore every saved MIME format, including on timeout/read failure.
+            // A later owner change belongs to the user and wins over restoration.
+            if(copy.owner&&this.owner===copy.owner&&original){this.selection.set_owner(TYPE,original);if(empty)this.selection.unset_owner(TYPE,original)}
+            this.copy=null;
+            if(timeout)GLib.source_remove(timeout);
+        }
     })}
     async write(text){return this.writeFormats(textContents(text))}
     async writeFormats(contents){return this.task(async cancel=>{
@@ -54,7 +84,7 @@ export class ClipboardBridge {
     })}
     async clear(){return this.task(async cancel=>{if(this.paste)throw Object.assign(Error('临时粘贴尚未结束'),{kind:'conflict'});const empty=await clipboardSource(new Map());if(cancel.is_cancelled())throw canceled();this.selection.set_owner(TYPE,empty);this.selection.unset_owner(TYPE,empty);return null})}
     async beginPaste(text,restore,send){return this.task(async cancel=>{
-        if(this.paste)throw Object.assign(Error('已有临时粘贴操作'),{kind:'conflict'});
+        if(this.paste||this.copy)throw Object.assign(Error('已有临时剪贴板操作'),{kind:'conflict'});
         const version=this.version,contents=await snapshot(this.selection,cancel);
         const original=await clipboardSource(contents);
         const source=await clipboardSource(textContents(text));

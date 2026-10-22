@@ -169,6 +169,10 @@ export default class WayStroke extends Extension {
                 const now=GLib.get_monotonic_time();q.keys.forEach(([keyval,pressed],index)=>this.keyboard.notify_keyval(now+index,keyval,pressed?Clutter.KeyState.PRESSED:Clutter.KeyState.RELEASED));return null;
             }
             case 'clipboardRead':return this.clipboard.read();
+            case 'clipboardReadSelection':return this.clipboard.readSelection(()=>{
+                if(!this.text.sameGuard(q.guard))throw Object.assign(Error('焦点已变化，停止读取选区'),{kind:'targetInvalid'});
+                const now=GLib.get_monotonic_time();[[Clutter.KEY_Control_L,true],[Clutter.KEY_c,true],[Clutter.KEY_c,false],[Clutter.KEY_Control_L,false]].forEach(([key,pressed],index)=>this.keyboard.notify_keyval(now+index,key,pressed?Clutter.KeyState.PRESSED:Clutter.KeyState.RELEASED));
+            });
             case 'clipboardWrite':return this.clipboard.write(q.text);
             case 'clipboardClear':return this.clipboard.clear();
             case 'clipboardVersion':return {version:this.clipboard.version};

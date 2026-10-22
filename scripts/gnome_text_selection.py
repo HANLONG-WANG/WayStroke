@@ -71,6 +71,14 @@ def check(REPO,root,spawn,call,core,wait,key,results):
     def last():return core('GetRuntime').get('lastTextResult')
 
     tk=App('tk','Selection Tk');tk.activate()
+    for confirm,symbol in [(0xff0d,'Return'),(32,'space')]:
+        tk.reset();typed('abc');before=call({'operation':'textInfo'}).get('confirms') or 0;count=len(tk.state()['confirmKeys'])
+        press(0xffe1,True);key(confirm);press(0xffe1,False)
+        wait(lambda:len(tk.state()['confirmKeys'])>count)
+        received=tk.state()['confirmKeys'][count:];assert received[0][0]==symbol and received[0][1]&1,received
+        assert (call({'operation':'textInfo'}).get('confirms') or 0)==before
+        assert tk.field('normal')==('abc ' if confirm==32 else 'abc')
+    results['selectionShiftConfirmationsPassed']=True
     # A Space that matches nothing still waits for core before replay.
     latencies=[]
     for _ in range(10):
@@ -129,6 +137,39 @@ def check(REPO,root,spawn,call,core,wait,key,results):
     results['selectionSwingPaste']=swing.settle('normal','hi 中文👍 ');assert results['selectionSwingPaste']=='hi 中文👍 ',results
     swing.reset('password');typed('abc');swing.settle('password','abc');key(32)
     results['selectionSwingPassword']=swing.settle('password','abc ');assert results['selectionSwingPassword']=='abc ',results
+
+    # A copy-only editor models the report: keyboard selection remains local.
+    # Seed text plus binary/HTML formats; every verification must restore them.
+    from gi.repository import Gio,GLib
+    bus=Gio.bus_get_sync(Gio.BusType.SESSION,None)
+    formats={'text/plain;charset=utf-8':list(b'clipboard before'),'text/html':list(b'<b>before</b>'),'application/x-waystroke-test':[0,255,1,128]}
+    def clipboard(q):
+        return json.loads(bus.call_sync('org.waystroke.Client','/org/waystroke/Client','org.waystroke.Client','Clipboard',GLib.Variant('(s)',(json.dumps(q),)),GLib.VariantType('(s)'),Gio.DBusCallFlags.NONE,3000,None).unpack()[0])
+    def restored():
+        wait(lambda:not call({'operation':'textInfo'})['processing'])
+        for mime,data in formats.items():assert clipboard({'operation':'read','mime':mime})['bytes']==data,mime
+    clipboard({'operation':'write','formats':formats})
+    copied=App('copy-only','Selection Copy Only');copied.activate()
+    results['selectionCopyOnlyClass']=call({'operation':'textGuard'})['wmClass']
+    copied.reset();typed('hi abc');version=call({'operation':'clipboardVersion'})['version'];key(32)
+    results['selectionCopyOnlySpace']=copied.settle('normal','hi 2003 ');assert results['selectionCopyOnlySpace']=='hi 2003 ',(results,last(),call({'operation':'textInfo'}))
+    # One copy reads the keyword and its boundary: the copy plus the restore.
+    restored();results['selectionCopyOnlyClipboardChanges']=call({'operation':'clipboardVersion'})['version']-version
+    assert results['selectionCopyOnlyClipboardChanges']==2,results['selectionCopyOnlyClipboardChanges']
+    control('z');assert copied.settle('normal','hi abc ')=='hi abc ';restored()
+    copied.reset();before=len(copied.state()['activated']);typed('abc');key(0xff0d)
+    wait(lambda:len(copied.state()['activated'])>before)
+    results['selectionCopyOnlyFieldStart']=copied.state()['activated'][before:];assert results['selectionCopyOnlyFieldStart']==['2003'];restored()
+    copied.reset();typed('hi uni');key(32)
+    assert copied.settle('normal','hi 中文👍 ')=='hi 中文👍 ';restored()
+    copied.reset(text='xy');typed('abc');key(32)
+    assert copied.settle('normal','xyabc ')=='xyabc ';restored()
+    # A stale clipboard equal to the keyword cannot pass the fresh-copy gate.
+    formats['text/plain;charset=utf-8']=list(b'c');clipboard({'operation':'write','formats':formats})
+    for _ in range(3):
+        copied.reset('password');typed('abc');key(32);assert copied.settle('password','abc ')=='abc ';restored()
+    results['selectionCopyOnlyNoExport']=last();assert last()['state']=='unsupported',last()
+    results['selectionClipboardAllFormatsRestored']=True
 
     def terminal(name,klass):
         output=root/f'{name}.bytes';spawn(name,['xterm','-class',klass,'-T',name,'-e',sys.executable,str(fixtures/'rawtty.py'),str(output)])

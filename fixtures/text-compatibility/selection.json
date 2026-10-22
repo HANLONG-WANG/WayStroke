@@ -1,0 +1,134 @@
+{
+ "command": "python3 scripts/check-gnome.py --devkit --release --phase-d-atspi --selection",
+ "selectionShiftConfirmationsPassed": true,
+ "selectionUnmatchedSpaceMs": [
+  6.5,
+  7.0,
+  28.1,
+  6.5,
+  32.6,
+  7.3,
+  32.5,
+  7.1,
+  32.9,
+  32.9
+ ],
+ "selectionSpace": "hi 2003 ",
+ "selectionUndo": "hi abc ",
+ "selectionEnterFieldStart": [
+  "2003"
+ ],
+ "selectionPasteUnicode": "hi 中文👍 ",
+ "selectionWordBoundaryKept": "xyabc ",
+ "selectionSeparatorBoundary": "!2003 ",
+ "selectionTkEmojiAtEnd": "x中 Z👍🏽",
+ "selectionTkEmojiMid": "x👍🏽 Zyz",
+ "selectionPasswordUnchanged": "abc ",
+ "selectionImmediate": "x IMMEDIATE",
+ "selectionApplication": {
+  "applicationId": "Tk",
+  "wmClass": "Tk"
+ },
+ "selectionExcludedPassthrough": "hi abc ",
+ "selectionUserTypesDuringEdit": [
+  {
+   "delayMs": 0,
+   "text": "hi abcx ",
+   "result": null
+  },
+  {
+   "delayMs": 10.0,
+   "text": "hi 2003 x",
+   "result": {
+    "adapter": "selection",
+    "state": "succeeded",
+    "ruleId": "abc",
+    "reason": null,
+    "time": "2026-10-22T13:26:06.477336007+00:00",
+    "applicationId": "Tk"
+   }
+  },
+  {
+   "delayMs": 20.0,
+   "text": "hi 2003 x",
+   "result": {
+    "adapter": "selection",
+    "state": "succeeded",
+    "ruleId": "abc",
+    "reason": null,
+    "time": "2026-10-22T13:26:07.459122444+00:00",
+    "applicationId": "Tk"
+   }
+  },
+  {
+   "delayMs": 30.0,
+   "text": "hi 2003 x",
+   "result": {
+    "adapter": "selection",
+    "state": "succeeded",
+    "ruleId": "abc",
+    "reason": null,
+    "time": "2026-10-22T13:26:08.353549539+00:00",
+    "applicationId": "Tk"
+   }
+  },
+  {
+   "delayMs": 40.0,
+   "text": "hi 2003 x",
+   "result": {
+    "adapter": "selection",
+    "state": "succeeded",
+    "ruleId": "abc",
+    "reason": null,
+    "time": "2026-10-22T13:26:09.355537383+00:00",
+    "applicationId": "Tk"
+   }
+  },
+  {
+   "delayMs": 50.0,
+   "text": "hi 2003 x",
+   "result": {
+    "adapter": "selection",
+    "state": "succeeded",
+    "ruleId": "abc",
+    "reason": null,
+    "time": "2026-10-22T13:26:10.313576786+00:00",
+    "applicationId": "Tk"
+   }
+  },
+  {
+   "delayMs": 60.0,
+   "text": "hi 2003 x",
+   "result": {
+    "adapter": "selection",
+    "state": "succeeded",
+    "ruleId": "abc",
+    "reason": null,
+    "time": "2026-10-22T13:26:11.329507869+00:00",
+    "applicationId": "Tk"
+   }
+  },
+  {
+   "delayMs": 80.0,
+   "text": "hi 2003 x",
+   "result": {
+    "adapter": "selection",
+    "state": "succeeded",
+    "ruleId": "abc",
+    "reason": null,
+    "time": "2026-10-22T13:26:12.357785402+00:00",
+    "applicationId": "Tk"
+   }
+  }
+ ],
+ "selectionSwingSpace": "hi 2003 ",
+ "selectionSwingUndo": "hi abc ",
+ "selectionSwingPaste": "hi 中文👍 ",
+ "selectionSwingPassword": "abc ",
+ "selectionCopyOnlyClass": "Wechat",
+ "selectionCopyOnlySpace": "hi 2003 ",
+ "selectionCopyOnlyClipboardChanges": 2,
+ "selectionCopyOnlyFieldStart": [
+  "2003"
+ ]
+}

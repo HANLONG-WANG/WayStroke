@@ -1,0 +1,17 @@
+{
+ "head": "caba6bd9e0cc5e95a312f5592222a2f0a561117d",
+ "note": "工作树未提交改动；以下为归档时文件哈希。selection 证据由三次运行拼成：完整运行在复制选区夹具的行首 Enter 后因 devkit 停止出帧（Shell 输入帧不到达，同时段已提交 HEAD 同样复现）中断，其余用例由临时副本分段补跑，生产扩展与 core 相同。",
+ "sha256": {
+  "crates/core/src/xselection.rs": "5392ff26830fba533167528248ba1552883d939a8acf38bb2a93cc0be3b721d2",
+  "extension/text.js": "862fead81f82f047a5fa19a07296fd21fa3addf1f335898365862de330bf07f6",
+  "extension/terminal.js": "7fa32e56d07e8d0cf5652de53e986c943315677ee44cbfbd3b7830a340765410",
+  "extension/extension.js": "636982c32f6c0b1bc8734ae7ca6f6637739b78076e0dfeefe5e03c8e036e291d",
+  "extension/clipboard.js": "0a4642459b3054520413ede0eb2ed75e8acec4e82c4395affac194bf866d7ea3",
+  "scripts/check-gnome.py": "eb585b9115a07cf7cfef03fe966905defe99ff55f24dd513816450781e38d7f9",
+  "scripts/gnome_text_selection.py": "fbeede2a3f7f58c11bf24b1de4f387d06e44aa0adf8b5572fbb528540824d1ed",
+  "scripts/gnome_text_modifiers.py": "cc5a8b7cbf6bc60c5c4233188a7e75ce3088a4250f119c285fbded1eef0eacd4",
+  "probes/xwayland-fallback/apps.py": "2667eae3bffdeae11a6a28f9315244b49cc130eb78dda630abbf7be6f45e4052",
+  "target/release/waystroke-core": "999fd37766a9b411c9695e5ea70faf3ac1d902cd097ca11303714076be80050e",
+  "target/native/libwaystroke-clipboard.so": "469217a71b3e8b42da1f53d2e23ab9bf63683a3b3af8d69a965c8c32752c367e"
+ }
+}

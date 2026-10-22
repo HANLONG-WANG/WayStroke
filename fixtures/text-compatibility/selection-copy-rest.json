@@ -1,0 +1,14 @@
+{
+ "command": "同上；临时副本只保留复制选区夹具的 Unicode 粘贴、词边界与密码/无导出用例",
+ "selectionCopyOnlyClass": "Wechat",
+ "selectionCopyOnlyNoExport": {
+  "adapter": "selection",
+  "state": "unsupported",
+  "ruleId": null,
+  "reason": "此窗口没有导出选区，未编辑",
+  "time": "2026-10-22T13:32:06.039533984+00:00",
+  "applicationId": "wechat.desktop"
+ },
+ "selectionClipboardAllFormatsRestored": true,
+ "complete": true
+}

@@ -26,10 +26,12 @@ if '--inside' not in sys.argv:
                 ext=dest/'extension.js';ext.write_text(ext.read_text().replace("case 'windows':","case 'fixtureHoldText':this.text.fixtureHold=q.method;return true;case 'fixtureReleaseText':this.text.fixtureRelease?.();return true;case 'fixtureHeldText':return !!this.text.fixtureRelease;case 'windows':",1))
             if any(flag in sys.argv for flag in ['--phase-d-atspi','--phase-d-browser','--phase-d-terminal','--phase-d-text']):
                 text=dest/'text.js';text.write_text(text.read_text().replace('async confirm(grab,time){','async confirm(grab,time){this.fixtureConfirms=(this.fixtureConfirms||0)+1;').replace("failure(error,adapter='native'){","failure(error,adapter='native'){this.fixtureFailure=error.message;"))
+            if '--modifiers' in sys.argv:
+                text=dest/'text.js';text.write_text(text.read_text().replace('const key=event.get_key_symbol(),modifiers=event.get_state();','const key=event.get_key_symbol(),modifiers=event.get_state();this.fixtureModifiers={key,modifiers};'))
             if '--phase-d-terminal' in sys.argv:
                 terminal=dest/'terminal.js';terminal.write_text(terminal.read_text().replace("this.watchSignal=this.watch.connect('requested',()=>{","this.watchSignal=this.watch.connect('requested',()=>{this.bridge.fixturePasteRequests=(this.bridge.fixturePasteRequests||0)+1;").replace('const snapshot=this.snapshot();\n        if(!snapshot||origin.focus', 'const snapshot=this.snapshot();this.bridge.fixtureTerminalOrigin={originGeneration:origin.generation,currentGeneration:snapshot?.generation,sameFocus:origin.focus===snapshot?.focus,sameWindow:origin.window===snapshot?.window,sameTail:origin.token===snapshot?.text};\n        if(!snapshot||origin.focus'))
                 ext=dest/'extension.js';ext.write_text(ext.read_text().replace("case 'windows':","case 'fixturePrimary':{const native=(await import('gi://WayStrokeClipboard?version=1.0')).default;this.fixturePrimarySource=native.source_new(new GLib.Variant('a{say}',{'text/plain;charset=utf-8':[88],'text/plain':[88]}));this.fixturePrimaryReads=0;this.fixturePrimarySource.connect('read',()=>this.fixturePrimaryReads++);global.display.get_selection().set_owner(Meta.SelectionType.SELECTION_PRIMARY,this.fixturePrimarySource);return true}case 'fixturePrimaryReads':return this.fixturePrimaryReads;case 'windows':",1))
-            ext=dest/'extension.js';ext.write_text(ext.read_text().replace("case 'windows':","case 'textInfo':return {enabled:this.text.enabled,grabs:this.text.grabs.size,pending:!!this.text.pendingEdit,applying:this.text.applying,generation:this.text.generation,candidates:this.text.candidates.size,lastInput:this.text.lastInput,preedit:this.text.composing(),panelComposing:this.text.panelComposing,panelKnown:!!this.text.panel,snapshot:!!this.text.snapshot(),undo:!!this.text.undo,bindingMode:this.text.bindingMode(),actionMode:Main.actionMode,hasNativeFocus:!!this.text.im.currentFocus,accessibleUndo:!!this.text.accessibleUndo,accessibleToken:this.text.accessibleUndo?.token,confirms:this.text.fixtureConfirms,failure:this.text.fixtureFailure,nativeExpected:this.text.nativeExpected?{text:this.text.nativeExpected.text,cursor:this.text.nativeExpected.cursor,inserted:this.text.nativeExpected.inserted}:null,processing:this.text.processing,snapshotText:this.text.snapshot()?.text,pendingText:this.text.pendingEdit?.text,revision:this.text.configRevision,sensitive:this.text.sensitive(),ibusConnected:this.text.im._ibus.is_connected(),terminalOrigin:this.text.fixtureTerminalOrigin,pasteRequests:this.text.fixturePasteRequests||0,terminalLength:[...this.text.terminal.token].length};case 'overviewInfo':return {visible:Main.overview.visible,shown:Main.overview._shown,animating:Main.overview.animationInProgress,modal:Main.overview._modal,keyFocus:String(global.stage.get_key_focus()),focus:global.display.focus_window?.get_title()};case 'systemInfo':return {dialogOpen:this.prompts.active?.dialog.state===0,selection:!!this.system.selection,notifications:Main.messageTray.getSources().flatMap(source=>source.notifications||[]).map(notification=>notification.title)};case 'fixtureGesture':this.beginGesture({sequence:99,color:'#6262cf',trail:false,minimumLength:12,cancelTimeout:1200},this.context());const [x,y]=this.stroke.points[0];this.point([x+120,y]);return null;case 'gestureInfo':return {active:!!this.stroke,label:!!this.ruleLabel,trail:!!this.trail};case 'feedbackInfo':return this.feedbackActor?{text:this.feedbackActor.text,position:this.feedbackActor.get_position(),width:this.feedbackActor.get_preferred_width(-1)[1],height:this.feedbackActor.get_preferred_height(-1)[1],monitors:Main.layoutManager.monitors.map(m=>({x:m.x,y:m.y,width:m.width,height:m.height}))}:null;case 'windows':",1))
+            ext=dest/'extension.js';ext.write_text(ext.read_text().replace("case 'windows':","case 'textInfo':return {enabled:this.text.enabled,grabs:this.text.grabs.size,pending:!!this.text.pendingEdit,applying:this.text.applying,generation:this.text.generation,candidates:this.text.candidates.size,lastInput:this.text.lastInput,preedit:this.text.composing(),panelComposing:this.text.panelComposing,panelKnown:!!this.text.panel,snapshot:!!this.text.snapshot(),undo:!!this.text.undo,bindingMode:this.text.bindingMode(),actionMode:Main.actionMode,hasNativeFocus:!!this.text.im.currentFocus,accessibleUndo:!!this.text.accessibleUndo,accessibleToken:this.text.accessibleUndo?.token,confirms:this.text.fixtureConfirms,modifiers:this.text.fixtureModifiers,failure:this.text.fixtureFailure,nativeExpected:this.text.nativeExpected?{text:this.text.nativeExpected.text,cursor:this.text.nativeExpected.cursor,inserted:this.text.nativeExpected.inserted}:null,processing:this.text.processing,snapshotText:this.text.snapshot()?.text,pendingText:this.text.pendingEdit?.text,revision:this.text.configRevision,sensitive:this.text.sensitive(),ibusConnected:this.text.im._ibus.is_connected(),terminalOrigin:this.text.fixtureTerminalOrigin,pasteRequests:this.text.fixturePasteRequests||0,terminalLength:[...this.text.terminal.token].length};case 'overviewInfo':return {visible:Main.overview.visible,shown:Main.overview._shown,animating:Main.overview.animationInProgress,modal:Main.overview._modal,keyFocus:String(global.stage.get_key_focus()),focus:global.display.focus_window?.get_title()};case 'systemInfo':return {dialogOpen:this.prompts.active?.dialog.state===0,selection:!!this.system.selection,notifications:Main.messageTray.getSources().flatMap(source=>source.notifications||[]).map(notification=>notification.title)};case 'fixtureGesture':this.beginGesture({sequence:99,color:'#6262cf',trail:false,minimumLength:12,cancelTimeout:1200},this.context());const [x,y]=this.stroke.points[0];this.point([x+120,y]);return null;case 'gestureInfo':return {active:!!this.stroke,label:!!this.ruleLabel,trail:!!this.trail};case 'feedbackInfo':return this.feedbackActor?{text:this.feedbackActor.text,position:this.feedbackActor.get_position(),width:this.feedbackActor.get_preferred_width(-1)[1],height:this.feedbackActor.get_preferred_height(-1)[1],monitors:Main.layoutManager.monitors.map(m=>({x:m.x,y:m.y,width:m.width,height:m.height}))}:null;case 'windows':",1))
     helper=root/'data/gnome-shell/extensions/waystroke-probe@local/extension.js';helper.write_text(helper.read_text().replace('return {panelState:', 'return {startingUp:Main.layoutManager._startingUp,panelState:'))
     applications=root/'data/applications';applications.mkdir()
     (applications/'org.waystroke.LaunchedClient.desktop').write_text('[Desktop Entry]\nType=Application\nName=WayStroke launch fixture\nExec=/usr/bin/env WAYSTROKE_CLIENT_PREFIX=Launched /usr/bin/python3 '+str(REPO/'probes/gnome50/client.py')+'\nStartupWMClass=org.waystroke.LaunchedClient\nTerminal=false\n')
@@ -102,6 +104,10 @@ try:
         subprocess.run(['gsettings','set','org.gnome.mutter','dynamic-workspaces','false'],check=True)
         subprocess.run(['gsettings','set','org.gnome.desktop.wm.preferences','num-workspaces','2'],check=True)
     if '--phase-d-terminal' in sys.argv or '--phase-d-browser' in sys.argv or '--ime' in sys.argv:subprocess.run(['gsettings','set','org.gnome.desktop.input-sources','sources',"[('xkb', 'us'), ('ibus', 'rime')]"],check=True)
+    if '--modifiers' in sys.argv:
+        subprocess.run(['gsettings','set','org.gnome.desktop.input-sources','sources',"[('xkb', 'us'), ('xkb', 'de')]"],check=True)
+        subprocess.run(['gsettings','set','org.gnome.desktop.input-sources','xkb-options',"['lv3:ralt_switch']"],check=True)
+        subprocess.run(['gsettings','set','org.gnome.desktop.interface','enable-animations','false'],check=True)
     spawn('shell',['gnome-shell','--headless','--wayland',*([] if X11_CLIENT else ['--no-x11']),'--wayland-display=waystroke-desktop-check-0',*(['--devkit',*(['--virtual-monitor=1440x1000'] if '--multi-monitor' in sys.argv else [])] if '--devkit' in sys.argv else ['--virtual-monitor=1440x1000',*(['--virtual-monitor=1280x900'] if '--multi-monitor' in sys.argv else [])])])
     results['hello']=wait(lambda:call({'operation':'hello'}));assert results['hello']['shellVersion']=='50.5'
     if '--devkit' in sys.argv:
@@ -147,7 +153,7 @@ try:
   input_keys.connect('key-released',lambda controller,keyval,*args,n=name:state[n]['keyEvents'].append([keyval,False]));win.add_controller(input_keys)
   win.present();""")
         client_source=client_source.replace(" (root/('client.json' if prefix=='Probe' else prefix+'-client.json')).write_text(json.dumps(state,ensure_ascii=False));return True", " path=root/('client.json' if prefix=='Probe' else prefix+'-client.json');temporary=path.with_suffix('.tmp');temporary.write_text(json.dumps(state,ensure_ascii=False));temporary.replace(path);return True")
-    if '--phase-c-clipboard' in sys.argv or '--phase-d-terminal' in sys.argv:
+    if '--phase-c-clipboard' in sys.argv or '--phase-d-terminal' in sys.argv or '--selection' in sys.argv:
         client_source=client_source.replace("<method name=\"Focus\"><arg type=\"s\" direction=\"in\"/></method>","<method name=\"Focus\"><arg type=\"s\" direction=\"in\"/></method><method name=\"Clipboard\"><arg type=\"s\" direction=\"in\"/><arg type=\"s\" direction=\"out\"/></method>")
         client_source=client_source.replace("  title,kind=parameters.unpack()[0].split(':');", """  if method=='Clipboard':
    q=json.loads(parameters.unpack()[0]);display=Gdk.Display.get_default();clipboard=display.get_primary_clipboard() if q.get('selection')=='primary' else display.get_clipboard()
@@ -172,13 +178,18 @@ try:
         client_source=client_source.replace("'text':'','password':'',", "'text':'','second':'','password':'',")
         client_source=client_source.replace("  entry.connect('changed',", "  second.connect('changed',lambda e,n=name:state[n].update(second=e.get_text()))\n  entry.connect('changed',")
         client_source=client_source.replace("(p if kind=='password' else e).grab_focus();", "(p if kind=='password' else second_entries[title] if kind=='second' else e).grab_focus();state[title]['active']=kind;\n  if kind in ['normal','second']:\n   current=e if kind=='normal' else second_entries[title];current.set_position(-1);current.select_region(-1,-1)\n  ")
+    if '--modifiers' in sys.argv:
+        client_source=client_source.replace("(p if kind=='password' else e).grab_focus();","w.get_child().get_last_child().set_focusable(True);w.get_child().get_last_child().grab_focus();(p if kind=='password' else e).grab_focus();")
+        client_source=client_source.replace("  state[name]={'f24':0","  state[name]={'confirmKeys':[],'f24':0")
+        client_source=client_source.replace("  entry.connect('activate',","  confirm_keys=Gtk.EventControllerKey();confirm_keys.set_propagation_phase(Gtk.PropagationPhase.CAPTURE)\n  confirm_keys.connect('key-pressed',lambda controller,key,code,mods,n=name:(state[n]['confirmKeys'].append([key,int(mods)]) if key in [32,65293] else None,False)[1]);win.add_controller(confirm_keys)\n  entry.connect('activate',")
+        if '--terminal-modifiers' in sys.argv:client_source=client_source.replace('entry=Gtk.Entry();','entry=Gtk.Entry(input_purpose=Gtk.InputPurpose.TERMINAL);')
     if '--multiline' in sys.argv:
         client_source=client_source.replace('state={};', 'state={};multiline_entries={};')
         client_source=client_source.replace('box.append(entry);', "multiline=Gtk.TextView(height_request=100);multiline_entries[name]=multiline;box.append(multiline);box.append(entry);")
         client_source=client_source.replace("'password':'',", "'password':'','multiline':'',")
         client_source=client_source.replace("  entry.connect('changed',", "  multiline.get_buffer().connect('changed',lambda b,n=name:state[n].update(multiline=b.get_text(*b.get_bounds(),True)))\n  entry.connect('changed',")
         client_source=client_source.replace("(p if kind=='password' else ", "(p if kind=='password' else multiline_entries[title] if kind=='multiline' else ")
-    if '--text-failopen' in sys.argv:
+    if '--text-failopen' in sys.argv or '--modifiers' in sys.argv:
         client_source=client_source.replace('def update():', "def update():\n for w,e,p in windows:state[w.get_title()]['active']=w.is_active()")
     (root/'client.py').write_text(client_source)
     if X11_CLIENT:
@@ -197,7 +208,7 @@ try:
     spawn('client',[sys.executable,str(root/'client.py')])
     windows=wait(lambda:(lambda ws:ws if {'Probe A','Probe B'}.issubset({w['title'] for w in ws}) else None)(call({'operation':'windows'})));a=next(w for w in windows if w['title']=='Probe A');b=next(w for w in windows if w['title']=='Probe B')
     assert a['clientType']==(1 if X11_CLIENT else 0);results['windows']=windows
-    if X11_CLIENT:wait(lambda:not call({'action':'snapshot'},False)['startingUp'])
+    if X11_CLIENT or '--modifiers' in sys.argv:wait(lambda:not call({'action':'snapshot'},False)['startingUp'])
     call({'operation':'desktopOverview','value':'隐藏概览'})
     if '--phase-f-installed' in sys.argv:
         def has_core():return connection.call_sync('org.freedesktop.DBus','/org/freedesktop/DBus','org.freedesktop.DBus','NameHasOwner',GLib.Variant('(s)',('io.github.waystroke.Core',)),None,Gio.DBusCallFlags.NONE,3000,None).unpack()[0]
@@ -559,15 +570,18 @@ try:
         config['snippets']=[{'id':'native','key':'abc','value':'2003','enabled':True,'applicationId':None,'trigger':'confirm','caseSensitive':True,'boundary':True,'preserve':True}]
         core('CommitConfig',{'requestId':'text','expectedRevision':snapshot['revision'],'config':config})
         wait(lambda:call({'operation':'textInfo'})['grabs']>=3)
-        wait(lambda:call({'operation':'textInfo'})['actionMode']==1 and call({'operation':'textInfo'})['ibusConnected'])
+        try:wait(lambda:call({'operation':'textInfo'})['actionMode']==1 and call({'operation':'textInfo'})['ibusConnected'])
+        except Exception:
+            results['nativeStartupFailure']={'shell':call({'action':'snapshot'},False),'text':call({'operation':'textInfo'})};raise
         def key(keyval):
             call({'action':'key','keyval':keyval,'pressed':True},False);call({'action':'key','keyval':keyval,'pressed':False},False)
         def state():return json.loads((root/'client.json').read_text())['Probe A']
         def focus(kind='normal'):
             call({'action':'position','title':'Probe A','x':50,'y':200,'focus':True},False)
+            if '--modifiers' in sys.argv:wait(lambda:state().get('active'))
             connection.call_sync('org.waystroke.Client','/org/waystroke/Client','org.waystroke.Client','Focus',GLib.Variant('(s)',('Probe A:'+kind,)),None,Gio.DBusCallFlags.NONE,3000,None)
             wait(lambda:call({'action':'snapshot'},False)['focus']=='Probe A')
-            wait(lambda:(lambda ime:ime['hasFocus'] and ime['purpose']==(8 if kind=='password' else 0))(call({'action':'snapshot'},False)['ime']))
+            wait(lambda:(lambda ime:ime['hasFocus'] and ime['purpose']==(8 if kind=='password' else 10 if '--terminal-modifiers' in sys.argv else 0))(call({'action':'snapshot'},False)['ime']))
         def reset_field():
             call({'action':'key','keyval':0xffe3,'pressed':True},False);key(ord('a'));call({'action':'key','keyval':0xffe3,'pressed':False},False);key(0xff08)
             wait(lambda:state()['text']=='')
@@ -577,6 +591,10 @@ try:
                 try:wait(lambda:state()['text']=='abc'[:index+1])
                 except Exception:
                     results['inputFailure']={'client':state(),'text':call({'operation':'textInfo'})};raise
+        if '--modifiers' in sys.argv:
+            from gnome_text_modifiers import check
+            check(call,core,wait,key,state,focus,reset_field,results)
+            results['complete']=True;sys.exit(0)
         focus();type_word();key(32)
         try:wait(lambda:state()['text']=='2003 ')
         except Exception:

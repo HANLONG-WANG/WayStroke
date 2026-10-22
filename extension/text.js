@@ -41,6 +41,10 @@ export class TextBridge {
                 if(![Clutter.KEY_Control_L,Clutter.KEY_Control_R,Clutter.KEY_Shift_L,Clutter.KEY_Shift_R].includes(key))this.undo=null;
                 this.generation++;this.lastInput=null;
                 if(!handled&&(modifiers&(Clutter.ModifierType.CONTROL_MASK|Clutter.ModifierType.MOD1_MASK|Clutter.ModifierType.SUPER_MASK|Clutter.ModifierType.MOD4_MASK)))this.clearNativeInput();
+                if((key===Clutter.KEY_space||key===Clutter.KEY_Return)&&this.modifiedConfirmation(modifiers)){
+                    this.clearNativeInput();this.terminal.clear(true);
+                    return this.originalNotify.call(this.im,event,handled);
+                }
                 if(this.terminal.key(event,handled))return this.originalNotify.call(this.im,event,true);
                 if(!handled&&!this.composing()&&!(modifiers&(Clutter.ModifierType.CONTROL_MASK|Clutter.ModifierType.MOD1_MASK|Clutter.ModifierType.SUPER_MASK|Clutter.ModifierType.MOD4_MASK))){
                     if(key===Clutter.KEY_space||key===Clutter.KEY_Return){
@@ -48,7 +52,7 @@ export class TextBridge {
                         this.candidates.set(event.get_time(),{snapshot});
                         if(this.candidates.size>32)this.candidates.delete(this.candidates.keys().next().value);
                         if(snapshot){
-                            const grab={key,code:event.get_key_code(),trigger:key===Clutter.KEY_space?'space':'enter'};
+                            const grab={key,code:event.get_key_code(),modifiers,trigger:key===Clutter.KEY_space?'space':'enter'};
                             this.run(async()=>{const ready=await this.waitNativeInput();this.candidates.set(event.get_time(),{snapshot:ready?this.snapshot():null});return this.confirm(grab,event.get_time())}).catch(e=>this.failure(e));
                             return this.originalNotify.call(this.im,event,true);
                         }
@@ -91,7 +95,7 @@ export class TextBridge {
                 this.run(()=>this.confirm(grab,time)).catch(e=>this.failure(e));
             }
         });
-        this.connect(global.window_manager,'filter-keybinding',(_wm,binding)=>{const own=[...this.grabs.values()].some(grab=>grab.binding===binding.get_name());return !!own&&Clutter.get_current_event()?.get_source_device()===this.ownedKeyboard});
+        this.connect(global.window_manager,'filter-keybinding',(_wm,binding)=>{const grab=[...this.grabs.values()].find(grab=>grab.binding===binding.get_name()),event=Clutter.get_current_event();return !!grab&&(event?.get_source_device()===this.ownedKeyboard||['enter','space'].includes(grab.trigger)&&this.modifiedConfirmation(event?.get_state()||0))});
         this.configSubscription=Gio.DBus.session.signal_subscribe('io.github.waystroke.Core','io.github.waystroke.Core1','ConfigChanged','/io/github/waystroke/Core',null,Gio.DBusSignalFlags.NONE,(_bus,sender,_path,_interface,_signal,args)=>{if(sender===this.coreOwner)this.configure(JSON.parse(args.deep_unpack()[0]))});
         this.runtimeSubscription=Gio.DBus.session.signal_subscribe('io.github.waystroke.Core','io.github.waystroke.Core1','RuntimeChanged','/io/github/waystroke/Core',null,Gio.DBusSignalFlags.NONE,(_bus,sender,_path,_interface,_signal,args)=>{if(sender!==this.coreOwner)return;const event=JSON.parse(args.deep_unpack()[0]);if(event.event==='textCapability'&&event.adapter==='atspi'&&event.state!=='available')this.accessibleUndo=null;else if(event.event==='textExpansion'&&event.adapter==='atspi'&&event.undoToken)this.accessibleUndo={token:event.undoToken}});
         this.ownerWatch=Gio.bus_watch_name_on_connection(Gio.DBus.session,'io.github.waystroke.Core',Gio.BusNameWatcherFlags.NONE,(_bus,_name,owner)=>{this.coreOwner=owner;this.refresh().catch(e=>this.failure(e))},()=>{this.coreOwner=undefined;this.coreEpoch++;this.enabled=false;this.configRevision=undefined;this.selectionPrepared=false;this.reset();this.updateGrabs()});
@@ -331,6 +335,12 @@ export class TextBridge {
         return true;
     }
     generated(callback){this.reset();this.applying=true;try{return callback()}finally{this.applying=false}}
+    modifiedConfirmation(state){
+        // Caps/Num Lock do not turn Enter/Space into shortcuts. Other keyboard
+        // modifiers must reach the client, including Shift and AltGr.
+        const m=Clutter.ModifierType;
+        return !!(state&(m.SHIFT_MASK|m.CONTROL_MASK|m.MOD1_MASK|m.MOD3_MASK|m.MOD4_MASK|m.MOD5_MASK|m.SUPER_MASK|m.HYPER_MASK|m.META_MASK));
+    }
     bindingMode(){
         const window=global.display.focus_window;
         return this.enabled&&window&&window!==this.accessibleBlockedWindow&&window.get_client_type()===Meta.WindowClientType.X11&&!this.excludedApplications?.has(this.extension.windowInfo(window).applicationId)&&this.ownedKeyboard&&this.panel&&this.terminal.native?.x11_replay?Shell.ActionMode.NORMAL:Shell.ActionMode.NONE;
@@ -388,7 +398,7 @@ export class TextBridge {
         if(!focus){
             this.terminal.native.x11_replay(this.ownedKeyboard,grab.key,grab.code,grab.modifiers,...grab.rawModifiers);return;
         }
-        const stamp=global.display.get_current_time_roundtrip();this.im.forward_key(grab.key,grab.code,0,stamp,true);this.im.forward_key(grab.key,grab.code,0,stamp,false);
+        const stamp=global.display.get_current_time_roundtrip();this.im.forward_key(grab.key,grab.code,grab.modifiers||0,stamp,true);this.im.forward_key(grab.key,grab.code,grab.modifiers||0,stamp,false);
     }
     later(delay,callback,priority=GLib.PRIORITY_DEFAULT){const id=GLib.timeout_add(priority,delay,()=>{this.timers.delete(id);if(this.alive)callback();return GLib.SOURCE_REMOVE});this.timers.add(id)}
     failure(error,adapter='native'){if(this.alive)this.extension.changed({event:'textExpansion',adapter,state:'failed',reason:error.message})}

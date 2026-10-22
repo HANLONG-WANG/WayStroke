@@ -1,0 +1,30 @@
+{
+ "scope": "用户同意后在主桌面只读观察：XFixes 选区所有者变化（时间、选区、所有者窗口），未读取内容、未发送输入。2026-10-22 22:01 起用户在微信聊天输入框依次：输入、Shift+←×3、→、鼠标拖选、Ctrl+C、删除。",
+ "owners": {
+  "0x1800004": "微信，WM_NAME \"Qt Selection Owner for wechat\"，与 WM_CLASS wechat（pid 77419）的顶层窗口同一客户端",
+  "0x600004": "Mutter 的 Wayland 选区桥接窗口（其他 Wayland 应用）"
+ },
+ "events": [
+  "22:00:43.389 PRIMARY subtype=0 owner=0x600004 class=(no class)",
+  "22:00:43.426 PRIMARY subtype=0 owner=0x600004 class=(no class)",
+  "22:00:43.442 PRIMARY subtype=0 owner=0x600004 class=(no class)",
+  "22:00:43.463 PRIMARY subtype=0 owner=0x600004 class=(no class)",
+  "22:00:43.471 PRIMARY subtype=0 owner=0x600004 class=(no class)",
+  "22:00:43.489 PRIMARY subtype=0 owner=0x600004 class=(no class)",
+  "22:00:43.505 PRIMARY subtype=0 owner=0x600004 class=(no class)",
+  "22:00:43.522 PRIMARY subtype=0 owner=0x600004 class=(no class)",
+  "22:00:43.530 PRIMARY subtype=0 owner=0x600004 class=(no class)",
+  "22:00:43.538 PRIMARY subtype=0 owner=0x600004 class=(no class)",
+  "22:00:43.563 PRIMARY subtype=0 owner=0x600004 class=(no class)",
+  "22:00:43.580 PRIMARY subtype=0 owner=0x600004 class=(no class)",
+  "22:00:43.613 PRIMARY subtype=0 owner=0x600004 class=(no class)",
+  "22:01:22.788 CLIPBOARD subtype=0 owner=0x1800004 class=(no class)",
+  "22:01:31.622 PRIMARY subtype=0 owner=0x600004 class=(no class)",
+  "22:01:32.317 PRIMARY subtype=0 owner=0x600004 class=(no class)",
+  "22:01:35.085 PRIMARY subtype=0 owner=0x600004 class=(no class)",
+  "22:01:35.581 PRIMARY subtype=0 owner=0x600004 class=(no class)",
+  "22:01:37.230 PRIMARY subtype=0 owner=0x600004 class=(no class)",
+  "22:01:38.253 PRIMARY subtype=0 owner=0x600004 class=(no class)"
+ ],
+ "conclusion": "整个操作期间微信只设置一次 CLIPBOARD（Ctrl+C），键盘选择与鼠标拖选都没有设置 PRIMARY。"
+}

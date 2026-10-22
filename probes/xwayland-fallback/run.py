@@ -387,6 +387,10 @@ try:
     subprocess.run(['javac','-d',str(root/'java'),str(HERE/'Swing.java')],check=True)
     only=[arg.split('=',1)[1] for arg in sys.argv if arg.startswith('--only=')]
     selected=lambda name:not only or name in only[0].split(',')
+    if selected('wechat') and only:
+        from wechat import check
+        results['wechat']=check(root,spawn,call,wait,x,keys,typed,shifted,control,App)
+        save()
     # A: accessibility switches. The bus starts with IsEnabled=false.
     if selected('layer1'):
         a={'isEnabledAtStart':connection.call_sync('org.a11y.Bus','/org/a11y/bus','org.freedesktop.DBus.Properties','GetAll',GLib.Variant('(s)',('org.a11y.Status',)),None,Gio.DBusCallFlags.NONE,3000,None).unpack()[0]}

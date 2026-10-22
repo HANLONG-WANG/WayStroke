@@ -23,3 +23,5 @@ python3 scripts/check-ui.py --devkit --release --selection-ui
 - 程序在校验完成前收到用户按键时，关键词可能已被覆盖且内容未经校验，此时不编辑，只报告失败。
 - 还原按读回选区的实际光标步数进行：选区在字段开头截短时不多按 Shift+→，避免选中原光标之后的文字。Tk 无法跨越光标前的多码点字符缩短选区，此时追加一次 → 与 ←：中间位置回到原光标（`x👍🏽 Zyz`）；在文本末尾光标会提前一个位置（`x中 Z👍🏽`），但不丢失字符。
 - 归档的 check-gnome 运行加载的扩展含四行临时 `console.log`（不改变行为），且早于测试在用例之间等待 Shell 队列清空的加固；见 `source.json`。之后在本机启用 XWayland 的 devkit 运行多次停在共用的准备步骤（隐藏概览超时）或等待 Shell 输入帧，未启用 XWayland 的 `--phase-d-text` 同时通过。
+
+2026-10-22 的修饰确认键与复制选区修复回归另见 [text-compatibility](../text-compatibility/README.md)：新增微信类复制选区夹具、所有剪贴板数据格式恢复及 XWayland Shift 确认键透传；本目录保留此前验收与 UI 的历史证据。
