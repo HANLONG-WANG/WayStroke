@@ -1,7 +1,11 @@
 //! Direction/order/aspect preserving freeform recognition; no rotation fitting.
+//! Points are aligned by banded DTW, so parts of a stroke may take a different
+//! share of its length (a longer tail, a smaller loop) without shifting every
+//! later point; drawing order still cannot change.
 use waystroke_model::{Config,TitleOperator};
 use waystroke_protocol::{RecognitionRequest,RecognitionResult,RecognitionOutcome,Candidate};
 const SAMPLES:usize=64;
+const BAND:usize=8;
 pub fn length(points:&[[f64;2]])->f64 { points.windows(2).map(|p|(p[1][0]-p[0][0]).hypot(p[1][1]-p[0][1])).sum() }
 pub fn normalized(points:&[[f64;2]])->Option<[[f64;2];SAMPLES]> {
     if points.len()<2||points.iter().flatten().any(|n|!n.is_finite()) {return None;}
@@ -24,8 +28,15 @@ pub fn normalized(points:&[[f64;2]])->Option<[[f64;2];SAMPLES]> {
 }
 pub fn similarity(a:&[[f64;2]],b:&[[f64;2]])->f64 {
     let (Some(a),Some(b))=(normalized(a),normalized(b)) else{return 0.;};
-    let distance=a.iter().zip(&b).map(|(a,b)|(a[0]-b[0]).hypot(a[1]-b[1])).sum::<f64>()/SAMPLES as f64;
-    (-4.*distance).exp()*100.
+    let mut cost=[[f64::INFINITY;SAMPLES+1];SAMPLES+1];cost[0][0]=0.;
+    for i in 1..=SAMPLES {
+        for j in i.saturating_sub(BAND).max(1)..=(i+BAND).min(SAMPLES) {
+            cost[i][j]=(a[i-1][0]-b[j-1][0]).hypot(a[i-1][1]-b[j-1][1])+cost[i-1][j].min(cost[i][j-1]).min(cost[i-1][j-1]);
+        }
+    }
+    // Default threshold 82 sits at a mean distance of 0.1 of the stroke size:
+    // drawings of one gesture stay under 0.09, different gestures above 0.18.
+    (-2.*cost[SAMPLES][SAMPLES]/SAMPLES as f64).exp()*100.
 }
 pub fn recognize(config:&Config,request:&RecognitionRequest)->RecognitionResult {
     let length=length(&request.points);let result=|outcome,reason:&str,candidates,rule_id|RecognitionResult{outcome,rule_id,candidates,length,reason:reason.into()};
@@ -67,6 +78,12 @@ mod tests {
         let reverse=points.iter().rev().copied().collect::<Vec<_>>();let rotate=points.iter().map(|p|[-p[1],p[0]]).collect::<Vec<_>>();let distorted=points.iter().map(|p|[p[0]*3.,p[1]]).collect::<Vec<_>>();
         assert!(similarity(&points,&reverse)<82.);assert!(similarity(&points,&rotate)<82.);assert!(similarity(&points,&distorted)<similarity(&points,&scaled));
         assert_eq!(normalized(&[[1.,1.],[1.,1.]]),None);
+    }
+    #[test]
+    fn parts_may_shift_along_the_stroke() {
+        // An e-like stroke whose bar sits lower; index-wise matching scored 65.
+        let a=[[0.,60.],[100.,60.],[100.,0.],[0.,0.],[0.,100.],[100.,100.]];let b=[[0.,40.],[100.,40.],[100.,0.],[0.,0.],[0.,100.],[100.,100.]];
+        assert!(similarity(&a,&b)>=82.);
     }
     fn request()->RecognitionRequest {RecognitionRequest{points:stroke(),auxiliary_buttons:vec![],context:StartContext{sequence:1,monotonic_ms:1.,position:[1.,1.],window:None,application_id:Some("app".into()),title:Some("Editor".into()),workspace:Some(0),monitor:Some(0),locked:false}}}
     fn rule(id:&str,app:Option<String>)->Rule{Rule{id:id.into(),name:id.into(),enabled:true,feedback:true,gesture_id:"g".into(),auxiliary_buttons:vec![],application_id:app,title_match:TitleCondition{operator:TitleOperator::Contains,value:String::new()},steps:vec![]}}

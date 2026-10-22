@@ -13,7 +13,7 @@ sudo dnf install webkit2gtk4.1-devel gtk3-devel librsvg2-devel \
   mutter-devel graphene-devel rpm-build glib2-devel
 ```
 
-开发包必须与目标桌面的 ABI 匹配，尤其是 Mutter **50.5**。安装前核对软件源版本；不要为了补齐开发头文件意外升级到不支持的 GNOME 版本。`mutter-devkit` 是独立桌面测试工具，不能替代 `mutter-devel`。
+开发包必须与目标桌面的 ABI 匹配：`mutter-devel` 与已安装的 `mutter` 版本一致（原生剪贴板组件调用了 Clutter 私有构造函数，构建脚本会核对）。Fedora 中 `mutter-devel` 要求同版本 `mutter`，安装时可能连同 `mutter`、`mutter-devkit` 一起升级；安装前核对软件源版本，GNOME Shell 仍须为 50.5。Mutter 50.6 与 50.5 的安装头文件完全相同，只含显示器旋转与工作区修复。`mutter-devkit` 是独立桌面测试工具，不能替代 `mutter-devel`。
 
 原生组件构建前可以检查：
 
