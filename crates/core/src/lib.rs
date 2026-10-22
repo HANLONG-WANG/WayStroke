@@ -4,6 +4,7 @@ pub mod session;
 pub mod gesture;
 pub mod text;
 pub mod atspi;
+pub mod xselection;
 mod atspi_input;
 pub mod input;
 pub mod desktop;

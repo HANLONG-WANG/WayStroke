@@ -150,7 +150,7 @@ pub struct TextStatus {
 }
 #[derive(Clone,Debug,Serialize,Deserialize,TS)]
 #[serde(rename_all="camelCase")]
-pub struct TextResult {pub adapter:String,pub state:String,pub rule_id:Option<String>,pub reason:Option<String>,pub time:String}
+pub struct TextResult {pub adapter:String,pub state:String,pub rule_id:Option<String>,pub reason:Option<String>,pub time:String,#[serde(default)] pub application_id:Option<String>}
 #[derive(Clone,Debug,Serialize,Deserialize,TS)]
 #[serde(rename_all="camelCase")]
 pub struct RuntimeInfo {

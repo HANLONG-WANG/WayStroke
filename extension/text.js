@@ -15,7 +15,9 @@ export class TextBridge {
     constructor(extension) {
         this.extension=extension;this.im=Main.inputMethod;this.enabled=false;this.generation=0;
         this.grabs=new Map();this.candidates=new Map();this.deliveredPresses=new Set();this.keyQueue=[];this.transaction=0;this.processing=false;this.signals=[];this.timers=new Set();this.frames=new Set();this.immediateCharacters=[];
-        this.cancellable=new Gio.Cancellable();this.alive=true;this.terminal=new TerminalAdapter(this);this.coreEpoch=0;
+        this.cancellable=new Gio.Cancellable();this.alive=true;this.terminal=new TerminalAdapter(this);this.coreEpoch=0;this.selectionPrepared=false;
+        // Mirrors core's built-in X11 terminal names for the status text.
+        this.terminalClasses=new Set(['xterm','uxterm','urxvt','rxvt','st','st-256color','alacritty','kitty','terminator','xfce4-terminal','gnome-terminal','gnome-terminal-server','konsole','tilix','sakura','guake','tilda','termite','wezterm','org.wezfurlong.wezterm','foot','eterm','aterm','mlterm','lxterminal','mate-terminal','qterminal','cool-retro-term','terminology','yakuake','ptyxis','org.gnome.ptyxis','kgx','org.gnome.console','ghostty','com.mitchellh.ghostty','contour','zutty','tabby','hyper','deepin-terminal','x-terminal-emulator']);
         this.ibusManager=IBusManager.getIBusManager();this.panelSignals=[];this.panel=null;this.panelComposing=false;this.connect(this.ibusManager,'ready',()=>{this.reset();this.trackPanel();this.updateGrabs()});this.trackPanel();
         this.connect(this.im._ibus,'disconnected',()=>this.reset());
         this.calibrateKeyboard();
@@ -79,8 +81,8 @@ export class TextBridge {
         this.fullReset=(...args)=>{this.reset();return this.originalReset.apply(this.im,args)};
         this.im._fullReset=this.fullReset;
         this.connect(this.im,'surrounding-text-set',()=>this.surroundingChanged());
-        this.connect(global.display,'notify::focus-window',()=>{this.accessibleBlockedWindow=null;this.reset();if(this.calibration)this.later(0,()=>this.sendCalibration());for(const grab of this.grabs.values())Main.wm.allowKeybinding(grab.binding,this.bindingMode())});
-        this.connect(Main.sessionMode,'updated',()=>{this.reset();this.updateGrabs()});
+        this.connect(global.display,'notify::focus-window',()=>{this.accessibleBlockedWindow=null;this.reset();this.prepareSelection();if(this.calibration)this.later(0,()=>this.sendCalibration());for(const grab of this.grabs.values())Main.wm.allowKeybinding(grab.binding,this.bindingMode())});
+        this.connect(Main.sessionMode,'updated',()=>{this.reset();this.updateGrabs();this.prepareSelection()});
         this.connect(global.display,'accelerator-activated',(_display,id,device,time)=>{
             if(id===this.calibration){this.keyboardKnown(device);return}
             if(this.grabs.has(id)){
@@ -92,7 +94,7 @@ export class TextBridge {
         this.connect(global.window_manager,'filter-keybinding',(_wm,binding)=>{const own=[...this.grabs.values()].some(grab=>grab.binding===binding.get_name());return !!own&&Clutter.get_current_event()?.get_source_device()===this.ownedKeyboard});
         this.configSubscription=Gio.DBus.session.signal_subscribe('io.github.waystroke.Core','io.github.waystroke.Core1','ConfigChanged','/io/github/waystroke/Core',null,Gio.DBusSignalFlags.NONE,(_bus,sender,_path,_interface,_signal,args)=>{if(sender===this.coreOwner)this.configure(JSON.parse(args.deep_unpack()[0]))});
         this.runtimeSubscription=Gio.DBus.session.signal_subscribe('io.github.waystroke.Core','io.github.waystroke.Core1','RuntimeChanged','/io/github/waystroke/Core',null,Gio.DBusSignalFlags.NONE,(_bus,sender,_path,_interface,_signal,args)=>{if(sender!==this.coreOwner)return;const event=JSON.parse(args.deep_unpack()[0]);if(event.event==='textCapability'&&event.adapter==='atspi'&&event.state!=='available')this.accessibleUndo=null;else if(event.event==='textExpansion'&&event.adapter==='atspi'&&event.undoToken)this.accessibleUndo={token:event.undoToken}});
-        this.ownerWatch=Gio.bus_watch_name_on_connection(Gio.DBus.session,'io.github.waystroke.Core',Gio.BusNameWatcherFlags.NONE,(_bus,_name,owner)=>{this.coreOwner=owner;this.refresh().catch(e=>this.failure(e))},()=>{this.coreOwner=undefined;this.coreEpoch++;this.enabled=false;this.configRevision=undefined;this.reset();this.updateGrabs()});
+        this.ownerWatch=Gio.bus_watch_name_on_connection(Gio.DBus.session,'io.github.waystroke.Core',Gio.BusNameWatcherFlags.NONE,(_bus,_name,owner)=>{this.coreOwner=owner;this.refresh().catch(e=>this.failure(e))},()=>{this.coreOwner=undefined;this.coreEpoch++;this.enabled=false;this.configRevision=undefined;this.selectionPrepared=false;this.reset();this.updateGrabs()});
     }
     calibrateKeyboard(){
         for(const name of ['F23','F22','F21']){const id=global.display.grab_accelerator(name,Meta.KeyBindingFlags.NONE);if(id){this.calibration=id;this.calibrationKey=Clutter['KEY_'+name];break}}
@@ -134,7 +136,9 @@ export class TextBridge {
         if(window?.get_client_type()===Meta.WindowClientType.X11){
             if(this.accessibleBlockedWindow===window)return {...status,adapter:'atspi',state:'unavailable',reason:'此窗口的编辑接口未可靠响应，已暂缓文本替换；空格、回车等原键正常输入。切换窗口后重试。',undoAvailable:false};
             if(!this.terminal.native?.x11_replay)return {...status,adapter:'atspi',reason:'XWayland 确认转发组件尚未就绪，原输入透传。',undoAvailable:false};
-            return {...status,adapter:'atspi',state:'partial',reason:this.ownedKeyboard&&this.panel?'XWayland 编辑范围由当前焦点的 Text/EditableText 接口确认；不代表所有应用可编辑。':'XWayland 输入来源或组合状态尚不可确认。'};
+            if(!this.ownedKeyboard||!this.panel)return {...status,adapter:'atspi',state:'partial',reason:'XWayland 输入来源或组合状态尚不可确认。'};
+            const fallback=this.compatibilityExcluded?.has(applicationId)?'此应用已停用兼容替换，只在焦点提供编辑接口时替换。':this.terminalClasses.has((window.get_wm_class()||'').toLowerCase())?'X11 终端不使用兼容替换，只在焦点提供编辑接口时替换。':'没有编辑接口时以选区校验兼容替换，替换时会短暂选中关键词。';
+            return {...status,adapter:'atspi',state:'partial',reason:'XWayland 焦点提供 Text/EditableText 接口时直接编辑；'+fallback+'不代表所有应用可编辑。'};
         }
         if(!this.im._context)return {...status,state:'unavailable',reason:'输入法连接尚未就绪，原输入透传。',undoAvailable:false};
         if(this.terminal.focused()){
@@ -148,7 +152,19 @@ export class TextBridge {
     guard(){
         const window=global.display.focus_window;if(!window)return null;
         const info=this.extension.windowInfo(window);
-        return {instance:this.extension.instance,generation:this.generation,window:info.handle,applicationId:info.applicationId,pid:window.get_pid(),clientType:window.get_client_type(),composing:this.composing()||this.panelComposing,imeKnown:!!this.panel,locked:this.extension.locked(),enabled:this.enabled&&!this.excludedApplications?.has(info.applicationId)};
+        return {instance:this.extension.instance,generation:this.generation,window:info.handle,applicationId:info.applicationId,pid:window.get_pid(),clientType:window.get_client_type(),composing:this.composing()||this.panelComposing,imeKnown:!!this.panel,locked:this.extension.locked(),enabled:this.enabled&&!this.excludedApplications?.has(info.applicationId),wmClass:window.get_wm_class()||''};
+    }
+    sameGuard(expected){
+        const actual=this.guard();
+        return !!actual&&!!expected&&['instance','generation','pid','locked','enabled'].every(key=>actual[key]===expected[key])&&actual.window.instance===expected.window?.instance&&actual.window.id===expected.window?.id;
+    }
+    // Core keeps an XWayland connection only while an X11 window has focus;
+    // Shell's environment names the current display and its cookie file.
+    prepareSelection(){
+        const window=global.display.focus_window,active=!!this.coreOwner&&this.enabled&&!this.extension.locked()&&window?.get_client_type()===Meta.WindowClientType.X11;
+        if(!active&&!this.selectionPrepared)return;
+        this.selectionPrepared=active;
+        this.rpc('PrepareSelectionText',{active,display:GLib.getenv('DISPLAY'),xauthority:GLib.getenv('XAUTHORITY')},1500).catch(error=>this.failure(error,'selection'));
     }
     clearAccessibleUndo(){
         const undo=this.accessibleUndo;this.accessibleUndo=null;
@@ -203,8 +219,8 @@ export class TextBridge {
         global.stage.queue_redraw();
     }
     connect(object,name,callback){this.signals.push([object,object.connect(name,callback)])}
-    async rpc(method,payload) {
-        return new Promise((resolve,reject)=>Gio.DBus.session.call('io.github.waystroke.Core','/io/github/waystroke/Core','io.github.waystroke.Core1',method,payload===undefined?null:new GLib.Variant('(s)',[JSON.stringify(payload)]),new GLib.VariantType('(s)'),Gio.DBusCallFlags.NONE,500,this.cancellable,(bus,result)=>{
+    async rpc(method,payload,timeout=500) {
+        return new Promise((resolve,reject)=>Gio.DBus.session.call('io.github.waystroke.Core','/io/github/waystroke/Core','io.github.waystroke.Core1',method,payload===undefined?null:new GLib.Variant('(s)',[JSON.stringify(payload)]),new GLib.VariantType('(s)'),Gio.DBusCallFlags.NONE,timeout,this.cancellable,(bus,result)=>{
             try{const reply=JSON.parse(bus.call_finish(result).deep_unpack()[0]);if(reply.status==='error')throw Object.assign(Error(reply.error.message),{kind:reply.error.kind,details:reply.error.details});resolve(reply.value)}catch(e){reject(e)}
         }));
     }
@@ -216,8 +232,9 @@ export class TextBridge {
         this.preferenceEnabled=snapshot.config.settings.textEnabled;this.hasRules=snapshot.config.snippets.some(rule=>rule.enabled);
         this.enabled=this.preferenceEnabled&&this.hasRules;
         this.excludedApplications=new Set(snapshot.config.exclusions.filter(entry=>entry.text).map(entry=>entry.applicationId));
+        this.compatibilityExcluded=new Set(snapshot.config.exclusions.filter(entry=>entry.compatibility).map(entry=>entry.applicationId));
         this.immediateCharacters=[...new Set(snapshot.config.snippets.filter(rule=>rule.enabled&&rule.trigger==='immediate').flatMap(rule=>{const char=[...rule.key].at(-1);return !char?[]:rule.caseSensitive?[char]:[char.toLowerCase(),char.toUpperCase()]}))];
-        this.terminal.configure(snapshot.config);this.reset(true);this.updateGrabs();
+        this.terminal.configure(snapshot.config);this.reset(true);this.updateGrabs();this.prepareSelection();
     }
     reset(preserveInput=false){
         // Configuration changes invalidate edits, but ordinary input already
@@ -348,7 +365,8 @@ export class TextBridge {
         const focus=this.im.currentFocus,window=global.display.focus_window,generation=this.generation;
         const candidate=this.candidates.get(time),snapshot=candidate?.snapshot;this.candidates.delete(time);
         let result;
-        try{if(grab.trigger==='literal'){const guard=this.guard();if(guard?.enabled&&!guard.composing)await this.rpc('NoteAccessibleInput',{guard,text:grab.text})}else if(grab.trigger==='undo'){const undo=this.accessibleUndo;this.accessibleUndo=null;if(undo)result=await this.rpc('UndoAccessibleText',{guard:this.guard(),token:undo.token})}else if(snapshot)result=await this.expand(snapshot,grab.trigger);else if(!focus&&window!==this.accessibleBlockedWindow&&this.guard()?.clientType===1){const guard=this.guard();if(guard.enabled&&guard.imeKnown){if(guard.composing&&this.immediateCharacters.length)await this.rpc('NoteAccessibleInput',{guard,text:null});else if(!guard.composing){result=await this.rpc('ExpandAccessibleText',{guard,trigger:grab.trigger});const text=grab.trigger==='space'?' ':'\n';if(result?.matched===false&&this.immediateCharacters.includes(text))await this.rpc('NoteAccessibleInput',{guard,text})}}}}catch(e){
+        // Selection-verified XWayland edits wait for the client; core bounds them at 1.2 s.
+        try{if(grab.trigger==='literal'){const guard=this.guard();if(guard?.enabled&&!guard.composing&&!await this.rpc('NoteAccessibleInput',{guard,text:grab.text}))result=await this.rpc('ExpandAccessibleText',{guard,trigger:'commit',literal:grab.text},1500)}else if(grab.trigger==='undo'){const undo=this.accessibleUndo;this.accessibleUndo=null;if(undo)result=await this.rpc('UndoAccessibleText',{guard:this.guard(),token:undo.token},1500)}else if(snapshot)result=await this.expand(snapshot,grab.trigger);else if(!focus&&window!==this.accessibleBlockedWindow&&this.guard()?.clientType===1){const guard=this.guard();if(guard.enabled&&guard.imeKnown){if(guard.composing&&this.immediateCharacters.length)await this.rpc('NoteAccessibleInput',{guard,text:null});else if(!guard.composing){result=await this.rpc('ExpandAccessibleText',{guard,trigger:grab.trigger},1500);const text=grab.trigger==='space'?' ':'\n';if(result?.matched===false&&this.immediateCharacters.includes(text))await this.rpc('NoteAccessibleInput',{guard,text})}}}}catch(e){
             this.failure(e,window?.get_client_type()===1?'atspi':'native');
             if(window?.get_client_type()===1){
                 // Stop intercepting this window after an unreliable accessible

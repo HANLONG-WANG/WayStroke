@@ -89,7 +89,7 @@ impl Adapter {
                                     tokio::time::sleep(Duration::from_millis(5)).await;
                                 }
                             }
-                            self.clone().expand(session,&snapshot.config,Request{guard,trigger:TextInputTrigger::Commit,node:Some(node),expected:Some(expected)}).await
+                            self.clone().expand(session,&snapshot.config,Request{guard,trigger:TextInputTrigger::Commit,node:Some(node),expected:Some(expected),literal:None}).await
                         }).await;
                         match response{
                             Ok(Ok(result)) if result["matched"]==true=>runtime.event(json!({"event":"textExpansion","adapter":"atspi","state":"succeeded","ruleId":result["ruleId"],"undoToken":result["undoToken"]})),

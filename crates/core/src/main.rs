@@ -3,7 +3,7 @@ use tokio::sync::{Mutex,Notify,watch};
 use waystroke_core::{Repository,config_path,error};
 use waystroke_protocol::*;
 use zbus::{interface,object_server::SignalEmitter,object_server::ResponseDispatchNotifier};
-struct Core { atspi:Arc<waystroke_core::atspi::Adapter>,repository:Arc<Mutex<Repository>>,runtime:Arc<waystroke_core::runtime::Runtime>,config_events:watch::Sender<Snapshot>,quit:Arc<Notify> }
+struct Core { atspi:Arc<waystroke_core::atspi::Adapter>,selection:Arc<waystroke_core::xselection::Adapter>,repository:Arc<Mutex<Repository>>,runtime:Arc<waystroke_core::runtime::Runtime>,config_events:watch::Sender<Snapshot>,quit:Arc<Notify> }
 fn reply<T:serde::Serialize>(r:Result<T,Error>)->String { serde_json::to_string(&Reply::from_result(r)).expect("serializable protocol reply") }
 async fn authorize(connection:&zbus::Connection,header:&zbus::message::Header<'_>)->Result<(),Error> {
     let sender=header.sender().ok_or_else(||error(ErrorKind::Permission,"缺少会话调用身份"))?;
@@ -63,7 +63,24 @@ impl Core {
         if let Err(e)=authorize(connection,&header).await{return reply::<serde_json::Value>(Err(e));}
         let request=match serde_json::from_str::<waystroke_core::atspi::Request>(request){Ok(request)=>request,Err(e)=>return reply::<serde_json::Value>(Err(error(ErrorKind::Validation,e.to_string())))};
         let config=self.repository.lock().await.snapshot().config;
-        reply(self.atspi.clone().expand(connection,&config,request).await)
+        let (guard,trigger,literal)=(request.guard.clone(),request.trigger.clone(),request.literal.clone());
+        // Windows without accessible text fall back to selection-verified
+        // replacement; a held immediate character goes there directly.
+        let result=if literal.is_some(){self.atspi.absent(connection,&guard).await.map(|absent|serde_json::json!({"matched":false,"fallback":absent}))}else{self.atspi.clone().expand(connection,&config,request).await};
+        let result=match result {
+            Ok(value) if value["fallback"]==true=>{
+                let result=tokio::time::timeout(std::time::Duration::from_millis(1200),self.selection.expand(connection,&config,guard.clone(),trigger,literal)).await
+                    .unwrap_or_else(|_|Err(error(ErrorKind::Timeout,"XWayland 兼容替换超时")));
+                if let Ok(value)=&result{waystroke_core::xselection::report(&self.runtime,&guard,value,"succeeded")}
+                result
+            },
+            other=>other,
+        };
+        reply(result)
+    }
+    async fn prepare_selection_text(&self,request:&str,#[zbus(connection)] connection:&zbus::Connection,#[zbus(header)] header:zbus::message::Header<'_>)->String {
+        if let Err(e)=authorize(connection,&header).await{return reply::<()>(Err(e));}
+        match serde_json::from_str::<waystroke_core::xselection::Prepare>(request){Ok(request)=>reply(self.selection.prepare(request).await),Err(e)=>reply::<()>(Err(error(ErrorKind::Validation,e.to_string())))}
     }
     async fn note_accessible_input(&self,request:&str,#[zbus(connection)] connection:&zbus::Connection,#[zbus(header)] header:zbus::message::Header<'_>)->String {
         if let Err(e)=authorize(connection,&header).await{return reply::<bool>(Err(e));}
@@ -77,12 +94,17 @@ impl Core {
     async fn undo_accessible_text(&self,request:&str,#[zbus(connection)] connection:&zbus::Connection,#[zbus(header)] header:zbus::message::Header<'_>)->String {
         if let Err(e)=authorize(connection,&header).await{return reply::<serde_json::Value>(Err(e));}
         let request=match serde_json::from_str::<waystroke_core::atspi::UndoRequest>(request){Ok(request)=>request,Err(e)=>return reply::<serde_json::Value>(Err(error(ErrorKind::Validation,e.to_string())))};
-        reply(self.atspi.undo(connection,request).await)
+        let guard=request.guard.clone();
+        match self.selection.undo(connection,request.guard.clone(),&request.token).await {
+            Ok(Some(value))=>{waystroke_core::xselection::report(&self.runtime,&guard,&value,"undone");reply(Ok(value))},
+            Ok(None)=>reply(self.atspi.undo(connection,request).await),
+            Err(e)=>reply::<serde_json::Value>(Err(e)),
+        }
     }
     async fn clear_accessible_text(&self,token:&str,#[zbus(connection)] connection:&zbus::Connection,#[zbus(header)] header:zbus::message::Header<'_>)->String {
         if let Err(e)=authorize(connection,&header).await{return reply::<()>(Err(e));}
         #[derive(serde::Deserialize)]struct Clear{token:String}
-        match serde_json::from_str::<Clear>(token){Ok(request)=>{self.atspi.clear(&request.token).await;reply(Ok(()))},Err(e)=>reply::<()>(Err(error(ErrorKind::Validation,e.to_string())))}
+        match serde_json::from_str::<Clear>(token){Ok(request)=>{if !self.selection.clear(&request.token).await{self.atspi.clear(&request.token).await;}reply(Ok(()))},Err(e)=>reply::<()>(Err(error(ErrorKind::Validation,e.to_string())))}
     }
     async fn run_rule(&self,request:&str,#[zbus(connection)] connection:&zbus::Connection,#[zbus(header)] header:zbus::message::Header<'_>)->String {
         if let Err(e)=authorize(connection,&header).await{return reply::<serde_json::Value>(Err(e));}
@@ -119,9 +141,10 @@ async fn main()->Result<(),Box<dyn std::error::Error>> {
     let (config_events,config_receiver)=watch::channel(repo.snapshot());let(runtime,driver)=waystroke_core::runtime::Runtime::new();
     let mut runtime_events=runtime.events.subscribe();
     let atspi=Arc::new(waystroke_core::atspi::Adapter::default());
+    let selection=Arc::new(waystroke_core::xselection::Adapter::default());
     // D-Bus grants one owner; a second process cannot replace a running writer.
     let repository=Arc::new(Mutex::new(repo));
-    let connection=zbus::connection::Builder::session()?.serve_at(CORE_PATH,Core{atspi:atspi.clone(),repository:repository.clone(),runtime:runtime.clone(),config_events,quit:quit.clone()})?.build().await?;
+    let connection=zbus::connection::Builder::session()?.serve_at(CORE_PATH,Core{atspi:atspi.clone(),selection,repository:repository.clone(),runtime:runtime.clone(),config_events,quit:quit.clone()})?.build().await?;
     let mut writer=repository.lock().await;
     connection.request_name_with_flags(CORE_NAME,zbus::fdo::RequestNameFlags::DoNotQueue.into()).await?;
     writer.attach_autostart(waystroke_core::session::Autostart{path:path.parent().unwrap().parent().unwrap().join("autostart/waystroke.desktop"),executable:std::env::current_exe()?}).map_err(|e|e.message)?;

@@ -26,7 +26,7 @@ impl Runtime {
     }
     pub async fn observe_text(&self,event:&Value){
         if event["event"]!="textExpansion"{return}
-        let result=TextResult{adapter:event["adapter"].as_str().unwrap_or("unknown").into(),state:event["state"].as_str().unwrap_or("failed").into(),rule_id:event["ruleId"].as_str().map(str::to_owned),reason:event["reason"].as_str().map(str::to_owned),time:chrono::Utc::now().to_rfc3339()};
+        let result=TextResult{adapter:event["adapter"].as_str().unwrap_or("unknown").into(),state:event["state"].as_str().unwrap_or("failed").into(),rule_id:event["ruleId"].as_str().map(str::to_owned),reason:event["reason"].as_str().map(str::to_owned),time:chrono::Utc::now().to_rfc3339(),application_id:event["applicationId"].as_str().map(str::to_owned)};
         self.info.lock().await.last_text_result=Some(result);self.publish().await;
     }
     pub async fn info(&self)->RuntimeInfo{self.info.lock().await.clone()}

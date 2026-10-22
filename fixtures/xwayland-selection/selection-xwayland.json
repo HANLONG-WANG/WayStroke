@@ -1,0 +1,169 @@
+{
+ "windows": [
+  {
+   "handle": {
+    "instance": "c54094f0-033a-4104-8ca9-fab0dd279f05",
+    "id": "1"
+   },
+   "title": "Probe A",
+   "applicationId": "org.waystroke.ProbeClient",
+   "clientType": 1
+  },
+  {
+   "handle": {
+    "instance": "c54094f0-033a-4104-8ca9-fab0dd279f05",
+    "id": "2"
+   },
+   "title": "Probe B",
+   "applicationId": "org.waystroke.ProbeClient",
+   "clientType": 1
+  }
+ ],
+ "selectionUnmatchedSpaceMs": [
+  11.8,
+  6.4,
+  6.7,
+  6.7,
+  6.8,
+  31.9,
+  7.7,
+  6.5,
+  32.6,
+  38.5
+ ],
+ "selectionStatus": {
+  "connected": true,
+  "enabled": true,
+  "terminalEnabled": true,
+  "adapter": "atspi",
+  "state": "partial",
+  "applicationId": "Tk",
+  "reason": "XWayland 焦点提供 Text/EditableText 接口时直接编辑；没有编辑接口时以选区校验兼容替换，替换时会短暂选中关键词。不代表所有应用可编辑。",
+  "undoAvailable": false
+ },
+ "selectionSpace": "hi 2003 ",
+ "selectionUndo": "hi abc ",
+ "selectionEnterFieldStart": [
+  "2003"
+ ],
+ "selectionPasteUnicode": "hi 中文👍 ",
+ "selectionWordBoundaryKept": "xyabc ",
+ "selectionSeparatorBoundary": "!2003 ",
+ "selectionTkEmojiAtEnd": "x中 Z👍🏽",
+ "selectionTkEmojiMid": "x👍🏽 Zyz",
+ "selectionPasswordUnchanged": "abc ",
+ "selectionImmediate": "x IMMEDIATE",
+ "selectionApplication": {
+  "applicationId": "Tk",
+  "wmClass": "Tk"
+ },
+ "selectionExcludedPassthrough": "hi abc ",
+ "selectionUserTypesDuringEdit": [
+  {
+   "delayMs": 0,
+   "text": "hi abcx ",
+   "result": null
+  },
+  {
+   "delayMs": 10.0,
+   "text": "hi 2003 x",
+   "result": {
+    "adapter": "selection",
+    "state": "succeeded",
+    "ruleId": "abc",
+    "reason": null,
+    "time": "2026-10-22T06:59:09.490481782+00:00",
+    "applicationId": "Tk"
+   }
+  },
+  {
+   "delayMs": 20.0,
+   "text": "hi 2003 x",
+   "result": {
+    "adapter": "selection",
+    "state": "succeeded",
+    "ruleId": "abc",
+    "reason": null,
+    "time": "2026-10-22T06:59:10.463011653+00:00",
+    "applicationId": "Tk"
+   }
+  },
+  {
+   "delayMs": 30.0,
+   "text": "hi 2003 x",
+   "result": {
+    "adapter": "selection",
+    "state": "succeeded",
+    "ruleId": "abc",
+    "reason": null,
+    "time": "2026-10-22T06:59:11.455460696+00:00",
+    "applicationId": "Tk"
+   }
+  },
+  {
+   "delayMs": 40.0,
+   "text": "hi 2003 x",
+   "result": {
+    "adapter": "selection",
+    "state": "succeeded",
+    "ruleId": "abc",
+    "reason": null,
+    "time": "2026-10-22T06:59:12.461350046+00:00",
+    "applicationId": "Tk"
+   }
+  },
+  {
+   "delayMs": 50.0,
+   "text": "hi 2003 x",
+   "result": {
+    "adapter": "selection",
+    "state": "succeeded",
+    "ruleId": "abc",
+    "reason": null,
+    "time": "2026-10-22T06:59:13.477742792+00:00",
+    "applicationId": "Tk"
+   }
+  },
+  {
+   "delayMs": 60.0,
+   "text": "hi 2003 x",
+   "result": {
+    "adapter": "selection",
+    "state": "succeeded",
+    "ruleId": "abc",
+    "reason": null,
+    "time": "2026-10-22T06:59:14.493529007+00:00",
+    "applicationId": "Tk"
+   }
+  },
+  {
+   "delayMs": 80.0,
+   "text": "hi 2003 x",
+   "result": {
+    "adapter": "selection",
+    "state": "succeeded",
+    "ruleId": "abc",
+    "reason": null,
+    "time": "2026-10-22T06:59:15.524042563+00:00",
+    "applicationId": "Tk"
+   }
+  }
+ ],
+ "selectionSwingSpace": "hi 2003 ",
+ "selectionSwingUndo": "hi abc ",
+ "selectionSwingPaste": "hi 中文👍 ",
+ "selectionSwingPassword": "abc ",
+ "selectionTerminalSkipped": "abc abc ",
+ "selectionNonExporting": {
+  "bytes": "abc\u001b[1;2D\u001b[1;2C abc\u001b[1;2D\u001b[1;2C abc\u001b[1;2D\u001b[1;2C abc ",
+  "last": {
+   "adapter": "selection",
+   "state": "unsupported",
+   "ruleId": null,
+   "reason": "此窗口没有导出选区，未编辑",
+   "time": "2026-10-22T06:59:20.869957407+00:00",
+   "applicationId": "xterm.desktop"
+  }
+ },
+ "complete": true
+}

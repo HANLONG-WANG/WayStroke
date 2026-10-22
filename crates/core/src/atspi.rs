@@ -15,10 +15,16 @@ const EDITABLE:&str="org.a11y.atspi.EditableText";
 pub(super) type Reference=(String,OwnedObjectPath);
 #[derive(Clone,Debug,Deserialize,Serialize,PartialEq)]
 #[serde(rename_all="camelCase",deny_unknown_fields)]
-pub struct Guard {pub instance:String,pub generation:u32,pub window:WindowHandle,pub application_id:String,pub pid:u32,pub client_type:u32,pub composing:bool,pub ime_known:bool,pub locked:bool,pub enabled:bool}
+pub struct Guard {pub instance:String,pub generation:u32,pub window:WindowHandle,pub application_id:String,pub pid:u32,pub client_type:u32,pub composing:bool,pub ime_known:bool,pub locked:bool,pub enabled:bool,#[serde(default)]pub wm_class:String}
 #[derive(Deserialize)]
 #[serde(rename_all="camelCase",deny_unknown_fields)]
-pub struct Request {pub guard:Guard,pub trigger:TextInputTrigger,#[serde(default)]pub node:Option<Reference>,#[serde(skip)]pub(super) expected:Option<Context>}
+pub struct Request {pub guard:Guard,pub trigger:TextInputTrigger,#[serde(default)]pub node:Option<Reference>,#[serde(skip)]pub(super) expected:Option<Context>,
+    /// An immediate rule's final character, held back by Shell when no
+    /// accessible input source exists; only the selection fallback uses it.
+    #[serde(default)]pub literal:Option<String>}
+/// What AT-SPI reports for the focused window. Only `Absent` permits the
+/// selection fallback: a password or unusable text node is never selected.
+pub(super) enum Focus {Editable(Context),Other,Absent}
 #[derive(Clone,Debug)]
 pub(super) struct Context {pub node:Reference,pub text:String,pub cursor:i32,pub serial:u32}
 impl PartialEq for Context {fn eq(&self,other:&Self)->bool{self.node==other.node&&self.text==other.text&&self.cursor==other.cursor}}
@@ -120,6 +126,9 @@ impl Adapter {
         Ok(Some(Context{node:node.clone(),text,cursor,serial}))
     }
     pub(super) async fn focused(&self,bus:&zbus::Connection,guard:&Guard)->Result<Option<Context>,Error>{
+        Ok(match self.locate(bus,guard).await?{Focus::Editable(context)=>Some(context),_=>None})
+    }
+    pub(super) async fn locate(&self,bus:&zbus::Connection,guard:&Guard)->Result<Focus,Error>{
         let root=("org.a11y.atspi.Registry".into(),OwnedObjectPath::try_from("/org/a11y/atspi/accessible/root").unwrap());
         let dbus=zbus::fdo::DBusProxy::new(bus).await.map_err(bus_error)?;
         let registered=Self::children(bus,&root).await?;
@@ -139,13 +148,23 @@ impl Adapter {
             if dbus.get_connection_unix_process_id(name).await.map_err(bus_error)?!=guard.pid{continue}
             let mut queue=VecDeque::from([application]);
             while let Some(node)=queue.pop_front(){
-                let role:u32=Self::proxy(bus,&node,ACCESSIBLE).await?.call("GetRole",&()).await.map_err(bus_error)?;
-                if role==40||role==60{continue}
-                if let Some(context)=Self::read(bus,&node).await?{return Ok(Some(context))}
+                let accessible=Self::proxy(bus,&node,ACCESSIBLE).await?;
+                let states:Vec<u32>=accessible.call("GetState",&()).await.map_err(bus_error)?;
+                if states.first().is_some_and(|word|word&(1<<12)!=0){
+                    let role:u32=accessible.call("GetRole",&()).await.map_err(bus_error)?;
+                    if role==40||role==60{return Ok(Focus::Other)}
+                    if let Some(context)=Self::read(bus,&node).await?{return Ok(Focus::Editable(context))}
+                    let interfaces:Vec<String>=accessible.call("GetInterfaces",&()).await.map_err(bus_error)?;
+                    if interfaces.iter().any(|i|i==TEXT){return Ok(Focus::Other)}
+                }
                 queue.extend(Self::children(bus,&node).await?);
             }
         }
-        Ok(None)
+        Ok(Focus::Absent)
+    }
+    /// Whether the focused window exposes no accessible text at all.
+    pub async fn absent(&self,session:&zbus::Connection,guard:&Guard)->Result<bool,Error>{
+        let bus=self.connect(session).await?;Ok(matches!(self.locate(&bus,guard).await?,Focus::Absent))
     }
     pub(super) async fn guard(desktop:&Desktop,expected:&Guard)->Result<(),Error>{
         Self::guard_input(desktop,expected,false).await
@@ -201,7 +220,11 @@ impl Adapter {
         let desktop=Desktop::new(session.clone());
         Self::guard(&desktop,&request.guard).await?;
         let bus=self.connect(session).await?;
-        let Some(context)=self.focused(&bus,&request.guard).await? else{return Ok(json!({"matched":false,"reason":"当前焦点没有可编辑的 AT-SPI 文本能力，或属于密码字段"}))};
+        let context=match self.locate(&bus,&request.guard).await? {
+            Focus::Editable(context)=>context,
+            Focus::Other=>return Ok(json!({"matched":false,"reason":"当前焦点属于密码字段或暂不可编辑的 AT-SPI 文本"})),
+            Focus::Absent=>return Ok(json!({"matched":false,"fallback":true})),
+        };
         if request.node.as_ref().is_some_and(|node|node!=&context.node){return Err(error(ErrorKind::TargetInvalid,"AT-SPI 输入起点已失效，不改用其他编辑区域"))}
         if request.expected.as_ref().is_some_and(|expected|expected!=&context){return Err(error(ErrorKind::TargetInvalid,"实际提交后的范围或光标已变化，取消替换"))}
         let matched=crate::text::match_text(config,&TextMatchRequest{application_id:request.guard.application_id.clone(),before_cursor:context.text.chars().take(context.cursor as usize).collect(),trigger:request.trigger,composing:false,password:false,terminal:false});

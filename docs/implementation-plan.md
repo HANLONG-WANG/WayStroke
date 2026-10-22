@@ -493,6 +493,15 @@ python3 scripts/check-ui.py
 
 A–E 已完成，具体证据见本计划及 `fixtures/phase-b`、`fixtures/phase-c`、`fixtures/phase-d`、`fixtures/phase-e`。下一阶段为 F 的系统级安装、会话集成与发布验收；E 提前接入的向导操作不代表 RPM 或主系统授权已验收。原设计稿保持不变。
 
+## XWayland 兼容替换（2026-10-22）
+
+依据技术验证第五阶段实现选区校验替换，默认对所有没有 AT-SPI 文本接口的 XWayland 应用启用，可按应用停用：
+
+- core `xselection.rs`：x11rb 连接 XWayland（扩展在 X11 窗口获得焦点时传入 Shell 的 DISPLAY 与认证文件，失焦即断开）；XI2 raw 按键维护输入尾部并按送达顺序识别用户插入的按键；XFixes 选区通知与 PRIMARY 读写；探测、逐字校验、词边界与字段开头判断、粘贴、修正与撤销。`atspi.rs` 区分可编辑、密码/不可用与没有文本接口三种焦点，只有最后一种回退。
+- 扩展：`textKeys` 只向 core 校验过的窗口发送按键；立即规则的末字符在没有 AT-SPI 输入来源时交给兼容替换；状态说明区分兼容替换、已停用与 X11 终端。
+- 配置：`Exclusion.compatibility`（旧配置默认 false）；运行结果增加应用标识，运行状态页对“不导出选区”的应用提供停用按钮，设置页排除行增加“停用兼容替换”。
+- 验证：`check-gnome.py --devkit --release --phase-d-atspi --selection` 与 `check-ui.py --devkit --release --selection-ui` 通过，证据见 `fixtures/xwayland-selection/`；`--phase-d-atspi --ime --lifecycle`、`--phase-d-text` 回归通过。默认 `check-ui.py --devkit --release` 在手势画布录制步骤超时，同一命令在改动前的 HEAD 上同样失败（私有会话取不到鼠标服务），与本项无关。
+
 ## 阶段 A 实施记录（2026-10-13，已完成）
 
 | 任务 | 正式实现 | 验收证据 |

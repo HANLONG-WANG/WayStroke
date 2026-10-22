@@ -1,0 +1,21 @@
+{
+ "selectionExclusionRow": {
+  "overflow": false,
+  "labels": [
+   "停用手势",
+   "停用文本替换",
+   "停用兼容替换"
+  ],
+  "checked": [
+   true,
+   true,
+   false
+  ]
+ },
+ "selectionRuntimeCard": {
+  "text": "当前文本输入\n可用\nio.github.waystroke.Desktop.desktop · 原生编辑区域\n\n当前应用提供周围文本与编辑上下文，替换前后校验焦点、范围和光标。 最近结果：兼容替换不可用；此窗口没有导出选区，未编辑\n\n对 xterm.desktop 停用兼容替换\n管理文本替换 →",
+  "button": true
+ },
+ "selectionRuntimeExclusion": "xterm.desktop",
+ "complete": true
+}

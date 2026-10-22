@@ -2,7 +2,7 @@
 export type Config = { format: string, schemaVersion: number, settings: Settings, applications: Array<Application>, exclusions: Array<Exclusion>, gestures: Array<Gesture>, rules: Array<Rule>, workflows: Array<Workflow>, snippets: Array<TextRule>, };
 export type Settings = { gesturesEnabled: boolean, trail: boolean, feedback: boolean, autostart: boolean, similarity: number, ambiguityGap: number, color: string, minimumLength: number, cancelTimeout: number, textEnabled: boolean, terminalTextEnabled: boolean, mouseDeviceId: string | null, setupComplete: boolean, };
 export type Application = { id: string, name: string, };
-export type Exclusion = { applicationId: string, gestures: boolean, text: boolean, };
+export type Exclusion = { applicationId: string, gestures: boolean, text: boolean, compatibility: boolean, };
 export type Sample = { id: string, points: Array<[number, number]>, };
 export type Gesture = { id: string, name: string, mainSampleId: string, samples: Array<Sample>, };
 export type TitleCondition = { operator: TitleOperator, value: string, };

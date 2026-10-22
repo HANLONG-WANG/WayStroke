@@ -104,11 +104,15 @@ python3 scripts/check-ui.py --ime-shortcuts
 python3 scripts/check-ui.py --shortcut-capture
 python3 scripts/check-ui.py --editor-layout
 python3 scripts/check-ui.py --devkit --release --phase-e --phase-c
+python3 scripts/check-ui.py --devkit --release --selection-ui
+python3 scripts/check-gnome.py --devkit --release --phase-d-atspi --selection
 python3 scripts/check-gnome.py --devkit --release --phase-c-clipboard --phase-c-composed-input
 python3 scripts/check-gnome.py --devkit --release --phase-c-clipboard --x11-clipboard
 ```
 
 剪贴板备份跳过 X11 的 `SAVE_TARGETS`、`TARGETS`、`TIMESTAMP`、`MULTIPLE` 及插入/删除控制目标；仍保留真实数据格式（含 `UTF8_STRING`）并传播读取错误。`--x11-clipboard` 使用真实 XWayland GTK 剪贴板来源验证粘贴与多格式恢复。独立回归检查可运行 `GI_TYPELIB_PATH=/usr/lib64/mutter-18 LD_LIBRARY_PATH=/usr/lib64/mutter-18:/usr/lib64/gnome-shell gjs -m scripts/check-clipboard.js`。
+
+`--selection` 用 `probes/xwayland-fallback` 的 Tk/Swing 夹具（需要 PySide6/Tk、JDK、xterm）检查 XWayland 兼容替换：确认、撤销、粘贴、词边界、密码、立即规则、应用排除、终端名单、不导出选区窗口的探测上限与替换期间插入的按键。`--selection-ui` 在私有会话中启动辅助功能总线和 XWayland，用不导出选区的 xterm 触发真实的“兼容替换不可用”结果，检查运行状态页的停用按钮和设置页排除选项。check-gnome 结束时还会停止在私有总线上被 D-Bus 激活、而非由脚本启动的 core。2026-10-22 在本机观察到：启用 XWayland 的 devkit 运行有时在共用准备步骤“隐藏概览”超时，或 Shell 输入帧数秒才到达，未启用 XWayland 的检查同时通过；遇到时重跑，不要放宽断言。
 
 `--editor-layout` 检查规则/模板卡片填满工作区、独立滚动、规则取消及文本暂停保留草稿。XWayland 超时透传的故障测试为 `scripts/check-gnome.py --devkit --phase-d-atspi --ime --text-failopen`：暂停测试应用进程以阻塞真实 AT-SPI 响应，检查首次空格/Enter 恢复、后续原键直通和切换窗口后重新替换。NVIDIA 的独立测试桌面如遇 EGL 崩溃，可仅对测试命令设置 `__EGL_VENDOR_LIBRARY_FILENAMES=/usr/share/glvnd/egl_vendor.d/50_mesa.json XWAYLAND_NO_GLAMOR=1 GALLIUM_DRIVER=llvmpipe`；无需更改主会话。
 

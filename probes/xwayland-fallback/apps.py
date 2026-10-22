@@ -9,7 +9,7 @@ def read_command():
     try:lines=command.read_text().splitlines()
     except FileNotFoundError:return None
     q=dict(line.split('=',1) for line in lines if '=' in line)
-    return {'seq':int(q['seq']),'focus':q.get('focus') or None,'set':{k[4:]:base64.b64decode(v).decode() for k,v in q.items() if k.startswith('set.')}}
+    return {'seq':int(q['seq']),'focus':q.get('focus') or None,'set':{k[4:]:base64.b64decode(v).decode() for k,v in q.items() if k.startswith('set.')},'cursor':q.get('cursor') or None}
 def tick(apply,snapshot):
     q=read_command()
     if q and q['seq']!=state['seq']:apply(q);state['seq']=q['seq']
@@ -38,7 +38,7 @@ elif kind=='tk':
     fields['normal'].bind('<Return>',lambda event:state['activated'].append(fields['normal'].get()))
     def apply(q):
         for key,value in q['set'].items():
-            field=fields[key];field.delete(0,'end');field.insert(0,value);field.icursor('end');field.selection_clear()
+            field=fields[key];field.delete(0,'end');field.insert(0,value);field.icursor(field.index('end')-int(q['cursor'] or 0));field.selection_clear()
         if q['focus']:fields[q['focus']].focus_set()
     def snapshot():
         for key,field in fields.items():state[key]=field.get()

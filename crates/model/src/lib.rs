@@ -40,7 +40,7 @@ impl Default for Settings {
 pub struct Application { pub id: String, pub name: String }
 #[derive(Clone, Debug, Serialize, Deserialize, TS, PartialEq)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
-pub struct Exclusion { pub application_id: String, pub gestures: bool, pub text: bool }
+pub struct Exclusion { pub application_id: String, pub gestures: bool, pub text: bool, #[serde(default)] pub compatibility: bool }
 #[derive(Clone, Debug, Serialize, Deserialize, TS, PartialEq)]
 #[serde(deny_unknown_fields)]
 pub struct Sample { pub id: String, pub points: Vec<[f64; 2]> }

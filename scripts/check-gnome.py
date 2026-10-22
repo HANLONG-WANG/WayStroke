@@ -265,6 +265,9 @@ try:
             call({'action':'key','keyval':keyval,'pressed':True},False);call({'action':'key','keyval':keyval,'pressed':False},False)
         def state():return json.loads((root/'client.json').read_text())['Probe A']
         wait(lambda:call({'operation':'textInfo'})['actionMode']==1)
+        if '--selection' in sys.argv:
+            from gnome_text_selection import check
+            check(REPO,root,spawn,call,core,wait,key,results);results['complete']=True;raise SystemExit(0)
         if '--text-failopen' in sys.argv:
             results['beforeFailopen']={'status':call({'operation':'textStatus'}),'info':call({'operation':'textInfo'})}
             def clear():
@@ -1086,6 +1089,12 @@ finally:
         try:
             if has_core():core('Quit')
         except GLib.Error as error:print('Installed core cleanup:',error,flush=True)
+    # A core D-Bus-activated before the spawned one would outlive this
+    # private bus; the bus is the test's own, so its owner is a test process.
+    try:
+        pid=connection.call_sync('org.freedesktop.DBus','/org/freedesktop/DBus','org.freedesktop.DBus','GetConnectionUnixProcessID',GLib.Variant('(s)',('io.github.waystroke.Core',)),GLib.VariantType('(u)'),Gio.DBusCallFlags.NONE,1000,None).unpack()[0]
+        if all(p.pid!=pid for p in processes):os.kill(pid,signal.SIGTERM)
+    except GLib.Error:pass
     for p in reversed(processes):
         if p.poll() is None:os.killpg(p.pid,signal.SIGTERM);p.wait(timeout=5)
     (root/'results.json').write_text(json.dumps(results,ensure_ascii=False,indent=2));print(json.dumps(results,ensure_ascii=False,indent=2),flush=True)

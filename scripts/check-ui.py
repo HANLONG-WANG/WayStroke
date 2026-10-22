@@ -107,7 +107,7 @@ try:
     if '--ime-shortcuts' in sys.argv or '--shortcut-capture' in sys.argv:
         for schema,key,value in [('org.gnome.desktop.input-sources','sources',"[('xkb', 'us'), ('xkb', 'fr')]"),('org.gnome.desktop.wm.keybindings','switch-input-source',"['<Super>space']"),('org.gnome.desktop.wm.keybindings','switch-input-source-backward',"['<Shift><Super>space']")]:subprocess.run(['gsettings','set',schema,key,value],check=True)
     if '--phase-d' in sys.argv and '--devkit' not in sys.argv:raise RuntimeError('Phase D UI tests require --devkit')
-    spawn('shell',['gnome-shell','--headless','--wayland','--no-x11','--wayland-display=waystroke-ui-check-0',*(['--devkit'] if '--devkit' in sys.argv else ['--virtual-monitor=1440x1000'])])
+    spawn('shell',['gnome-shell','--headless','--wayland',*([] if '--selection-ui' in sys.argv else ['--no-x11']),'--wayland-display=waystroke-ui-check-0',*(['--devkit'] if '--devkit' in sys.argv else ['--virtual-monitor=1440x1000'])])
     wait(lambda:shell({'action':'snapshot'}))
     if '--devkit' in sys.argv:
         viewer_env=os.environ.copy();viewer_env['XDG_RUNTIME_DIR']=viewer_env['WAYSTROKE_OUTER_RUNTIME'];viewer_env['WAYLAND_DISPLAY']=viewer_env['WAYSTROKE_OUTER_DISPLAY']
@@ -125,7 +125,12 @@ try:
             for path in paths:connection.call_sync('org.gnome.Mutter.RemoteDesktop',path,'org.gnome.Mutter.RemoteDesktop.Session','DisableClipboard',None,None,Gio.DBusCallFlags.NONE,3000,None)
             return paths
         results['devkit']['clipboardForwardingDisabled']=wait(disable_viewer_clipboard)
-    if '--phase-d' in sys.argv:
+    if '--selection-ui' in sys.argv and '--devkit' not in sys.argv:raise RuntimeError('Selection UI tests require --devkit')
+    if '--selection-ui' in sys.argv:
+        # The private bus cannot activate the accessibility bus; start it as check-gnome does.
+        spawn('a11y-bus',['/usr/libexec/at-spi-bus-launcher','--launch-immediately','--a11y=1','--screen-reader=1'])
+        wait(lambda:connection.call_sync('org.a11y.Bus','/org/a11y/bus','org.a11y.Bus','GetAddress',None,GLib.VariantType('(s)'),Gio.DBusCallFlags.NONE,1000,None).unpack()[0])
+    if '--phase-d' in sys.argv or '--selection-ui' in sys.argv:
         wait(lambda:not shell({'action':'snapshot'})['startingUp'])
         connection.call_sync('io.github.waystroke.Gnome','/io/github/waystroke/Gnome','io.github.waystroke.Gnome1','Call',GLib.Variant('(s)',(json.dumps({'operation':'desktopOverview','value':'隐藏概览'}),)),GLib.VariantType('(s)'),Gio.DBusCallFlags.NONE,3000,None)
         wait(lambda:shell({'action':'snapshot'})['actionMode']==1 and shell({'action':'snapshot'})['ibusReady'])
@@ -139,6 +144,42 @@ try:
     wait(lambda:execute('return Boolean(document.querySelector("#main h1"))'))
     results['initial']=execute('return {title:document.querySelector("#main h1").textContent,nav:document.querySelectorAll(".nav").length,reviewTools:document.querySelectorAll(".review-tools").length};')
     assert results['initial']['nav']==8 and results['initial']['reviewTools']==0
+    if '--selection-ui' in sys.argv:
+        # Settings: compatibility replacement is excluded per application.
+        click('.nav[data-page="settings"]');fill('#exclude-id','io.example.Fixture');click('#add-exclusion')
+        wait(lambda:execute('return document.querySelectorAll("#exclusion-list [data-feature]").length;')==3)
+        assert core('GetConfig')['value']['config']['exclusions']==[{'applicationId':'io.example.Fixture','gestures':True,'text':True,'compatibility':True}]
+        click('#exclusion-list [data-feature="compatibility"]')
+        wait(lambda:core('GetConfig')['value']['config']['exclusions'][0]['compatibility'] is False)
+        execute('document.querySelector("#exclusion-list").scrollIntoView({block:"center"});return true;');capture('selection-settings.png')
+        results['selectionExclusionRow']=execute('const row=document.querySelector(".exclusion-row");return {labels:[...row.querySelectorAll("label")].map(l=>l.textContent),checked:[...row.querySelectorAll("input")].map(i=>i.checked),overflow:row.scrollWidth>row.clientWidth};')
+        assert results['selectionExclusionRow']['labels']==['停用手势','停用文本替换','停用兼容替换'] and not results['selectionExclusionRow']['overflow'],results['selectionExclusionRow']
+        click('[data-remove-exclusion]');wait(lambda:not core('GetConfig')['value']['config']['exclusions'])
+        # Runtime: a window that never exports its selection offers an exclusion.
+        snapshot=core('GetConfig')['value'];config=snapshot['config']
+        config['snippets']=[{'id':'abc','key':'abc','value':'2003','enabled':True,'applicationId':None,'trigger':'confirm','caseSensitive':True,'boundary':True,'preserve':True}]
+        assert core('CommitConfig',{'requestId':'selection-ui','expectedRevision':snapshot['revision'],'config':config})['status']=='ok'
+        x11=shell({'action':'snapshot'});os.environ.update(DISPLAY=x11['xDisplay'],XAUTHORITY=x11['xAuthority'])
+        address=connection.call_sync('org.a11y.Bus','/org/a11y/bus','org.a11y.Bus','GetAddress',None,GLib.VariantType('(s)'),Gio.DBusCallFlags.NONE,1000,None).unpack()[0]
+        a11y=Gio.DBusConnection.new_for_address_sync(address,Gio.DBusConnectionFlags.AUTHENTICATION_CLIENT|Gio.DBusConnectionFlags.MESSAGE_BUS_CONNECTION,None,None)
+        a11y.call_sync('org.freedesktop.DBus','/org/freedesktop/DBus','org.freedesktop.DBus','UpdateActivationEnvironment',GLib.Variant('(a{ss})',({name:os.environ[name] for name in ['DISPLAY','XAUTHORITY','XDG_RUNTIME_DIR']},)),None,Gio.DBusCallFlags.NONE,3000,None)
+        os.environ['AT_SPI_BUS_ADDRESS']=address;spawn('a11y-registry',['/usr/libexec/at-spi2-registryd'])
+        spawn('plain',['xterm','-class','PlainX','-T','Selection Plain','-e','cat'])
+        wait(lambda:any(w['title']=='Selection Plain' for w in shell({'action':'snapshot'})['windows']))
+        shell({'action':'activate','title':'Selection Plain'});wait(lambda:shell({'action':'snapshot'})['focus']=='Selection Plain');time.sleep(.5)
+        for _ in range(3):
+            for char in 'abc ':shell({'action':'key','keyval':ord(char),'pressed':True});shell({'action':'key','keyval':ord(char),'pressed':False})
+            time.sleep(.6)
+        result=wait(lambda:(lambda r:r if r and r['state']=='unsupported' else None)(core('GetRuntime')['value']['lastTextResult']))
+        shell({'action':'activate','title':'WayStroke'});click('.nav[data-page="runtime"]')
+        wait(lambda:execute('const b=document.querySelector("#runtime-text-exclude");return !!b&&!b.hidden&&b.dataset.applicationId;')==result['applicationId'])
+        execute('document.querySelector(".input-capability").scrollIntoView({block:"center"});return true;');capture('selection-runtime.png')
+        results['selectionRuntimeCard']=execute('const c=document.querySelector(".input-capability");return {text:c.innerText,button:c.querySelector("#runtime-text-exclude").getBoundingClientRect().width>0};')
+        click('#runtime-text-exclude')
+        wait(lambda:any(e['applicationId']==result['applicationId'] and e['compatibility'] and not e['text'] for e in core('GetConfig')['value']['config']['exclusions']))
+        wait(lambda:execute('return document.querySelector("#runtime-text-exclude").hidden;'))
+        results['selectionRuntimeExclusion']=result['applicationId'];results['complete']=True
+        raise SystemExit(0)
     if '--editor-layout' in sys.argv:
         click('#new-rule');fill('#rule-name','布局测试')
         click('#steps [data-param-key="value"] [data-shortcut-mode="manual"]');fill('#steps [data-param-key="value"] input','Ctrl + A')

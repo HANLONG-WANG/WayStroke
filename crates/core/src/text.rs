@@ -71,7 +71,7 @@ mod tests {
         q.before_cursor="！aBc".into();assert!(!match_text(&config,&q).unwrap().preserve);
         q.composing=true;assert!(match_text(&config,&q).is_none());q.composing=false;q.password=true;assert!(match_text(&config,&q).is_none());
         q.terminal=true;assert!(match_text(&config,&q).is_some());config.settings.terminal_text_enabled=false;assert!(match_text(&config,&q).is_none());
-        q.terminal=false;q.password=false;config.exclusions.push(waystroke_model::Exclusion{application_id:"app".into(),gestures:false,text:true});assert!(match_text(&config,&q).is_none());
+        q.terminal=false;q.password=false;config.exclusions.push(waystroke_model::Exclusion{application_id:"app".into(),gestures:false,text:true,compatibility:false});assert!(match_text(&config,&q).is_none());
         config.exclusions.clear();config.settings.text_enabled=false;assert!(match_text(&config,&q).is_none());
     }
 }

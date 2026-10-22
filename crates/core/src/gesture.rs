@@ -76,7 +76,7 @@ mod tests {
         c.rules=vec![rule("global",None),rule("app",Some("app".into()))];assert_eq!(recognize(&c,&request()).rule_id.as_deref(),Some("app"));
         c.rules[1].enabled=false;assert_eq!(recognize(&c,&request()).rule_id.as_deref(),Some("global"));
         c.rules.push(rule("another-global",None));assert_eq!(recognize(&c,&request()).outcome,RecognitionOutcome::Ambiguous);
-        c.exclusions.push(Exclusion{application_id:"app".into(),gestures:true,text:false});assert_eq!(recognize(&c,&request()).outcome,RecognitionOutcome::Excluded);
+        c.exclusions.push(Exclusion{application_id:"app".into(),gestures:true,text:false,compatibility:false});assert_eq!(recognize(&c,&request()).outcome,RecognitionOutcome::Excluded);
         c.exclusions.clear();let mut r=request();r.points=vec![[0.,0.],[11.9,0.]];assert_eq!(recognize(&c,&r).outcome,RecognitionOutcome::TooShort);
     }
 }

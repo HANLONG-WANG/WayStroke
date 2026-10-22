@@ -1,0 +1,27 @@
+{
+  "commands": [
+    "python3 scripts/check-gnome.py --devkit --release --phase-d-atspi --selection",
+    "python3 scripts/check-ui.py --devkit --release --selection-ui"
+  ],
+  "artifacts": [
+    "/tmp/waystroke-desktop-check-3vzce2fd",
+    "/tmp/waystroke-ui-check-u8mvihlr"
+  ],
+  "sourceSha256AtArchive": {
+    "crates/core/src/xselection.rs": "00d566bc63d16d87c263cc4c206e26dfeb77b8d94eda74dea2958f99433c1d82",
+    "crates/core/src/atspi.rs": "70175afa13f0eb7dcc1cf50555da88522f67eb39ae4ee35ff5f527abd8fb8885",
+    "crates/core/src/main.rs": "7a73f4b2075d0bcdb6a1a7b7ead163afa6a4aea3ad508fb1e30d879c36986e22",
+    "extension/text.js": "8912a8c3e27e28ca176c6cca158d12952f99843e898919592ec988323af1ac70",
+    "extension/extension.js": "5f197da12b7ad709dfed0d94bd7b72f47f55b5686b142301ec112af1bf734eb4",
+    "apps/desktop/src/editor.js": "54c6e337d4ca2fb441d56bc3e29f90e67366391b8d8b5578362ccd87619b810c",
+    "scripts/gnome_text_selection.py": "36afbfe84f5bd2269fc29241ab78f6b648139699b04951babd3d0e9c6296dc7c",
+    "scripts/check-ui.py": "6eb4f4ae9090574241a125b227887978809f2d3ed98ac83cecd0b8c5a9e1bcbb",
+    "probes/xwayland-fallback/apps.py": "5607b25c80a3da78fe6ce9a9b5248b8c819f1452cd4527670759fe96e757a8c1",
+    "probes/xwayland-fallback/Swing.java": "035683799a2534bdfacc328e854f95a0696f63fc8938271e4ef0a5bbb904e206"
+  },
+  "binarySha256AtArchive": {
+    "target/release/waystroke-core": "17db00e153cfd3afcdd94830a59881c70ad136179a1b236bfb1d61ec0bf76102",
+    "target/release/waystroke": "edf4f0a1dbe1e0d7a67ae514115a55e4cd9528109e700cb90dc250bbe9d03178"
+  },
+  "note": "The archived check-gnome run loaded extension/text.js with four temporary console.log lines (no behaviour change) and predates the test helper waiting for an empty Shell queue between cases. Later runs on this machine stalled in shared harness setup while XWayland was enabled."
+}
