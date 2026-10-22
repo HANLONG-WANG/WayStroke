@@ -1,0 +1,1311 @@
+{
+ "xinput": [
+  2,
+  0
+ ],
+ "layer1": {
+  "isEnabledAtStart": {
+   "IsEnabled": false,
+   "ScreenReaderEnabled": false
+  },
+  "qtDefault": {
+   "normal": {
+    "registered": true,
+    "role": "text",
+    "editable": true,
+    "states": [
+     7,
+     8,
+     11,
+     12,
+     24,
+     25,
+     30
+    ],
+    "interfaces": [
+     "org.a11y.atspi.Accessible",
+     "org.a11y.atspi.Collection",
+     "org.a11y.atspi.Component",
+     "org.a11y.atspi.Action",
+     "org.a11y.atspi.Text",
+     "org.a11y.atspi.EditableText"
+    ],
+    "text": "abc",
+    "caret": 3,
+    "delete": true,
+    "insert": true,
+    "appText": "2003"
+   },
+   "password": {
+    "registered": true,
+    "role": "text",
+    "editable": true,
+    "states": [
+     7,
+     8,
+     11,
+     12,
+     24,
+     25,
+     30
+    ],
+    "interfaces": [
+     "org.a11y.atspi.Accessible",
+     "org.a11y.atspi.Collection",
+     "org.a11y.atspi.Component",
+     "org.a11y.atspi.Action",
+     "org.a11y.atspi.Text",
+     "org.a11y.atspi.EditableText"
+    ],
+    "exposedText": "•••"
+   }
+  },
+  "qtDefaultAfterRuntimeEnable": {
+   "normal": {
+    "registered": true,
+    "role": "text",
+    "editable": true,
+    "states": [
+     7,
+     8,
+     11,
+     12,
+     24,
+     25,
+     30
+    ],
+    "interfaces": [
+     "org.a11y.atspi.Accessible",
+     "org.a11y.atspi.Collection",
+     "org.a11y.atspi.Component",
+     "org.a11y.atspi.Action",
+     "org.a11y.atspi.Text",
+     "org.a11y.atspi.EditableText"
+    ],
+    "text": "abc",
+    "caret": 3,
+    "delete": true,
+    "insert": true,
+    "appText": "2003"
+   },
+   "password": {
+    "registered": true,
+    "role": "text",
+    "editable": true,
+    "states": [
+     7,
+     8,
+     11,
+     12,
+     24,
+     25,
+     30
+    ],
+    "interfaces": [
+     "org.a11y.atspi.Accessible",
+     "org.a11y.atspi.Collection",
+     "org.a11y.atspi.Component",
+     "org.a11y.atspi.Action",
+     "org.a11y.atspi.Text",
+     "org.a11y.atspi.EditableText"
+    ],
+    "exposedText": "•••"
+   }
+  },
+  "qtStatusEnabled": {
+   "normal": {
+    "registered": true,
+    "role": "text",
+    "editable": true,
+    "states": [
+     7,
+     8,
+     11,
+     12,
+     24,
+     25,
+     30
+    ],
+    "interfaces": [
+     "org.a11y.atspi.Accessible",
+     "org.a11y.atspi.Collection",
+     "org.a11y.atspi.Component",
+     "org.a11y.atspi.Action",
+     "org.a11y.atspi.Text",
+     "org.a11y.atspi.EditableText"
+    ],
+    "text": "abc",
+    "caret": 3,
+    "delete": true,
+    "insert": true,
+    "appText": "2003"
+   },
+   "password": {
+    "registered": true,
+    "role": "text",
+    "editable": true,
+    "states": [
+     7,
+     8,
+     11,
+     12,
+     24,
+     25,
+     30
+    ],
+    "interfaces": [
+     "org.a11y.atspi.Accessible",
+     "org.a11y.atspi.Collection",
+     "org.a11y.atspi.Component",
+     "org.a11y.atspi.Action",
+     "org.a11y.atspi.Text",
+     "org.a11y.atspi.EditableText"
+    ],
+    "exposedText": "•••"
+   }
+  },
+  "qtEnvironment": {
+   "normal": {
+    "registered": true,
+    "role": "text",
+    "editable": true,
+    "states": [
+     7,
+     8,
+     11,
+     12,
+     24,
+     25,
+     30
+    ],
+    "interfaces": [
+     "org.a11y.atspi.Accessible",
+     "org.a11y.atspi.Collection",
+     "org.a11y.atspi.Component",
+     "org.a11y.atspi.Action",
+     "org.a11y.atspi.Text",
+     "org.a11y.atspi.EditableText"
+    ],
+    "text": "abc",
+    "caret": 3,
+    "delete": true,
+    "insert": true,
+    "appText": "2003"
+   },
+   "password": {
+    "registered": true,
+    "role": "text",
+    "editable": true,
+    "states": [
+     7,
+     8,
+     11,
+     12,
+     24,
+     25,
+     30
+    ],
+    "interfaces": [
+     "org.a11y.atspi.Accessible",
+     "org.a11y.atspi.Collection",
+     "org.a11y.atspi.Component",
+     "org.a11y.atspi.Action",
+     "org.a11y.atspi.Text",
+     "org.a11y.atspi.EditableText"
+    ],
+    "exposedText": "•••"
+   }
+  },
+  "gtkX11Reference": {
+   "normal": {
+    "registered": true,
+    "role": "text box",
+    "editable": true,
+    "states": [
+     7,
+     11,
+     12,
+     24,
+     25,
+     30,
+     42
+    ],
+    "interfaces": [
+     "org.a11y.atspi.Accessible",
+     "org.a11y.atspi.Component",
+     "org.a11y.atspi.Text",
+     "org.a11y.atspi.EditableText",
+     "org.a11y.atspi.Action"
+    ],
+    "text": "abc",
+    "caret": 3,
+    "delete": true,
+    "insert": true,
+    "appText": "2003"
+   },
+   "password": {
+    "registered": true,
+    "role": "text box",
+    "editable": true,
+    "states": [
+     7,
+     11,
+     12,
+     24,
+     25,
+     30
+    ],
+    "interfaces": [
+     "org.a11y.atspi.Accessible",
+     "org.a11y.atspi.Component",
+     "org.a11y.atspi.Text",
+     "org.a11y.atspi.EditableText",
+     "org.a11y.atspi.Action"
+    ],
+    "exposedText": "●●●"
+   }
+  },
+  "tk": {
+   "normal": {
+    "registered": false
+   },
+   "password": {
+    "registered": false
+   }
+  },
+  "swingWithoutBridge": {
+   "normal": {
+    "registered": false
+   },
+   "password": {
+    "registered": false
+   }
+  }
+ },
+ "layer2": {
+  "tk": {
+   "window": {
+    "title": "Fallback Tk",
+    "clientType": 1,
+    "pid": 28608,
+    "wmClass": "Tk",
+    "wmClassInstance": "tk",
+    "windowType": 0
+   },
+   "rawKeys": {
+    "decoded": "hi aBc",
+    "text": "hi aBc"
+   },
+   "typeReplace": {
+    "barrierMs": 0.8,
+    "ownerMs": 1.8,
+    "selections": [
+     "c",
+     "abc"
+    ],
+    "verifiedMs": 24.7,
+    "matched": true,
+    "action": "replaced",
+    "foreign": 0,
+    "harmful": 0,
+    "final": "hi 2003",
+    "afterSpace": "hi 2003 "
+   },
+   "undoAfterReplace": "hi 2003 ",
+   "pasteReplace": {
+    "barrierMs": 0.8,
+    "ownerMs": 1.5,
+    "selections": [
+     "c",
+     "abc"
+    ],
+    "verifiedMs": 24.3,
+    "matched": true,
+    "action": "replaced",
+    "foreign": 0,
+    "harmful": 0,
+    "final": "中文👍"
+   },
+   "enterOrder": {
+    "barrierMs": 0.8,
+    "ownerMs": 1.5,
+    "selections": [
+     "c",
+     "abc"
+    ],
+    "verifiedMs": 24.7,
+    "matched": true,
+    "action": "replaced",
+    "foreign": 0,
+    "harmful": 0,
+    "activated": [
+     "2003"
+    ]
+   },
+   "password": {
+    "barrierMs": 0.8,
+    "ownerMs": 1.9,
+    "selections": [
+     "***"
+    ],
+    "verifiedMs": 311.6,
+    "matched": false,
+    "action": "restored",
+    "foreign": 0,
+    "final": "abcZ"
+   },
+   "mismatch": {
+    "barrierMs": 0.8,
+    "ownerMs": 1.5,
+    "selections": [
+     "d",
+     "abd"
+    ],
+    "verifiedMs": 307.5,
+    "matched": false,
+    "action": "restored",
+    "foreign": 0,
+    "final": "abdZ"
+   },
+   "graphemes": {
+    "barrierMs": 0.6,
+    "ownerMs": 1.4,
+    "selections": [
+     "👍🏽",
+     "中文👍🏽"
+    ],
+    "verifiedMs": 29.5,
+    "matched": true,
+    "action": "restored",
+    "foreign": 0,
+    "final": "x中文Z"
+   },
+   "lineStart": {
+    "barrierMs": 1.3,
+    "ownerMs": 2.2,
+    "selections": [
+     "ab"
+    ],
+    "verifiedMs": 306.5,
+    "matched": false,
+    "action": "restored",
+    "foreign": 0,
+    "final": "abZ"
+   },
+   "frozen": {
+    "barrierMs": 1.1,
+    "ownerMs": null,
+    "selections": [],
+    "verifiedMs": 302.7,
+    "matched": false,
+    "action": "restored",
+    "foreign": 0,
+    "final": "abcZ"
+   },
+   "userTypesDuringCheck": {
+    "barrierMs": 0.9,
+    "ownerMs": 2.2,
+    "selections": [
+     "c",
+     null
+    ],
+    "verifiedMs": 300.2,
+    "matched": false,
+    "action": "restored",
+    "foreign": 5,
+    "final": "x"
+   },
+   "userTypesDuringCheckRepaired": {
+    "barrierMs": 0.8,
+    "ownerMs": 1.8,
+    "selections": [
+     "c",
+     null
+    ],
+    "verifiedMs": 301.0,
+    "matched": false,
+    "action": "restored",
+    "foreign": 5,
+    "final": "x"
+   },
+   "userTypesBeforeEditRepaired": {
+    "barrierMs": 0.9,
+    "ownerMs": 2.4,
+    "selections": [
+     "c",
+     "abc"
+    ],
+    "verifiedMs": 20.5,
+    "matched": true,
+    "action": "replaced",
+    "foreign": 2,
+    "harmful": 2,
+    "repair": {
+     "clientHeld": "xy2003",
+     "typedAfter": "xy",
+     "matched": true,
+     "action": "replaced",
+     "harmful": 0
+    },
+    "final": "2003xy"
+   },
+   "graphemeRoundTrip1": {
+    "barrierMs": 0.6,
+    "ownerMs": 1.7,
+    "selections": [
+     "👍🏽"
+    ],
+    "verifiedMs": 156.6,
+    "matched": false,
+    "final": "x中文Z"
+   },
+   "graphemeRoundTrip2": {
+    "barrierMs": 1.4,
+    "ownerMs": 2.5,
+    "selections": [
+     "文👍🏽"
+    ],
+    "verifiedMs": 160.6,
+    "matched": false,
+    "final": "x中文Z"
+   },
+   "timings": {
+    "barrierMs": [
+     1.0,
+     0.8,
+     0.8,
+     0.7,
+     0.8,
+     1.4,
+     0.7,
+     0.8,
+     1.2,
+     0.7
+    ],
+    "ownerMs": [
+     2.9,
+     2.0,
+     1.6,
+     1.4,
+     1.5,
+     3.0,
+     1.7,
+     2.4,
+     2.1,
+     1.5
+    ],
+    "verifiedMs": [
+     20.9,
+     20.5,
+     29.5,
+     34.6,
+     24.4,
+     26.0,
+     30.3,
+     35.6,
+     25.5,
+     24.5
+    ],
+    "appliedMs": [
+     93.0,
+     92.5,
+     51.4,
+     56.5,
+     46.4,
+     98.0,
+     102.2,
+     57.6,
+     47.4,
+     96.4
+    ],
+    "allMatched": true
+   }
+  },
+  "qt": {
+   "window": {
+    "title": "Fallback Qt",
+    "clientType": 1,
+    "pid": 28921,
+    "wmClass": "apps.py",
+    "wmClassInstance": "apps.py",
+    "windowType": 0
+   },
+   "rawKeys": {
+    "decoded": "hi aBc",
+    "text": "hi aBc"
+   },
+   "typeReplace": {
+    "barrierMs": 0.8,
+    "ownerMs": 1.5,
+    "selections": [
+     "abc"
+    ],
+    "verifiedMs": 12.1,
+    "matched": true,
+    "action": "replaced",
+    "foreign": 0,
+    "harmful": 0,
+    "final": "hi 2003",
+    "afterSpace": "hi 2003 "
+   },
+   "undoAfterReplace": "hi abc",
+   "pasteReplace": {
+    "barrierMs": 0.8,
+    "ownerMs": 1.3,
+    "selections": [
+     "abc"
+    ],
+    "verifiedMs": 12.5,
+    "matched": true,
+    "action": "replaced",
+    "foreign": 0,
+    "harmful": 0,
+    "final": "中文👍"
+   },
+   "enterOrder": {
+    "barrierMs": 0.8,
+    "ownerMs": 1.2,
+    "selections": [
+     "abc"
+    ],
+    "verifiedMs": 12.4,
+    "matched": true,
+    "action": "replaced",
+    "foreign": 0,
+    "harmful": 0,
+    "activated": [
+     "2003"
+    ]
+   },
+   "password": {
+    "barrierMs": 0.8,
+    "ownerMs": null,
+    "selections": [],
+    "verifiedMs": 302.4,
+    "matched": false,
+    "action": "restored",
+    "foreign": 0,
+    "final": "abcZ"
+   },
+   "mismatch": {
+    "barrierMs": 0.9,
+    "ownerMs": 1.5,
+    "selections": [
+     "d",
+     "abd"
+    ],
+    "verifiedMs": 300.4,
+    "matched": false,
+    "action": "restored",
+    "foreign": 0,
+    "final": "abdZ"
+   },
+   "graphemes": {
+    "barrierMs": 1.2,
+    "ownerMs": 2.0,
+    "selections": [
+     "中文👍🏽"
+    ],
+    "verifiedMs": 8.1,
+    "matched": true,
+    "action": "restored",
+    "foreign": 0,
+    "final": "x中文👍🏽Z"
+   },
+   "lineStart": {
+    "barrierMs": 1.0,
+    "ownerMs": 1.8,
+    "selections": [
+     "ab"
+    ],
+    "verifiedMs": 311.7,
+    "matched": false,
+    "action": "restored",
+    "foreign": 4,
+    "final": "abZ"
+   },
+   "frozen": {
+    "barrierMs": 0.8,
+    "ownerMs": null,
+    "selections": [],
+    "verifiedMs": 302.1,
+    "matched": false,
+    "action": "restored",
+    "foreign": 0,
+    "final": "abcZ"
+   },
+   "userTypesDuringCheck": {
+    "barrierMs": 1.2,
+    "ownerMs": 2.0,
+    "selections": [
+     "abc"
+    ],
+    "verifiedMs": 13.0,
+    "matched": true,
+    "action": "replaced",
+    "foreign": 1,
+    "harmful": 1,
+    "final": "x2003"
+   },
+   "userTypesDuringCheckRepaired": {
+    "barrierMs": 1.3,
+    "ownerMs": 2.1,
+    "selections": [
+     "bc",
+     "abc"
+    ],
+    "verifiedMs": 25.1,
+    "matched": true,
+    "action": "replaced",
+    "foreign": 1,
+    "harmful": 1,
+    "repair": {
+     "clientHeld": "x2003",
+     "typedAfter": "x",
+     "matched": true,
+     "action": "replaced",
+     "harmful": 0
+    },
+    "final": "2003x"
+   },
+   "userTypesBeforeEditRepaired": {
+    "barrierMs": 0.9,
+    "ownerMs": 1.8,
+    "selections": [
+     "abc"
+    ],
+    "verifiedMs": 7.7,
+    "matched": true,
+    "action": "replaced",
+    "foreign": 2,
+    "harmful": 2,
+    "repair": {
+     "clientHeld": "xy2003",
+     "typedAfter": "xy",
+     "matched": true,
+     "action": "replaced",
+     "harmful": 0
+    },
+    "final": "2003xy"
+   },
+   "graphemeRoundTrip1": {
+    "barrierMs": 0.6,
+    "ownerMs": 1.3,
+    "selections": [
+     "👍🏽"
+    ],
+    "verifiedMs": 152.2,
+    "matched": false,
+    "final": "x中文👍🏽Z"
+   },
+   "graphemeRoundTrip2": {
+    "barrierMs": 0.8,
+    "ownerMs": 1.3,
+    "selections": [
+     "文👍🏽"
+    ],
+    "verifiedMs": 160.5,
+    "matched": false,
+    "final": "x中文👍🏽Z"
+   },
+   "timings": {
+    "barrierMs": [
+     1.2,
+     1.0,
+     0.8,
+     1.2,
+     0.8,
+     0.9,
+     0.9,
+     1.0,
+     0.8,
+     0.8
+    ],
+    "ownerMs": [
+     2.1,
+     1.5,
+     1.3,
+     1.6,
+     1.6,
+     1.7,
+     1.3,
+     1.6,
+     1.5,
+     1.4
+    ],
+    "verifiedMs": [
+     18.2,
+     12.2,
+     7.1,
+     12.5,
+     24.4,
+     14.7,
+     7.2,
+     12.6,
+     24.3,
+     12.5
+    ],
+    "appliedMs": [
+     90.1,
+     34.1,
+     28.7,
+     34.2,
+     96.2,
+     36.4,
+     28.0,
+     34.4,
+     46.0,
+     84.3
+    ],
+    "allMatched": true
+   }
+  },
+  "swing": {
+   "window": {
+    "title": "Fallback Swing",
+    "clientType": 1,
+    "pid": 28962,
+    "wmClass": "Swing",
+    "wmClassInstance": "Swing",
+    "windowType": 0
+   },
+   "rawKeys": {
+    "decoded": "hi aBc",
+    "text": "hi aBc"
+   },
+   "typeReplace": {
+    "barrierMs": 1.0,
+    "ownerMs": 6.8,
+    "selections": [
+     "c",
+     "abc"
+    ],
+    "verifiedMs": 31.2,
+    "matched": true,
+    "action": "replaced",
+    "foreign": 0,
+    "harmful": 0,
+    "final": "hi 2003",
+    "afterSpace": "hi 2003 "
+   },
+   "undoAfterReplace": "hi 2003 ",
+   "pasteReplace": {
+    "barrierMs": 1.2,
+    "ownerMs": 3.2,
+    "selections": [
+     "bc",
+     "abc"
+    ],
+    "verifiedMs": 27.3,
+    "matched": true,
+    "action": "replaced",
+    "foreign": 0,
+    "harmful": 0,
+    "final": "中文👍"
+   },
+   "enterOrder": {
+    "barrierMs": 0.8,
+    "ownerMs": 3.2,
+    "selections": [
+     "c",
+     "abc"
+    ],
+    "verifiedMs": 26.8,
+    "matched": true,
+    "action": "replaced",
+    "foreign": 0,
+    "harmful": 0,
+    "activated": [
+     "2003"
+    ]
+   },
+   "password": {
+    "barrierMs": 0.8,
+    "ownerMs": 1.2,
+    "selections": [
+     "•••"
+    ],
+    "verifiedMs": 315.9,
+    "matched": false,
+    "action": "restored",
+    "foreign": 0,
+    "final": "abcZ"
+   },
+   "mismatch": {
+    "barrierMs": 1.2,
+    "ownerMs": 3.4,
+    "selections": [
+     "d",
+     "abd"
+    ],
+    "verifiedMs": 311.4,
+    "matched": false,
+    "action": "restored",
+    "foreign": 0,
+    "final": "abdZ"
+   },
+   "graphemes": {
+    "barrierMs": 1.0,
+    "ownerMs": 2.2,
+    "selections": [
+     "👍🏽",
+     "中文👍🏽"
+    ],
+    "verifiedMs": 26.0,
+    "matched": true,
+    "action": "restored",
+    "foreign": 0,
+    "final": "x中文👍🏽Z"
+   },
+   "lineStart": {
+    "barrierMs": 0.9,
+    "ownerMs": 3.9,
+    "selections": [
+     "b",
+     "ab"
+    ],
+    "verifiedMs": 307.0,
+    "matched": false,
+    "action": "restored",
+    "foreign": 0,
+    "final": "abZ"
+   },
+   "frozen": {
+    "barrierMs": 0.7,
+    "ownerMs": null,
+    "selections": [],
+    "verifiedMs": 302.3,
+    "matched": false,
+    "action": "restored",
+    "foreign": 0,
+    "final": "abcZ"
+   },
+   "userTypesDuringCheck": {
+    "barrierMs": 0.9,
+    "ownerMs": 2.1,
+    "selections": [
+     "c",
+     "abc"
+    ],
+    "verifiedMs": 30.7,
+    "matched": true,
+    "action": "replaced",
+    "foreign": 1,
+    "harmful": 1,
+    "final": "x2003"
+   },
+   "userTypesDuringCheckRepaired": {
+    "barrierMs": 1.4,
+    "ownerMs": 3.0,
+    "selections": [
+     "c",
+     "abc"
+    ],
+    "verifiedMs": 26.1,
+    "matched": true,
+    "action": "replaced",
+    "foreign": 1,
+    "harmful": 1,
+    "repair": {
+     "clientHeld": "x2003",
+     "typedAfter": "x",
+     "matched": true,
+     "action": "replaced",
+     "harmful": 0
+    },
+    "final": "2003x"
+   },
+   "userTypesBeforeEditRepaired": {
+    "barrierMs": 0.9,
+    "ownerMs": 2.8,
+    "selections": [
+     "c",
+     "abc"
+    ],
+    "verifiedMs": 26.5,
+    "matched": true,
+    "action": "replaced",
+    "foreign": 2,
+    "harmful": 2,
+    "repair": {
+     "clientHeld": "xy2003",
+     "typedAfter": "xy",
+     "matched": true,
+     "action": "replaced",
+     "harmful": 0
+    },
+    "final": "2003xy"
+   },
+   "graphemeRoundTrip1": {
+    "barrierMs": 1.1,
+    "ownerMs": 3.1,
+    "selections": [
+     "👍🏽"
+    ],
+    "verifiedMs": 158.4,
+    "matched": false,
+    "final": "x中文👍🏽Z"
+   },
+   "graphemeRoundTrip2": {
+    "barrierMs": 0.8,
+    "ownerMs": 2.7,
+    "selections": [
+     "👍🏽",
+     "文👍🏽"
+    ],
+    "verifiedMs": 152.0,
+    "matched": false,
+    "final": "x中文👍🏽Z"
+   },
+   "timings": {
+    "barrierMs": [
+     0.8,
+     0.8,
+     1.1,
+     0.9,
+     0.9,
+     1.4,
+     1.2,
+     1.1,
+     0.7,
+     0.9
+    ],
+    "ownerMs": [
+     3.0,
+     2.2,
+     2.6,
+     2.3,
+     2.3,
+     2.6,
+     3.2,
+     2.8,
+     1.7,
+     1.8
+    ],
+    "verifiedMs": [
+     34.2,
+     27.6,
+     27.9,
+     25.8,
+     30.8,
+     33.3,
+     29.0,
+     31.2,
+     30.0,
+     19.7
+    ],
+    "appliedMs": [
+     56.2,
+     99.6,
+     49.7,
+     97.9,
+     52.7,
+     55.3,
+     51.0,
+     103.3,
+     51.0,
+     90.6
+    ],
+    "allMatched": true
+   }
+  },
+  "gtk": {
+   "window": {
+    "title": "Fallback Gtk",
+    "clientType": 1,
+    "pid": 29022,
+    "wmClass": "",
+    "wmClassInstance": "",
+    "windowType": 0
+   },
+   "rawKeys": {
+    "decoded": "hi aBc",
+    "text": "hi aBc"
+   },
+   "typeReplace": {
+    "barrierMs": 0.8,
+    "ownerMs": 2.3,
+    "selections": [
+     ""
+    ],
+    "verifiedMs": 305.1,
+    "matched": false,
+    "action": "restored",
+    "foreign": 0,
+    "final": "hi abc",
+    "afterSpace": "hi abc "
+   },
+   "undoAfterReplace": "hi abc",
+   "pasteReplace": {
+    "barrierMs": 1.0,
+    "ownerMs": 3.2,
+    "selections": [
+     ""
+    ],
+    "verifiedMs": 302.8,
+    "matched": false,
+    "action": "restored",
+    "foreign": 0,
+    "final": "abc"
+   },
+   "enterOrder": {
+    "barrierMs": 0.9,
+    "ownerMs": 1.6,
+    "selections": [
+     ""
+    ],
+    "verifiedMs": 305.7,
+    "matched": false,
+    "action": "restored",
+    "foreign": 0,
+    "activated": [
+     "abc"
+    ]
+   },
+   "password": {
+    "barrierMs": 0.7,
+    "ownerMs": 1.7,
+    "selections": [
+     ""
+    ],
+    "verifiedMs": 314.5,
+    "matched": false,
+    "action": "restored",
+    "foreign": 0,
+    "final": "abcZ"
+   },
+   "mismatch": {
+    "barrierMs": 1.1,
+    "ownerMs": 2.2,
+    "selections": [
+     ""
+    ],
+    "verifiedMs": 307.2,
+    "matched": false,
+    "action": "restored",
+    "foreign": 0,
+    "final": "abdZ"
+   },
+   "graphemes": {
+    "barrierMs": 1.4,
+    "ownerMs": 2.4,
+    "selections": [
+     ""
+    ],
+    "verifiedMs": 307.0,
+    "matched": false,
+    "action": "restored",
+    "foreign": 0,
+    "final": "x中文👍🏽Z"
+   },
+   "lineStart": {
+    "barrierMs": 0.8,
+    "ownerMs": 2.3,
+    "selections": [
+     ""
+    ],
+    "verifiedMs": 304.9,
+    "matched": false,
+    "action": "restored",
+    "foreign": 0,
+    "final": "abZ"
+   },
+   "frozen": {
+    "barrierMs": 0.9,
+    "ownerMs": null,
+    "selections": [],
+    "verifiedMs": 302.2,
+    "matched": false,
+    "action": "restored",
+    "foreign": 0,
+    "final": "abcZ"
+   },
+   "userTypesDuringCheck": {
+    "barrierMs": 1.2,
+    "ownerMs": 2.5,
+    "selections": [
+     "",
+     null
+    ],
+    "verifiedMs": 301.0,
+    "matched": false,
+    "action": "restored",
+    "foreign": 1,
+    "final": "x"
+   },
+   "userTypesDuringCheckRepaired": {
+    "barrierMs": 1.7,
+    "ownerMs": 2.7,
+    "selections": [
+     "",
+     null
+    ],
+    "verifiedMs": 301.4,
+    "matched": false,
+    "action": "restored",
+    "foreign": 1,
+    "final": "x"
+   },
+   "userTypesBeforeEditRepaired": {
+    "barrierMs": 1.0,
+    "ownerMs": 2.4,
+    "selections": [
+     ""
+    ],
+    "verifiedMs": 304.6,
+    "matched": false,
+    "action": "restored",
+    "foreign": 0,
+    "final": "abc"
+   },
+   "graphemeRoundTrip1": {
+    "barrierMs": 0.9,
+    "ownerMs": 2.4,
+    "selections": [
+     ""
+    ],
+    "verifiedMs": 159.9,
+    "matched": false,
+    "final": "x中文👍🏽Z"
+   },
+   "graphemeRoundTrip2": {
+    "barrierMs": 0.9,
+    "ownerMs": 1.7,
+    "selections": [
+     ""
+    ],
+    "verifiedMs": 155.0,
+    "matched": false,
+    "final": "x中文👍🏽Z"
+   },
+   "timings": {
+    "barrierMs": [
+     1.2,
+     0.8,
+     0.7,
+     1.2,
+     0.9,
+     1.1,
+     1.4,
+     1.2,
+     0.9,
+     1.4
+    ],
+    "ownerMs": [
+     3.1,
+     1.8,
+     1.5,
+     3.0,
+     2.3,
+     2.2,
+     2.9,
+     1.9,
+     2.2,
+     2.3
+    ],
+    "verifiedMs": [
+     303.5,
+     302.7,
+     311.6,
+     309.3,
+     304.6,
+     312.0,
+     306.9,
+     314.6,
+     309.0,
+     306.4
+    ],
+    "appliedMs": [
+     3313.1,
+     3312.1,
+     3321.1,
+     3319.5,
+     3314.4,
+     3325.8,
+     3316.7,
+     3324.0,
+     3318.3,
+     3315.3
+    ],
+    "allMatched": false
+   }
+  },
+  "nativeFocusRawEvents": {
+   "text": "abc",
+   "rawEventsSeen": 0
+  },
+  "xterm": {
+   "window": {
+    "title": "Fallback XTerm",
+    "clientType": 1,
+    "pid": 29364,
+    "wmClass": "XTerm",
+    "wmClassInstance": "xterm",
+    "windowType": 0
+   },
+   "attempt": {
+    "barrierMs": 0.6,
+    "ownerMs": null,
+    "selections": [],
+    "verifiedMs": 301.9,
+    "matched": false,
+    "action": "restored",
+    "foreign": 0
+   },
+   "bytes": "abc\u001b[1;2D\u001b[1;2D\u001b[1;2D\u001b[1;2C\u001b[1;2C\u001b[1;2C",
+   "xWindows": [
+    {
+     "id": 25165836,
+     "pid": 29364,
+     "wmClass": [
+      "xterm",
+      "XTerm"
+     ],
+     "name": "Fallback XTerm",
+     "windowType": []
+    }
+   ]
+  }
+ },
+ "visual": {
+  "tk": {
+   "selected": true,
+   "final": "hi 2003"
+  },
+  "qt": {
+   "selected": true,
+   "final": "hi 2003"
+  },
+  "swing": {
+   "selected": true,
+   "final": "hi 2003"
+  }
+ },
+ "browsers": {
+  "chrome-default": {
+   "clientType": 0,
+   "title": "Fallback Chrome - Google Chrome",
+   "imeFocus": true,
+   "surrounding": [
+    "abc",
+    3,
+    3
+   ],
+   "purpose": 0
+  },
+  "code-default": {
+   "clientType": 0,
+   "title": "fixture.txt - Visual Studio Code",
+   "imeFocus": true,
+   "surrounding": [
+    "abc",
+    3,
+    3
+   ],
+   "purpose": 8
+  }
+ },
+ "complete": true,
+ "browsersNote": "Taken from a browsers-only rerun with a longer Code startup wait; the full run had typed before Code focused its editor.",
+ "visualNote": "From a visual-only run; Devkit screenshots froze on an early frame during the long full run, while app-reported states were unaffected."
+}

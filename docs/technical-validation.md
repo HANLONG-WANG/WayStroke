@@ -6,7 +6,7 @@
 
 核心鼠标输入服务已取得用户 G304 实测证据，起点绑定协议的隔离时序检查及真实鼠标跨窗绑定检查均通过。最新设备编号为 event7。以下早期章节保留验证过程，不代表最新待办。
 
-代表性应用检查已有结果：Firefox、Electron/Code、组合快捷键与两种键盘布局，以及 XWayland 窗口接口。第三阶段已验证 XWayland GTK 的 AT-SPI 编辑/密码角色、自动空格替换，以及 GNOME accelerator 的 Enter 保留和重放路径。用户允许终端密码也替换后，第四阶段已验证无需 Shell 集成的普通/Readline/密码输入、空格/Enter 和 Rime 路径。原始输入程序不解释删除控制字符，仍不能宣称任意终端程序均可正确替换，具体边界见第四阶段。
+代表性应用检查已有结果：Firefox、Electron/Code、组合快捷键与两种键盘布局，以及 XWayland 窗口接口。第三阶段已验证 XWayland GTK 的 AT-SPI 编辑/密码角色、自动空格替换，以及 GNOME accelerator 的 Enter 保留和重放路径。用户允许终端密码也替换后，第四阶段已验证无需 Shell 集成的普通/Readline/密码输入、空格/Enter 和 Rime 路径。原始输入程序不解释删除控制字符，仍不能宣称任意终端程序均可正确替换，具体边界见第四阶段。第五阶段验证了缺少 AT-SPI 文本接口的 XWayland 程序的回退前提（选区校验替换），尚未实现为正式适配器。
 
 ## 第一轮结论
 
@@ -281,6 +281,43 @@ GNOME 自己的 IBus PanelService 能提供候选/预编辑可见状态。探针
 结论：当前终端的常见行编辑和密码场景已有不依赖 Shell 集成的可行路线，敏感用途不可识别不再是用户要求下的阻断点。**“允许替换所有输入”仍不等于“所有程序都会正确编辑”**：raw/TUI/编辑器可能把 DEL 当普通字节或命令；其他终端的输入协议与删除字节设置也不能直接按 VTE 结果推广。通用路径可以作为本机 VTE 的适配方案，ZLE/应用集成仍可提供更精确的编辑能力。
 
 正式实现需区分通用输入跟踪与真实文档内容：焦点变化、粘贴、光标/历史导航和快捷键后不能拿旧缓存当真实光标周围文本；按规则应用范围与实际适配能力执行。上述探针只覆盖固定关键词与必要的代表性输入，不声称这些产品状态机已实现。
+
+## 第五阶段：XWayland 无编辑接口应用的回退路径
+
+2026-10-22 在 mutter-devkit 独立会话中验证。对象是既没有 AT-SPI Text/EditableText、也不经过 Shell 输入法 surrounding text 的 XWayland 程序。分两层：先确认哪些工具包其实能提供编辑接口，再验证其余程序的“选区校验替换”前提。探针、夹具和原始结果见 `probes/xwayland-fallback/`。没有修改产品代码，也没有改动主桌面。
+
+### 第一层：工具包是否已有编辑接口
+
+| 对象 | 结果 |
+| --- | --- |
+| Qt 6.11（PySide6，xcb） | 辅助功能总线 `IsEnabled=false`、`ScreenReaderEnabled=false`、未设 `QT_LINUX_ACCESSIBILITY_ALWAYS_ON` 时仍注册 AT-SPI；Text/EditableText 删除、插入成功，应用内容变为 2003。打开开关或设置环境变量的结果相同。Qt 5 未测。 |
+| GTK4（X11，参照） | Text/EditableText 可用，与现有 AT-SPI 路径一致。 |
+| Tk 9.0 | 不注册 AT-SPI。 |
+| Java Swing（Temurin 17） | 不注册 AT-SPI。Fedora 44 仓库已无 `java-atk-wrapper`，用户无法一键打开 Java 辅助功能。 |
+| Chrome 155、VS Code 1.141 | 默认即为原生 Wayland（clientType=0），不加参数时 Shell 输入法即可读到 surrounding text `abc`，属于现有原生路径，不需要辅助功能。自带旧版 Electron 的程序未测。 |
+
+因此当前环境不需要为 Qt 写入全局开关，也不需要为 Chromium/Electron 打开辅助功能（性能开销问题随之消失）。真正缺少编辑接口的是 Tk、Swing 及 Wine、自绘控件一类程序。
+
+**附带发现（影响现有密码保护的依据）：** GTK4 `Gtk.PasswordEntry` 的焦点节点角色是 `text box`，Qt 密码 `QLineEdit` 是 `text`，都不是 PASSWORD_TEXT；读取到的文字分别为 `●●●` 与 `•••`。`crates/core/src/atspi.rs` 以角色 40/60 跳过密码字段，对这两类控件不会生效；实际阻止替换的是掩码文字永远匹配不上关键词。现有 GTK 测试夹具使用 `Gtk.Entry(visibility=False)`，它确实报告 PASSWORD_TEXT，所以未暴露此差异。是否补充其他识别依据需另行决定。
+
+### 第二层：选区校验替换
+
+流程：XWayland 辅助客户端通过 XI2 raw 按键记录输入；确认键触发且缓冲末尾匹配关键词（n 个字符）时，先占有 PRIMARY，再发 `Shift+Left ×n`；读取 PRIMARY，内容等于关键词才输入替换文字，否则发 `Shift+Right ×n` 还原。实测得到的前提与修正：
+
+- **按键来源与隐私边界：** XWayland 2.0 的 raw 事件能还原 `hi aBc`（含 Shift）；焦点在原生 Wayland 窗口时收到 0 个 raw 事件，不覆盖原生程序。
+- **处理完成的判断：** 只等选区所有者变化不够。Tk、Swing 在第一个 `Shift+Left` 后就接管 PRIMARY，并且在按键尚未处理完时就回答选区请求，因此读到 `c`。raw 事件屏障（全部选区按键已送达客户端，约 1ms）对 Qt 足够，对 Tk/Swing 不够。采用“重复读取直到等于关键词”：观察到的选区单调增长（`c`→`abc`）；关键词每个字符都是单一码点时，较短的中间状态不可能等于关键词。Tk 保持所有权时不会再发通知，所以每次需先由探针占有 PRIMARY。
+- **Tk、Qt、Swing 各 10 次连续替换全部成功。** 从发出选区按键到校验通过：Qt 7–24ms（中位 13），Tk 21–36ms（中位 26），Swing 20–34ms（中位 30）；选区高亮约持续 1–2 帧，截图见 `visual-selection.png`。Enter 确认时应用 activate 收到 2003。
+- **粘贴：** Tk 的 Ctrl+V 不替换选区而在光标处插入（得到 `中文👍abc`）；改为 BackSpace 删除选区后粘贴，三者均得到 `中文👍`。
+- **密码字段：** Tk 导出 `***`、Swing 导出 `•••`、Qt 不导出，均校验失败而不编辑，`abcZ` 原样保留。
+- **不匹配与行首：** `abd` 与只有 `ab` 时校验失败，还原后继续输入得到 `abdZ`、`abZ`。
+- **程序冻结：** SIGSTOP 期间超时不编辑；恢复后排队的选区/还原按键相互抵消，得到 `abcZ`。
+- **Unicode：** Qt、Swing 的 `Shift+Right` 能精确抵消 `Shift+Left`（含 `👍🏽`）。Tk 不能：`x中文👍🏽` 在选中再还原后仍残留选区，下一次输入吞掉 `👍🏽`。仅在缓冲推测错误、光标前恰有多码点字符且为 Tk 时触发，但属于数据丢失风险。
+- **撤销：** Qt 的 Ctrl+Z 恢复为 `hi abc`；Tk、Swing 字段默认无撤销。
+- **终端：** xterm 不导出选区，程序收到 `ESC[1;2D`×3 与 `ESC[1;2C`×3；WM_CLASS 为 `XTerm`，`_NET_WM_WINDOW_TYPE` 为空，窗口类型无法区分终端。默认开启前必须可靠排除终端类程序，目前只能依靠类名名单。
+- **用户在校验期间继续输入：** 用第二个虚拟键盘模拟。按键在选区已校验后、替换完成前到达时，raw 事件的送达顺序可以还原客户端实际内容（`x2003`、`xy2003`），再选中并校验这一段后改写为 `2003x`、`2003xy`；Tk、Qt、Swing 均验证通过。按键在校验完成前到达时（Tk 的窗口约 26ms），关键词已被用户字符覆盖，而内容从未经过校验，不能补救，结果为 `x`。目前没有在这段时间截留发往客户端按键的已验证途径：此前 Shell `captured-event` 与 Clutter 过滤器实验均收不到客户端输入，Stage grab 会使应用失去输入焦点；本阶段未另行验证新途径。
+- **GTK4 X11** 对 UTF8_STRING 请求返回空的 PRIMARY，此路径不适用；GTK 已有 AT-SPI。
+
+结论：选区校验替换对 Tk、Qt、Swing 可以做到“只在校验通过后编辑”，密码、冻结、不匹配均安全失败；剩余风险是校验期间的并发输入（无法补救的窗口约 10–35ms）、Tk 的多码点字符还原，以及终端识别。它只适合作为按应用开启的兼容模式，不能默认对所有未知 XWayland 程序启用，也不能宣称完全无感。
 
 ## 真实鼠标起点联动结果
 
