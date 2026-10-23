@@ -74,12 +74,12 @@
 
 ### 安装
 
-当前版本提供 Fedora RPM 打包方式。[GitHub Releases](https://github.com/HANLONG-WANG/WayStroke/releases) 暂无已发布的安装包；需要先按[构建说明](docs/development.md#构建-rpm)生成 RPM，或使用维护者提供的匹配安装包。
+从 [GitHub Releases](https://github.com/HANLONG-WANG/WayStroke/releases/latest) 下载最新的 Fedora RPM，也可以按[构建说明](docs/development.md#构建-rpm)自行生成。
 
 在 RPM 所在目录执行（文件名按实际版本替换）：
 
 ```bash
-sudo dnf install ./waystroke-0.1.0-2.fc44.x86_64.rpm
+sudo dnf install ./waystroke-0.1.0-14.fc44.x86_64.rpm
 ```
 
 RPM 包含桌面应用、GNOME 扩展和鼠标服务，无需分别安装。安装本身不会选择或接管鼠标。
