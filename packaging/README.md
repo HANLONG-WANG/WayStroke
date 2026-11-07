@@ -1,4 +1,4 @@
-# Fedora 44 / GNOME 50.5
+# Fedora 44 / GNOME 50
 
 Build with `bash scripts/build-rpm.sh`. The release binaries and native clipboard
 library are built first; the RPM contains these same verified artifacts. Output:

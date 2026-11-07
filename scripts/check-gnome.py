@@ -109,7 +109,7 @@ try:
         subprocess.run(['gsettings','set','org.gnome.desktop.input-sources','xkb-options',"['lv3:ralt_switch']"],check=True)
         subprocess.run(['gsettings','set','org.gnome.desktop.interface','enable-animations','false'],check=True)
     spawn('shell',['gnome-shell','--headless','--wayland',*([] if X11_CLIENT else ['--no-x11']),'--wayland-display=waystroke-desktop-check-0',*(['--devkit',*(['--virtual-monitor=1440x1000'] if '--multi-monitor' in sys.argv else [])] if '--devkit' in sys.argv else ['--virtual-monitor=1440x1000',*(['--virtual-monitor=1280x900'] if '--multi-monitor' in sys.argv else [])])])
-    results['hello']=wait(lambda:call({'operation':'hello'}));assert results['hello']['shellVersion']=='50.5'
+    results['hello']=wait(lambda:call({'operation':'hello'}));assert results['hello']['shellVersion'].split('.')[0]=='50'
     if '--devkit' in sys.argv:
         viewer_env=os.environ.copy();viewer_env['XDG_RUNTIME_DIR']=viewer_env['WAYSTROKE_OUTER_RUNTIME'];viewer_env['WAYLAND_DISPLAY']=viewer_env['WAYSTROKE_OUTER_DISPLAY']
         viewer_log=(root/'viewer.log').open('w');viewer=subprocess.Popen(['/usr/libexec/mutter-devkit'],env=viewer_env,stdout=viewer_log,stderr=viewer_log,start_new_session=True);processes.append(viewer)

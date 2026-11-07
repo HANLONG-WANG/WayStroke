@@ -2,9 +2,9 @@
   "scope": "isolated desktop composed Unicode input",
   "hello": {
     "protocolVersion": 1,
-    "instance": "f9b4680b-6462-42f4-b3e0-46976ec48ca9",
+    "instance": "51cf139a-cdaf-44c6-a630-99c1af549d95",
     "locked": false,
-    "shellVersion": "50.5",
+    "shellVersion": "50.6",
     "capabilities": [
       "liveRuleName",
       "bottomFeedback",
@@ -431,18 +431,18 @@
   ],
   "complete": true,
   "execution": {
-    "id": "ef26d7e9-02fa-4e7e-908f-aff86fd720e3",
+    "id": "fe61a684-6ffc-40fc-a60e-a742e9a21fd3",
     "name": "阶段 C 临时主会话检查",
     "revision": 11,
     "context": {
       "sequence": 0,
-      "monotonicMs": 173088852.118,
+      "monotonicMs": 248981.217,
       "position": [
         600.0,
         300.0
       ],
       "window": {
-        "instance": "f9b4680b-6462-42f4-b3e0-46976ec48ca9",
+        "instance": "51cf139a-cdaf-44c6-a630-99c1af549d95",
         "id": "5"
       },
       "applicationId": "org.waystroke.PhaseCClient",
@@ -452,15 +452,15 @@
       "locked": false
     },
     "state": "succeeded",
-    "startedAt": "2026-10-14T08:55:53.932900413+00:00",
-    "finishedAt": "2026-10-14T08:55:53.991668893+00:00",
+    "startedAt": "2026-11-07T03:38:27.057230766+00:00",
+    "finishedAt": "2026-11-07T03:38:27.108028081+00:00",
     "reason": null,
     "steps": [
       {
         "stepId": "host-call",
         "state": "succeeded",
-        "startedAt": "2026-10-14T08:55:53.933799116+00:00",
-        "finishedAt": "2026-10-14T08:55:53.934081499+00:00",
+        "startedAt": "2026-11-07T03:38:27.057413792+00:00",
+        "finishedAt": "2026-11-07T03:38:27.057484848+00:00",
         "reason": null,
         "summary": "调用可复用动作",
         "output": {
@@ -476,8 +476,8 @@
       {
         "stepId": "host-transform",
         "state": "succeeded",
-        "startedAt": "2026-10-14T08:55:53.934013424+00:00",
-        "finishedAt": "2026-10-14T08:55:53.934051928+00:00",
+        "startedAt": "2026-11-07T03:38:27.057446851+00:00",
+        "finishedAt": "2026-11-07T03:38:27.057464667+00:00",
         "reason": null,
         "summary": "处理文本",
         "output": {
@@ -488,8 +488,8 @@
       {
         "stepId": "host-json",
         "state": "succeeded",
-        "startedAt": "2026-10-14T08:55:53.934371810+00:00",
-        "finishedAt": "2026-10-14T08:55:53.934411123+00:00",
+        "startedAt": "2026-11-07T03:38:27.057496435+00:00",
+        "finishedAt": "2026-11-07T03:38:27.057505339+00:00",
         "reason": null,
         "summary": "解析 JSON",
         "output": {
@@ -500,8 +500,8 @@
       {
         "stepId": "host-repeat",
         "state": "succeeded",
-        "startedAt": "2026-10-14T08:55:53.934616378+00:00",
-        "finishedAt": "2026-10-14T08:55:53.990819002+00:00",
+        "startedAt": "2026-11-07T03:38:27.057523616+00:00",
+        "finishedAt": "2026-11-07T03:38:27.107223536+00:00",
         "reason": null,
         "summary": "有限次数重复",
         "output": null
@@ -509,8 +509,8 @@
       {
         "stepId": "host-paste",
         "state": "succeeded",
-        "startedAt": "2026-10-14T08:55:53.934759603+00:00",
-        "finishedAt": "2026-10-14T08:55:53.941518013+00:00",
+        "startedAt": "2026-11-07T03:38:27.057552459+00:00",
+        "finishedAt": "2026-11-07T03:38:27.061680536+00:00",
         "reason": null,
         "summary": "粘贴文本",
         "output": null
@@ -518,8 +518,8 @@
       {
         "stepId": "host-wait",
         "state": "succeeded",
-        "startedAt": "2026-10-14T08:55:53.941596847+00:00",
-        "finishedAt": "2026-10-14T08:55:53.963152032+00:00",
+        "startedAt": "2026-11-07T03:38:27.061738123+00:00",
+        "finishedAt": "2026-11-07T03:38:27.082981387+00:00",
         "reason": null,
         "summary": "等待时长",
         "output": null
@@ -527,8 +527,8 @@
       {
         "stepId": "host-paste",
         "state": "succeeded",
-        "startedAt": "2026-10-14T08:55:53.963639079+00:00",
-        "finishedAt": "2026-10-14T08:55:53.969926018+00:00",
+        "startedAt": "2026-11-07T03:38:27.083087923+00:00",
+        "finishedAt": "2026-11-07T03:38:27.086871271+00:00",
         "reason": null,
         "summary": "粘贴文本",
         "output": null
@@ -536,8 +536,8 @@
       {
         "stepId": "host-wait",
         "state": "succeeded",
-        "startedAt": "2026-10-14T08:55:53.970369264+00:00",
-        "finishedAt": "2026-10-14T08:55:53.990718190+00:00",
+        "startedAt": "2026-11-07T03:38:27.086939492+00:00",
+        "finishedAt": "2026-11-07T03:38:27.107193195+00:00",
         "reason": null,
         "summary": "等待时长",
         "output": null
@@ -558,9 +558,9 @@
       "protocolVersion": 1,
       "coreVersion": "0.1.0",
       "extensionConnected": true,
-      "inputConnected": true,
+      "inputConnected": false,
       "executionAvailable": true,
-      "reason": "请选择用于手势的鼠标"
+      "reason": "鼠标服务响应超时"
     }
   }
 }

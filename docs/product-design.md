@@ -4,7 +4,7 @@ WayStroke 面向 Linux Wayland 桌面，通过鼠标手势执行动作，并根�
 
 ## 已确认的产品需求
 
-- 只支持 GNOME 的 Wayland 会话，不适配其他桌面或 X11 会话。开发与验证仅针对用户当前 GNOME Shell 50.5（Fedora 44）；Mutter 50.6 为修复版本，安装头文件与 50.5 相同，已在 devkit 中复验剪贴板原生组件。不增加跨版本适配。GNOME 会话内 XWayland 的代表性窗口/文本接入已验证，不保证所有应用均提供相同能力。
+- 只支持 GNOME 的 Wayland 会话，不适配其他桌面或 X11 会话。支持 GNOME Shell / Mutter 50 系列（Fedora 44）：最初在 50.5 上开发与验证；Mutter 50.6 安装头文件与 50.5 相同，已在 devkit 中复验剪贴板原生组件；GNOME Shell 50.6 相对 50.5 未改动扩展依赖的 inputMethod、ibusManager、modalDialog、screenshot 等模块，`dialog.js` 仅把 MessageDialogContent 的 title/description 改为属性绑定，构造参数用法不变。只按主版本放行，不增加跨主版本适配。GNOME 会话内 XWayland 的代表性窗口/文本接入已验证，不保证所有应用均提供相同能力。
 - 支持通过手势执行快捷键、运行命令、打开程序。
 - 支持窗口管理，具体操作与参数见动作目录。
 - 手势轨迹采用用户自由绘制的连续轨迹，通过形状相似度识别。支持任意角度、曲线与转折，不量化或吸附到八个方向。此决定替代此前的八方向方案。

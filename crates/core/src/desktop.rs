@@ -86,6 +86,6 @@ impl Desktop {
     }
     pub async fn hello(&self)->Result<Value,Error> {
         let value=self.call(json!({"operation":"hello"})).await?;
-        if value["protocolVersion"]!=1||value["shellVersion"]!="50.5" {return Err(error(ErrorKind::Unavailable,"桌面扩展版本不兼容"));}Ok(value)
+        if value["protocolVersion"]!=1||value["shellVersion"].as_str().and_then(|v|v.split('.').next())!=Some("50") {return Err(error(ErrorKind::Unavailable,"桌面扩展版本不兼容"));}Ok(value)
     }
 }

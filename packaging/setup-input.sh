@@ -16,7 +16,7 @@ fi
 [[ -x "$payload/waystroke-inputd" && -s "$payload/waystroke-inputd.service" ]] || { echo '鼠标服务安装资源不完整。' >&2; exit 1; }
 if [[ -z $stage ]]; then
     export PATH=/usr/sbin:/usr/bin:/sbin:/bin
-    [[ $(gnome-shell --version) == 'GNOME Shell 50.5' ]] || { echo '仅支持 GNOME Shell 50.5。' >&2; exit 1; }
+    [[ $(gnome-shell --version) =~ ^GNOME\ Shell\ 50\. ]] || { echo '仅支持 GNOME Shell 50。' >&2; exit 1; }
     command -v restorecon >/dev/null
     command -v udevadm >/dev/null
     if [[ ! -c /dev/uinput ]]; then modprobe uinput; fi

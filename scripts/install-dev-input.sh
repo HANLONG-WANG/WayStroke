@@ -22,8 +22,8 @@ if [[ $stroke_uid == 0 ]]; then
     printf '必须指定普通桌面用户。\n' >&2
     exit 1
 fi
-if [[ $(gnome-shell --version) != 'GNOME Shell 50.5' ]]; then
-    printf '当前开发版本仅适配 GNOME Shell 50.5。\n' >&2
+if [[ ! $(gnome-shell --version) =~ ^GNOME\ Shell\ 50\. ]]; then
+    printf '当前开发版本仅适配 GNOME Shell 50。\n' >&2
     exit 1
 fi
 if [[ ! -x "$repo/target/debug/waystroke-inputd" ]]; then

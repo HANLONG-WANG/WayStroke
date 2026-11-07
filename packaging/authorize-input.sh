@@ -4,7 +4,7 @@ set -euo pipefail
 export PATH=/usr/sbin:/usr/bin:/sbin:/bin
 [[ $EUID == 0 && $# == 0 && ${PKEXEC_UID:-} =~ ^[0-9]+$ && ${PKEXEC_UID} != 0 ]] || exit 1
 getent passwd "$PKEXEC_UID" >/dev/null
-[[ $(gnome-shell --version) == 'GNOME Shell 50.5' ]] || { echo '仅支持 GNOME Shell 50.5。' >&2; exit 1; }
+[[ $(gnome-shell --version) =~ ^GNOME\ Shell\ 50\. ]] || { echo '仅支持 GNOME Shell 50。' >&2; exit 1; }
 [[ -x /usr/bin/waystroke-inputd ]] || exit 1
 if [[ ! -c /dev/uinput ]]; then modprobe uinput; fi
 # Stop the old probe before enabling the production transport.

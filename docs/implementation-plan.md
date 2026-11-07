@@ -778,3 +778,5 @@ E01–E03 已完成。标准构建、模型/核心检查、原生向导/页面�
 
 
 阶段 F 最终收尾（2026-10-16）：本条替代上述历史阻塞/等待结论。用户明确指示“跳过重插接收器的测试。我不方便插拔”，据此取消该人工验收要求；实物热插拔没有执行、没有标记为通过。其余 F01–F03 和九项发布门槛按既有正式实现、Devkit/真实原生应用、RPM 生命周期及当前主机部署证据完成核对。主机实际 G304 接管、正式识别匹配和专用 GTK 窗口最大化成功；root 服务 active/enabled，release 2 的 `rpm -V` 在主机 UID/GID 视图无差异。临时窗口规则已移除，完整配置摘要与测试前一致，原手势开关 true 已恢复，专用测试进程及容器已停止。最终索引 `fixtures/phase-f/verification.json` 明确保留用户豁免；`host-session.json`、`hotplug-live.json`、`hotplug-client-final.json` 保存实际执行与配置恢复证据。阶段 F 在此明确豁免下完成，没有把未执行的拔插测试作为通过证据。
+
+放宽 GNOME 版本门槛（2026-11-07）：Fedora 推送 gnome-shell 50.6 后，RPM 的 `Requires: gnome-shell = 50.5` 阻止系统更新。对比官方 50.5/50.6 源码，扩展依赖的 inputMethod、ibusManager、main、modalDialog、screenshot、status/volume 模块未改动；`dialog.js` 中 MessageDialogContent 的 title/description 改为 GObject 属性绑定，构造参数用法不变；`shell-screenshot.c` 只改元数据时间格式。RPM 依赖改为 `(gnome-shell >= 50 with gnome-shell < 51)`，扩展 `enable()`、core `hello` 握手、接入向导、inputd 授权/安装脚本与开发安装脚本统一只检查主版本 50；界面文案改为 GNOME 50。release `0.1.0-15`。上述历史记录中的 50.5 表述保持为当时的验证事实。

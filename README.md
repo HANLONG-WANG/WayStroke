@@ -14,7 +14,7 @@
 
 按住鼠标右键，画出你习惯的轨迹，再松开。最大化窗口、返回上一页、重新打开标签页，或者执行一组自己的操作，都可以交给一个手势。
 
-**当前支持 Fedora 44 · GNOME Shell 50.5（Mutter 50.5 / 50.6）· Wayland · x86_64。** 面向这一明确环境开发与验证，暂不支持其他桌面、X11 会话或其他 GNOME 版本。
+**当前支持 Fedora 44 · GNOME Shell 50 系列（50.x）· Wayland · x86_64。** 面向这一明确环境开发与验证，暂不支持其他桌面、X11 会话或其他 GNOME 主版本。
 
 ![手势规则：为自由绘制的轨迹绑定窗口操作或应用快捷键](docs/images/gesture-rules.png)
 
@@ -79,7 +79,7 @@
 在 RPM 所在目录执行（文件名按实际版本替换）：
 
 ```bash
-sudo dnf install ./waystroke-0.1.0-14.fc44.x86_64.rpm
+sudo dnf install ./waystroke-0.1.0-15.fc44.x86_64.rpm
 ```
 
 RPM 包含桌面应用、GNOME 扩展和鼠标服务，无需分别安装。安装本身不会选择或接管鼠标。

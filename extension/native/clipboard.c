@@ -1,4 +1,4 @@
-/* Multi-format clipboard source for GNOME 50.5. GJS cannot implement
+/* Multi-format clipboard source for GNOME 50. GJS cannot implement
  * MetaSelectionSource.read_async because its vfunc includes a callback. */
 #include <gio/gio.h>
 #include <meta/meta-selection-source.h>
