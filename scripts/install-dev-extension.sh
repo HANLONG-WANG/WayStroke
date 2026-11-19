@@ -21,7 +21,7 @@ PYTHON
   exit 0
 fi
 if [[ $# != 0 ]]; then echo '用法：install-dev-extension.sh [--uninstall]' >&2; exit 1; fi
-[[ "$(gnome-shell --version)" =~ ^GNOME\ Shell\ 50\. ]] || { echo '仅适配 GNOME Shell 50。' >&2; exit 1; }
+[[ "$(gnome-shell --version)" =~ ^GNOME\ Shell\ (50|51)(\.|$) ]] || { echo '仅适配 GNOME Shell 50 或 51。' >&2; exit 1; }
 mkdir -p "$extension_dir"
 install -m 644 "$repo_dir/extension/metadata.json" "$repo_dir/extension/extension.js" "$repo_dir/extension/clipboard.js" "$repo_dir/extension/dialogs.js" "$repo_dir/extension/system.js" "$repo_dir/extension/text.js" "$repo_dir/extension/terminal.js" "$extension_dir/"
 python3 - <<'PY'

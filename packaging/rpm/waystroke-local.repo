@@ -1,0 +1,8 @@
+[waystroke-local]
+name=WayStroke local packages for Fedora $releasever
+baseurl=file:///var/lib/waystroke-rpms/$releasever/$basearch/
+enabled=1
+pkg_gpgcheck=0
+includepkgs=waystroke
+metadata_expire=0
+skip_if_unavailable=True

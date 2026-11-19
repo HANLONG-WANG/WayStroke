@@ -1,4 +1,4 @@
-/* Multi-format clipboard source for GNOME 50. GJS cannot implement
+/* Multi-format clipboard source for GNOME Shell. GJS cannot implement
  * MetaSelectionSource.read_async because its vfunc includes a callback. */
 #include <gio/gio.h>
 #include <meta/meta-selection-source.h>
@@ -125,7 +125,7 @@ GObject *waystroke_clipboard_watch_new(void) {
     watch_children(watch,META_TYPE_SELECTION_SOURCE);source_watches=g_list_append(source_watches,watch);return G_OBJECT(watch);
 }
 
-/* GNOME 50.5 exports this constructor from libmutter-clutter, but omits it
+/* Mutter 50 and 51 export this constructor from libmutter-clutter, but omit it
  * from the installed header. ABI: clutter/clutter/clutter-event-private.h.
  * Preserve all original modifiers and bypass seat-wide pressed-key counts. */
 typedef struct {ClutterModifierType pressed,latched,locked;} ClutterModifierSet;

@@ -2,7 +2,9 @@
 
 普通使用、安装及功能介绍见[项目首页](../README.md)。日常使用推荐安装 RPM，开发与常规回归优先使用独立 mutter-devkit 会话，避免开发扩展覆盖主桌面的正式版本。
 
-当前目标环境为 Fedora 44、GNOME Shell / Mutter **50 系列（50.x）**、Wayland、x86_64；不保证其他主版本可编译或运行。版本门槛（RPM 依赖、扩展、core 握手、接入向导、安装脚本）只检查主版本 50；同一主版本内的修复版本无需改代码，升级到新的主版本前需要重新验证扩展用到的 Shell 内部接口。
+目标环境为 Fedora 44（GNOME Shell / Mutter 50.x）和 Fedora 45（51.x）的 x86_64 Wayland 会话。RPM、扩展、后台握手和接入向导接受这两个主版本。原生剪贴板组件使用不同的 Mutter ABI，每个发行版需分别构建 RPM。
+
+已在独立 mutter-devkit 会话中验证 GNOME Shell 50.6 和 51.1 的 RPM 启动、扩展握手与 Rime 中文替换。Fedora 45 上也验证了 Wayland 和 XWayland 的多格式剪贴板恢复。
 
 ## 构建准备
 
@@ -13,12 +15,12 @@ sudo dnf install webkit2gtk4.1-devel gtk3-devel librsvg2-devel \
   mutter-devel graphene-devel rpm-build glib2-devel
 ```
 
-开发包必须与目标桌面的 ABI 匹配：`mutter-devel` 与已安装的 `mutter` 版本一致（原生剪贴板组件调用了 Clutter 私有构造函数，构建脚本会核对）。Fedora 中 `mutter-devel` 要求同版本 `mutter`，安装时可能连同 `mutter`、`mutter-devkit` 一起升级；安装前核对软件源版本，GNOME Shell 须保持在 50 系列。Mutter 50.6 与 50.5 的安装头文件完全相同，只含显示器旋转与工作区修复。`mutter-devkit` 是独立桌面测试工具，不能替代 `mutter-devel`。
+构建脚本核对 `mutter-devel` 和已安装的 `mutter` 版本，两者必须一致。Mutter 50 使用 ABI 18，Mutter 51 使用 ABI 51。原生组件调用了 Clutter 的私有按键构造函数，升级主版本时应重新核对其签名。`mutter-devkit` 用于运行独立测试桌面。
 
 原生组件构建前可以检查：
 
 ```bash
-pkg-config --modversion libmutter-18 graphene-gobject-1.0
+pkg-config --modversion "libmutter-$(bash scripts/mutter-abi.sh)" graphene-gobject-1.0
 command -v cc gi-compile-repository rpmbuild
 ```
 
@@ -38,22 +40,35 @@ npm ci --prefix apps/desktop
 bash scripts/build-rpm.sh
 ```
 
-脚本依次构建原生剪贴板组件、release 后台和桌面程序，再打包扩展、原生资源、systemd 单元、D-Bus 激活和安装授权 helper。当前默认产物：
+脚本依次构建原生剪贴板组件、release 后台和桌面程序，再打包扩展、原生资源、systemd 单元、D-Bus 激活和安装授权 helper。以 Fedora 45 的默认产物为例：
 
 ```text
-target/rpm/RPMS/x86_64/waystroke-0.1.0-2.fc44.x86_64.rpm
+target/rpm/RPMS/x86_64/waystroke-0.1.0-17.fc45.x86_64.rpm
 ```
 
-同一软件版本继续修改时，递增 RPM 修订号，避免新旧包使用相同版本标识：
+手动分发时，可显式指定更高的 RPM 修订号：
 
 ```bash
-WAYSTROKE_RPM_RELEASE=3 bash scripts/build-rpm.sh
-sudo dnf upgrade ./target/rpm/RPMS/x86_64/waystroke-0.1.0-3.fc44.x86_64.rpm
+WAYSTROKE_RPM_RELEASE=18 bash scripts/build-rpm.sh
+sudo dnf upgrade ./target/rpm/RPMS/x86_64/waystroke-0.1.0-18.fc45.x86_64.rpm
 ```
 
 `--skip-build` 仅重新打包现有 `target/release/` 和 `target/native/` 产物；修改源码后不要用它代替完整构建。发布新的软件版本时，同步 `Cargo.toml` 的工作区版本、`apps/desktop/src-tauri/tauri.conf.json`、前端 `package.json`／锁文件及 RPM spec 的 `Version`，再更新锁文件和变更记录。
 
 构建普通用户运行，不要用 sudo 编译。正式安装、升级、扩展缓存和卸载行为见[安装说明](../packaging/README.md)。
+
+### 用本地 DNF 仓库接收开发版本
+
+先安装索引工具，再用已有的 RPM 初始化仓库。以下命令从仓库根目录执行，示例同时发布 Fedora 44 和 45 的构建：
+
+```bash
+sudo dnf install createrepo_c
+sudo bash scripts/publish-local-rpm.sh --enable target/rpm/RPMS/x86_64/waystroke-0.1.0-17.fc{44,45}.x86_64.rpm
+```
+
+之后照常运行 `bash scripts/build-rpm.sh`。脚本按当前 Fedora 版本递增已发布的修订号，构建成功后通过 sudo 将包发布到 `/var/lib/waystroke-rpms/` 并刷新索引。运行 `sudo dnf upgrade` 即可安装更新。若只需重试发布，可直接运行 `sudo bash scripts/publish-local-rpm.sh <已构建的RPM路径>`。
+
+DNF 通过 `/etc/yum.repos.d/waystroke-local.repo` 按发行版和架构选包。两个版本的 RPM 都发布后，`sudo dnf5 system-upgrade download --releasever=45` 会在系统升级事务中选用 Fedora 45 构建。移除该 `.repo` 文件即可取消构建后发布和 DNF 仓库接入。
 
 ## 开发运行
 
@@ -110,7 +125,7 @@ python3 scripts/check-gnome.py --devkit --release --phase-c-clipboard --phase-c-
 python3 scripts/check-gnome.py --devkit --release --phase-c-clipboard --x11-clipboard
 ```
 
-剪贴板备份跳过 X11 的 `SAVE_TARGETS`、`TARGETS`、`TIMESTAMP`、`MULTIPLE` 及插入/删除控制目标；仍保留真实数据格式（含 `UTF8_STRING`）并传播读取错误。`--x11-clipboard` 使用真实 XWayland GTK 剪贴板来源验证粘贴与多格式恢复。独立回归检查可运行 `GI_TYPELIB_PATH=/usr/lib64/mutter-18 LD_LIBRARY_PATH=/usr/lib64/mutter-18:/usr/lib64/gnome-shell gjs -m scripts/check-clipboard.js`。
+剪贴板备份跳过 X11 的 `SAVE_TARGETS`、`TARGETS`、`TIMESTAMP`、`MULTIPLE` 及插入/删除控制目标；仍保留真实数据格式（含 `UTF8_STRING`）并传播读取错误。`--x11-clipboard` 使用真实 XWayland GTK 剪贴板来源验证粘贴与多格式恢复。独立回归检查可运行 `mutter_dir=/usr/lib64/mutter-$(bash scripts/mutter-abi.sh) && GI_TYPELIB_PATH=$mutter_dir LD_LIBRARY_PATH=$mutter_dir:/usr/lib64/gnome-shell gjs -m scripts/check-clipboard.js`。
 
 `--selection` 用 `probes/xwayland-fallback` 的 Tk/Swing/复制选区夹具（需要 PySide6/Tk、JDK、xterm）检查 XWayland 兼容替换：确认、撤销、粘贴、词边界、密码、立即规则、应用排除、终端名单、不导出选区窗口的探测上限与替换期间插入的按键，也检查 Shift 确认键透传和复制选区时文本/HTML/二进制剪贴板格式恢复。`--selection-ui` 在私有会话中启动辅助功能总线和 XWayland，用不导出选区的 xterm 触发真实的“兼容替换不可用”结果，检查运行状态页的停用按钮和设置页排除选项。check-gnome 结束时还会停止在私有总线上被 D-Bus 激活、而非由脚本启动的 core。2026-10-22 在本机观察到：启用 XWayland 的 devkit 运行有时在共用准备步骤“隐藏概览”超时，或 Shell 输入帧数秒才到达，未启用 XWayland 的检查同时通过；遇到时重跑，不要放宽断言。
 

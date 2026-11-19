@@ -1,10 +1,10 @@
 Name:           waystroke
 Version:        0.1.0
-Release:        %{?waystroke_release}%{!?waystroke_release:2}%{?dist}
+Release:        %{?waystroke_release}%{!?waystroke_release:17}%{?dist}
 Summary:        Native Wayland mouse gestures and text expansion
 License:        MIT
 Source0:        payload.tar.gz
-Requires:       (gnome-shell >= 50 with gnome-shell < 51)
+Requires:       (gnome-shell >= 50 with gnome-shell < 52)
 Requires:       polkit
 Requires:       systemd
 Requires:       bash
@@ -20,7 +20,7 @@ Requires:       webkit2gtk4.1 >= 2.46
 %global __brp_strip_comment_note %{nil}
 
 %description
-WayStroke settings, session core, GNOME 50 extension and idle privileged
+WayStroke settings, session core, GNOME Shell extension and idle privileged
 mouse transport. Installation does not enable login startup or capture devices.
 
 %prep
@@ -79,6 +79,10 @@ systemctl daemon-reload >/dev/null 2>&1 || :
 /usr/lib64/girepository-1.0/WayStrokeClipboard-1.0.typelib
 
 %changelog
+* Thu Nov 19 2026 WayStroke developers - 0.1.0-17
+- Support GNOME Shell 51 and build against the matching Mutter ABI.
+* Thu Nov 19 2026 WayStroke developers - 0.1.0-16
+- Include GNOME Shell 51.x in the RPM dependency range.
 * Sat Nov 07 2026 WayStroke developers - 0.1.0-15
 - Accept any GNOME Shell 50.x instead of exactly 50.5.
 * Fri Oct 16 2026 WayStroke developers - 0.1.0-2

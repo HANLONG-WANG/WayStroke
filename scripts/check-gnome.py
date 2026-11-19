@@ -16,6 +16,7 @@ if '--inside' not in sys.argv:
         (root/'runtime/bus').symlink_to(Path(os.environ['XDG_RUNTIME_DIR'])/'bus')
         (root/'runtime/systemd').symlink_to(Path(os.environ['XDG_RUNTIME_DIR'])/'systemd')
     for uuid,source,files in [('waystroke@local',REPO/'extension',['extension.js','metadata.json','clipboard.js','dialogs.js','system.js','text.js','terminal.js']),('waystroke-probe@local',REPO/'probes/gnome50',['extension.js','metadata.json','terminal-monitor.js'])]:
+        if uuid=='waystroke@local' and '--phase-f-installed' in sys.argv:continue
         dest=root/'data/gnome-shell/extensions'/uuid;dest.mkdir(parents=True)
         for file in files:shutil.copy(source/file,dest/file)
         if uuid=='waystroke@local':
@@ -48,8 +49,9 @@ if '--inside' not in sys.argv:
         schema=Path('/usr/share/glib-2.0/schemas/org.gnome.mutter.devkit.gschema.xml')
         schemas=root/'schemas';schemas.mkdir();shutil.copy(schema,schemas/schema.name);subprocess.run(['glib-compile-schemas',str(schemas)],check=True);env['GSETTINGS_SCHEMA_DIR']=str(schemas)
     if '--phase-c-system' in sys.argv:env['PULSE_SERVER']='unix:'+str(root/('runtime/pulse/native' if '--phase-c-audio' in sys.argv else 'runtime/unavailable-pulse'))
-    env['GI_TYPELIB_PATH']=str(REPO/'target/native')+':/usr/lib64/mutter-18'
-    env['LD_LIBRARY_PATH']=str(REPO/'target/native')+':/usr/lib64/mutter-18:/usr/lib64/gnome-shell'
+    abi=subprocess.check_output(['bash',REPO/'scripts/mutter-abi.sh'],text=True).strip()
+    env['GI_TYPELIB_PATH']=f'{REPO}/target/native:/usr/lib64/mutter-{abi}'
+    env['LD_LIBRARY_PATH']=f'{REPO}/target/native:/usr/lib64/mutter-{abi}:/usr/lib64/gnome-shell'
     if '--phase-f-installed' in sys.argv:
         assert Path('/run/.containerenv').exists() or os.environ.get('WAYSTROKE_INSTALLED_NAMESPACE')=='1','Installed-package checks require an isolated package prefix'
         env.pop('GI_TYPELIB_PATH',None);env.pop('LD_LIBRARY_PATH',None)
@@ -81,9 +83,10 @@ def wait(fn):
         except (GLib.Error,FileNotFoundError):pass
         time.sleep(.1)
     raise RuntimeError('Desktop condition timed out')
+def has_core():return connection.call_sync('org.freedesktop.DBus','/org/freedesktop/DBus','org.freedesktop.DBus','NameHasOwner',GLib.Variant('(s)',('io.github.waystroke.Core',)),None,Gio.DBusCallFlags.NONE,3000,None).unpack()[0]
 try:
-    if '--phase-f-installed' in sys.argv:
-        subprocess.run(['gsettings','set','org.gnome.shell','welcome-dialog-last-shown-version',"'50.5'"],check=True)
+    shell_version=subprocess.check_output(['gnome-shell','--version'],text=True).split()[-1]
+    subprocess.run(['gsettings','set','org.gnome.shell','welcome-dialog-last-shown-version',shell_version],check=True)
     if '--phase-d-atspi' in sys.argv:
         spawn('a11y-bus',['/usr/libexec/at-spi-bus-launcher','--launch-immediately','--a11y=1','--screen-reader=1'])
         def a11y_address():return connection.call_sync('org.a11y.Bus','/org/a11y/bus','org.a11y.Bus','GetAddress',None,GLib.VariantType('(s)'),Gio.DBusCallFlags.NONE,1000,None).unpack()[0]
@@ -109,7 +112,7 @@ try:
         subprocess.run(['gsettings','set','org.gnome.desktop.input-sources','xkb-options',"['lv3:ralt_switch']"],check=True)
         subprocess.run(['gsettings','set','org.gnome.desktop.interface','enable-animations','false'],check=True)
     spawn('shell',['gnome-shell','--headless','--wayland',*([] if X11_CLIENT else ['--no-x11']),'--wayland-display=waystroke-desktop-check-0',*(['--devkit',*(['--virtual-monitor=1440x1000'] if '--multi-monitor' in sys.argv else [])] if '--devkit' in sys.argv else ['--virtual-monitor=1440x1000',*(['--virtual-monitor=1280x900'] if '--multi-monitor' in sys.argv else [])])])
-    results['hello']=wait(lambda:call({'operation':'hello'}));assert results['hello']['shellVersion'].split('.')[0]=='50'
+    results['hello']=wait(lambda:call({'operation':'hello'}));assert results['hello']['shellVersion'].split('.')[0] in ('50','51')
     if '--devkit' in sys.argv:
         viewer_env=os.environ.copy();viewer_env['XDG_RUNTIME_DIR']=viewer_env['WAYSTROKE_OUTER_RUNTIME'];viewer_env['WAYLAND_DISPLAY']=viewer_env['WAYSTROKE_OUTER_DISPLAY']
         viewer_log=(root/'viewer.log').open('w');viewer=subprocess.Popen(['/usr/libexec/mutter-devkit'],env=viewer_env,stdout=viewer_log,stderr=viewer_log,start_new_session=True);processes.append(viewer)
@@ -178,8 +181,10 @@ try:
         client_source=client_source.replace("'text':'','password':'',", "'text':'','second':'','password':'',")
         client_source=client_source.replace("  entry.connect('changed',", "  second.connect('changed',lambda e,n=name:state[n].update(second=e.get_text()))\n  entry.connect('changed',")
         client_source=client_source.replace("(p if kind=='password' else e).grab_focus();", "(p if kind=='password' else second_entries[title] if kind=='second' else e).grab_focus();state[title]['active']=kind;\n  if kind in ['normal','second']:\n   current=e if kind=='normal' else second_entries[title];current.set_position(-1);current.select_region(-1,-1)\n  ")
-    if '--modifiers' in sys.argv:
+    native_ime='--phase-d-text' in sys.argv and '--ime' in sys.argv
+    if native_ime or '--modifiers' in sys.argv:
         client_source=client_source.replace("(p if kind=='password' else e).grab_focus();","w.get_child().get_last_child().set_focusable(True);w.get_child().get_last_child().grab_focus();(p if kind=='password' else e).grab_focus();")
+    if '--modifiers' in sys.argv:
         client_source=client_source.replace("  state[name]={'f24':0","  state[name]={'confirmKeys':[],'f24':0")
         client_source=client_source.replace("  entry.connect('activate',","  confirm_keys=Gtk.EventControllerKey();confirm_keys.set_propagation_phase(Gtk.PropagationPhase.CAPTURE)\n  confirm_keys.connect('key-pressed',lambda controller,key,code,mods,n=name:(state[n]['confirmKeys'].append([key,int(mods)]) if key in [32,65293] else None,False)[1]);win.add_controller(confirm_keys)\n  entry.connect('activate',")
         if '--terminal-modifiers' in sys.argv:client_source=client_source.replace('entry=Gtk.Entry();','entry=Gtk.Entry(input_purpose=Gtk.InputPurpose.TERMINAL);')
@@ -189,7 +194,7 @@ try:
         client_source=client_source.replace("'password':'',", "'password':'','multiline':'',")
         client_source=client_source.replace("  entry.connect('changed',", "  multiline.get_buffer().connect('changed',lambda b,n=name:state[n].update(multiline=b.get_text(*b.get_bounds(),True)))\n  entry.connect('changed',")
         client_source=client_source.replace("(p if kind=='password' else ", "(p if kind=='password' else multiline_entries[title] if kind=='multiline' else ")
-    if '--text-failopen' in sys.argv or '--modifiers' in sys.argv:
+    if native_ime or '--text-failopen' in sys.argv or '--modifiers' in sys.argv:
         client_source=client_source.replace('def update():', "def update():\n for w,e,p in windows:state[w.get_title()]['active']=w.is_active()")
     (root/'client.py').write_text(client_source)
     if X11_CLIENT:
@@ -205,13 +210,13 @@ try:
         activation=Gio.DBusConnection.new_for_address_sync(os.environ['AT_SPI_BUS_ADDRESS'],Gio.DBusConnectionFlags.AUTHENTICATION_CLIENT|Gio.DBusConnectionFlags.MESSAGE_BUS_CONNECTION,None,None)
         activation.call_sync('org.freedesktop.DBus','/org/freedesktop/DBus','org.freedesktop.DBus','UpdateActivationEnvironment',GLib.Variant('(a{ss})',({name:os.environ[name] for name in ['DISPLAY','XAUTHORITY','XDG_RUNTIME_DIR','GDK_BACKEND']},)),None,Gio.DBusCallFlags.NONE,3000,None)
         registry=spawn('a11y-registry',['/usr/libexec/at-spi2-registryd'])
+    if native_ime:os.environ['GTK_IM_MODULE']='wayland'
     spawn('client',[sys.executable,str(root/'client.py')])
     windows=wait(lambda:(lambda ws:ws if {'Probe A','Probe B'}.issubset({w['title'] for w in ws}) else None)(call({'operation':'windows'})));a=next(w for w in windows if w['title']=='Probe A');b=next(w for w in windows if w['title']=='Probe B')
     assert a['clientType']==(1 if X11_CLIENT else 0);results['windows']=windows
-    if X11_CLIENT or '--modifiers' in sys.argv:wait(lambda:not call({'action':'snapshot'},False)['startingUp'])
+    wait(lambda:not call({'action':'snapshot'},False)['startingUp'])
     call({'operation':'desktopOverview','value':'隐藏概览'})
     if '--phase-f-installed' in sys.argv:
-        def has_core():return connection.call_sync('org.freedesktop.DBus','/org/freedesktop/DBus','org.freedesktop.DBus','NameHasOwner',GLib.Variant('(s)',('io.github.waystroke.Core',)),None,Gio.DBusCallFlags.NONE,3000,None).unpack()[0]
         def core_pid():return connection.call_sync('org.freedesktop.DBus','/org/freedesktop/DBus','org.freedesktop.DBus','GetConnectionUnixProcessID',GLib.Variant('(s)',('io.github.waystroke.Core',)),None,Gio.DBusCallFlags.NONE,3000,None).unpack()[0]
         assert not has_core()
         ui=spawn('installed-desktop',['/usr/bin/waystroke'])
@@ -578,7 +583,7 @@ try:
         def state():return json.loads((root/'client.json').read_text())['Probe A']
         def focus(kind='normal'):
             call({'action':'position','title':'Probe A','x':50,'y':200,'focus':True},False)
-            if '--modifiers' in sys.argv:wait(lambda:state().get('active'))
+            if native_ime or '--modifiers' in sys.argv:wait(lambda:state().get('active'))
             connection.call_sync('org.waystroke.Client','/org/waystroke/Client','org.waystroke.Client','Focus',GLib.Variant('(s)',('Probe A:'+kind,)),None,Gio.DBusCallFlags.NONE,3000,None)
             wait(lambda:call({'action':'snapshot'},False)['focus']=='Probe A')
             wait(lambda:(lambda ime:ime['hasFocus'] and ime['purpose']==(8 if kind=='password' else 10 if '--terminal-modifiers' in sys.argv else 0))(call({'action':'snapshot'},False)['ime']))
@@ -657,9 +662,12 @@ try:
         results['complete']=True
         sys.exit(0)
     call({'operation':'registerBarrier','leaseId':'00000000-0000-0000-0000-000000000001'});results['barrierRegistration']=True
-    focused=wait(lambda:call({'action':'snapshot'},False).get('focus'))
-    call({'action':'key','keyval':0xffd5,'pressed':True},False)
-    call({'action':'key','keyval':0xffd5,'pressed':False},False)
+    call({'operation':'windowAction','window':a['handle'],'action':'activate'})
+    focused=a['title']
+    # Exercise the same evdev KEY_F24 emitted by inputd. Several XKB
+    # keycodes can resolve to the F24 keysym on Fedora 45.
+    call({'action':'keycode','keycode':194,'pressed':True},False)
+    call({'action':'keycode','keycode':194,'pressed':False},False)
     wait(lambda:json.loads((root/'client.json').read_text())[focused]['f24']==1)
     results['foreignF24PassesThrough']=True
     call({'operation':'fixtureGesture'});assert call({'operation':'gestureInfo'})=={'active':True,'label':True,'trail':False}

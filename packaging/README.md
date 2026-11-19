@@ -1,10 +1,13 @@
-# Fedora 44 / GNOME 50
+# Fedora 44 and 45 / GNOME Shell 50 and 51
+
+Build the RPM on the target Fedora release. The native clipboard component
+links to Mutter ABI 18 on Fedora 44 and ABI 51 on Fedora 45.
 
 Build with `bash scripts/build-rpm.sh`. The release binaries and native clipboard
-library are built first; the RPM contains these same verified artifacts. Output:
-`target/rpm/RPMS/x86_64/waystroke-0.1.0-2.fc44.x86_64.rpm`.
+library are built first; the RPM contains these same verified artifacts. Example output on Fedora 45:
+`target/rpm/RPMS/x86_64/waystroke-0.1.0-17.fc45.x86_64.rpm`.
 
-Install using `sudo dnf install ./target/rpm/RPMS/x86_64/waystroke-0.1.0-2.fc44.x86_64.rpm`.
+Install using `sudo dnf install ./target/rpm/RPMS/x86_64/waystroke-0.1.0-17.fc45.x86_64.rpm`.
 Open WayStroke from Applications. Installation does not enable login startup,
 start the mouse service, grant input-group membership or select a mouse.
 The setup wizard enables the GNOME extension and requests administrator

@@ -33,8 +33,9 @@ if '--inside' not in sys.argv:
     """
     (ext/'extension.js').write_text(source.read_text().replace("case 'windows':",fixture+"case 'windows':",1))
     env=os.environ.copy();env.update(XDG_RUNTIME_DIR=str(root/'runtime'),XDG_CONFIG_HOME=str(root/'config'),XDG_DATA_HOME=str(root/'data'),XDG_CACHE_HOME=str(root/'cache'),GSETTINGS_BACKEND='keyfile',LIBGL_ALWAYS_SOFTWARE='1',GIO_USE_VFS='local',WAYLAND_DISPLAY='waystroke-trail-check-0',WAYSTROKE_PROBE_DIR=str(root))
-    env['GI_TYPELIB_PATH']=str(REPO/'target/native')+':/usr/lib64/mutter-18'
-    env['LD_LIBRARY_PATH']=str(REPO/'target/native')+':/usr/lib64/mutter-18:/usr/lib64/gnome-shell'
+    abi=subprocess.check_output(['bash',REPO/'scripts/mutter-abi.sh'],text=True).strip()
+    env['GI_TYPELIB_PATH']=f'{REPO}/target/native:/usr/lib64/mutter-{abi}'
+    env['LD_LIBRARY_PATH']=f'{REPO}/target/native:/usr/lib64/mutter-{abi}:/usr/lib64/gnome-shell'
     for key in ['DISPLAY','IBUS_ADDRESS','AT_SPI_BUS_ADDRESS']:env.pop(key,None)
     print('Trail benchmark artifacts:',root,flush=True)
     sys.exit(subprocess.run(['dbus-run-session','--',sys.executable,__file__,'--inside'],env=env).returncode)

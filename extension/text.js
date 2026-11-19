@@ -72,15 +72,20 @@ export class TextBridge {
             return this.originalCommit.call(this.im,text);
         };
         this.im.commit=this.commit;
-        this.originalPreedit=this.im.set_preedit_text;
-        this.preedit=(...args)=>{
-            const result=this.originalPreedit.apply(this.im,args);
-            // IBus commits before clearing its preedit flags. Resume only after
-            // the caller has cleared them and the client reports committed text.
-            if(this.alive&&!args[0]&&(this.nativeExpected||this.terminal.commitContext))this.later(0,()=>{this.surroundingChanged();this.terminal.resumeCommitted()});
-            return result;
-        };
-        this.im.set_preedit_text=this.preedit;
+        // Shell 51 also sends styled IBus preedit through the attributes API.
+        this.preeditHooks=[];
+        for(const method of ['set_preedit_text','set_preedit_text_with_attrs']){
+            const original=this.im[method];
+            if(!original)continue;
+            const hook=(...args)=>{
+                const result=original.apply(this.im,args);
+                // IBus clears its flags after notifying the client.
+                if(this.alive&&!args[0]&&(this.nativeExpected||this.terminal.commitContext))this.later(0,()=>{this.surroundingChanged();this.terminal.resumeCommitted()});
+                return result;
+            };
+            this.im[method]=hook;
+            this.preeditHooks.push({method,original,hook});
+        }
         this.originalReset=this.im._fullReset;
         this.fullReset=(...args)=>{this.reset();return this.originalReset.apply(this.im,args)};
         this.im._fullReset=this.fullReset;
@@ -409,7 +414,7 @@ export class TextBridge {
         this.alive=false;this.cancellable.cancel();this.reset();this.updateGrabs();
         if(this.im.notify_key_event===this.notify)this.im.notify_key_event=this.originalNotify;
         if(this.im.commit===this.commit)this.im.commit=this.originalCommit;
-        if(this.im.set_preedit_text===this.preedit)this.im.set_preedit_text=this.originalPreedit;
+        for(const {method,original,hook} of this.preeditHooks)if(this.im[method]===hook)this.im[method]=original;
         if(this.im._fullReset===this.fullReset)this.im._fullReset=this.originalReset;
         for(const [object,id] of this.signals)object.disconnect(id);
         for(const id of this.timers)GLib.source_remove(id);

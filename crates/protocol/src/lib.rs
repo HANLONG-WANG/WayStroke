@@ -5,6 +5,9 @@ pub const CORE_NAME:&str="io.github.waystroke.Core";
 pub const CORE_PATH:&str="/io/github/waystroke/Core";
 pub const CORE_INTERFACE:&str="io.github.waystroke.Core1";
 pub const PROTOCOL_VERSION:u32=1;
+pub fn supports_shell_version(version: &str) -> bool {
+    matches!(version.split('.').next(), Some("50" | "51"))
+}
 /// Offsets are Unicode scalar indices, matching GNOME and AT-SPI text offsets.
 #[derive(Clone,Debug,Serialize,Deserialize,TS)]
 #[serde(rename_all="camelCase",deny_unknown_fields)]

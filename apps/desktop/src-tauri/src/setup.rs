@@ -23,7 +23,7 @@ async fn extension()->Result<Value,String>{
     let connection=zbus::Connection::session().await.map_err(|e|e.to_string())?;
     let proxy=zbus::Proxy::new(&connection,"org.gnome.Shell.Extensions","/org/gnome/Shell/Extensions","org.gnome.Shell.Extensions").await.map_err(|e|e.to_string())?;
     let version:String=proxy.get_property("ShellVersion").await.map_err(|e|format!("无法读取 GNOME 版本：{e}"))?;
-    if version.split('.').next()!=Some("50"){return Err(format!("需要 GNOME Shell 50，当前为 {version}"))}
+    if !waystroke_protocol::supports_shell_version(&version){return Err(format!("需要 GNOME Shell 50 或 51，当前为 {version}"))}
     let info:HashMap<String,zbus::zvariant::OwnedValue>=proxy.call("GetExtensionInfo",&(UUID,)).await.map_err(|e|e.to_string())?;
     if info.is_empty(){
         install_extension(&data_home()?)?;

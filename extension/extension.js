@@ -18,7 +18,7 @@ const TRAIL_TILE=256;
 const modifierNames=['Control','Alt','Shift','Super'];
 export default class WayStroke extends Extension {
     enable() {
-        if(Config.PACKAGE_VERSION.split('.')[0]!=='50')throw Error('WayStroke requires GNOME Shell 50');
+        if(!this.metadata['shell-version'].includes(Config.PACKAGE_VERSION.split('.')[0]))throw Error(`Unsupported GNOME Shell version: ${Config.PACKAGE_VERSION}`);
         this.instance=GLib.uuid_string_random();this.windows=new Map();this.snapshots=new Map();this.bindings=[];this.ordinal=0;
         this.seat=global.stage.context.get_backend().get_default_seat();
         this.keyboard=this.seat.create_virtual_device(Clutter.InputDeviceType.KEYBOARD_DEVICE);

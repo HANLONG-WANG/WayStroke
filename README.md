@@ -14,7 +14,7 @@
 
 按住鼠标右键，画出你习惯的轨迹，再松开。最大化窗口、返回上一页、重新打开标签页，或者执行一组自己的操作，都可以交给一个手势。
 
-**当前支持 Fedora 44 · GNOME Shell 50 系列（50.x）· Wayland · x86_64。** 面向这一明确环境开发与验证，暂不支持其他桌面、X11 会话或其他 GNOME 主版本。
+**支持 Fedora 44（GNOME Shell 50.x）和 Fedora 45（GNOME Shell 51.x）的 x86_64 Wayland 会话。** 下载 RPM 时请选择与 Fedora 版本对应的包，原生剪贴板组件依赖该版本的 Mutter。
 
 ![手势规则：为自由绘制的轨迹绑定窗口操作或应用快捷键](docs/images/gesture-rules.png)
 
@@ -79,7 +79,7 @@
 在 RPM 所在目录执行（文件名按实际版本替换）：
 
 ```bash
-sudo dnf install ./waystroke-0.1.0-15.fc44.x86_64.rpm
+sudo dnf install ./waystroke-0.1.0-17.fc45.x86_64.rpm
 ```
 
 RPM 包含桌面应用、GNOME 扩展和鼠标服务，无需分别安装。安装本身不会选择或接管鼠标。
@@ -112,10 +112,12 @@ RPM 包含桌面应用、GNOME 扩展和鼠标服务，无需分别安装。安�
 
 ### 更新与卸载
 
-保存尚未提交的编辑后，用更高版本的 RPM 升级：
+开发机可以[启用本地 DNF 仓库](docs/development.md#用本地-dnf-仓库接收开发版本)，让后续 RPM 构建随 `sudo dnf upgrade` 更新。
+
+手动安装 RPM 时，保存尚未提交的编辑后，用更高版本的 RPM 升级：
 
 ```bash
-sudo dnf upgrade ./waystroke-新版本.fc44.x86_64.rpm
+sudo dnf upgrade ./waystroke-新版本.fc45.x86_64.rpm
 ```
 
 升级会停止当前组件并替换文件；打开应用可重新启动后台，涉及扩展或原生组件更新时需重新登录。

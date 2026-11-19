@@ -44,8 +44,9 @@ if '--inside' not in sys.argv:
         schemas=root/'schemas';schemas.mkdir();shutil.copy(schema,schemas/schema.name);subprocess.run(['glib-compile-schemas',str(schemas)],check=True);env['GSETTINGS_SCHEMA_DIR']=str(schemas)
     if '--phase-e' in sys.argv:
         env['PATH']=str(root/'bin')+':'+env['PATH'];env['WAYSTROKE_SETUP_TEST_ROOT']=str(root/'installation')
-    env['GI_TYPELIB_PATH']=str(REPO/'target/native')+':/usr/lib64/mutter-18'
-    env['LD_LIBRARY_PATH']=str(REPO/'target/native')+':/usr/lib64/mutter-18:/usr/lib64/gnome-shell'
+    abi=subprocess.check_output(['bash',REPO/'scripts/mutter-abi.sh'],text=True).strip()
+    env['GI_TYPELIB_PATH']=f'{REPO}/target/native:/usr/lib64/mutter-{abi}'
+    env['LD_LIBRARY_PATH']=f'{REPO}/target/native:/usr/lib64/mutter-{abi}:/usr/lib64/gnome-shell'
     for name in ['DISPLAY','IBUS_ADDRESS','AT_SPI_BUS_ADDRESS']:env.pop(name,None)
     print('Native UI artifacts:',root,flush=True)
     sys.exit(subprocess.run(['dbus-run-session','--',sys.executable,__file__,'--inside',*sys.argv[1:]],env=env).returncode)
